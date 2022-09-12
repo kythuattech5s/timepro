@@ -1,0 +1,1 @@
+@include('mtc::frontend.'.$question->questionType->type)
