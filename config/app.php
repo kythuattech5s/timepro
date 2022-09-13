@@ -183,6 +183,7 @@ return [
         vanhenry\search\SearchServiceProvider::class,
         vanhenry\minify\MinifyServiceProvider::class,
         multiplechoicequestions\managequestion\Providers\MultipleChoiceServiceProvider::class,
+        CourseManage\Providers\CourseManageProvider::class,
         /*
          * Application Service Providers...
          */

@@ -1,7 +1,7 @@
 <?php
 namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-class CourseCourseCategory extends BaseModel
+class CourseCourseCombo extends BaseModel
 {
     use HasFactory;
     protected $table = 'course_course_combo';
