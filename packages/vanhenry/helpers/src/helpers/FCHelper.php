@@ -333,7 +333,7 @@ class FCHelper
             } else {
                 $sql .= " where 1 = 1";
             }
-            $sql .= " and a.act = 1 and b.language_code = 'vi'";
+            $sql .= " and b.language_code = 'vi'";
         } else {
             $sql = "SELECT " . implode(',', $columns) . " from $targetTable a";
             if ($originId != null) {
@@ -342,7 +342,6 @@ class FCHelper
             } else {
                 $sql .= ' where 1 = 1';
             }
-            $sql .= ' and a.act = 1';
         }
         if (count($wheres) > 0) {
             foreach ($wheres as $key => $where) {

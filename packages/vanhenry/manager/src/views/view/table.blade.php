@@ -68,7 +68,7 @@
                 <?php $urlFull = base64_encode(Request::fullUrl()); ?>
                 @for ($i = 0; $i < $listData->count(); $i++)
                     <?php $itemMain = $listData->get($i); ?>
-                    <tr>
+                    <tr class="{{$has_update ? 'row-item-main':''}}" dt-id="{{ $has_update ? FCHelper::ep($itemMain, 'id') :''}}">
                         @if ($has_delete)
                             <td data-title="#">
                                 <div class="squaredTwo">

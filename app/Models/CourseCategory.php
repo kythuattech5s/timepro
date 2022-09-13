@@ -7,4 +7,7 @@ class CourseCategory extends BaseModel
     public function getParent(){
         return $this->belongsTo(static::class,'parent','id');
     }
+    public function course(){
+    	return $this->belongsToMany(Course::class, 'course_course_category', 'course_category_id', 'course_id');
+    }
 }

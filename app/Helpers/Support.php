@@ -8,6 +8,11 @@ use Currency;
 
 class Support
 {
+    public static function extractJson($json,$isArray = true,$def = []) {
+        json_decode($json);
+        if (json_last_error() != JSON_ERROR_NONE) return $def;
+        return $isArray ? json_decode($json,true):json_decode($json);
+    }
     public static function isDateTime($string, $format = 'Y-m-d H:i:s')
     {
         return \DateTime::createFromFormat($format, $string);

@@ -13,15 +13,13 @@ function _defineProperty(obj, key, value) {
 }
 class CountDown {
     constructor(elm, time, showText = true) {
-        _defineProperty(this, "endTime", void 0);
+        _defineProperty(this, "timeRemaining", void 0);
         _defineProperty(this, "currentElment", void 0);
         _defineProperty(this, "intervalLoopTime", void 0);
         _defineProperty(this, "showText", void 0);
         this.showText = showText;
         this.currentElment = elm;
-        var endtime = new Date();
-        endtime.setSeconds(endtime.getSeconds() + parseInt(time));
-        this.endTime = endtime;
+        this.timeRemaining = time;
         return this;
     }
     setCallback(callBack, optionCallBacks = []) {
@@ -31,6 +29,7 @@ class CountDown {
     start() {
         if (this.currentElment.length == 0) return;
         var _this = this;
+        _this.loopTime();
         this.intervalLoopTime = setInterval(function () {
             _this.loopTime();
         }, 1000);
@@ -99,15 +98,15 @@ class CountDown {
         } else {
             this.currentElment.html(time_is);
         }
+        this.timeRemaining = this.timeRemaining - 1;
     }
     getTimeRemaining() {
-        var currenttime = new Date();
-        var t = this.endTime - currenttime;
+        var t = this.timeRemaining;
         t = t > 0 ? t : 0;
-        var seconds = Math.floor((t / 1000) % 60);
-        var minutes = Math.floor((t / 1000 / 60) % 60);
-        var hours = Math.floor((t / (1000 * 60 * 60)) % 24);
-        var days = Math.floor(t / (1000 * 60 * 60 * 24));
+        var seconds = Math.floor(t % 60);
+        var minutes = Math.floor((t / 60) % 60);
+        var hours = Math.floor((t / (60 * 60)) % 24);
+        var days = Math.floor(t / (60 * 60 * 24));
         return {
             total: t,
             days: days,

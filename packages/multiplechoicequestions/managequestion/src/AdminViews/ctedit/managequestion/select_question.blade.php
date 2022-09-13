@@ -31,7 +31,7 @@
 			  				<div class="item-fillter-box form-control form-reset flex">
 			  					<select class="select2">
 			  						<option value="0">Chọn loại câu hỏi</option>
-			  						@foreach (multiplechoicequestions\managequestion\Models\QuestionType::get() as $itemQuestionType)
+			  						@foreach (multiplechoicequestions\managequestion\Models\QuestionType::act()->get() as $itemQuestionType)
 			  							<option value="{{Support::show($itemQuestionType,'id')}}">{{Support::show($itemQuestionType,'name')}}</option>
 			  						@endforeach
 			  					</select>
@@ -46,45 +46,44 @@
 			  	</div>
 			  	<input type="hidden" class="default-data" value="{{$default_data}}">
 			  	<input type="hidden" class="current-item" value="{{$dataItem->id}}">
-			  	<div id="list-question-result">
-					
-				</div>
+			  	<div id="list-question-result"></div>
 	  		</div>
 	  		<div class="col-xs-5 pt-3">
 	  			<p class="form-title" for="">Danh sách câu hỏi</p>
 	  			@if (count($listQuestion) > 0)
 	  				@foreach ($listQuestion as $key => $item)
-		  				<div class="list-item-question-default position-relative d-flex" data-id="{{$listDefaultItemQuestion[$key]->{$defaultDataInfo['target_field']} }}">
-		  					<div class="info d-flex flex-wrap pr-2">
-			  					<div class="name">
-									<span>Tên:</span> {{Support::show($item,'name')}}
-								</div>
-								<div class="code">
-									<span>Mã:</span> {{Support::show($item,'code')}}
-								</div>
-								<div class="note w-100">
-									<span>Ghi chú:</span> {{Support::show($item,'note')}}
-								</div>
-								<div class="d-flex justify-content-between flex-wrap note w-100">
-									<div>
-										<span>Điểm:</span> {{(int)Support::show($item,'point')}}
+		  				<div class="list-item-question-default position-relative" data-id="{{$listDefaultItemQuestion[$key]->{$defaultDataInfo['target_field']} }}">
+		  					<div class="info d-flex flex-wrap pb-2">
+			  					<div class="w-50">
+									<div class="name mb-1">
+										<span>Tên:</span>
+										<strong>{{Support::show($item,'name')}}</strong>
 									</div>
-									<a href="{{$admincp}}/edit/questions/{{Support::show($item,'id')}}" target="_blank">Đi đến câu hỏi</a>
+									<div class="code">
+										<span>Mã:</span>
+										<strong>{{Support::show($item,'code')}}</strong>
+									</div>
+								</div>
+								<div class="w-50 text-right">
+									<div class="note">
+										<span>Ghi chú:</span> {{Support::show($item,'note')}}
+									</div>
+									<a href="{{$admincp}}/edit/questions/{{Support::show($item,'id')}}" class="btn btn-info py-1" target="_blank">Đi đến câu hỏi</a>
 								</div>
 		  					</div>
-		  					<div class="select px-2">
-		  						<label class="d-flex align-items-center cspoint mb-1 w-100">
-		  							<span class="mr-2">Vip:</span>
-		  							<input type="checkbox" class="class is_vip mt-0" {{$listDefaultItemQuestion[$key]->is_vip == 1 ? 'checked':''}}>
-		  						</label>
-		  						<div class="text-left">
-		  							<span class="d-block">Sắp xếp:</span>
-		  							<input type="number" class="ord w-100 px-2" value="{{$listDefaultItemQuestion[$key]->ord}}">
-		  						</div>
-		  					</div>
-		  					<div class="clear-item cspoint" data-action="manage-question/delete-item-question-pivot" data-target="{{$listDefaultItemQuestion[$key]->{$defaultDataInfo['target_field']} }}">
-		  						<i class="fa fa-trash-o" aria-hidden="true"></i>
-		  					</div>
+		  					<div class="d-flex flex-wrap text-nowrap border-top pt-2">
+								<div class="d-flex align-items-center mr-4">
+									<span class="mr-2">Điểm:</span>
+									<input type="number" style="height: 25px;width: 100px;" class="point px-2" value="{{$listDefaultItemQuestion[$key]->point}}">
+								</div>
+								<div class="d-flex align-items-center select pl-2">
+									<span class="d-block mr-2">Sắp xếp:</span>
+									<input type="number" style="height: 25px;width: 100px;" class="ord px-2" value="{{$listDefaultItemQuestion[$key]->ord}}">
+								</div>
+								<div class="clear-item cspoint" data-action="manage-question/delete-item-question-pivot" data-target="{{$listDefaultItemQuestion[$key]->{$defaultDataInfo['target_field']} }}">
+									<i class="fa fa-trash-o" aria-hidden="true"></i>
+								</div>
+							</div>
 		  				</div>
 		  			@endforeach
 		  			<div class="text-right">

@@ -386,17 +386,17 @@ _VH_CATE.setUpAjaxEditable = function() {
         var disabled = $(this).prop("disabled");
         if (!disabled) {
             $(this).prop("disabled", true);
-            var _id = $(this).parent().parent().find('input.one').attr('dt-id');
+            var _id = $(this).closest(".row-item-main").attr("dt-id");
             _VH_CATE.submitEditable($(this).attr('name'), $(this).val(), _id, this);
         }
     });
     $(document).on('change', 'input.editable[type=checkbox]', function(event) {
         event.preventDefault();
-        var _id = $(this).parent().parent().find('input.one').attr('dt-id');
+        var _id = $(this).closest(".row-item-main").attr("dt-id");
         _VH_CATE.submitEditable($(this).attr('name'), $(this).is(':checked') ? 1 : 0, _id, this);
     });
     $(document).on('change', 'select.editable', function(event) {
-        var _id = $(this).parent().parent().find('input.one').attr('dt-id');
+        var _id = $(this).closest(".row-item-main").attr("dt-id");
         _VH_CATE.submitEditable($(this).attr('name'), $(this).val(), _id, this);
     });
 }

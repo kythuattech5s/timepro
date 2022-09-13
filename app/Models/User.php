@@ -24,10 +24,6 @@ class User extends Authenticatable
     {
         $this->notify(new UserNotify($data, $type, $this));
     }
-    public function gender()
-    {
-        return $this->belongsTo(Gender::class);
-    }
     public function province()
     {
         return $this->belongsTo(Province::class,'province_id','id');
@@ -41,5 +37,13 @@ class User extends Authenticatable
     public function district()
     {
         return $this->belongsTo(District::class,'district_id','id');
+    }
+    public function gender()
+    {
+        return $this->belongsTo(Gender::class);
+    }
+    public function userType()
+    {
+        return $this->belongsTo(UserType::class);
     }
 }

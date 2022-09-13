@@ -298,9 +298,7 @@ var QUESTION_MANAGE = {
                 for (var i = 0; i < items.length; i++) {
                     var item = $(items[i]);
                     var tmp = {};
-                    tmp.is_vip = item.find("input.is_vip").is(":checked")
-                        ? 1
-                        : 0;
+                    tmp.point = item.find("input.point").val();
                     tmp.ord = item.find("input.ord").val();
                     tmp.id_target = item.data("id");
                     objs.push(tmp);

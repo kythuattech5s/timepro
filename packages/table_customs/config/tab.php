@@ -1,26 +1,40 @@
 <?php
-// Chia nhỏ bảng 
+use App\Models\UserType;
 return [
-    //example
-    // 'menus' => [
-    //     'class' => 'CustomTable\Controllers\TabController',
-    //     'method' => 'getDataTab',
-    //     'tabs' => [
-    //         [
-    //             'label' => 'Menu',
-    //             'name' => 'home',
-    //             'default' => true,
-    //             'where' => [
-    //             ],
-    //         ],
-    //         [
-    //             'label' => 'Menu 2',
-    //             'name' => 'Test',
-    //             'default' => true,
-    //             'where' => [
-    //             ],
-    //         ],
-    //     ],
-    // ],
-]
-?>
+    'users' => [
+        'class' => 'CustomTable\Controllers\TabController',
+        'method' => 'getDataTab',
+        'tabs' => [
+            [
+                'label' => 'Tất cả tài khoản',
+                'name' => 'all_user',
+                'default' => true,
+                'where' => [],
+            ],
+            [
+                'label' => 'Tài khoản học viên',
+                'name' => 'user_normal',
+                'default' => false,
+                'where' => [
+                    [
+                        'field' => 'user_type_id',
+                        'operator' => '=',
+                        'value' => UserType::NORMAL_ACCOUNT
+                    ]
+                ],
+            ],
+            [
+                'label' => 'Tài khoản giáo viên',
+                'name' => 'user_teacher',
+                'default' => false,
+                'where' => [
+                    [
+                        'field' => 'user_type_id',
+                        'operator' => '=',
+                        'value' => UserType::TEACHER_ACCOUNT
+                    ],
+                ]
+            ],
+        ],
+    ],
+];
