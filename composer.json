@@ -53,7 +53,8 @@
             "vanhenry\\mail\\": "packages/vanhenry/mail/src",
             "vanhenry\\minify\\": "packages/vanhenry/minify/src",
             "multiplechoicequestions\\managequestion\\": "packages/multiplechoicequestions/managequestion/src",
-            "CustomTable\\": "packages/table_customs/src"
+            "CustomTable\\": "packages/table_customs/src",
+            "CourseManage\\": "packages/course_manage/src"
         }
     },
     "repositories": [

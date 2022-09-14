@@ -89,4 +89,4 @@
     <?php echo $__env->make('vh::static.changepass', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
     <?php echo $__env->yieldContent('js'); ?>
 </body>
-<?php /**PATH C:\laragon\www\dethi\packages\vanhenry\manager\src/views/master.blade.php ENDPATH**/ ?>
+<?php /**PATH C:\laragon\www\timepro\packages\vanhenry\manager\src/views/master.blade.php ENDPATH**/ ?>
