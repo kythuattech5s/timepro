@@ -5,7 +5,7 @@
         </sitemap>
                     <sitemap>
             <loc>https://dethi.test/sitemap/course_combos/2022-9.xml</loc>
-            <lastmod>2022-09-13T09:52:24+07:00</lastmod>
+            <lastmod>2022-09-14T17:31:54+07:00</lastmod>
         </sitemap>
                     <sitemap>
             <loc>https://dethi.test/sitemap/courses/2022-9.xml</loc>
@@ -21,6 +21,6 @@
         </sitemap>
         <sitemap>
         <loc>https://dethi.test/sitemap/static.xml</loc>
-        <lastmod>2022-09-13T12:03:25+07:00</lastmod>
+        <lastmod>2022-09-14T17:31:54+07:00</lastmod>
     </sitemap>
 </sitemapindex>

@@ -5,6 +5,7 @@ class HomeController extends Controller
 {
     public function index()
     {
-       return view('home');
+        // \App\Models\OrderCourse::find(1)->orderSuccess();
+        return view('home');
     }
 }
