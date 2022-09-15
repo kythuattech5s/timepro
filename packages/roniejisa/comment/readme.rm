@@ -1,0 +1,6 @@
+# Thêm link css
+<link rel="stylesheet" href="{'danh-gia/css/comment.css'}">
+# Thêm link js
+<script src="{'danh-gia/js/validateForm.js'}" defer></script>
+<script src="{'danh-gia/js/xhr.js'}" defer></script>
+<script src="{'danh-gia/js/comment.js'}" defer></script>

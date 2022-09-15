@@ -184,6 +184,7 @@ return [
         vanhenry\minify\MinifyServiceProvider::class,
         multiplechoicequestions\managequestion\Providers\MultipleChoiceServiceProvider::class,
         CourseManage\Providers\CourseManageProvider::class,
+        Roniejisa\Comment\Providers\CommentServiceProvider::class,
         /*
          * Application Service Providers...
          */

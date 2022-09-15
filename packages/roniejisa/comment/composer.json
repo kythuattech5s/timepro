@@ -1,0 +1,23 @@
+{
+    "name": "roniejisa/comment",
+    "description": "comment rating like",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Hiếu",
+            "email": "roniejisa@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Roniejisa\\Comment": "./src"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Roniejisa\\Comment\\Providers\\CommentServiceProvider"
+            ]
+        }
+    }
+}

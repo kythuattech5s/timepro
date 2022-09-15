@@ -89,7 +89,7 @@ p{
   object-fit: contain;
 }
 .navigation .nav-top a.show img{
-  padding: 2px;
+  padding: 10px;
 }
 
 /* FIX SMALL NAVIGATION */
