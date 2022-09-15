@@ -1,4 +1,6 @@
 {
+    "/video/js/video.js": "/video/js/video.js",
+    "/video/css/video.css": "/video/css/video.css",
     "/comment/style/app.css": "/comment/style/app.css",
     "/comment/css/admin_comment.css": "/comment/css/admin_comment.css",
     "/comment/css/ratingOrder.css": "/comment/css/ratingOrder.css",
@@ -29,6 +31,7 @@
     "/assets/images/star-o.svg": "/assets/images/star-o.svg",
     "/assets/images/star.svg": "/assets/images/star.svg",
     "/assets/js/Checkbox.js": "/assets/js/Checkbox.js",
+    "/assets/js/ClassHelper.js": "/assets/js/ClassHelper.js",
     "/assets/js/FormData.js": "/assets/js/FormData.js",
     "/assets/js/Helper.js": "/assets/js/Helper.js",
     "/assets/js/ImageVideo.js": "/assets/js/ImageVideo.js",

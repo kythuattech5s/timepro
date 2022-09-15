@@ -7,7 +7,7 @@
 @endphp
 <div class="pagination">
     <span class="total">{{ trans('db::number_record') }}: <strong>{{ $listData->total() }}</strong></span>
-    {{ $listData->withQueryString()->links('vh::vendor.pagination.pagination') }}
+    {{ $listData->withQueryString()->links('vh::base.pagination') }}
 </div>
 <div id="no-more-tables" class="row m0">
     <div class="tablecontrol none">
@@ -155,6 +155,6 @@
     <div class="pagination">
         <span class="total">{{ trans('db::number_record') }}:<strong>
                 {{ $listData->total() }}</strong></span>
-        {{ $listData->withQueryString()->links('vh::vendor.pagination.pagination') }}
+        {{ $listData->withQueryString()->links('vh::base.pagination') }}
     </div>
 </div>

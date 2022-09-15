@@ -56,7 +56,8 @@
             "CustomTable\\": "packages/table_customs/src",
             "CourseManage\\": "packages/course_manage/src",
             "Roniejisa\\Comment\\": "packages/roniejisa/comment/src",
-            "Roniejisa\\Helpers\\": "packages/roniejisa/helpers/src"
+            "Roniejisa\\Helpers\\": "packages/roniejisa/helpers/src",
+            "Tech5s\\VideoChapter\\": "packages/tech5s/video-chapter/src"
         }
     },
     "repositories": [
