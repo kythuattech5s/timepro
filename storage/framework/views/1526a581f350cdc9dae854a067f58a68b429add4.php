@@ -50,4 +50,4 @@
     33.3333% {left: 0; width: 100%;z-index: 10;}
     to {left: 0; width: 100%;}
 }
-</style><?php /**PATH C:\laragon\www\timepro\packages\vanhenry\manager\src/views/loading.blade.php ENDPATH**/ ?>
+</style><?php /**PATH C:\laragon\www\dethi\packages\vanhenry\manager\src/views/loading.blade.php ENDPATH**/ ?>
