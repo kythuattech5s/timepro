@@ -30,5 +30,6 @@
     @yield('jsl')
     <script src="{{ Support::asset('theme/frontend/js/base.js') }}" defer></script>
     @yield('js')
+    <script src="{{ Support::asset('theme/frontend/js/add/scrip.js') }}" defer></script>
 </body>
 </html>

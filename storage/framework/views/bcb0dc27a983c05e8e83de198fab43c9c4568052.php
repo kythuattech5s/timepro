@@ -31,6 +31,7 @@
     <?php echo $__env->yieldContent('jsl'); ?>
     <script src="<?php echo e(Support::asset('theme/frontend/js/base.js')); ?>" defer></script>
     <?php echo $__env->yieldContent('js'); ?>
+    <script src="<?php echo e(Support::asset('theme/frontend/js/add/scrip.js')); ?>" defer></script>
 </body>
 </html>
 <?php /**PATH D:\laragon\www\timepro\resources\views/index.blade.php ENDPATH**/ ?>
