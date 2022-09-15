@@ -54,7 +54,9 @@
             "vanhenry\\minify\\": "packages/vanhenry/minify/src",
             "multiplechoicequestions\\managequestion\\": "packages/multiplechoicequestions/managequestion/src",
             "CustomTable\\": "packages/table_customs/src",
-            "CourseManage\\": "packages/course_manage/src"
+            "CourseManage\\": "packages/course_manage/src",
+            "Roniejisa\\Comment\\": "packages/roniejisa/comment/src",
+            "Roniejisa\\Helpers\\": "packages/roniejisa/helpers/src"
         }
     },
     "repositories": [

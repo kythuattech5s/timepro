@@ -47,6 +47,7 @@ namespace App\Models{
  * @property string|null $seo_des Mô tả seo
  * @property \Illuminate\Support\Carbon|null $created_at Ngày tạo
  * @property \Illuminate\Support\Carbon|null $updated_at Ngày sửa
+ * @property string|null $time_package Gói thời gian
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\CourseCategory[] $category
  * @property-read int|null $category_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\CourseCourseCategory[] $pivot
@@ -75,6 +76,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Course whereShortContent($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Course whereSlug($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Course whereTeacherId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Course whereTimePackage($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Course whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Course whereVideoTrailer($value)
  */

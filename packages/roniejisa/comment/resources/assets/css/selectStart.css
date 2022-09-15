@@ -1,0 +1,61 @@
+:root {
+    --color-star-check-full: #ffc107;
+    --color-star-hover: #ffc107;
+    --color-star-checked: #ffdc73;
+}
+/*  Module rating */
+div.rating-select .rating {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+}
+
+div.rating-select {
+    display: flex;
+}
+
+div.stars {
+    display: inline-block;
+}
+
+input.star {
+    display: none;
+}
+
+label.star {
+    margin-right: 2px;
+    font-size: 1.5rem;
+    transition: all 0.3s;
+}
+
+label.star:before {
+    color: var(--color-star-evalue);
+    content: "\f006";
+    font-family: "Font Awesome 6 Free";
+    font-size:var(--font-size-select, 1rem)
+}
+
+input.star:checked ~ label.star:before {
+    content: "\f006";
+    color: var(--color-star-checked);
+    transition: all 0.25s;
+}
+
+input.star-5:checked ~ label.star:before {
+    content: "\f005";
+    color: var(--color-star-check-full);
+    text-shadow: 0.1px 0.1px 4px var(--color-star-check-full);
+}
+
+label.star:hover {
+    transform: rotate(-5deg) scale(1.1);
+    color: var(--color-star-hover);
+}
+
+input.star:hover ~ label.star:before {
+    content: "\f006";
+    color: var(--color-star-hover);
+    transition: all 0.25s;
+}
+
+/* END RATING MODULE */

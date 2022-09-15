@@ -1,0 +1,32 @@
+#ratingOrder .product {
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid #ebebeb;
+    margin-bottom: 2rem;
+}
+
+#ratingOrder .product img {
+    width: 80px;
+    height: 80px;
+    margin-right: 1rem;
+    border-radius: 10px;
+}
+
+#ratingOrder .content {
+    padding: 0 10px 25px;
+}
+
+#ratingOrder .product-rating {
+    padding: 15px;
+    border: 1px solid #ebebeb;
+}
+
+#ratingOrder .product-rating + .product-rating {
+    margin-top: 1rem;
+}
+
+#ratingOrder .title {
+    font-size: 18px;
+    text-align: center;
+    font-weight: bold;
+    margin: 20px 0;
+}

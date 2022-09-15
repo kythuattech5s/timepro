@@ -1,0 +1,1 @@
+<?php /**PATH H:\laragon\www\timepro\resources\views/layouts/header.blade.php ENDPATH**/ ?>
