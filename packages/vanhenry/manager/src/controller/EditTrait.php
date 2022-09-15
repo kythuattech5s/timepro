@@ -99,12 +99,13 @@ trait EditTrait
     {
         $tableDetailData = self::__getListDetailTable($table);
         $transTable = \FCHelper::getTranslationTable($tableData->table_map);
+        $model = $tableData->model::query();
         /*nếu table không có bảng dịch*/
         if ($transTable == null) {
-            $dataItem = DB::table($table)->where('id', $id);
+            $dataItem = $model->where('id', $id);
         } else {
             $langChoose = FCHelper::langChooseOfTable($tableData->table_map);
-            $dataItem = DB::table($table)->join($transTable->table_map, 'id', '=', 'map_id')->where(['id' => $id, 'language_code' => $langChoose]);
+            $dataItem = $model->join($transTable->table_map, 'id', '=', 'map_id')->where(['id' => $id, 'language_code' => $langChoose]);
         }
 
         $hidden = config('sys_hidden');
@@ -114,8 +115,13 @@ trait EditTrait
             }
         }
 
-        $dataItem = $dataItem->get();
+        $relationship = $this->getRelationShipTable($tableDetailData,true);
+        if ($relationship->count() > 0) {
+            $arrayRelationShip = $this->createRelationShip($relationship,[],true);
+            $dataItem->with($arrayRelationShip);
+        }
 
+        $dataItem = $dataItem->get();
         if (count($dataItem) > 0) {
             $data['tableData'] = new Collection($tableData);
             $addDetailData = $this->_edittrait_getTableEditProperties($data['tableData']->get("id"), $tableData);

@@ -1,4 +1,5 @@
 <?php
+
 namespace vanhenry\manager\controller;
 
 use DB;
@@ -157,19 +158,14 @@ class Admin extends BaseAdminController
         return $query->orderBy("$table.id", 'desc')->paginate($rpp);
     }
 
-    public function createRelationShip($relationship, $arrayRelationShip = [])
+    public function createRelationShip($relationship, $arrayRelationShip = [], $isEdit = false)
     {
         foreach ($relationship as $listItem) {
             $listItem = isset($listItem['data']) ? $listItem['data'] : [];
             foreach ($listItem as $item) {
-                $func = function ($query) use ($item) {
-                    $select = preg_filter('/^/', $item['table'] . '.', explode(',', $item['select']));
-                    if (isset($item['data']) && is_array($item['data']) && count($item['data']) > 0) {
-                        $arrayFunc = $this->createRelationShip($item);
-                        if (count($arrayFunc) > 0) {
-                            $query->select($select)->with(00);
-                        }
-                    } else {
+                $func = function ($query) use ($item, $isEdit) {
+                    if (!$isEdit) {
+                        $select = preg_filter('/^/', $item['table'] . '.', explode(',', $item['select']));
                         $query->select($select);
                     }
                 };
@@ -187,13 +183,16 @@ class Admin extends BaseAdminController
         return $tableDetailData;
     }
 
-    public function getRelationShipTable($tableDetailData)
+    public function getRelationShipTable($tableDetailData, $isEdit = false)
     {
         $tableDetailData = $this->createCollectionDetailData($tableDetailData);
-        $raw_relationships = $tableDetailData->filter(function ($q) {
-            return !is_null($q->relationship) && $q->show == 1;
+        $raw_relationships = $tableDetailData->filter(function ($q) use ($isEdit) {
+            if ($isEdit) {
+                return !is_null($q->relationship);
+            } else {
+                return !is_null($q->relationship) && $q->show == 1;
+            }
         })->pluck('relationship');
-
         $relationships = collect();
 
         foreach ($raw_relationships as $relationship) {
@@ -249,7 +248,7 @@ class Admin extends BaseAdminController
             });
             $count++;
         }
-        
+
         unset($inputs['q']);
         unset($inputs['_token']);
         unset($inputs['target']);
@@ -365,7 +364,8 @@ class Admin extends BaseAdminController
             $pivot_table = $defaultData['pivot_table'];
             $target_field = $defaultData['target_field'];
             $origin_field = $defaultData['origin_field'];
-            if ($defaultData['target_table'] === "combo") {}
+            if ($defaultData['target_table'] === "combo") {
+            }
             \DB::table($pivot_table)->whereIn($origin_field, $ids)->delete();
         }
     }

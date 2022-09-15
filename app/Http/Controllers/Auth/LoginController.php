@@ -117,6 +117,8 @@ class LoginController extends Controller
     {
         $user->last_login_time = now();
         $user->save();
+        \Tech5sCart::identifier($user->id);
+        \Tech5sCart::restore($user->id);
         $url = Support::URLPrevious(false);
         return Support::sendResponse(200,'Đăng nhập thành công',$url);
     }

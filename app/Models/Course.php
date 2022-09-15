@@ -1,9 +1,11 @@
 <?php
 namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Tech5s\VideoChapter\Traits\VideoSouceTrait;
+
 class Course extends BaseModel
 {
-    use HasFactory;
+    use HasFactory, VideoSouceTrait;
     public function teacher()
     {
         return $this->belongsTo(User::class,'teacher_id','id');
@@ -18,6 +20,51 @@ class Course extends BaseModel
     public function timePackage()
     {
         return $this->hasMany(CourseTimePackage::class);
+    }
+    public function userCourse()
+    {
+        return $this->hasMany(UserCourse::class);
+    }
+    public function isFree()
+    {
+        return $this->timePackage()->count() == 0;
+    }
+    public function isOwn($user = null)
+    {
+        if ($this->isFree()) return true;
+        if (!isset($user)) return false;
+        $userCourse = $this->userCourse()->where('user_id',$user->id)
+                                        ->where(function($q){
+                                            $q->where('expired_time','>',now())->orWhere('is_forever',1);
+                                        })
+                                        ->first();
+        if (isset($userCourse)) {
+            return true;
+        }
+        $userCourseComboAllCount = $user->userCourseCombo()->whereHas('courseCombo',function($q){
+                                                                $q->where('all_course',1);
+                                                            })
+                                                            ->where(function($q){
+                                                                $q->where('expired_time','>',now())->orWhere('is_forever',1);
+                                                            })
+                                                            ->first();
+        if (isset($userCourseComboAllCount)) {
+            return true;
+        }
+        $idCourse = $this->id;
+        $userCourseComboSpecialCourse = $user->userCourseCombo()->whereHas('courseCombo',function($q) use ($idCourse){
+                                                                    $q->where('all_course','!=',1)->whereHas('course',function($q) use ($idCourse) {
+                                                                        $q->where('id',$idCourse);
+                                                                    });
+                                                                })
+                                                                ->where(function($q){
+                                                                    $q->where('expired_time','>',now())->orWhere('is_forever',1);
+                                                                })
+                                                                ->first();
+        if (isset($userCourseComboSpecialCourse)) {
+            return true;
+        }
+        return false;
     }
     public function updateTimePackage($dataTimePackage)
     {
@@ -73,3 +120,4 @@ class Course extends BaseModel
         $this->save();
     }
 }
+

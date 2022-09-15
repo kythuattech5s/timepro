@@ -29,6 +29,7 @@
     <script src="{{ Support::asset('theme/frontend/js/toastify.js') }}" defer></script>
     @yield('jsl')
     <script src="{{ Support::asset('theme/frontend/js/base.js') }}" defer></script>
+    <script src="{{ Support::asset('theme/frontend/js/cart.js') }}" defer></script>
     @yield('js')
     <script src="{{ Support::asset('theme/frontend/js/add/scrip.js') }}" defer></script>
 </body>
