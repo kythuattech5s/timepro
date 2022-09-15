@@ -1,5 +1,15 @@
 @extends('vh::master')
+@php
+    $tableMap = $tableData->get('table_map', '');
+    $configs = config('sys_table.edit');
+    $config_assets = config("sys_assets.$tableMap.$actionType");
+@endphp
 @section('css')
+    @if($config_assets != null && isset($config_assets['styles']) && is_array($config_assets['styles']))
+        @foreach($config_assets['styles'] as $linkStyle)
+            <link rel="stylesheet" href="{{Support::asset($linkStyle)}}">
+        @endforeach
+    @endif
 	@if ($tableData->get('has_yoast_seo', '') == 1)
 		<link rel="stylesheet" href="admin/tech5s_yoast_seo/theme/css/yoastseo.css" type="text/css">
 	@endif
@@ -13,10 +23,6 @@
     @endif
 @endsection
 @section('content')
-	@php 
-        $tableMap = $tableData->get('table_map', '');
-        $configs = config('sys_table.edit');
-    @endphp
     @foreach($configs as $config)
         @php
             $sys_config = config("sys_table.$config");
@@ -190,6 +196,11 @@
     @if($scripts)
         @foreach($scripts as $script_link)
             <script src="{{$script_link}}" type="text/javascript" defer></script>
+        @endforeach
+    @endif
+    @if($config_assets != null && isset($config_assets['scripts']) && is_array($config_assets['styles']))
+        @foreach($config_assets['scripts'] as $srcScript)
+            <script type="{{$srcScript['type']}}" src="{{Support::asset($srcScript['src'])}}" type="text/javascript" defer></script>
         @endforeach
     @endif
 @endsection

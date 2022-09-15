@@ -1,9 +1,11 @@
 <?php
 namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Tech5s\VideoChapter\Traits\VideoSouceTrait;
+
 class Course extends BaseModel
 {
-    use HasFactory;
+    use HasFactory, VideoSouceTrait;
     public function teacher()
     {
         return $this->belongsTo(User::class,'teacher_id','id');
@@ -118,3 +120,4 @@ class Course extends BaseModel
         $this->save();
     }
 }
+

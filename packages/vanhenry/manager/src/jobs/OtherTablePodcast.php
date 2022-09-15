@@ -34,7 +34,7 @@ class OtherTablePodcast implements ShouldQueue
                 if (strpos($key, $config['key_catch']) === 0) {
                     $class = $config['class'];
                     $method = $config[$action . '_method'];
-                    (new $class)->$method($data, $item);
+                    (new $class)->$method([$key => $data[$key]], $item);
                     unset($data[$key]);
                 }
             }

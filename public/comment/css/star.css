@@ -1,0 +1,22 @@
+:root {
+    --color-star-checked: #ffdc73;
+    --size: 12px;
+}
+.rating i {
+    font-size: var(--size);
+}
+.rating {
+    position: relative;
+    line-height: 1;
+    display: inline-block;
+    color: var(--color-star-checked);
+}
+
+.rating--active {
+    position: absolute;
+    white-space: nowrap;
+    top: 0;
+    left: 0;
+    color: var(--color-star-checked);
+    overflow: hidden;
+}

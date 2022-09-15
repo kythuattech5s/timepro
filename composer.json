@@ -55,7 +55,10 @@
             "multiplechoicequestions\\managequestion\\": "packages/multiplechoicequestions/managequestion/src",
             "CustomTable\\": "packages/table_customs/src",
             "CourseManage\\": "packages/course_manage/src",
-            "Tech5sShoppingCart\\Tech5sCart\\": "packages/tech5sShoppingCart/tech5sCart/src"
+            "Tech5sShoppingCart\\Tech5sCart\\": "packages/tech5sShoppingCart/tech5sCart/src",
+            "Roniejisa\\Comment\\": "packages/roniejisa/comment/src",
+            "Roniejisa\\Helpers\\": "packages/roniejisa/helpers/src",
+            "Tech5s\\VideoChapter\\": "packages/tech5s/video-chapter/src"
         }
     },
     "repositories": [

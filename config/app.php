@@ -185,6 +185,8 @@ return [
         multiplechoicequestions\managequestion\Providers\MultipleChoiceServiceProvider::class,
         CourseManage\Providers\CourseManageProvider::class,
         Tech5sShoppingCart\Tech5sCart\Tech5sCartServiceProvider::class,
+        Roniejisa\Comment\Providers\CommentServiceProvider::class,
+        Tech5s\VideoChapter\Providers\VideoChapterServiceProvider::class,
         /*
          * Application Service Providers...
          */

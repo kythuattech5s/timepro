@@ -18581,6 +18581,28 @@
      
 }
 
+    namespace Roniejisa\Comment\Helpers { 
+            /**
+     * 
+     *
+     */ 
+        class Helper {
+         
+    }
+     
+}
+
+    namespace Roniejisa\Helpers { 
+            /**
+     * 
+     *
+     */ 
+        class RSCustom {
+         
+    }
+     
+}
+
     namespace Illuminate\Http { 
             /**
      * 
@@ -22184,6 +22206,8 @@ namespace  {
             class FCHelper extends \vanhenry\helpers\helpers\FCHelper {}
             class StringHelper extends \vanhenry\helpers\helpers\StringHelper {}
             class SEOHelper extends \vanhenry\helpers\helpers\SEOHelper {}
+            class CommentHelper extends \Roniejisa\Comment\Helpers\Helper {}
+            class RSCustom extends \Roniejisa\Helpers\RSCustom {}
      
 }
 

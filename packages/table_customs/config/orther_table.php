@@ -16,7 +16,6 @@ return [
             "insert_method" => "__insertCreateDataMapTable",
             "update_method" => "__updateDataMapTable"
         ]
-    ],
-
+    ]
     //Custom cho bảng
 ];

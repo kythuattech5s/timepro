@@ -1,0 +1,23 @@
+{
+    "name": "roniejisa/helpers",
+    "autoload": {
+        "psr-4": {
+            "Roniejisa\\Helpers\\": "src"
+        }
+    },
+    "require": {
+        "php": ">=7.3",
+        "daandesmedt/phpheadlesschrome": "^1.1"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Roniejisa\\Helpers\\Providers\\HelperServiceProvider"
+            ],
+            "aliases": {
+                "RSCustom": "Roniejisa\\Helpers\\RSCustom",
+                "RSCrawl": "Roniejisa\\Helpers\\RSCrawl"
+            }
+        }
+    }
+}
