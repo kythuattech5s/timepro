@@ -1,4 +1,0 @@
-<picture <?php echo e($attribute); ?>>
-	<source media="(min-width:0px)" data-srcset="<?php echo vanhenry\helpers\helpers\FCHelper::eimg2($itemImageShow,'img','150x0'); ?>" srcset="<?php echo vanhenry\helpers\helpers\FCHelper::eimg2($itemImageShow,'img','150x0'); ?>">
-	<img loading="<?php echo e(isset($noLazyLoad) && $noLazyLoad == 1 ? 'auto':'lazy'); ?>" src="<?php echo vanhenry\helpers\helpers\FCHelper::eimg2($itemImageShow,'img','150x0'); ?>" <?php echo vanhenry\helpers\helpers\FCHelper::eimg2($itemImageShow,'img','attr.150x0'); ?> data-src="<?php echo vanhenry\helpers\helpers\FCHelper::eimg2($itemImageShow,'img','150x0'); ?>" title="<?php echo vanhenry\helpers\helpers\FCHelper::aimg($itemImageShow,'img','title'); ?>" alt="<?php echo vanhenry\helpers\helpers\FCHelper::aimg($itemImageShow,'img','alt'); ?>" class="img-fluid">
-</picture><?php /**PATH H:\laragon\www\timepro\resources\views/image_loader/default/tiny.blade.php ENDPATH**/ ?>
