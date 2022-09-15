@@ -47,6 +47,7 @@ namespace App\Models{
  * @property string|null $seo_des Mô tả seo
  * @property \Illuminate\Support\Carbon|null $created_at Ngày tạo
  * @property \Illuminate\Support\Carbon|null $updated_at Ngày sửa
+ * @property string|null $time_package Gói thời gian
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\CourseCategory[] $category
  * @property-read int|null $category_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\CourseCourseCategory[] $pivot
@@ -75,6 +76,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Course whereShortContent($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Course whereSlug($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Course whereTeacherId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Course whereTimePackage($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Course whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Course whereVideoTrailer($value)
  */
@@ -142,6 +144,11 @@ namespace App\Models{
  * @property int|null $ord Sắp xếp
  * @property \Illuminate\Support\Carbon|null $created_at Ngày tạo
  * @property \Illuminate\Support\Carbon|null $updated_at Ngày cập nhật
+ * @property int|null $all_course Kích hoạt
+ * @property string|null $seo_title Tiêu đề seo
+ * @property string|null $seo_key Từ khóa seo
+ * @property string|null $seo_des Mô tả seo
+ * @property string|null $time_package Gói thời gian
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Course[] $course
  * @property-read int|null $course_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\CourseCourseCombo[] $pivot
@@ -155,6 +162,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|CourseCombo query()
  * @method static \Illuminate\Database\Eloquent\Builder|BaseModel slug($slug, $table = null)
  * @method static \Illuminate\Database\Eloquent\Builder|CourseCombo whereAct($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|CourseCombo whereAllCourse($value)
  * @method static \Illuminate\Database\Eloquent\Builder|CourseCombo whereContent($value)
  * @method static \Illuminate\Database\Eloquent\Builder|CourseCombo whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|CourseCombo whereId($value)
@@ -163,7 +171,11 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|CourseCombo whereOrd($value)
  * @method static \Illuminate\Database\Eloquent\Builder|CourseCombo wherePrice($value)
  * @method static \Illuminate\Database\Eloquent\Builder|CourseCombo wherePriceOld($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|CourseCombo whereSeoDes($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|CourseCombo whereSeoKey($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|CourseCombo whereSeoTitle($value)
  * @method static \Illuminate\Database\Eloquent\Builder|CourseCombo whereSlug($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|CourseCombo whereTimePackage($value)
  * @method static \Illuminate\Database\Eloquent\Builder|CourseCombo whereUpdatedAt($value)
  */
 	class CourseCombo extends \Eloquent {}
@@ -857,6 +869,10 @@ namespace App\Models{
 /**
  * App\Models\OrderStatus
  *
+ * @property int $id
+ * @property string|null $name Tên
+ * @property \Illuminate\Support\Carbon|null $created_at Ngày tạo
+ * @property \Illuminate\Support\Carbon|null $updated_at Ngày cập nhật
  * @method static \Illuminate\Database\Eloquent\Builder|BaseModel act()
  * @method static \Illuminate\Database\Eloquent\Builder|BaseModel fullTextSearch($columns, $term)
  * @method static \Illuminate\Database\Eloquent\Builder|BaseModel fullTextSearchNoRelevance($columns, $term)
@@ -865,6 +881,10 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|BaseModel ord()
  * @method static \Illuminate\Database\Eloquent\Builder|OrderStatus query()
  * @method static \Illuminate\Database\Eloquent\Builder|BaseModel slug($slug, $table = null)
+ * @method static \Illuminate\Database\Eloquent\Builder|OrderStatus whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|OrderStatus whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|OrderStatus whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|OrderStatus whereUpdatedAt($value)
  */
 	class OrderStatus extends \Eloquent {}
 }
