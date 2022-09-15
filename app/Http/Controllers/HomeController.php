@@ -5,7 +5,7 @@ class HomeController extends Controller
 {
     public function index()
     {
-        // \App\Models\OrderCourse::find(1)->orderSuccess();
+        \Auth::user()->userCoursePaginage(10);
         return view('home');
     }
 }

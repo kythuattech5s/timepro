@@ -23,20 +23,17 @@ Route::get('/clear', function () {
 });
 
 Route::group([
-    'middleware' => 'web'
-], function () {
-    Route::match(['GET', 'POST'], 'test', 'App\Test\Test@index');
-});
-
-Route::group([
     'prefix' => LaravelLocalization::setLocale(),
     'middleware' => ['web', 'localeSessionRedirect', 'localizationRedirect', 'localeViewPath'],
     'namespace' => 'App\Http\Controllers',
 ], function () {
-    
     Route::match(['GET', 'POST'], '/', 'HomeController@index')->name('home');
     Route::get('cronimg', array('uses' => 'CronImgController@convertImg'));
     Route::get('cronmail', 'CronMailController@cronmail');
     Route::get('reset-email', 'CronMailController@reset');
+
+    Route::post('cart/{action}', 'CartController@action');
+    Route::get('thong-tin-giang-vien/{uslug}', 'UserController@view');
+
     Route::match(['get', 'post'], '/{link}', array('uses' => 'RouteController@direction'))->where('link', '^((?!esystem)[0-9a-zA-Z\?\.\-/])*$');
 });

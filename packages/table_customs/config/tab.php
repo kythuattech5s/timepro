@@ -24,7 +24,7 @@ return [
                 ],
             ],
             [
-                'label' => 'Tài khoản giáo viên',
+                'label' => 'Tài khoản giảng viên',
                 'name' => 'user_teacher',
                 'default' => false,
                 'where' => [

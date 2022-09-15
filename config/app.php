@@ -184,6 +184,7 @@ return [
         vanhenry\minify\MinifyServiceProvider::class,
         multiplechoicequestions\managequestion\Providers\MultipleChoiceServiceProvider::class,
         CourseManage\Providers\CourseManageProvider::class,
+        Tech5sShoppingCart\Tech5sCart\Tech5sCartServiceProvider::class,
         /*
          * Application Service Providers...
          */
@@ -251,6 +252,6 @@ return [
         'Pusher' => Pusher\Pusher::class,
         'SettingHelper' => vanhenry\helpers\helpers\SettingHelper::class,
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
+        'Tech5sCart' => Tech5sShoppingCart\Tech5sCart\Facades\Tech5sCart::class
     ],
-
 ];

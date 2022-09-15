@@ -12,10 +12,10 @@ class Controller extends BaseController
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
     public function __construct()
     {
-        if (in_array(request()->ip(), ["14.160.24.158"])) {
-            \Debugbar::enable();
-        } else {
-            \Debugbar::disable();
-        }
+        // if (in_array(request()->ip(), ["14.160.24.158"])) {
+        //     \Debugbar::enable();
+        // } else {
+        //     \Debugbar::disable();
+        // }
     }
 }
