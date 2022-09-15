@@ -25,11 +25,11 @@ class User extends Authenticatable
         $this->notify(new UserNotify($data, $type, $this));
     }
     public function pivot(){
-    	return $this->hasMany(UserTeacherSkill::class, 'user', 'id');
+    	return $this->hasMany(UserTeacherSkill::class, 'user_id', 'id');
     }
     public function skills()
     {
-    	return $this->belongsToMany(TeacherSkill::class);
+    	return $this->belongsToMany(TeacherSkill::class,'user_teacher_skill', 'user_id', 'teacher_skill_id');
     }
     public function province()
     {

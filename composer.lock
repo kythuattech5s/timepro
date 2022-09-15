@@ -8228,11 +8228,11 @@
         },
         {
             "name": "tech5s/login-social",
-            "version": "dev-hieu",
+            "version": "dev-toanh",
             "dist": {
                 "type": "path",
                 "url": "./packages/tech5s/login-social",
-                "reference": "f9bd7b8eb637ad9f716d80e13d7a49d023b16eb4"
+                "reference": "e8bc82d792a676d84a49c7f41a695b230d7d9b2c"
             },
             "require": {
                 "laravel/socialite": "^5.2"
@@ -11560,5 +11560,5 @@
         "php": "^7.3|^8.0"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.1.0"
+    "plugin-api-version": "2.2.0"
 }

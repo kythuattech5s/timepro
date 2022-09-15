@@ -55,6 +55,10 @@ namespace App\Models{
  * @property-read \App\Models\User|null $teacher
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\CourseTimePackage[] $timePackage
  * @property-read int|null $time_package_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\UserCourse[] $userCourse
+ * @property-read int|null $user_course_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Tech5s\VideoChapter\Models\CourseVideo[] $videos
+ * @property-read int|null $videos_count
  * @method static \Illuminate\Database\Eloquent\Builder|BaseModel act()
  * @method static \Illuminate\Database\Eloquent\Builder|BaseModel fullTextSearch($columns, $term)
  * @method static \Illuminate\Database\Eloquent\Builder|BaseModel fullTextSearchNoRelevance($columns, $term)
@@ -139,8 +143,6 @@ namespace App\Models{
  * @property string $name Tên
  * @property string $slug Slug
  * @property string|null $img Ảnh
- * @property int|null $price Giá
- * @property int|null $price_old Giá cũ
  * @property string|null $content Mô tả
  * @property int|null $act Kích hoạt
  * @property int|null $ord Sắp xếp
@@ -173,8 +175,6 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|CourseCombo whereImg($value)
  * @method static \Illuminate\Database\Eloquent\Builder|CourseCombo whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|CourseCombo whereOrd($value)
- * @method static \Illuminate\Database\Eloquent\Builder|CourseCombo wherePrice($value)
- * @method static \Illuminate\Database\Eloquent\Builder|CourseCombo wherePriceOld($value)
  * @method static \Illuminate\Database\Eloquent\Builder|CourseCombo whereSeoDes($value)
  * @method static \Illuminate\Database\Eloquent\Builder|CourseCombo whereSeoKey($value)
  * @method static \Illuminate\Database\Eloquent\Builder|CourseCombo whereSeoTitle($value)
@@ -1211,6 +1211,30 @@ namespace App\Models{
 
 namespace App\Models{
 /**
+ * App\Models\TeacherSkill
+ *
+ * @property int $id
+ * @property string|null $name Họ và tên
+ * @property \Illuminate\Support\Carbon|null $created_at Ngày tạo
+ * @property \Illuminate\Support\Carbon|null $updated_at Ngày cập nhật
+ * @method static \Illuminate\Database\Eloquent\Builder|BaseModel act()
+ * @method static \Illuminate\Database\Eloquent\Builder|BaseModel fullTextSearch($columns, $term)
+ * @method static \Illuminate\Database\Eloquent\Builder|BaseModel fullTextSearchNoRelevance($columns, $term)
+ * @method static \Illuminate\Database\Eloquent\Builder|TeacherSkill newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|TeacherSkill newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|BaseModel ord()
+ * @method static \Illuminate\Database\Eloquent\Builder|TeacherSkill query()
+ * @method static \Illuminate\Database\Eloquent\Builder|BaseModel slug($slug, $table = null)
+ * @method static \Illuminate\Database\Eloquent\Builder|TeacherSkill whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|TeacherSkill whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|TeacherSkill whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|TeacherSkill whereUpdatedAt($value)
+ */
+	class TeacherSkill extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
  * App\Models\User
  *
  * @property int $id
@@ -1219,35 +1243,49 @@ namespace App\Models{
  * @property string|null $phone Số điện thoại
  * @property string|null $password Mật khẩu
  * @property string|null $img Ảnh đại diện
- * @property string|null $address Địa chỉ
  * @property string|null $birthday Ngày sinh
  * @property int|null $gender_id Giới tính
  * @property int|null $act Kích hoạt
  * @property int|null $banned Đã bị banned
  * @property string|null $token Xác nhận mã OTP
  * @property string|null $remember_token Ghi nhớ đăng nhập
- * @property \Illuminate\Support\Carbon|null $created_at Ngày tạo
- * @property \Illuminate\Support\Carbon|null $updated_at Ngày cập nhật
  * @property string|null $last_login_time Ngày tạo
  * @property int|null $user_type_id Kích hoạt
  * @property string|null $teacher_job Công việc
  * @property string|null $teacher_description Mô tả thông tin
+ * @property int|null $province_id Tỉnh thành
+ * @property int|null $district_id Quận huyện
+ * @property int|null $ward_id Phường xã
+ * @property \Illuminate\Support\Carbon|null $created_at Ngày tạo
+ * @property \Illuminate\Support\Carbon|null $updated_at Ngày cập nhật
+ * @property string|null $uslug
+ * @property string|null $facebook
+ * @property string|null $teacher_skills
  * @property-read \App\Models\District|null $district
  * @property-read \App\Models\Gender|null $gender
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection|\Illuminate\Notifications\DatabaseNotification[] $notifications
  * @property-read int|null $notifications_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\UserTeacherSkill[] $pivot
+ * @property-read int|null $pivot_count
  * @property-read \App\Models\Province|null $province
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\TeacherSkill[] $skills
+ * @property-read int|null $skills_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\UserCourse[] $userCourse
+ * @property-read int|null $user_course_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\UserCourseCombo[] $userCourseCombo
+ * @property-read int|null $user_course_combo_count
  * @property-read \App\Models\UserType|null $userType
  * @property-read \App\Models\Ward|null $ward
  * @method static \Illuminate\Database\Eloquent\Builder|User newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|User newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|User query()
  * @method static \Illuminate\Database\Eloquent\Builder|User whereAct($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User whereAddress($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereBanned($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereBirthday($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereDistrictId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereEmail($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereFacebook($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereGenderId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereImg($value)
@@ -1255,12 +1293,16 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|User whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User wherePassword($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User wherePhone($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereProvinceId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereRememberToken($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereTeacherDescription($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereTeacherJob($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereTeacherSkills($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereToken($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereUserTypeId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereUslug($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereWardId($value)
  */
 	class User extends \Eloquent {}
 }
@@ -1306,6 +1348,7 @@ namespace App\Models{
  * @property int|null $is_forever Có phải vĩnh viễn không
  * @property \Illuminate\Support\Carbon|null $created_at Ngày tạo
  * @property \Illuminate\Support\Carbon|null $updated_at Ngày cập nhật
+ * @property-read \App\Models\CourseCombo|null $courseCombo
  * @method static \Illuminate\Database\Eloquent\Builder|BaseModel act()
  * @method static \Illuminate\Database\Eloquent\Builder|BaseModel fullTextSearch($columns, $term)
  * @method static \Illuminate\Database\Eloquent\Builder|BaseModel fullTextSearchNoRelevance($columns, $term)
@@ -1323,6 +1366,31 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|UserCourseCombo whereUserId($value)
  */
 	class UserCourseCombo extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * App\Models\UserTeacherSkill
+ *
+ * @property int $user_id Id người dùng
+ * @property int $teacher_skill_id Id kĩ năng
+ * @property \Illuminate\Support\Carbon|null $created_at Ngày tạo
+ * @property \Illuminate\Support\Carbon|null $updated_at Ngày cập nhật
+ * @property-read \App\Models\TeacherSkill|null $teacherSkill
+ * @method static \Illuminate\Database\Eloquent\Builder|BaseModel act()
+ * @method static \Illuminate\Database\Eloquent\Builder|BaseModel fullTextSearch($columns, $term)
+ * @method static \Illuminate\Database\Eloquent\Builder|BaseModel fullTextSearchNoRelevance($columns, $term)
+ * @method static \Illuminate\Database\Eloquent\Builder|UserTeacherSkill newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|UserTeacherSkill newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|BaseModel ord()
+ * @method static \Illuminate\Database\Eloquent\Builder|UserTeacherSkill query()
+ * @method static \Illuminate\Database\Eloquent\Builder|BaseModel slug($slug, $table = null)
+ * @method static \Illuminate\Database\Eloquent\Builder|UserTeacherSkill whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|UserTeacherSkill whereTeacherSkillId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|UserTeacherSkill whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|UserTeacherSkill whereUserId($value)
+ */
+	class UserTeacherSkill extends \Eloquent {}
 }
 
 namespace App\Models{

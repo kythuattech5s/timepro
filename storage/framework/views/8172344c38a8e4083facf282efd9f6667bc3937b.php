@@ -7,7 +7,7 @@
 ?>
 <div class="pagination">
     <span class="total"><?php echo e(trans('db::number_record')); ?>: <strong><?php echo e($listData->total()); ?></strong></span>
-    <?php echo e($listData->withQueryString()->links('vh::vendor.pagination.pagination')); ?>
+    <?php echo e($listData->withQueryString()->links('vh::base.pagination')); ?>
 
 </div>
 <div id="no-more-tables" class="row m0">
@@ -158,7 +158,7 @@
     <div class="pagination">
         <span class="total"><?php echo e(trans('db::number_record')); ?>:<strong>
                 <?php echo e($listData->total()); ?></strong></span>
-        <?php echo e($listData->withQueryString()->links('vh::vendor.pagination.pagination')); ?>
+        <?php echo e($listData->withQueryString()->links('vh::base.pagination')); ?>
 
     </div>
 </div>
