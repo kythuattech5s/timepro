@@ -27,7 +27,29 @@ class Course extends BaseModel
     }
     public function isFree()
     {
-        return $this->timePackage()->count() == 0;
+        return $this->timePackage->count() == 0;
+    }
+    public function scopeBaseView($q)
+    {
+        return $q->act()->with(['teacher'=>function($q){
+            $q->teacher()->where('act',1)->where('banned',0);
+        },'timePackage'=>function($q){
+            $q->orderBy('price','asc');
+        }]);
+    }
+    public function getFirstPrice()
+    {
+        $ret = [];
+        $ret['price'] = '';
+        $ret['price_old'] = '';
+        $ret['sale_percent'] = 0;
+        $timePackage = $this->timePackage->first();
+        if (isset($timePackage)) {
+            $ret['price'] = $timePackage->price;
+            $ret['price_old'] = $timePackage->price_old;
+            $ret['sale_percent'] = $timePackage->price_old > $timePackage->price ? (int)(($timePackage->price_old - $timePackage->price)*100/$timePackage->price_old):0;
+        }
+        return $ret;
     }
     public function isOwn($user = null)
     {

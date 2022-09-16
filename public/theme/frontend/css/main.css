@@ -16,7 +16,8 @@
   font-display: swap;
   font-weight: 600;
 }
-body, html {
+body,
+html {
   font-family: "Averta", sans-serif;
 }
 
@@ -34,7 +35,8 @@ body::-webkit-scrollbar-thumb {
 }
 
 .container {
-  padding: 0 0.938rem;
+  padding-left: 0.938rem;
+  padding-right: 0.938rem;
 }
 
 a {
@@ -125,7 +127,6 @@ a:hover, a:focus {
 
 .rating-item p {
   font-size: 14px;
-  color: #454545;
 }
 
 .img_full img {
@@ -396,7 +397,8 @@ a:hover, a:focus {
   text-align: center;
   margin: 1.25rem 0;
 }
-.pagination strong, .pagination a {
+.pagination strong,
+.pagination a {
   display: -webkit-inline-box;
   display: -ms-inline-flexbox;
   display: inline-flex;
@@ -553,10 +555,79 @@ a:hover, a:focus {
      object-fit: cover;
 }
 
-.banner-teacher .breadcrumb span, .banner-teacher .breadcrumb a {
+.banner-teacher .breadcrumb span,
+.banner-teacher .breadcrumb a {
   color: #fff;
   background: unset;
   -webkit-text-fill-color: unset;
+}
+
+.section-categories {
+  background-size: 100%;
+}
+
+.payment-method__item input:checked ~ .payment-method__content::before {
+  border: 1px solid #AF1F26;
+}
+.payment-method__item input:checked ~ .payment-method__content::after {
+  display: block;
+}
+
+.payment-method__content {
+  padding-left: 32px;
+}
+.payment-method__content::before {
+  content: "";
+  width: 16px;
+  height: 16px;
+  border-radius: 100%;
+  border: 1px solid #888;
+  position: absolute;
+  top: 50%;
+  left: 0;
+  -webkit-transform: translateY(-50%);
+          transform: translateY(-50%);
+}
+.payment-method__content::after {
+  content: "";
+  width: 10px;
+  height: 10px;
+  background: #AF1F26;
+  border-radius: 100%;
+  position: absolute;
+  top: 50%;
+  left: 3px;
+  -webkit-transform: translateY(-50%);
+          transform: translateY(-50%);
+  display: none;
+}
+
+.bank-info__detail img {
+  max-height: 1.25rem;
+  -o-object-fit: scale-down;
+     object-fit: scale-down;
+  margin-bottom: 4px;
+}
+
+#map iframe {
+  width: 100%;
+  height: 100%;
+}
+
+.section-contact {
+  background-size: 100%;
+}
+
+.nav-link__new a.active {
+  border-bottom: 2px solid #F44336;
+}
+
+.line-clamp-3 {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: 3;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
 }
 
 @media (min-width: 992px) {
@@ -609,5 +680,58 @@ a:hover, a:focus {
 @media (max-width: 1534px) {
   .menu-footer ul li:not(:last-child) {
     margin-right: 1rem;
+  }
+}
+@media (max-width: 1023px) {
+  .menu {
+    position: fixed;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    max-width: min(350px, 80%);
+    height: 100%;
+    overflow-y: auto;
+    z-index: 100;
+    background-color: #fff;
+    display: block !important;
+    -webkit-transition: all 0.3s;
+    transition: all 0.3s;
+  }
+  .menu.active {
+    left: 0;
+  }
+  .menu .show-form-search {
+    display: none;
+  }
+  .menu ul li a {
+    display: block;
+    padding: 10px 15px;
+    color: #252525;
+    font-weight: 600;
+    border-top: 1px solid #252525;
+  }
+
+  .over-lay.show {
+    right: 0 !important;
+  }
+
+  .header {
+    -webkit-box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  }
+
+  .nav-link__new {
+    text-align: left !important;
+    overflow-x: auto;
+    white-space: nowrap;
+    padding-bottom: 0.5rem;
+  }
+  .nav-link__new a {
+    padding: 0 !important;
+  }
+}
+@media (max-width: 767px) {
+  .section-categories {
+    background-image: unset !important;
   }
 }

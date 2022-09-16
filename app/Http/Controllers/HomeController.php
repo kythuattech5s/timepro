@@ -5,7 +5,6 @@ class HomeController extends Controller
 {
     public function index()
     {
-        \Auth::user()->userCoursePaginage(10);
         return view('home');
     }
 }

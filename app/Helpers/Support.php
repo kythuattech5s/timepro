@@ -17,7 +17,12 @@ class Support
     {
         return \DateTime::createFromFormat($format, $string);
     }
-
+    public static function showDate($string, $format = 'H:i d-m-Y',$formatIn)
+    {
+        if (self::isDateTime($string,$formatIn)) {
+            return Carbon::parse($string)->format($format);
+        }
+    }
     public static function showDateTime($string, $format = 'H:i d-m-Y')
     {
         if (self::isDateTime($string)) {

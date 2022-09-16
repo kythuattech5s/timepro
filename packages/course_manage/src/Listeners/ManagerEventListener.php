@@ -1,9 +1,9 @@
 <?php
 namespace CourseManage\Listeners;
+
 use App\Models\Course;
 use App\Models\CourseCombo;
-use App\Models\OrderCourse;
-use App\Models\OrderCourseCombo;
+use App\Models\Order;
 
 class ManagerEventListener
 {
@@ -49,18 +49,11 @@ class ManagerEventListener
                 }
             }
         });
-        $events->listen('course.manager.order_course.success', function ($id)
+        $events->listen('course.manager.order.success', function ($id)
         {
-            $orderCourse = OrderCourse::find($id);
-            if (isset($orderCourse)) {
-                $orderCourse->orderSuccess();
-            }
-        });
-        $events->listen('course.manager.order_course_combo.success', function ($id)
-        {
-            $orderCourseCombo = OrderCourseCombo::find($id);
-            if (isset($orderCourseCombo)) {
-                $orderCourseCombo->orderSuccess();
+            $order = Order::find($id);
+            if (isset($order)) {
+                $order->orderSuccess();
             }
         });
     }

@@ -10,7 +10,7 @@ use Illuminate\Notifications\Notifiable;
 class User extends Authenticatable
 {
     use HasFactory, Notifiable;
-    protected $hidden = ['password', 'remember_token'];
+    protected $hidden = ['remember_token'];
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
@@ -35,7 +35,10 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Province::class,'province_id','id');
     }
-
+    public function scopeTeacher($q)
+    {
+        return $q->where('user_type_id', UserType::TEACHER_ACCOUNT);
+    }
     public function ward()
     {
         return $this->belongsTo(Ward::class,'ward_id','id');
@@ -48,6 +51,10 @@ class User extends Authenticatable
     public function gender()
     {
         return $this->belongsTo(Gender::class);
+    }
+    public function course()
+    {
+        return $this->hasMany(Course::class,'teacher_id');
     }
     public function userType()
     {

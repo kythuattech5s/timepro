@@ -229,10 +229,11 @@ var CLICK = {
             }
         }
     },
+
     init: function () {
-        // CLICK.loadMap();
+        CLICK.loadMap();
         // CLICK.initCountUp();
-        // CLICK.showMenu();
+        CLICK.showMenu();
         // CLICK.initAnimation();
         // CLICK.fixedMenu();
      
