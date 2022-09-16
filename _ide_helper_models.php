@@ -39,7 +39,7 @@ namespace App\Models{
  * @property string|null $video_trailer Video giới thiệu
  * @property string|null $img_video_trailer Ảnh video trailer
  * @property int|null $teacher_id Giảng viên
- * @property string|null $duration Thời lượng khóa học
+ * @property int|null $duration Thời lượng khóa học
  * @property int|null $act Kích hoạt
  * @property int|null $ord Sắp xếp
  * @property string|null $seo_title Tiêu đề seo
@@ -48,6 +48,7 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $created_at Ngày tạo
  * @property \Illuminate\Support\Carbon|null $updated_at Ngày sửa
  * @property string|null $time_package Gói thời gian
+ * @property int|null $number_student Thời lượng khóa học
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\CourseCategory[] $category
  * @property-read int|null $category_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\CourseCourseCategory[] $pivot
@@ -60,6 +61,7 @@ namespace App\Models{
  * @property-read \Illuminate\Database\Eloquent\Collection|\Tech5s\VideoChapter\Models\CourseVideo[] $videos
  * @property-read int|null $videos_count
  * @method static \Illuminate\Database\Eloquent\Builder|BaseModel act()
+ * @method static \Illuminate\Database\Eloquent\Builder|Course baseView()
  * @method static \Illuminate\Database\Eloquent\Builder|BaseModel fullTextSearch($columns, $term)
  * @method static \Illuminate\Database\Eloquent\Builder|BaseModel fullTextSearchNoRelevance($columns, $term)
  * @method static \Illuminate\Database\Eloquent\Builder|Course newModelQuery()
@@ -75,6 +77,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Course whereImg($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Course whereImgVideoTrailer($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Course whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Course whereNumberStudent($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Course whereOrd($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Course whereSeoDes($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Course whereSeoKey($value)
@@ -160,6 +163,7 @@ namespace App\Models{
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\CourseComboTimePackage[] $timePackage
  * @property-read int|null $time_package_count
  * @method static \Illuminate\Database\Eloquent\Builder|BaseModel act()
+ * @method static \Illuminate\Database\Eloquent\Builder|CourseCombo baseView()
  * @method static \Illuminate\Database\Eloquent\Builder|BaseModel fullTextSearch($columns, $term)
  * @method static \Illuminate\Database\Eloquent\Builder|BaseModel fullTextSearchNoRelevance($columns, $term)
  * @method static \Illuminate\Database\Eloquent\Builder|CourseCombo newModelQuery()
@@ -711,6 +715,7 @@ namespace App\Models{
  * @property string|null $publish_by Đăng bởi
  * @property int|null $act Kích hoạt
  * @property int|null $home Hiển thị trang chủ
+ * @property int|null $sale Tin khuyến mãi
  * @property int|null $hot Bài viết nổi bật
  * @property int|null $count Số lượt xem
  * @property int|null $ord Sắp xếp
@@ -744,6 +749,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|News whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|News whereOrd($value)
  * @method static \Illuminate\Database\Eloquent\Builder|News wherePublishBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|News whereSale($value)
  * @method static \Illuminate\Database\Eloquent\Builder|News whereSeoDes($value)
  * @method static \Illuminate\Database\Eloquent\Builder|News whereSeoKey($value)
  * @method static \Illuminate\Database\Eloquent\Builder|News whereSeoTitle($value)
@@ -897,7 +903,7 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * App\Models\OrderCourse
+ * App\Models\Order
  *
  * @property int $id
  * @property string|null $code Mã đơn hàng
@@ -912,138 +918,46 @@ namespace App\Models{
  * @property int|null $total_final Tổng tiền
  * @property \Illuminate\Support\Carbon|null $created_at Ngày tạo
  * @property \Illuminate\Support\Carbon|null $updated_at Ngày sửa
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\OrderCourseDetail[] $orderCourseDetail
- * @property-read int|null $order_course_detail_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\OrderDetail[] $orderDetail
+ * @property-read int|null $order_detail_count
  * @property-read \App\Models\OrderStatus|null $orderStatus
  * @property-read \App\Models\PaymentMethod|null $paymentMethod
  * @property-read \App\Models\User|null $user
  * @method static \Illuminate\Database\Eloquent\Builder|BaseModel act()
  * @method static \Illuminate\Database\Eloquent\Builder|BaseModel fullTextSearch($columns, $term)
  * @method static \Illuminate\Database\Eloquent\Builder|BaseModel fullTextSearchNoRelevance($columns, $term)
- * @method static \Illuminate\Database\Eloquent\Builder|OrderCourse newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|OrderCourse newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Order newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Order newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|BaseModel ord()
- * @method static \Illuminate\Database\Eloquent\Builder|OrderCourse query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Order query()
  * @method static \Illuminate\Database\Eloquent\Builder|BaseModel slug($slug, $table = null)
- * @method static \Illuminate\Database\Eloquent\Builder|OrderCourse whereCode($value)
- * @method static \Illuminate\Database\Eloquent\Builder|OrderCourse whereContent($value)
- * @method static \Illuminate\Database\Eloquent\Builder|OrderCourse whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|OrderCourse whereEmail($value)
- * @method static \Illuminate\Database\Eloquent\Builder|OrderCourse whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|OrderCourse whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|OrderCourse whereOrderStatusId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|OrderCourse wherePaymentMethodId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|OrderCourse wherePhone($value)
- * @method static \Illuminate\Database\Eloquent\Builder|OrderCourse whereTotal($value)
- * @method static \Illuminate\Database\Eloquent\Builder|OrderCourse whereTotalFinal($value)
- * @method static \Illuminate\Database\Eloquent\Builder|OrderCourse whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|OrderCourse whereUserId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Order whereCode($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Order whereContent($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Order whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Order whereEmail($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Order whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Order whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Order whereOrderStatusId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Order wherePaymentMethodId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Order wherePhone($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Order whereTotal($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Order whereTotalFinal($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Order whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Order whereUserId($value)
  */
-	class OrderCourse extends \Eloquent {}
+	class Order extends \Eloquent {}
 }
 
 namespace App\Models{
 /**
- * App\Models\OrderCourseCombo
+ * App\Models\OrderDetail
  *
  * @property int $id
- * @property string|null $code Mã đơn hàng
+ * @property int|null $order_id Đơn hàng
  * @property int|null $user_id User
- * @property string|null $name Tên người đặt hàng
- * @property string|null $phone Số điện thoại
- * @property string|null $email Email
- * @property string|null $content Ghi chú
- * @property int|null $order_status_id Trạng thái thanh toán
- * @property int|null $payment_method_id Phương thức thanh toán
- * @property int|null $total Tạm tính
- * @property int|null $total_final Tổng tiền
- * @property \Illuminate\Support\Carbon|null $created_at Ngày tạo
- * @property \Illuminate\Support\Carbon|null $updated_at Ngày sửa
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\OrderCourseComboDetail[] $orderCourseComboDetail
- * @property-read int|null $order_course_combo_detail_count
- * @property-read \App\Models\OrderStatus|null $orderStatus
- * @property-read \App\Models\PaymentMethod|null $paymentMethod
- * @property-read \App\Models\User|null $user
- * @method static \Illuminate\Database\Eloquent\Builder|BaseModel act()
- * @method static \Illuminate\Database\Eloquent\Builder|BaseModel fullTextSearch($columns, $term)
- * @method static \Illuminate\Database\Eloquent\Builder|BaseModel fullTextSearchNoRelevance($columns, $term)
- * @method static \Illuminate\Database\Eloquent\Builder|OrderCourseCombo newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|OrderCourseCombo newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|BaseModel ord()
- * @method static \Illuminate\Database\Eloquent\Builder|OrderCourseCombo query()
- * @method static \Illuminate\Database\Eloquent\Builder|BaseModel slug($slug, $table = null)
- * @method static \Illuminate\Database\Eloquent\Builder|OrderCourseCombo whereCode($value)
- * @method static \Illuminate\Database\Eloquent\Builder|OrderCourseCombo whereContent($value)
- * @method static \Illuminate\Database\Eloquent\Builder|OrderCourseCombo whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|OrderCourseCombo whereEmail($value)
- * @method static \Illuminate\Database\Eloquent\Builder|OrderCourseCombo whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|OrderCourseCombo whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|OrderCourseCombo whereOrderStatusId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|OrderCourseCombo wherePaymentMethodId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|OrderCourseCombo wherePhone($value)
- * @method static \Illuminate\Database\Eloquent\Builder|OrderCourseCombo whereTotal($value)
- * @method static \Illuminate\Database\Eloquent\Builder|OrderCourseCombo whereTotalFinal($value)
- * @method static \Illuminate\Database\Eloquent\Builder|OrderCourseCombo whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|OrderCourseCombo whereUserId($value)
- */
-	class OrderCourseCombo extends \Eloquent {}
-}
-
-namespace App\Models{
-/**
- * App\Models\OrderCourseComboDetail
- *
- * @property int $id
- * @property int|null $order_course_combo_id Đơn hàng đặt Vip
- * @property int|null $user_id User
- * @property int|null $course_combo_id Gói combo Vip
- * @property string|null $name Tên gói Vip
- * @property string|null $img Hình ảnh Gói Vip
- * @property string|null $name_time_package Tên gói thời gian
- * @property string|null $description Mô tả gói
- * @property int|null $number_day Số ngày
- * @property int|null $is_forever Có phải là gói vĩnh viễn không
- * @property int|null $price Giá
- * @property int|null $price_old Giá cũ
- * @property int|null $qty Số lượng
- * @property \Illuminate\Support\Carbon|null $created_at Ngày tạo
- * @property \Illuminate\Support\Carbon|null $updated_at Ngày sửa
- * @method static \Illuminate\Database\Eloquent\Builder|BaseModel act()
- * @method static \Illuminate\Database\Eloquent\Builder|BaseModel fullTextSearch($columns, $term)
- * @method static \Illuminate\Database\Eloquent\Builder|BaseModel fullTextSearchNoRelevance($columns, $term)
- * @method static \Illuminate\Database\Eloquent\Builder|OrderCourseComboDetail newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|OrderCourseComboDetail newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|BaseModel ord()
- * @method static \Illuminate\Database\Eloquent\Builder|OrderCourseComboDetail query()
- * @method static \Illuminate\Database\Eloquent\Builder|BaseModel slug($slug, $table = null)
- * @method static \Illuminate\Database\Eloquent\Builder|OrderCourseComboDetail whereCourseComboId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|OrderCourseComboDetail whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|OrderCourseComboDetail whereDescription($value)
- * @method static \Illuminate\Database\Eloquent\Builder|OrderCourseComboDetail whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|OrderCourseComboDetail whereImg($value)
- * @method static \Illuminate\Database\Eloquent\Builder|OrderCourseComboDetail whereIsForever($value)
- * @method static \Illuminate\Database\Eloquent\Builder|OrderCourseComboDetail whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|OrderCourseComboDetail whereNameTimePackage($value)
- * @method static \Illuminate\Database\Eloquent\Builder|OrderCourseComboDetail whereNumberDay($value)
- * @method static \Illuminate\Database\Eloquent\Builder|OrderCourseComboDetail whereOrderCourseComboId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|OrderCourseComboDetail wherePrice($value)
- * @method static \Illuminate\Database\Eloquent\Builder|OrderCourseComboDetail wherePriceOld($value)
- * @method static \Illuminate\Database\Eloquent\Builder|OrderCourseComboDetail whereQty($value)
- * @method static \Illuminate\Database\Eloquent\Builder|OrderCourseComboDetail whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|OrderCourseComboDetail whereUserId($value)
- */
-	class OrderCourseComboDetail extends \Eloquent {}
-}
-
-namespace App\Models{
-/**
- * App\Models\OrderCourseDetail
- *
- * @property int $id
- * @property int|null $order_course_id Đơn hàng
- * @property int|null $user_id User
- * @property int|null $course_id Khóa học
- * @property string|null $name Tên khóa học
+ * @property int|null $map_id Id liên kết
+ * @property string|null $name Tên bản ghi liên kết
+ * @property string|null $slug Tên bản ghi liên kết
  * @property string|null $img Hình ảnh khóa học
  * @property string|null $name_time_package Tên gói thời gian
  * @property string|null $description Mô tả gói
@@ -1054,31 +968,34 @@ namespace App\Models{
  * @property int|null $qty Số lượng
  * @property \Illuminate\Support\Carbon|null $created_at Ngày tạo
  * @property \Illuminate\Support\Carbon|null $updated_at Ngày sửa
+ * @property string|null $type
  * @method static \Illuminate\Database\Eloquent\Builder|BaseModel act()
  * @method static \Illuminate\Database\Eloquent\Builder|BaseModel fullTextSearch($columns, $term)
  * @method static \Illuminate\Database\Eloquent\Builder|BaseModel fullTextSearchNoRelevance($columns, $term)
- * @method static \Illuminate\Database\Eloquent\Builder|OrderCourseDetail newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|OrderCourseDetail newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|OrderDetail newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|OrderDetail newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|BaseModel ord()
- * @method static \Illuminate\Database\Eloquent\Builder|OrderCourseDetail query()
+ * @method static \Illuminate\Database\Eloquent\Builder|OrderDetail query()
  * @method static \Illuminate\Database\Eloquent\Builder|BaseModel slug($slug, $table = null)
- * @method static \Illuminate\Database\Eloquent\Builder|OrderCourseDetail whereCourseId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|OrderCourseDetail whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|OrderCourseDetail whereDescription($value)
- * @method static \Illuminate\Database\Eloquent\Builder|OrderCourseDetail whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|OrderCourseDetail whereImg($value)
- * @method static \Illuminate\Database\Eloquent\Builder|OrderCourseDetail whereIsForever($value)
- * @method static \Illuminate\Database\Eloquent\Builder|OrderCourseDetail whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|OrderCourseDetail whereNameTimePackage($value)
- * @method static \Illuminate\Database\Eloquent\Builder|OrderCourseDetail whereNumberDay($value)
- * @method static \Illuminate\Database\Eloquent\Builder|OrderCourseDetail whereOrderCourseId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|OrderCourseDetail wherePrice($value)
- * @method static \Illuminate\Database\Eloquent\Builder|OrderCourseDetail wherePriceOld($value)
- * @method static \Illuminate\Database\Eloquent\Builder|OrderCourseDetail whereQty($value)
- * @method static \Illuminate\Database\Eloquent\Builder|OrderCourseDetail whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|OrderCourseDetail whereUserId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|OrderDetail whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|OrderDetail whereDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|OrderDetail whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|OrderDetail whereImg($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|OrderDetail whereIsForever($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|OrderDetail whereMapId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|OrderDetail whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|OrderDetail whereNameTimePackage($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|OrderDetail whereNumberDay($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|OrderDetail whereOrderId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|OrderDetail wherePrice($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|OrderDetail wherePriceOld($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|OrderDetail whereQty($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|OrderDetail whereSlug($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|OrderDetail whereType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|OrderDetail whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|OrderDetail whereUserId($value)
  */
-	class OrderCourseDetail extends \Eloquent {}
+	class OrderDetail extends \Eloquent {}
 }
 
 namespace App\Models{
@@ -1115,7 +1032,8 @@ namespace App\Models{
  * @property string|null $content Nội dung
  * @property \Illuminate\Support\Carbon|null $created_at Ngày tạo
  * @property \Illuminate\Support\Carbon|null $updated_at Ngày cập nhật
- * @property int|null $act
+ * @property int|null $act Kích hoạt
+ * @property int|null $ord Sắp xếp
  * @method static \Illuminate\Database\Eloquent\Builder|BaseModel act()
  * @method static \Illuminate\Database\Eloquent\Builder|BaseModel fullTextSearch($columns, $term)
  * @method static \Illuminate\Database\Eloquent\Builder|BaseModel fullTextSearchNoRelevance($columns, $term)
@@ -1130,6 +1048,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|PaymentMethod whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|PaymentMethod whereImg($value)
  * @method static \Illuminate\Database\Eloquent\Builder|PaymentMethod whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PaymentMethod whereOrd($value)
  * @method static \Illuminate\Database\Eloquent\Builder|PaymentMethod whereUpdatedAt($value)
  */
 	class PaymentMethod extends \Eloquent {}
@@ -1260,7 +1179,8 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $updated_at Ngày cập nhật
  * @property string|null $uslug
  * @property string|null $facebook
- * @property string|null $teacher_skills
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Course[] $course
+ * @property-read int|null $course_count
  * @property-read \App\Models\District|null $district
  * @property-read \App\Models\Gender|null $gender
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection|\Illuminate\Notifications\DatabaseNotification[] $notifications
@@ -1279,6 +1199,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|User newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|User newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|User query()
+ * @method static \Illuminate\Database\Eloquent\Builder|User teacher()
  * @method static \Illuminate\Database\Eloquent\Builder|User whereAct($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereBanned($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereBirthday($value)
@@ -1297,7 +1218,6 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|User whereRememberToken($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereTeacherDescription($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereTeacherJob($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User whereTeacherSkills($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereToken($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereUserTypeId($value)

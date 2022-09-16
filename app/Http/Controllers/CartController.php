@@ -15,6 +15,11 @@ use Tech5sCart;
 class CartController extends Controller
 {
     protected $cartInstance = ['course','vip'];
+    public function __construct()
+    {
+        parent::__construct();
+        $this->_resetQtyItemCart();   
+    }
     public function action(Request $request,$action)
     {
         switch ($action) {
@@ -35,15 +40,18 @@ class CartController extends Controller
                 break;
         }
     }
-    protected function _resetQtyItemCart($newItem){
-        foreach (Tech5sCart::content() as $item) {
-            if ($item->id == $newItem->id && $item->rowId != $newItem->rowId) {
-                Tech5sCart::update($item->rowId,0,false);
-            }else{
-                Tech5sCart::update($item->rowId,1,false);
+    protected function _resetQtyItemCart($newItem = null){
+        foreach ($this->cartInstance as $itemCartInstance) {
+            Tech5sCart::instance($itemCartInstance);
+            foreach (Tech5sCart::content() as $item) {
+                if (isset($newItem) && $item->id == $newItem->id && $item->rowId != $newItem->rowId) {
+                    Tech5sCart::update($item->rowId,0,false);
+                }else{
+                    Tech5sCart::update($item->rowId,1,false);
+                }
             }
+            Tech5sCart::store();
         }
-        Tech5sCart::store();
     }
     protected function validatorAddCartItem(array $data)
     {
@@ -245,6 +253,9 @@ class CartController extends Controller
                     Tech5sCart::update($item->rowId,0);
                 }
             }
+        }
+        if (count($listItems) == 0) {
+            return Support::redirectTo(\VRoute::get("viewCart"),100,'Bạn chưa có sản phẩm nào trong giỏ hàng');
         }
         $listPaymentMethod = PaymentMethod::act()->orderBy('ord','asc')->get();
         return view('carts.view_payment',compact('listItems','currentItem','totalMoney','user','listPaymentMethod'));

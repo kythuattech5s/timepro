@@ -12,6 +12,7 @@ use Auth;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Validator;
+use Support;
 use Tech5sCart;
 
 class OrderController extends Controller
@@ -78,8 +79,6 @@ class OrderController extends Controller
                     $item->itemTimePackage = $itemTimePackage;
                     $totalMoney += $item->price;
                     array_push($listItems,$item);
-                }else{
-                    Tech5sCart::update($item->rowId,0);
                 }
             }
         }
@@ -90,9 +89,14 @@ class OrderController extends Controller
             ]);
         }
         $order = $this->createOrder($listItems,$totalMoney,$userOrerData,$user);
+        foreach ($this->cartInstance as $itemCartInstance) {
+            Tech5sCart::instance($itemCartInstance);
+            Tech5sCart::destroy();
+        }
         return response()->json([
             'code' => 200,
-            'redirect_url' => \VRoute::get("paymentSucess").'/'.$order->id
+            'message' => 'Đặt hàng thành công',
+            'redirect_url' => \VRoute::get("paymentSucess").'?order='.$order->code
         ]);
     }
     public function createOrder($listItems,$totalMoney,$userOrerData,$user)
@@ -108,9 +112,8 @@ class OrderController extends Controller
         $order->total = $totalMoney;
         $order->total_final = $totalMoney;
         $order->save();
-        $order->code = 'TPORD-'.$order->id;
+        $order->code = 'TPORD_'.$order->id;
         $order->save();
-        
         foreach ($listItems as $item) {
             $orderDetail = new OrderDetail;
             $orderDetail->order_id = $order->id;
@@ -129,6 +132,21 @@ class OrderController extends Controller
             $orderDetail->qty = 1;
             $orderDetail->save();
         }
-        var_dump(1);die();
+        return $order;
+    }
+    public function orderSuccess(Request $request,$route)
+    {
+        if (!Auth::check()) {
+            return Support::redirectTo(\VRoute::get("home"),100,'Không tìm thấy thông tin đơn hàng');
+        }
+        $order = Order::with('user','paymentMethod','orderStatus','orderDetail')
+                        ->where('user_id',Auth::id())
+                        ->where('code',$request->order ?? '')
+                        ->first();
+        if (!isset($order)) {
+            return Support::redirectTo(\VRoute::get("home"),100,'Không tìm thấy thông tin đơn hàng');
+        }
+        $currentItem = $route instanceof \vanhenry\manager\model\VRoute ? $route:\vanhenry\manager\model\VRoute::find($route->id ?? 0);
+        return view('carts.order_success',compact('currentItem','order'));
     }
 }

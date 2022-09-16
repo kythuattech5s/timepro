@@ -11,8 +11,6 @@ class OrderCourseManageController extends BaseAdminController
     public function viewOrder (Request $request)
     {
         $order = Order::with('user','paymentMethod','orderStatus','orderDetail')->find($request->id);
-        $order->orderSuccess();
-        dd(1);
         if (!isset($order)) {
             if (isset($request->returnurl)) {
                 return redirect(base64_decode($request->returnurl));

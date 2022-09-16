@@ -16760,7 +16760,7 @@
          * @return bool 
          * @static 
          */ 
-        public static function merge($identifier, $keepDiscount = false, $keepTax = false, $dispatchAdd = true, $instance = 'default')
+        public static function merge($identifier, $keepDiscount = false, $keepTax = false, $dispatchAdd = true, $instance = 'course')
         {
                         /** @var \Tech5sShoppingCart\Tech5sCart\Tech5sCart $instance */
                         return $instance->merge($identifier, $keepDiscount, $keepTax, $dispatchAdd, $instance);
