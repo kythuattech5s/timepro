@@ -212,3 +212,6 @@
         </div>
     </section>
 @endsection
+@section('js')
+    <script type="module" src="{'video/js/app.js'}" defer></script>
+@endsection
