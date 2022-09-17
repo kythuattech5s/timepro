@@ -238,4 +238,27 @@ class Support
         }
         while (true);
     }
+    public static function settingExcel($event)
+    {
+        $default_font_style = [
+            'font' => ['name' => 'Arial', 'size' => 12],
+        ];
+        $heading = [
+            'font' => ['bold' => true],
+        ];
+        $styleArray = [
+            'borders' => [
+                'allBorders' => [
+                    'borderStyle' => \PhpOffice\PhpSpreadsheet\Reader\Xls\Style\Border::lookup(0x01),
+                ],
+            ],
+        ];
+        $active_sheet = $event->sheet->getDelegate();
+        $column = $active_sheet->getColumnDimensions();
+        $columnHeading = "A1:" . end($column)->getColumnIndex() . '1';
+        $cells = $active_sheet->getActiveCell() . ':' . $active_sheet->getCellCollection()->getCurrentCoordinate();
+        $active_sheet->getParent()->getDefaultStyle()->applyFromArray($default_font_style);
+        $active_sheet->getStyle($cells)->applyFromArray($styleArray);
+        $active_sheet->getStyle($columnHeading)->applyFromArray($heading);
+    }
 }
