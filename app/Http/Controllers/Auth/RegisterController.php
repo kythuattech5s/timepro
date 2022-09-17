@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
+use App\Helpers\UserWallet\WalletHelper;
 use App\Models\User;
 use Support;
 use VRoute;
@@ -91,6 +92,7 @@ class RegisterController extends Controller
             return Support::sendResponse(100,$validator->errors()->first(),\VRoute::get("register"));
         }
         $user = $this->createUser($request->all());
+        WalletHelper::create($user);
         Auth::login($user);
         return Support::sendResponse(200,'Đăng kí tài khoản thành công',\VRoute::get('profile'));
     }
@@ -100,6 +102,7 @@ class RegisterController extends Controller
         $user->name = isset($data['name']) ? $data['name']:'';
         $user->email = isset($data['email']) ? $data['email']:'';
         $user->phone = isset($data['phone']) ? $data['phone']:'';
+        $user->uslug = \Support::generateSlug('users', \Str::slug($user->name,'-'),'uslug');
         $user->last_login_time = now();
         $user->created_at = now();
         $user->updated_at = now();

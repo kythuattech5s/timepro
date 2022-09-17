@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use vanhenry\helpers\helpers\SettingHelper;
 use App\Models\{Page};
 
-class PageController extends Controller
+class StaticController extends Controller
 {
     public function contact($request, $route, $link){
         return view('pages.contact');
