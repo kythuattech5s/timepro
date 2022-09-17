@@ -1,0 +1,10 @@
+<?php
+
+namespace Tech5s\Promotion\Helpers;
+
+class FlashSaleDetailHelper
+{
+    const SESSION_PRODUCT_CURRENT = 'SESSION_PRODUCT_FLASHSALE_SHOP';
+    const SESSION_PRODUCT_REAL = 'SESSION_PRODUCT_FLASHSALE_REAL';
+    const SESSION_PRODUCT_REMOVE = 'SESSION_PRODUCT_FLASHSALE_DELETE';
+}

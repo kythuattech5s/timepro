@@ -1,1 +1,0 @@
-<p align="center"><a href="https://tech5s.com.vn/" target="_blank"><img src="https://tech5s.com.vn/theme/frontend/images/logo3.png" width="400"></a></p>
