@@ -127,12 +127,6 @@ a:hover {
     border: 1px solid transparent;
 }
 
-.flex {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
 .navigation {
     height: 100%;
     position: relative;

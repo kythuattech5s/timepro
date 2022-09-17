@@ -76,13 +76,6 @@
     @yield('main')
     @include('layouts.footer')
     {[CMS_FOOTER]}
-    <script src="theme/frontend/tech5s_js/tech5s_base.min.js" defer></script>
-    <script src="theme/frontend/tech5s_js/libraries/Tech.js" defer></script>
-    <script src="theme/frontend/tech5s_js/libraries/BackToTop.js" defer></script>
-    <script src="theme/frontend/js/wow.min.js" defer></script>
-    <script src="theme/frontend/js/fslightbox.js" defer></script>
-    <script src="theme/frontend/js/swiper-bundle.min.js" defer></script>
-    <script src="theme/frontend/js/tabs.js" defer></script>
     <script src="{{ Support::asset('theme/frontend/js/xhr.js') }}" defer></script>
     <script src="{{ Support::asset('theme/frontend/js/validator.js') }}" defer></script>
     <script src="{{ Support::asset('theme/frontend/js/toastify.js') }}" defer></script>
