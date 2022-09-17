@@ -25,7 +25,7 @@ class CourseVideo extends Model
     {
         return $this->belongsToMany(User::class, 'course_video_user', 'course_video_id', 'user_id');
     }
-    
+
     public function getDurationView()
     {
         return sprintf('%02d giờ %02d phút', ($this->duration / 3600), $this->duration / 60 % 60);
