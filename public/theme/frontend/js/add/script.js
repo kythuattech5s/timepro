@@ -19,9 +19,22 @@ var MORE_FUNCTION = (function(){
 			}
 		}
 	}
+	var configDatetimeRange = function(){
+		var time_range_flatpickr = document.querySelectorAll('[time_range_flatpickr]');
+		time_range_flatpickr.forEach((item) => {
+			flatpickr(item, {
+                enableTime: false,
+                dateFormat: "d/m/Y",
+                mode: "range",
+                locale: "vn",
+                maxDate: new Date()
+            });
+		});
+	}
 	return{
 		init:function(){
 			closeModal();
+			configDatetimeRange();
 		},
 		showModal:function(element){
 			showModal(element);

@@ -7,7 +7,7 @@
 </div>
 <div class="main-breadcrumb py-4 hidden">
     <div class="container">
-        {{Breadcrumbs::render('contact')}}
+        {{Breadcrumbs::render('static',trans('fdb::contact'),\VRoute::get('contact'))}}
     </div>
 </div>
 <section class="section-contact 2xl:py-14 py-6 bg-no-repeat" style="background-image: url('theme/frontend/images/bg-contact.png');">
