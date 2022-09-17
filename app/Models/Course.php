@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use phpDocumentor\Reflection\Types\This;
 use Roniejisa\Comment\Traits\GetDataComment;
 use Tech5s\VideoChapter\Traits\VideoSouceTrait;
 
@@ -165,7 +166,18 @@ class Course extends BaseModel
         $this->time_package = json_encode($timePackages);
         $this->save();
     }
-
+    public function percentComplete($userId = null)
+    {
+        return 0;
+        $videoCount = $this->videos()->count();
+        if ($videoCount == 0) {
+            return 0;
+        }
+        $countVideoDone = $this->videos()->whereHas('courseVideoUser',function($q) use ($userId) {
+                                            $q->where('user_id',$userId);
+                                        })->count();
+        return floor($countVideoDone*100/$videoCount,2);
+    }
     public function percentStudy()
     {
         $videos = $this->videos;
