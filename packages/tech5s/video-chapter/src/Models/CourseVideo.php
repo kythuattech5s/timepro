@@ -14,4 +14,12 @@ class CourseVideo extends Model
     {
         return $this->belongsTo(Course::class);
     }
+    public function getDurationView()
+    {
+        return sprintf('%02d giờ %02d phút',($this->duration/3600),$this->duration/60%60);
+    }
+    public function isFree()
+    {
+        return $this->type == 0;
+    }
 }

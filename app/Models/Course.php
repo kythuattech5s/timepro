@@ -17,6 +17,26 @@ class Course extends BaseModel
     {
     	return $this->belongsToMany(CourseCategory::class);
     }
+    public function getRelates()
+    {
+        $category = $this->category()->act()->first();
+        if ($category == null) {
+            return null;
+        }
+        return $category->course();
+    }
+    public function getRelatesCollection($limit){
+        $relate = $this->getRelates();
+        return $relate?$relate->baseView()->where('id','!=',$this->id)->take($limit)->get():collect();
+    }
+    public function getDurationView()
+    {
+        return sprintf('%02d giờ %02d phút',($this->duration/60),$this->duration%60);
+    }
+    public function getCountDocument()
+    {
+        return 'Đợi code';
+    }
     public function timePackage()
     {
         return $this->hasMany(CourseTimePackage::class);

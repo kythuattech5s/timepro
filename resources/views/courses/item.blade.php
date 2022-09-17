@@ -13,7 +13,7 @@
             class="info-course z-[1] text-white absolute bottom-0 left-0 w-full bg-[rgba(0,0,0,.35)] py-1 px-6 flex items-center justify-between">
             <span class="item md:text-[0.875rem]">
                 <img src="theme/frontend/images/users.svg" class="mr-1 inline-block w-6 h-6 object-contain" alt="user">
-                {{Support::show($item,'number_student')}}
+                {{$item->number_student+$plusMoreStudentNumber}}
             </span>
             <span class="item md:text-[0.875rem]">
                 <img src="theme/frontend/images/time.svg" class="mr-1 inline-block w-6 h-6 object-contain" alt="time">
