@@ -3,6 +3,8 @@ namespace App\Helpers\UserWallet;
 use Illuminate\Support\Facades\Hash;
 use App\Models\{UserWallet,UserWalletTransaction};
 use SettingHelper;
+use Support;
+
 class WalletHelper{
 
 	const PERFIX_CODE_WALLET_TRANSACTION = 'WALLET-TIMES-PRO-';

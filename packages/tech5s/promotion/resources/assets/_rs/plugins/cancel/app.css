@@ -1,0 +1,114 @@
+@media (min-width: 767px) {
+    #cancelOrder .modal-dialog {
+        max-width: 630px !important;
+    }
+}
+
+#cancelOrder .content-header {
+    position: relative;
+    padding: 15px 15px 15px 40px;
+    border-radius: 10px;
+    background: #edf2f7;
+    border: 1px solid #edf2f7;
+    margin-top: 15px;
+    margin-bottom: 20px;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.5;
+}
+
+#cancelOrder .content-header::before {
+    content: "";
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    border-radius: 100%;
+    width: 16px;
+    height: 16px;
+    border: 1px solid #ff3b4d;
+}
+
+#cancelOrder .content-header::after {
+    content: "";
+    position: absolute;
+    left: 19px;
+    top: 50%;
+    width: 10px;
+    border-radius: 100%;
+    background: #ff3b4d;
+    height: 10px;
+    transform: translateY(-50%);
+    opacity: 1;
+}
+
+#cancelOrder .modal-header .btn-close {
+    border: none;
+    background: transparent;
+}
+
+#cancelOrder .modal-header,
+#cancelOrder .modal-footer {
+    border: none;
+}
+
+#cancelOrder .modal-footer {
+    margin-top: 24px;
+}
+
+#cancelOrder .group-items .item label {
+    cursor: pointer;
+    position: relative;
+    padding-left: 8px;
+}
+
+#cancelOrder .group-items .item label::before {
+    content: "";
+    position: absolute;
+    left: -20px;
+    top: 50%;
+    transform: translateY(-50%);
+    border-radius: 100%;
+    width: 16px;
+    height: 16px;
+    border: 1px solid #dfdfdf;
+}
+
+#cancelOrder .group-items .item input:checked+label::after {
+    opacity: 1;
+}
+
+#cancelOrder .group-items .item input:checked+label::before {
+    border: 1px solid #ff3b4d;
+}
+
+#cancelOrder .group-items .item label::after {
+    content: "";
+    position: absolute;
+    left: -17px;
+    top: 50%;
+    width: 10px;
+    height: 10px;
+    border-radius: 100%;
+    background: #ff3b4d;
+    transform: translateY(-50%);
+    opacity: 0;
+}
+
+#cancelOrder .group-items .item {
+    margin-top: 16px;
+    padding: 0 24px;
+    font-size: 14px;
+    font-weight: 400;
+    cursor: pointer;
+}
+
+.reason-cancel {
+    padding: 10px 20px;
+    border-radius: 10px;
+    background: #efefef;
+}
+
+.reason-cancel span {
+    font-weight: bold;
+}

@@ -343,4 +343,38 @@ class RSCustom
     {
         return $node == null ? $default : $node->$attribute;
     }
+
+
+    //
+
+    public static function getTimeOfVideo($time, $separator = [
+        'hour' => ':',
+        'minute' => ':'
+    ])
+    {
+
+        $hours = floor($time / 3600);
+        $minutes = floor(($time - $hours * 3600) / 60);
+        $seconds = $time - $hours * 3600 - $minutes * 60;
+
+        if ($hours < 10) {
+            $hours = "0" . $hours;
+        }
+        if ($minutes < 10) {
+            $minutes = "0" . $minutes;
+        }
+        if ($seconds < 10) {
+            $seconds =
+                "0" . floor(round($seconds * 10) / 10);
+        }
+        if ((int) $hours  > 0 && (int) $minutes > 0) {
+            return $hours . $separator['hour'] . $minutes . $separator['minute'] . $seconds;
+        } elseif (isset($separator['second']) && (int) $minutes > 0) {
+            return $minutes . $separator['minute'] . $seconds;
+        } elseif (isset($separator['second'])) {
+            return $seconds . $separator['second'];
+        } else {
+            return $minutes . $separator['minute'] . $seconds;
+        }
+    }
 }
