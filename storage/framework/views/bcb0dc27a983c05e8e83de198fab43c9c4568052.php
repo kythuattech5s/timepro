@@ -7,6 +7,7 @@
     <?php echo SEOHelper::HEADER_SEO(@$currentItem ? $currentItem : null); ?>
 
     <link rel="stylesheet" href="<?php echo e(Support::asset('theme/frontend/css/toastify.css')); ?>"/>
+    <script src="https://cdn.tailwindcss.com"></script>
     <?php echo $__env->yieldContent('cssl'); ?>
     <?php echo $__env->yieldContent('css'); ?>
     <script type="text/javascript">
@@ -30,8 +31,9 @@
     <script src="<?php echo e(Support::asset('theme/frontend/js/toastify.js')); ?>" defer></script>
     <?php echo $__env->yieldContent('jsl'); ?>
     <script src="<?php echo e(Support::asset('theme/frontend/js/base.js')); ?>" defer></script>
+    <script src="<?php echo e(Support::asset('theme/frontend/js/cart.js')); ?>" defer></script>
     <?php echo $__env->yieldContent('js'); ?>
-    <script src="<?php echo e(Support::asset('theme/frontend/js/add/scrip.js')); ?>" defer></script>
+    <script src="<?php echo e(Support::asset('theme/frontend/js/add/script.js')); ?>" defer></script>
 </body>
 </html>
 <?php /**PATH D:\laragon\www\timepro\resources\views/index.blade.php ENDPATH**/ ?>

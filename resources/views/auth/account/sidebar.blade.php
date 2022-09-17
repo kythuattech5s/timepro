@@ -1,4 +1,7 @@
-<?php $user = Auth::user(); ?>
+<?php 
+    $user = Auth::user(); 
+    $wallet = $user->wallet()->first();
+?>
 <div class="box-info-student bg-white p-4 rounded mb-2">
     @if(Support::show($user,'img'))
     <span class="ava block mx-auto 2xl:w-40 2xl:h-40 lg:w-24 lg:h-24 w-20 h-20 rounded-full overflow-hidden mb-4">
@@ -29,9 +32,9 @@
     <div class="box-wallet flex items-center justify-between gap-4">
         <div class="wallet-balance">
             <p class="title font-semibold text-[0.75rem] mb-1">Số dư ví: </p>
-            <p class="price font-bold lg:text-[1.125rem] text-[1rem] color-gradient">3.000.000đ</p>
+            <p class="price font-bold lg:text-[1.125rem] text-[1rem] color-gradient">{{Currency::showMoney(Support::show($wallet,'amount_available'))}}</p>
         </div>
-        <a href="nap-tien" title="Nạp tiền" class="btn btn-red-gradien inline-flex items-center justify-center font-semibold text-white py-2 px-4 rounded-[1.25rem] bg-gradient-to-r from-[#F44336] to-[#C62828] shadow-[0_6px_20px_rgba(178,30,37,.4)]">
+        <a href="{{\VRoute::get('deposit_wallet')}}" title="Nạp tiền" class="btn btn-red-gradien inline-flex items-center justify-center font-semibold text-white py-2 px-4 rounded-[1.25rem] bg-gradient-to-r from-[#F44336] to-[#C62828] shadow-[0_6px_20px_rgba(178,30,37,.4)]">
             <svg width="25" height="24" class="inline-block mr-2" viewBox="0 0 25 24" fill="none"
                 xmlns="http://www.w3.org/2000/svg">
                 <path d="M17.5019 6.99832V5.9979C17.5019 4.89287 16.6061 3.99707 15.5011 3.99707H5.99714C4.61585 3.99707 3.49609 5.11682 3.49609 6.49811V18.5031C3.49609 19.8844 4.61585 21.0042 5.99714 21.0042H19.0026C20.3838 21.0042 21.5036 19.8844 21.5036 18.5031V8.99915C21.5036 7.89412 20.6078 6.99832 19.5028 6.99832H3.49609" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />

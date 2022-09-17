@@ -5,13 +5,13 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
-use App\Http\Traits\Auth\UpgradeVip;
+use App\Http\Traits\Auth\{UpgradeVip,UserWallet};
 use App\Models\{User,Province};
 use Validator;
 use Support;
 class AccountController extends Controller
 {
-    use UpgradeVip;
+    use UpgradeVip,UserWallet;
     public function goLogin()
     {
         if(request()->isMethod('GET')){
