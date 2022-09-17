@@ -4,12 +4,14 @@
     $configs = config('sys_table.edit');
     $config_assets = config("sys_assets.$tableMap.$actionType");
 @endphp
-@section('css')
+@section('start_css')
     @if($config_assets != null && isset($config_assets['styles']) && is_array($config_assets['styles']))
         @foreach($config_assets['styles'] as $linkStyle)
             <link rel="stylesheet" href="{{Support::asset($linkStyle)}}">
         @endforeach
     @endif
+@endsection
+@section('css')
 	@if ($tableData->get('has_yoast_seo', '') == 1)
 		<link rel="stylesheet" href="admin/tech5s_yoast_seo/theme/css/yoastseo.css" type="text/css">
 	@endif
@@ -88,6 +90,7 @@
 
 		</div>
 	</div>
+    
 	<?php
 	if ($actionType == 'edit') {
 	    $actionAjax = "$admincp/update/" . $tableMap . '/' . FCHelper::er($dataItem, 'id');

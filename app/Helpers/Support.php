@@ -208,4 +208,34 @@ class Support
         }
         return $urlDefault;
     }
+    public static function printMenuCate($data,$activeId = 0,$parent = 0){
+        echo '<ul class="nav-new__cate font-bold 2xl:text-[1.125rem] mb-6">';
+            foreach ($data as $k => $item) {
+                $active = $activeId==$item->id?'active active_nav_pcate':'';
+                if($item->parent == $parent){
+                    $str = '<li class="mb-2 last:mb-0 px-4 '.$active.'">
+                                <a href="'.$item->slug.'" class="hover:text-[#252525]" title="'.$item->name.'">'.$item->name.'</a>';
+                    echo $str;
+                    self::printMenuCate($data,$activeId,$item->id);
+                    echo '</li>';
+                }
+            }
+        echo '</ul>';
+    }
+    public static function generateSlug($tableMap, $slug, $key)
+    {
+        $num = 2;
+        do {
+            $item = \DB::table($tableMap)->select('id')->where(function ($q) use ($slug,$key) {
+                $q->where([$key => $slug]);
+            })->first();
+            if ($item != null) {
+                $slug .= '-' . $num;
+            }
+            else {
+                return $slug;
+            }
+        }
+        while (true);
+    }
 }
