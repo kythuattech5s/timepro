@@ -18592,6 +18592,38 @@
      
 }
 
+    namespace Tech5s\Promotion\Helpers { 
+            /**
+     * 
+     *
+     */ 
+        class FlashSaleHelper {
+         
+    }
+            /**
+     * 
+     *
+     */ 
+        class VoucherHelper {
+         
+    }
+            /**
+     * 
+     *
+     */ 
+        class ComboHelper {
+         
+    }
+            /**
+     * 
+     *
+     */ 
+        class DealHelper {
+         
+    }
+     
+}
+
     namespace Roniejisa\Helpers { 
             /**
      * 
@@ -22207,6 +22239,10 @@ namespace  {
             class StringHelper extends \vanhenry\helpers\helpers\StringHelper {}
             class SEOHelper extends \vanhenry\helpers\helpers\SEOHelper {}
             class CommentHelper extends \Roniejisa\Comment\Helpers\Helper {}
+            class FlashSaleHelper extends \Tech5s\Promotion\Helpers\FlashSaleHelper {}
+            class VoucherHelper extends \Tech5s\Promotion\Helpers\VoucherHelper {}
+            class ComboHelper extends \Tech5s\Promotion\Helpers\ComboHelper {}
+            class DealHelper extends \Tech5s\Promotion\Helpers\DealHelper {}
             class RSCustom extends \Roniejisa\Helpers\RSCustom {}
      
 }

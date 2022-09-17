@@ -751,8 +751,7 @@ var videoUpload = function videoUpload(base64img, id, jsonFile, duration) {
   var div = document.querySelector("[data-id=\"".concat(id, "\"]"));
   var image = div.querySelector("img");
   var input = div.querySelector("input[id=\"".concat(id, "\"]"));
-  console.log(input.nextElementSibling);
-  input.nextElementSibling.value = _roniejisa_scripts_assets_js_Helper_js__WEBPACK_IMPORTED_MODULE_1__["default"].toHHMMSS(duration);
+  input.nextElementSibling.value = duration;
   input.value = JSON.stringify(jsonFile);
   image.src = base64img;
   input.dispatchEvent(new Event("change"));
@@ -764,6 +763,18 @@ var videoUpload = function videoUpload(base64img, id, jsonFile, duration) {
 /*!************************************************************!*\
   !*** ./packages/roniejisa/comment/resources/style/app.css ***!
   \************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+// extracted by mini-css-extract-plugin
+
+
+/***/ }),
+
+/***/ "./packages/tech5s/promotion/resources/css/app.css":
+/*!*********************************************************!*\
+  !*** ./packages/tech5s/promotion/resources/css/app.css ***!
+  \*********************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -884,6 +895,7 @@ __webpack_require__.r(__webpack_exports__);
 /******/ 		var installedChunks = {
 /******/ 			"/video/js/video": 0,
 /******/ 			"video/css/video": 0,
+/******/ 			"admin/promotion/css/app": 0,
 /******/ 			"comment/style/app": 0
 /******/ 		};
 /******/ 		
@@ -934,9 +946,10 @@ __webpack_require__.r(__webpack_exports__);
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module depends on other loaded chunks and execution need to be delayed
-/******/ 	__webpack_require__.O(undefined, ["video/css/video","comment/style/app"], () => (__webpack_require__("./packages/tech5s/video-chapter/resources/js/video.js")))
-/******/ 	__webpack_require__.O(undefined, ["video/css/video","comment/style/app"], () => (__webpack_require__("./packages/roniejisa/comment/resources/style/app.css")))
-/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["video/css/video","comment/style/app"], () => (__webpack_require__("./packages/tech5s/video-chapter/resources/css/video.css")))
+/******/ 	__webpack_require__.O(undefined, ["video/css/video","admin/promotion/css/app","comment/style/app"], () => (__webpack_require__("./packages/tech5s/video-chapter/resources/js/video.js")))
+/******/ 	__webpack_require__.O(undefined, ["video/css/video","admin/promotion/css/app","comment/style/app"], () => (__webpack_require__("./packages/roniejisa/comment/resources/style/app.css")))
+/******/ 	__webpack_require__.O(undefined, ["video/css/video","admin/promotion/css/app","comment/style/app"], () => (__webpack_require__("./packages/tech5s/promotion/resources/css/app.css")))
+/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["video/css/video","admin/promotion/css/app","comment/style/app"], () => (__webpack_require__("./packages/tech5s/video-chapter/resources/css/video.css")))
 /******/ 	__webpack_exports__ = __webpack_require__.O(__webpack_exports__);
 /******/ 	
 /******/ })()

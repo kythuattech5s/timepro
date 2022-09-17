@@ -10,3 +10,4 @@ mix.postCss(__dirname + "/resources/css/video.css", dist + "/css", [
 ]);
 
 mix.js(__dirname + "/resources/js/video.js", dist + "/js");
+mix.js(__dirname + "/resources/js/app.js", dist + "/js");

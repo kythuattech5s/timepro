@@ -1,0 +1,93 @@
+#modalProduct .modal-dialog {
+    width: 920px;
+}
+
+#modalProduct table tbody,
+#modalProduct table thead {
+    display: block;
+}
+
+#modalProduct table tbody {
+    overflow-y: auto;
+    overflow-x: hidden;
+    max-height: 300px;
+}
+
+#modalProduct table tbody::-webkit-scrollbar {
+    width: 0.725rem;
+}
+
+#modalProduct table tbody::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+}
+
+#modalProduct td a{
+    color: #1d1d1d;
+    font-weight: 600;
+    transition: all 200ms ease-out;
+} 
+
+#modalProduct td a:hover{
+    color: #0087ff;
+}
+
+#modalProduct .modal-footer>span{
+    margin-right: 2rem;
+}
+
+#modalProduct .modal-footer button{
+    min-width: 120px;
+}
+/* #modalProduct table tbody::-webkit-scrollbar-track{
+    background: red;
+} */
+
+#modalProduct table tr {
+    display: flex;
+}
+
+#modalProduct table tfoot tr{
+    display: block;
+}
+
+#modalProduct table tr > th,
+#modalProduct table tr > td {
+    flex-grow: 1;
+    flex-basis: 0;
+}
+
+#modalProduct table tr > th:first-child,
+#modalProduct table tr > td:first-child {
+    flex: 0 0 10%;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+}
+
+#modalProduct .count-choose {
+    font-weight: bold;
+    margin: 0 5px;
+}
+
+#modalProduct td img {
+    max-width: 2.5rem;
+    height: 2.5rem;
+    margin-right: 10px;
+    object-fit: cover;
+}
+
+#modalProduct .form-search-item input,
+#modalProduct .form-search-item select {
+    width: 200px;
+    border: 1px solid #e1e1e1;
+    margin-left: 15px;
+    padding: 5px;
+    padding-left: 10px;
+    border-radius: 5px;
+}
+
+#modalProduct tr.disabled {
+    pointer-events: none;
+    opacity: 0.5;
+}
