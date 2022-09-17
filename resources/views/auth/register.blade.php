@@ -3,7 +3,7 @@
 <section class="pages" style=" background-image: url('{Ibg_page_auth.imgI}'); background-repeat: no-repeat;background-position: bottom;">
     <div class="main-breadcrumb py-4">
         <div class="container">
-            {{Breadcrumbs::render('register')}}
+            {{Breadcrumbs::render('static',trans('fdb::register'),\VRoute::get('register'))}}
         </div>
     </div>
     <div class="container mx-auto 2xl:pt-[5rem] pb-[3.4375rem] lg:pt-[4.625rem] md:pt-[3.625rem] pt-[2.625rem]">

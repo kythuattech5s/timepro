@@ -2,15 +2,15 @@
     <div class="relative p-4 w-full max-w-[34rem] h-full md:h-auto mx-auto">
         <div class="relative bg-white rounded-lg shadow dark:bg-gray-700" >
             <button type="button" class="absolute top-[0.625rem] right-[0.625rem] z-10 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-toggle="defaultModal" button_close_modal>
-                @include('svg.icon_close')
+                <?php echo $__env->make('svg.icon_close', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
                 <span class="sr-only">Close modal</span>
             </button>
             <h3 class="lg:text-[1.625rem] md:text-[1.225rem] text-[1.1rem] lg:pt-[2.5rem] md:pt-[2rem] pt-[1.5rem] font-semibold text-gray-900 dark:text-white text-center mb-1">Vui lòng nhập mã xác nhận</h3>
             <div class="desc text-[#454545] text-center lg:mb-[1.875rem] md:mb-[1.575rem] mb-[1.25rem] px-4">
-                {:content_form_otp:}
+                <?php echo trans('fdb::content_form_otp') ?>
             </div>
             <div class="p-6 space-y-6 pt-0">
-                <form action="{{$actionFormOtpCode ?? ''}}" class="frm" method="post" absolute data-success="NOTIFICATION.toastrMessageRedirect" accept-charset="utf8">
+                <form action="<?php echo e($actionFormOtpCode ?? ''); ?>" class="frm" method="post" absolute data-success="NOTIFICATION.toastrMessageRedirect" accept-charset="utf8">
                     <input type="hidden" name="otp" main-otp-rs="">
                     <div class="otp-rs flex lg:gap-[1rem] gap-[0.5rem] justify-center items-center mb-[1rem]">
                         <input type="text" name="fake[]" class="sub-otp-rs w-[3rem] h-[3rem] border-[1px] border-[#EBEBEB] rounded rounded-[0.3125rem] overflow-hidden text-xl font-semibold text-center text-[#252525]" rules="required"/>
@@ -38,26 +38,26 @@
         <div class="container relative z-[1]">
             <div class="footer-nav 2xl:py-14 py-6 grid grid-cols-1 lg:grid-cols-3 gap-4 border-b-[1px] border-solid border-[rgba(255,255,255,.5)]">
                 <div class="col-span-1">
-                    <a href="{{\VRoute::get("home")}}" title="Trang chủ" class="logo-footer-mobile block lg:hidden mb-4 max-w-[200px]">
-                        @include('image_loader.config.big',['config_key'=>'logo'])
+                    <a href="<?php echo e(\VRoute::get("home")); ?>" title="Trang chủ" class="logo-footer-mobile block lg:hidden mb-4 max-w-[200px]">
+                        <?php echo $__env->make('image_loader.config.big',['config_key'=>'logo'], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
                     </a>
-                    <h2 class="name-company w-fit ml-0 font-bold text-white lg:text-[1.125rem] uppercase relative after:block after:mt-2 after:w-full after:h-[1px] after:bg-[rgba(255,255,255,.5)] mb-4">{[company_name]}</h2>
-                    @php
+                    <h2 class="name-company w-fit ml-0 font-bold text-white lg:text-[1.125rem] uppercase relative after:block after:mt-2 after:w-full after:h-[1px] after:bg-[rgba(255,255,255,.5)] mb-4"><?php echo vanhenry\helpers\helpers\SettingHelper::getSetting('company_name') ?></h2>
+                    <?php
                         $listAddress = Support::extractJson(SettingHelper::getSetting('addresses'),false);
-                    @endphp
-                    @foreach ($listAddress as $itemAddress)
+                    ?>
+                    <?php $__currentLoopData = $listAddress; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $itemAddress): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                         <p class="footer-contact relative text-white mb-4 last:mb-0 pl-8">
                             <img src="theme/frontend/images/location.svg" class="w-6 h-6 object-contain absolute top-0 left-0" alt="Location">
-                            <span class="text">{{Support::show($itemAddress,'address')}}</span>
+                            <span class="text"><?php echo e(Support::show($itemAddress,'address')); ?></span>
                         </p>
-                    @endforeach
+                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                     <p class="footer-contact relative text-white mb-4 last:mb-0 pl-8">
                         <img src="theme/frontend/images/phone.svg" class="w-6 h-6 object-contain absolute top-0 left-0" alt="Phone">
-                        <a href="tel:{[phone]}" class="phone">{[phone]}</a>
+                        <a href="tel:<?php echo vanhenry\helpers\helpers\SettingHelper::getSetting('phone') ?>" class="phone"><?php echo vanhenry\helpers\helpers\SettingHelper::getSetting('phone') ?></a>
                     </p>
                     <p class="footer-contact relative text-white mb-4 last:mb-0 pl-8">
                         <img src="theme/frontend/images/mail.svg" class="w-6 h-6 object-contain absolute top-0 left-0" alt="Email">
-                        <a href="mailto:{[email]}" class="phone">{[email]}</a>
+                        <a href="mailto:<?php echo vanhenry\helpers\helpers\SettingHelper::getSetting('email') ?>" class="phone"><?php echo vanhenry\helpers\helpers\SettingHelper::getSetting('email') ?></a>
                     </p>
                 </div>
                 <div class="col-span-1 lg:col-span-2 lg:pl-10">
@@ -65,36 +65,38 @@
                         <div class="col-span-1">
                             <p class="title-footer font-bold lg:text-[1.125rem] text-white uppercase lg:mb-6 mb-4">Hướng dẫn</p>
                             <div class="nav-footer text-white">
-                                @php
+                                <?php
                                     $menus = Support::getMenuRecursive(2);
-                                @endphp
-                                {{Support::showMenuRecursive($menus,0)}}
+                                ?>
+                                <?php echo e(Support::showMenuRecursive($menus,0)); ?>
+
                             </div>
                         </div>
                         <div class="col-span-1">
                             <p class="title-footer font-bold lg:text-[1.125rem] text-white uppercase lg:mb-6 mb-4">Quy định</p>
                             <div class="nav-footer text-white">
-                                @php
+                                <?php
                                     $menus = Support::getMenuRecursive(3);
-                                @endphp
-                                {{Support::showMenuRecursive($menus,0)}}
+                                ?>
+                                <?php echo e(Support::showMenuRecursive($menus,0)); ?>
+
                             </div>
                         </div>
                         <div class="col-span-2 md:col-span-1">
                             <p class="title-footer font-bold lg:text-[1.125rem] text-white uppercase lg:mb-6 mb-4">Tổng đài hỗ trợ</p>
                             <p class="footer-contact relative text-white mb-4 pl-8">
                                 <img src="theme/frontend/images/tong-dai.svg" class="w-6 h-6 object-contain absolute top-0 left-0" alt="Hotline">
-                                <span class="text">Tổng đài CSKH: <a href="tel:{[hotline]}" class="phone">{[hotline]}</a> </span>
+                                <span class="text">Tổng đài CSKH: <a href="tel:<?php echo vanhenry\helpers\helpers\SettingHelper::getSetting('hotline') ?>" class="phone"><?php echo vanhenry\helpers\helpers\SettingHelper::getSetting('hotline') ?></a> </span>
                             </p>
                             <p class="footer-contact relative text-white mb-8 pl-8">
                                 <img src="theme/frontend/images/mail.svg" class="w-6 h-6 object-contain absolute top-0 left-0" alt="Email">
-                                <a href="mailto:{[email_support]}" class="phone">{[email_support]}</a>
+                                <a href="mailto:<?php echo vanhenry\helpers\helpers\SettingHelper::getSetting('email_support') ?>" class="phone"><?php echo vanhenry\helpers\helpers\SettingHelper::getSetting('email_support') ?></a>
                             </p>
                             <div class="flex flex-wrap 2xl:gap-8 gap-4 items-center">
-                                <a href="{[dcma_link]}" title="DCMA" class="icon" target="_blank" rel="noopener">
+                                <a href="<?php echo vanhenry\helpers\helpers\SettingHelper::getSetting('dcma_link') ?>" title="DCMA" class="icon" target="_blank" rel="noopener">
                                     <img src="theme/frontend/images/dmca.png" alt="" />
                                 </a>
-                                <a href="{[bct_link]}" title="Đã đăng ký bộ công thương" class="icon" target="_blank" rel="noopener">
+                                <a href="<?php echo vanhenry\helpers\helpers\SettingHelper::getSetting('bct_link') ?>" title="Đã đăng ký bộ công thương" class="icon" target="_blank" rel="noopener">
                                     <img src="theme/frontend/images/bct.png" alt="" />
                                 </a>
                             </div>
@@ -103,33 +105,34 @@
                 </div>
             </div>
             <div class="f-menu 2xl:py-8 py-4 flex items-center justify-center lg:justify-start">
-                <a href="{{\VRoute::get("home")}}" title="Trang chủ" class="logo-footer hidden lg:block shrink-0 max-w-[15rem] 2xl:mr-20 lg:mr-10 relative after:w-[1px] after:h-full after:bg-[rgba(255,255,255,.5)] after:absolute after:top-0 2xl:after:right-[-2.5rem] lg:after:right-[-1.25rem]">
-                    @include('image_loader.config.big',['config_key'=>'logo'])
+                <a href="<?php echo e(\VRoute::get("home")); ?>" title="Trang chủ" class="logo-footer hidden lg:block shrink-0 max-w-[15rem] 2xl:mr-20 lg:mr-10 relative after:w-[1px] after:h-full after:bg-[rgba(255,255,255,.5)] after:absolute after:top-0 2xl:after:right-[-2.5rem] lg:after:right-[-1.25rem]">
+                    <?php echo $__env->make('image_loader.config.big',['config_key'=>'logo'], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
                 </a>
                 <div class="menu-footer hidden lg:block flex-1 text-white font-bold 2xl:text-[1.125rem]">
-                    @php
+                    <?php
                         $menus = Support::getMenuRecursive(1);
-                    @endphp
-                    {{Support::showMenuRecursive($menus,0)}}
+                    ?>
+                    <?php echo e(Support::showMenuRecursive($menus,0)); ?>
+
                 </div>
                 <ul class="social-footer">
                     <li class="inline-block mr-4 2xl:mr-8 last:mr-0">
-                        <a href="{[facebook]}" title="Facebook" rel="noopener" target="_blank">
+                        <a href="<?php echo vanhenry\helpers\helpers\SettingHelper::getSetting('facebook') ?>" title="Facebook" rel="noopener" target="_blank">
                             <img src="theme/frontend/images /icon_fb.svg" class="w-6 h-6 object-contain" alt="Facebook">
                         </a>
                     </li>
                     <li class="inline-block 2xl:mr-8 last:mr-0 mr-4">
-                        <a href="{[youtube]}" title="Youtube" rel="noopener" target="_blank">
+                        <a href="<?php echo vanhenry\helpers\helpers\SettingHelper::getSetting('youtube') ?>" title="Youtube" rel="noopener" target="_blank">
                             <img src="theme/frontend/images/icon_yt.svg" class="w-6 h-6 object-contain" alt="Youtube">
                         </a>
                     </li>
                     <li class="inline-block 2xl:mr-8 last:mr-0 mr-4">
-                        <a href="{[tiktok]}" title="Tiktok" rel="noopener" target="_blank">
+                        <a href="<?php echo vanhenry\helpers\helpers\SettingHelper::getSetting('tiktok') ?>" title="Tiktok" rel="noopener" target="_blank">
                             <img src="theme/frontend/images/icon-tiktok.svg" class="w-6 h-6 object-contain" alt="Tiktok">
                         </a>
                     </li>
                     <li class="inline-block 2xl:mr-8 last:mr-0 mr-4">
-                        <a href="{[instagram]}" title="Instagram" rel="noopener" target="_blank">
+                        <a href="<?php echo vanhenry\helpers\helpers\SettingHelper::getSetting('instagram') ?>" title="Instagram" rel="noopener" target="_blank">
                             <img src="theme/frontend/images/icon-ins.svg" class="w-6 h-6 object-contain" alt="Instagram">
                         </a>
                     </li>
@@ -138,6 +141,7 @@
         </div>
     </div>
     <div class="bg-[#111] py-3 text-center text-white text-[0.875rem] copyright">
-        <div class="container">{[copy_right]}</div>
+        <div class="container"><?php echo vanhenry\helpers\helpers\SettingHelper::getSetting('copy_right') ?></div>
     </div>
 </footer>
+<?php /**PATH D:\laragon\www\timepro\resources\views/layouts/footer.blade.php ENDPATH**/ ?>
