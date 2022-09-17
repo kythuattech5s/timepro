@@ -6,20 +6,6 @@ Breadcrumbs::for('static', function ($trail,$name,$link) {
     $trail->parent('home');
     $trail->push($name,$link);
 });
-	$trail->push(trans('fdb::home'), url('/'));
-});
-Breadcrumbs::for('login', function ($trail) {
-	$trail->parent('home');
-    $trail->push(trans('fdb::login'));
-});
-Breadcrumbs::for('register', function ($trail) {
-	$trail->parent('home');
-    $trail->push(trans('fdb::register'));
-});
-Breadcrumbs::for('contact', function ($trail) {
-	$trail->parent('home');
-    $trail->push(trans('fdb::contact'));
-});
 Breadcrumbs::for('pages', function ($trail, $currentItem) {
     $trail->parent('home');
     $trail->push(\Support::show($currentItem,'name'), \Support::show($currentItem, 'slug'));

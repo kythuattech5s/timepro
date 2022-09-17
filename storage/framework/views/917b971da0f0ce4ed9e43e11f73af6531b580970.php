@@ -3,7 +3,7 @@
 <section class="pages" style="background-image: url(<?php echo vanhenry\helpers\helpers\SettingHelper::getSettingImage('bg_page_auth','img') ?>);background-repeat: no-repeat;background-position: bottom;">
     <div class="main-breadcrumb py-4">
         <div class="container">
-            <?php echo e(Breadcrumbs::render('login')); ?>
+            <?php echo e(Breadcrumbs::render('static',trans('fdb::login'),\VRoute::get('login'))); ?>
 
         </div>
     </div>

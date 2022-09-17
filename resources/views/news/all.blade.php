@@ -7,7 +7,7 @@
 </div>
 <div class="main-breadcrumb py-4 hidden">
     <div class="container">
-    	{{Breadcrumbs::render('news_category',$currentItem)}}
+    	{{Breadcrumbs::render('static',trans('fdb::allnews'),\VRoute::get('allnews'))}}
     </div>
 </div>
 <section class="section-new 2xl:py-14 py-6">
