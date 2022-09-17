@@ -4,14 +4,12 @@ Route::group([
     'middleware' => ['web','h_users'],
     'namespace' =>  'CourseManage\Controllers'
 ],function(){
-    Route::get('order_courses', "OrderCourseManageController@viewOrderCourse");
-    Route::get('order_course_combos', "OrderCourseManageController@viewOrderCourseCombo");
+    Route::get('orders', "OrderCourseManageController@viewOrder");
 });
 Route::group([
     'prefix' => 'esystem/course-manage',
     'middleware' => ['web','h_users'],
     'namespace' =>  'CourseManage\Controllers'
 ],function(){
-    Route::post('change-order-course-status', "OrderCourseManageController@changeOrderCourseStatus");
-    Route::post('change-order-course-combo-status', "OrderCourseManageController@changeOrderCourseComboStatus");
+    Route::post('change-order-status', "OrderCourseManageController@changeOrderStatus");
 });

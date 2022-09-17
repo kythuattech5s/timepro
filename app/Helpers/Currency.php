@@ -40,8 +40,8 @@ class Currency
     public static function showMoney($money,bool $showInt = true, $locale = null)
     {
         $money = self::getMoney($money, $locale);
-        $vnd = $showInt==true?' đ':'';
-        $usd = $showInt==true?' USD':'';
+        $vnd = $showInt==true?'đ':'';
+        $usd = $showInt==true?'USD':'';
         if ($money == 0) {
             return '0'.$vnd;
         }

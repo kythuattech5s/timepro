@@ -14,7 +14,7 @@ use Illuminate\Support\Traits\Macroable;
 class Tech5sCart
 {
     use Macroable;
-    const DEFAULT_INSTANCE = 'default';
+    const DEFAULT_INSTANCE = 'course';
     const SESSION_IDENTIFIER_KEY = 'tech5sCart.identifier';
 
     /**
