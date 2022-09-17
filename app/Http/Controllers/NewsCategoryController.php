@@ -10,11 +10,11 @@ class NewsCategoryController extends Controller
     	if ($currentItem == null) {
     		abort(404);
     	}
-    	$listItems = $currentItem->news()->act()->ord()->paginate(12);
-        $parent = $currentItem->parent==0||$currentItem->parent==''?$currentItem:NewsCategory::act()->where('parent',$currentItem->parent)->first();
-        $listCate = $currentItem->parent==0||$currentItem->parent==''?NewsCategory::act()->where('parent',$currentItem->id)->get():NewsCategory::act()->where('parent',$currentItem->parent)->get();
-        $newsHighViews = News::act()->orderBy('count','desc')->take(9)->get();
-        $listAllNewsCategory = NewsCategory::act()->get();
-    	return view('news_categories.view', compact('currentItem', 'listItems','parent','newsHighViews','listCate','listAllNewsCategory'));
+    	$listItems = $currentItem->news()->act()->ord()->orderBy('hot','desc')->paginate(10);
+        $newsHighViews = News::act()->orderBy('count','desc')->take(5)->get();
+        $listNewsNew = News::act()->orderBy('created_at','desc')->take(5)->get();
+        $listAllNewsCategory = NewsCategory::act()->where('parent',0)->ord()->get();
+        $table = 'news_categories';
+    	return view('news_categories.view', compact('currentItem', 'listItems','newsHighViews','listNewsNew','listAllNewsCategory','table'));
     }
 }

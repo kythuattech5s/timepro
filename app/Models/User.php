@@ -94,4 +94,7 @@ class User extends Authenticatable
         $listCourseId = $listCourseId->merge($listUserCourseId)->unique();
         return Course::whereIn('id',$listCourseId)->act()->paginate($paginateNumber);
     }
+    public function wallet(){
+        return $this->hasOne(UserWallet::class,'user_id','id');
+    }
 }
