@@ -51,8 +51,12 @@ namespace App\Models{
  * @property int|null $number_student Thời lượng khóa học
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\CourseCategory[] $category
  * @property-read int|null $category_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Roniejisa\Comment\Models\Comment[] $comments
+ * @property-read int|null $comments_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\CourseCourseCategory[] $pivot
  * @property-read int|null $pivot_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Roniejisa\Comment\Models\Rating[] $ratings
+ * @property-read int|null $ratings_count
  * @property-read \App\Models\User|null $teacher
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\CourseTimePackage[] $timePackage
  * @property-read int|null $time_package_count
@@ -1024,6 +1028,38 @@ namespace App\Models{
 
 namespace App\Models{
 /**
+ * App\Models\Page
+ *
+ * @property int $id
+ * @property string|null $slug Ngày cập nhât
+ * @property string|null $data Ngày tạo
+ * @property \Illuminate\Support\Carbon|null $created_at Ngày tạo
+ * @property \Illuminate\Support\Carbon|null $updated_at Ngày cập nhật
+ * @property string|null $url Đường dẫn link đến file lưu data
+ * @property string|null $name Tên trang
+ * @property int|null $act Kích hoạt
+ * @method static \Illuminate\Database\Eloquent\Builder|BaseModel act()
+ * @method static \Illuminate\Database\Eloquent\Builder|BaseModel fullTextSearch($columns, $term)
+ * @method static \Illuminate\Database\Eloquent\Builder|BaseModel fullTextSearchNoRelevance($columns, $term)
+ * @method static \Illuminate\Database\Eloquent\Builder|Page newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Page newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|BaseModel ord()
+ * @method static \Illuminate\Database\Eloquent\Builder|Page query()
+ * @method static \Illuminate\Database\Eloquent\Builder|BaseModel slug($slug, $table = null)
+ * @method static \Illuminate\Database\Eloquent\Builder|Page whereAct($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Page whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Page whereData($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Page whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Page whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Page whereSlug($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Page whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Page whereUrl($value)
+ */
+	class Page extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
  * App\Models\PaymentMethod
  *
  * @property int $id
@@ -1181,7 +1217,6 @@ namespace App\Models{
  * @property string|null $facebook
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Course[] $course
  * @property-read int|null $course_count
- * @property string|null $teacher_skills
  * @property-read \App\Models\District|null $district
  * @property-read \App\Models\Gender|null $gender
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection|\Illuminate\Notifications\DatabaseNotification[] $notifications
@@ -1196,6 +1231,7 @@ namespace App\Models{
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\UserCourseCombo[] $userCourseCombo
  * @property-read int|null $user_course_combo_count
  * @property-read \App\Models\UserType|null $userType
+ * @property-read \App\Models\UserWallet|null $wallet
  * @property-read \App\Models\Ward|null $ward
  * @method static \Illuminate\Database\Eloquent\Builder|User newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|User newQuery()
@@ -1219,7 +1255,6 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|User whereRememberToken($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereTeacherDescription($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereTeacherJob($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User whereTeacherSkills($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereToken($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereUserTypeId($value)
@@ -1296,8 +1331,6 @@ namespace App\Models{
  *
  * @property int $user_id Id người dùng
  * @property int $teacher_skill_id Id kĩ năng
- * @property int $course_id ID khóa học
- * @property int $course_category_id ID danh mục khóa học
  * @property \Illuminate\Support\Carbon|null $created_at Ngày tạo
  * @property \Illuminate\Support\Carbon|null $updated_at Ngày cập nhật
  * @property-read \App\Models\TeacherSkill|null $teacherSkill
@@ -1313,10 +1346,6 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|UserTeacherSkill whereTeacherSkillId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|UserTeacherSkill whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|UserTeacherSkill whereUserId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|UserTeacherSkill whereCourseCategoryId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|UserTeacherSkill whereCourseId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|UserTeacherSkill whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|UserTeacherSkill whereUpdatedAt($value)
  */
 	class UserTeacherSkill extends \Eloquent {}
 }
@@ -1343,6 +1372,104 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|UserType whereUpdatedAt($value)
  */
 	class UserType extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * App\Models\UserWallet
+ *
+ * @property int $id Mã
+ * @property string|null $name Tên
+ * @property string|null $password Mật khẩu
+ * @property int|null $user_id Đại lý
+ * @property int|null $amount Số tiền
+ * @property string|null $amount_available
+ * @property int|null $amount_spent Số tiền đã tiêu
+ * @property int|null $amount_frozen Số tiền đóng băng
+ * @property string|null $token Token
+ * @property int|null $act Kích hoạt
+ * @property int|null $ord Sắp xếp
+ * @property \Illuminate\Support\Carbon|null $created_at Thời gian tạo
+ * @property \Illuminate\Support\Carbon|null $updated_at Thời gian sửa
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\UserWalletTransaction[] $walletTransactions
+ * @property-read int|null $wallet_transactions_count
+ * @method static \Illuminate\Database\Eloquent\Builder|BaseModel act()
+ * @method static \Illuminate\Database\Eloquent\Builder|BaseModel fullTextSearch($columns, $term)
+ * @method static \Illuminate\Database\Eloquent\Builder|BaseModel fullTextSearchNoRelevance($columns, $term)
+ * @method static \Illuminate\Database\Eloquent\Builder|UserWallet newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|UserWallet newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|BaseModel ord()
+ * @method static \Illuminate\Database\Eloquent\Builder|UserWallet query()
+ * @method static \Illuminate\Database\Eloquent\Builder|BaseModel slug($slug, $table = null)
+ * @method static \Illuminate\Database\Eloquent\Builder|UserWallet whereAct($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|UserWallet whereAmount($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|UserWallet whereAmountAvailable($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|UserWallet whereAmountFrozen($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|UserWallet whereAmountSpent($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|UserWallet whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|UserWallet whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|UserWallet whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|UserWallet whereOrd($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|UserWallet wherePassword($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|UserWallet whereToken($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|UserWallet whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|UserWallet whereUserId($value)
+ */
+	class UserWallet extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * App\Models\UserWalletTransaction
+ *
+ * @property int $id Mã
+ * @property string|null $code Mã giao dịch ví
+ * @property int|null $wallet_id Ví
+ * @property int|null $user_id Người dùng
+ * @property int|null $amount Số tiền giao dịch
+ * @property int|null $type Loại giao dịch
+ * @property string|null $reason Tên loại giao dịch
+ * @property string|null $content Mô tả
+ * @property int|null $before_amount Tổng số tiền trước giao dịch
+ * @property int $before_amount_frozen Tổng số tiền bị đóng băng trước giao dịch
+ * @property int|null $before_amount_available Tổng số tiền khả dụng trước giao dịch
+ * @property int|null $after_amount Tổng số tiền sau giao dịch
+ * @property int|null $after_amount_frozen Tổng số tiền bị đóng băng sau giao dịch
+ * @property int|null $after_amount_available Tổng số tiền khả dụng sau giao dịch
+ * @property int|null $before_amount_spent Tổng số tiền đã tiêu trước giao dịch
+ * @property int|null $after_amount_spent Tổng số tiền đã tiêu sau giao dịch
+ * @property \Illuminate\Support\Carbon|null $created_at Ngày giao dịch
+ * @property \Illuminate\Support\Carbon|null $updated_at Ngày sửa
+ * @property int|null $status
+ * @method static \Illuminate\Database\Eloquent\Builder|BaseModel act()
+ * @method static \Illuminate\Database\Eloquent\Builder|BaseModel fullTextSearch($columns, $term)
+ * @method static \Illuminate\Database\Eloquent\Builder|BaseModel fullTextSearchNoRelevance($columns, $term)
+ * @method static \Illuminate\Database\Eloquent\Builder|UserWalletTransaction newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|UserWalletTransaction newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|BaseModel ord()
+ * @method static \Illuminate\Database\Eloquent\Builder|UserWalletTransaction query()
+ * @method static \Illuminate\Database\Eloquent\Builder|BaseModel slug($slug, $table = null)
+ * @method static \Illuminate\Database\Eloquent\Builder|UserWalletTransaction whereAfterAmount($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|UserWalletTransaction whereAfterAmountAvailable($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|UserWalletTransaction whereAfterAmountFrozen($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|UserWalletTransaction whereAfterAmountSpent($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|UserWalletTransaction whereAmount($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|UserWalletTransaction whereBeforeAmount($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|UserWalletTransaction whereBeforeAmountAvailable($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|UserWalletTransaction whereBeforeAmountFrozen($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|UserWalletTransaction whereBeforeAmountSpent($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|UserWalletTransaction whereCode($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|UserWalletTransaction whereContent($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|UserWalletTransaction whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|UserWalletTransaction whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|UserWalletTransaction whereReason($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|UserWalletTransaction whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|UserWalletTransaction whereType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|UserWalletTransaction whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|UserWalletTransaction whereUserId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|UserWalletTransaction whereWalletId($value)
+ */
+	class UserWalletTransaction extends \Eloquent {}
 }
 
 namespace App\Models{

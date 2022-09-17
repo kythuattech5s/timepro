@@ -1,12 +1,21 @@
+@php
+$urlDefault = isset($url) ? url($url) : false;
+$params = request()->all();
+@endphp
 @if ($paginator->hasPages())
-    <div class="pagination wow fadeInUp">
+    @php
+        $lastPage = $paginator->lastPage();
+        $currentPage = $paginator->currentPage();
+    @endphp
+    <div class="{{ $class ?? 'pagination' }}" {{ $attributeAjax ?? 'pagination-filter' }}>
         {{-- Previous Page Link --}}
-        @if (!$paginator->onFirstPage())
-            <a href="{{ $paginator->previousPageUrl() }}"><i class="fa fa-angle-left" aria-hidden="true"></i></a>
-            @if (!in_array($paginator->currentPage(), [1, 2]))
-                <a href="{{ $paginator->url(1) }}" >1</a></li>
-                @if ($paginator->currentPage() !== 3)
-                    <a style="pointer-events: none"> ... </a>
+        @if ($paginator->onFirstPage())
+        @else
+            <a href="{{ $paginator->previousPageUrl() }}" {{ $attribute ?? 'data-page' }}="{{ $currentPage - 1 }}"><i class="fa fa-angle-left" aria-hidden="true"></i></a>
+            @if (!in_array($currentPage, [1, 2, 3, 4]))
+                <a href="{{ $urlDefault ? Support::buildLinkPagination($urlDefault, 1) : $paginator->url(1) }}" {{ $attribute ?? 'data-page' }}="1">1</a></li>
+                @if ($currentPage !== 5)
+                    <span style="pointer-events: none"> ... </span>
                 @endif
             @endif
         @endif
@@ -14,23 +23,24 @@
         @foreach ($elements as $key => $element)
             @if (is_array($element))
                 @foreach ($element as $page => $url)
-                    @if ($page == $paginator->currentPage())
+                    @if ($page == $currentPage)
                         <strong>{{ $page }}</strong>
-                    @elseif($page == $paginator->currentPage() + 1 || $page == $paginator->currentPage() - 1)
-                        <a href="{{ $url }}" >{{ $page }}</a></li>
+                    @elseif($page == $currentPage + 1 || $page == $currentPage + 2 || $page == $currentPage + 3 || $page == $currentPage - 1 || $page == $currentPage - 2 || $page == $currentPage - 3)
+                        <a href="{{ $urlDefault ? Support::buildLinkPagination($urlDefault, $page) : $url }}" {{ $attribute ?? 'data-page' }}="{{ $page }}">{{ $page }}</a></li>
                     @endif
                 @endforeach
             @endif
         @endforeach
         {{-- Next Page Link --}}
         @if ($paginator->hasMorePages())
-            @if(!in_array($paginator->currentPage(),[$paginator->lastPage(),$paginator->lastPage()-1]))
-                @if($paginator->currentPage() !== $paginator->lastPage()-2)
-                <a style="pointer-events: none"> ... </a>
+            @if (!in_array($currentPage, [$lastPage, $lastPage - 1, $lastPage - 2, $lastPage - 3]))
+                @if ($currentPage !== $lastPage - 4)
+                    <span style="pointer-events: none"> ... </span>
                 @endif
-                <a href="{{ $paginator->url($paginator->lastPage()) }}" >{{ $page }}</a></li>
+                <a href="{{ $urlDefault ? Support::buildLinkPagination($urlDefault, $page) : $paginator->url($page) }}" {{ $attribute ?? 'data-page' }}="{{ $page }}">{{ $page }}</a></li>
             @endif
-            <a href="{{ $paginator->nextPageUrl() }}"><i class="fa fa-angle-right" aria-hidden="true"></i></a>
+            <a href="{{ $urlDefault ? Support::buildLinkPagination($urlDefault, $currentPage + 1) : $paginator->nextPageUrl() }}" {{ $attribute ?? 'data-page' }}="{{ $currentPage + 1 }}"><i class="fa fa-angle-right" aria-hidden="true"></i></a>
+        @else
         @endif
     </div>
 @endif

@@ -18,16 +18,10 @@ class CourseController extends Controller
         $isOwn = $currentItem->isOwn(Auth::user());
         $listVideo = $currentItem->videos()->where('act',1)->get();
         if (isset($video)) {
-            $videos = $listVideo;
-            $mainVideo = $currentItem->videos()->find($currentVideoId);
-            if (isset($mainVideo)) {
-                if (!$isOwn && !$mainVideo->isFree()) {
-                    return Support::redirectTo($link,100,'Vui lòng đăng ký khóa học để học bài này');
-                }
-                return view('courses.video', compact('videos','currentItem','isOwn','mainVideo'));
-            }else{
-                return Support::redirectTo($link,100,'Không tìm thấy thông tin video');
-            }
+            $videos = CourseVideo::with(['notes' => function ($q) {
+                $q->where('user_id', \Auth::id());
+            }])->where('course_id', $currentItem->id)->get();
+            return view('courses.video', compact('videos', 'currentItem'));
         }
         $parent = $currentItem->category()->orderBy('id','desc')->first();
         $listRelateCourse = $currentItem->getRelatesCollection(4);
