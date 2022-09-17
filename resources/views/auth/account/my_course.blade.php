@@ -85,11 +85,14 @@
                                                 <i class="fa fa-comments-o" aria-hidden="true"></i> 0 câu trả lời 
                                             </a>
                                         </div>
+                                        @php
+                                            $percenComplete = $item->percentComplete();
+                                        @endphp
                                         <div class="flex items-center gap-2">
                                             <div class="process w-full flex-1 h-[6px] rounded-[1.25rem] bg-[#f5f5f5] overflow-hidden">
-                                                <div class="progress-bar bg-gradient-to-r from-[#FE8C00] to-[#F83600] h-full rounded-[1.25rem]" role="progressbar" style="width: 70%" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"></div>
+                                                <div class="progress-bar bg-gradient-to-r from-[#FE8C00] to-[#F83600] h-full rounded-[1.25rem]" role="progressbar" style="width: {{$percenComplete}}%" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"></div>
                                             </div>
-                                            <span class="title text-[0.875rem] shrink-0 min-w-[110px]">30% hoàn thành</span>
+                                            <span class="title text-[0.875rem] shrink-0 min-w-[110px]">{{$percenComplete}}% hoàn thành</span>
                                         </div>
                                     </div>
                                     <a href="{{Support::show($item,'slug')}}" title="Học ngay" class="md:mt-0 mt-3 ml-auto btn btn-orange inline-flex items-center justify-center py-2 lg:px-5 px-4 rounded bg-gradient-to-r from-[#FE8C00] to-[#F83600] text-white self-center hover:text-[#fff]">Học ngay <i class="fa fa-angle-double-right ml-1" aria-hidden="true"></i>
