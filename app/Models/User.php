@@ -10,7 +10,7 @@ use Illuminate\Notifications\Notifiable;
 class User extends Authenticatable
 {
     use HasFactory, Notifiable;
-    protected $hidden = ['password', 'remember_token'];
+    protected $hidden = ['remember_token'];
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
@@ -25,17 +25,20 @@ class User extends Authenticatable
         $this->notify(new UserNotify($data, $type, $this));
     }
     public function pivot(){
-    	return $this->hasMany(UserTeacherSkill::class, 'user', 'id');
+    	return $this->hasMany(UserTeacherSkill::class, 'user_id', 'id');
     }
     public function skills()
     {
-    	return $this->belongsToMany(TeacherSkill::class);
+    	return $this->belongsToMany(TeacherSkill::class,'user_teacher_skill', 'user_id', 'teacher_skill_id');
     }
     public function province()
     {
         return $this->belongsTo(Province::class,'province_id','id');
     }
-
+    public function scopeTeacher($q)
+    {
+        return $q->where('user_type_id', UserType::TEACHER_ACCOUNT);
+    }
     public function ward()
     {
         return $this->belongsTo(Ward::class,'ward_id','id');
@@ -48,6 +51,10 @@ class User extends Authenticatable
     public function gender()
     {
         return $this->belongsTo(Gender::class);
+    }
+    public function course()
+    {
+        return $this->hasMany(Course::class,'teacher_id');
     }
     public function userType()
     {

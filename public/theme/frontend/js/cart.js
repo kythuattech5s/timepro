@@ -66,11 +66,60 @@ var CART = (function () {
         }).then((res) => {
             BASE_GUI.enableButton(button);
             NOTIFICATION.toastrMessageRedirect(res);
+            initCartCount();
+        });
+    };
+    var initCartCount = function () {
+        XHR.send({
+            url: "cart/get-count",
+            method: "POST",
+        }).then((res) => {
+            var countItemCartBoxs =
+                document.querySelectorAll(".count-item-cart");
+            countItemCartBoxs.forEach((countItemCartBox) => {
+                countItemCartBox.innerHTML = res.count ? res.count : 0;
+            });
+        });
+    };
+    var initDeleteItemCart = function () {
+        var listItembtnDeleteItemCart = document.querySelectorAll(
+            ".btn-delete-item-cart"
+        );
+        listItembtnDeleteItemCart.forEach((itembtnDeleteItemCart) => {
+            console.log(itembtnDeleteItemCart);
+            itembtnDeleteItemCart.addEventListener("click", function () {
+                const formData = new FormData();
+                formData.append("row", itembtnDeleteItemCart.dataset.row);
+                formData.append(
+                    "instance",
+                    itembtnDeleteItemCart.dataset.instance
+                );
+                XHR.send({
+                    url: "cart/delete-item",
+                    method: "POST",
+                    formData: formData,
+                }).then((res) => {
+                    NOTIFICATION.toastrMessage(res);
+                    initCartCount();
+                    if (res.code == 200) {
+                        var currentRow = document.querySelector(
+                            `[rowcart="${itembtnDeleteItemCart.dataset.row}"]`
+                        );
+                        if (currentRow) {
+                            currentRow.remove();
+                        }
+                    } else {
+                        window.location.reload();
+                    }
+                });
+            });
         });
     };
     return {
         _: function () {
             setUpBuyItemBox();
+            initCartCount();
+            initDeleteItemCart();
         },
     };
 })();

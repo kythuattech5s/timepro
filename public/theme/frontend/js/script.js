@@ -158,7 +158,7 @@ var CLICK = {
 
                 if (itemCounts.length() == 0) return;
                 /* setup thời gian nhảy số */
-                const animationDuration = 3000;
+                const animationDuration = 2000;
                 const frameDuration = 1000 / 30;
                 const totalFrames = Math.round(animationDuration / frameDuration);
 
@@ -229,10 +229,11 @@ var CLICK = {
             }
         }
     },
+
     init: function () {
-        // CLICK.loadMap();
-        // CLICK.initCountUp();
-        // CLICK.showMenu();
+        CLICK.loadMap();
+        CLICK.initCountUp();
+        CLICK.showMenu();
         // CLICK.initAnimation();
         // CLICK.fixedMenu();
      

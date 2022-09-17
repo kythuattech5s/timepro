@@ -15,6 +15,12 @@ class CourseCombo extends BaseModel
     {
         return $this->hasMany(CourseComboTimePackage::class);
     }
+    public function scopeBaseView($q)
+    {
+        return $q->act()->with(['timePackage'=>function($q){
+            $q->orderBy('price','asc');
+        }]);
+    }
     public function updateTimePackage($dataTimePackage)
     {
         $listTimePackage = \Support::extractJson($dataTimePackage);

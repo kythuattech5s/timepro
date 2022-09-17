@@ -164,15 +164,14 @@ class FCHelper
                 } else {
                     if (isset($folder) && isset($json["resizes"]) && (file_exists(base_path($json["resizes"][$folder]['path'])) || file_exists($json["resizes"][$folder]['path']))) {
                         $img = $json["resizes"][$folder]['path'];
-                    } elseif (file_exists($def2) || file_exists(base_path($def2))) {
+                    } elseif (file_exists($def2) || file_exists(public_path($def2))) {
                         $img = $def2;
                     } else {
                         $img = $def;
                     }
                 }
             }
-
-            if (file_exists($img) || file_exists($img = str_replace('public/', '', $img)) || file_exists(($img = base_path($def2))) || file_exists(($img = str_replace('public/', '', $def2)))) {
+            if (file_exists(public_path($img)) || file_exists($img = str_replace('public/', '', $img)) || file_exists(($img = base_path($def2))) || file_exists(($img = str_replace('public/', '', $def2)))) {
                 return $img;
             }
 
