@@ -16386,10 +16386,10 @@
          * @return \Tech5sShoppingCart\Tech5sCart\CartItem 
          * @static 
          */ 
-        public static function update($rowId, $qty)
+        public static function update($rowId, $qty, $isStore = true)
         {
                         /** @var \Tech5sShoppingCart\Tech5sCart\Tech5sCart $instance */
-                        return $instance->update($rowId, $qty);
+                        return $instance->update($rowId, $qty, $isStore);
         }
                     /**
          * Remove the cart item with the given rowId from the tech5sCart.

@@ -251,38 +251,8 @@ const videoUpload = (base64img, id, jsonFile, duration) => {
     const image = div.querySelector("img");
     const input = div.querySelector(`input[id="${id}"]`);
     console.log(input.nextElementSibling);
-    input.nextElementSibling.value = toHHMMSS(duration);
+    input.nextElementSibling.value = Helper.toHHMMSS(duration);
     input.value = JSON.stringify(jsonFile);
     image.src = base64img;
     input.dispatchEvent(new Event("change"));
 };
-
-var toHHMMSS = function (sec_num) {
-    var hours = Math.floor(sec_num / 3600);
-    var minutes = Math.floor((sec_num - hours * 3600) / 60);
-    var seconds = sec_num - hours * 3600 - minutes * 60;
-
-    if (hours < 10) {
-        hours = "0" + hours;
-    }
-    if (minutes < 10) {
-        minutes = "0" + minutes;
-    }
-    if (seconds < 10) {
-        seconds = "0" + Math.floor(Math.round(seconds * 10) / 10).toFixed(0);
-    }
-
-    if (Number(hours) > 0 && Number(minutes) > 0) {
-        return hours + ":" + minutes + ":" + seconds;
-    } else {
-        return minutes + ":" + seconds;
-    }
-};
-
-//   let video = document.querySelector("video");
-//   let counter = document.querySelector("p");
-//   let hrs, mins, secs;
-
-//   window.setInterval(() => {
-//     counter.textContent = secondsToHms(video.currentTime);
-//   }, 0);
