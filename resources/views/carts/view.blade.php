@@ -7,7 +7,7 @@
     </div>
     <section class="section-cart 2xl:py-14 py-6">
         <div class="container">
-            <p class="title font-bold text-[#252525] 2xl:text-[1.6rem] lg:text-[1.3rem] text-[1rem] uppercase mb-4">GIỎ HÀNG CỦA BẠN</p>
+            <h1 class="title font-bold text-[#252525] 2xl:text-[1.6rem] lg:text-[1.3rem] text-[1rem] uppercase mb-4">GIỎ HÀNG CỦA BẠN</h1>
             @if (count($listItems) > 0)
                 <div class="grid grid-cols-1 lg:grid-cols-3 2xl:gap-6 gap-4">
                     <div class="col-span-1 lg:col-span-2">
@@ -16,13 +16,13 @@
                                 <div class="item-pro__cart sm:flex items-center justify-between py-4 border-b-[1px] border-solid border-[#ebebeb] last:border-none" rowcart="{{$item->rowId}}">
                                     <div class="box-pro flex lg:gap-4 gap-2 sm:max-w-[85%] md:max-w-[70%]">
                                         <div class="image shrink-0 w-[120px] sm:w-[170px]">
-                                            <a href="{{Support::show($item,'slug')}}" title="{{Support::show($item,'name')}}" class="img block c-img pt-[77%] rounded overflow-hidden">
+                                            <a href="{{Support::show($item->realItem,'slug')}}" title="{{Support::show($item->realItem,'name')}}" class="img block c-img pt-[77%] rounded overflow-hidden">
                                                 @include('image_loader.big',['itemImage'=>$item->realItem,'key'=>'img'])
                                             </a>
                                         </div>
                                         <div class="content">
                                             <h3>
-                                                <a href="{{Support::show($item,'slug')}}" title="{{Support::show($item,'name')}}" class="title block font-bold 2xl:text-[1.125rem] mb-3">{{Support::show($item,'name')}}</a>
+                                                <a href="{{Support::show($item->realItem,'slug')}}" title="{{Support::show($item,'name')}}" class="title block font-bold 2xl:text-[1.125rem] mb-3">{{Support::show($item,'name')}}</a>
                                             </h3>
                                             @if (isset($item->realItem->teacher))
                                                 <p class="text-[#888] text-[0.875rem] mb-1">{{Support::show($item->realItem->teacher,'name')}}</p>

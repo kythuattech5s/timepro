@@ -24,7 +24,7 @@
             </div>
             <div class="col-span-1">
                 <div class="box lg:p-4 bg-white p-2 rounded 2xl:mb-6 mb-4">
-                    <p class="title font-bold text-[#252525] mb-4 2xl:text-[1.125rem]">Thông tin đơn hàng</p>
+                    <h1 class="title font-bold text-[#252525] mb-4 2xl:text-[1.125rem]">Thông tin đơn hàng</h1>
                     @foreach ($listItems as $item)
                         <p class="flex items-center justify-between py-2 border-b-[1px] border-solid border-[#ebebeb]">
                             <span class="name-pro text-[0.875rem] max-w-[60%]">{{Support::show($item->realItem,'name')}} (Gói: {{Support::show($item->itemTimePackage,'name')}})</span>
