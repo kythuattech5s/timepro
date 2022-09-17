@@ -1,0 +1,63 @@
+//  course_videos
+{
+	"table": "course_videos",
+	"table_main": "course",
+	"fields": [
+		{
+			"name": "name",
+			"type": "text",
+			"label": "Tên video",
+			"placeholder": "Nhập tên..."
+		},
+		{
+			"name": "course_id",
+			"type": "hidden",
+			"label": "Tên video",
+			"placeholder": "Khóa học"
+		},
+		{
+			"name": "source",
+			"type": "file",
+			"label": "Đường dẫn",
+			"placeholder": "Chọn Video"
+		},
+		{
+			"name": "act",
+			"type": "select",
+			"label": "Kích hoạt",
+			"placeholder": "Kích hoạt",
+			"options": [
+				{
+					"value": "1",
+					"name": "Kích hoạt"
+				},
+				{
+					"value": "0",
+					"name": "Không kích hoạt"
+				}
+			]
+		},
+		{
+			"name": "type",
+			"type": "select",
+			"label": "Loại",
+			"placeholder": "Chọn loại",
+			"options": [
+				{
+					"value": "1",
+					"name": "Trả phí"
+				},
+				{
+					"value": "0",
+					"name": "Miễn phí"
+				}
+			]
+		},
+		{
+			"name": "ord",
+			"type": "text",
+			"label": "Thứ tự",
+			"placeholder": "Nhập thứ tự.."
+		}
+	]
+}

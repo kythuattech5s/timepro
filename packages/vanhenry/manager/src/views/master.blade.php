@@ -8,6 +8,7 @@
     <?php header('X-XSS-Protection: 0'); ?>
     <meta content="{{$admincp}}" name="admincp"/>
     <base href="{{asset('/')}}" />
+    @yield('start_css')
     <link rel="stylesheet" href="admin/bootstrap/css/bootstrap.min.css" type="text/css" media="screen" />
     <link rel="stylesheet" href="admin/bootstrap/css/bootstrap-theme.min.css" type="text/css" media="screen" />
     <link rel="stylesheet" href="admin/css/font-awesome.min.css" type="text/css" media="screen" />

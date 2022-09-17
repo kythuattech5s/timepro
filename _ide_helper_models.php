@@ -1181,6 +1181,7 @@ namespace App\Models{
  * @property string|null $facebook
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Course[] $course
  * @property-read int|null $course_count
+ * @property string|null $teacher_skills
  * @property-read \App\Models\District|null $district
  * @property-read \App\Models\Gender|null $gender
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection|\Illuminate\Notifications\DatabaseNotification[] $notifications
@@ -1218,6 +1219,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|User whereRememberToken($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereTeacherDescription($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereTeacherJob($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereTeacherSkills($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereToken($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereUserTypeId($value)
@@ -1294,6 +1296,8 @@ namespace App\Models{
  *
  * @property int $user_id Id người dùng
  * @property int $teacher_skill_id Id kĩ năng
+ * @property int $course_id ID khóa học
+ * @property int $course_category_id ID danh mục khóa học
  * @property \Illuminate\Support\Carbon|null $created_at Ngày tạo
  * @property \Illuminate\Support\Carbon|null $updated_at Ngày cập nhật
  * @property-read \App\Models\TeacherSkill|null $teacherSkill
@@ -1309,6 +1313,10 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|UserTeacherSkill whereTeacherSkillId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|UserTeacherSkill whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|UserTeacherSkill whereUserId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|UserTeacherSkill whereCourseCategoryId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|UserTeacherSkill whereCourseId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|UserTeacherSkill whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|UserTeacherSkill whereUpdatedAt($value)
  */
 	class UserTeacherSkill extends \Eloquent {}
 }

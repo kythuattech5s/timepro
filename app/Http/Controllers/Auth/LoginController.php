@@ -82,9 +82,10 @@ class LoginController extends Controller
             return Support::sendResponse(100,$infoCheck['message'],\VRoute::get("login"));
         }
         $credentials = [$usernameField => $username, 'password'=>$request->password];
-        if (Auth::attempt($credentials, $request->remember)) {
+        if (Auth::attempt($credentials, $request->input('remember'))) {
             return $this->authenticated($request,$user);
-        }else{
+        }
+        else{
             return Support::sendResponse(100,'Tài khoản hoặc mật khẩu đăng nhập không chính xác',\VRoute::get("login"));
         }
     }
@@ -96,17 +97,20 @@ class LoginController extends Controller
                 'code' => 100,
                 'message' => 'Tài khoản hoặc mật khẩu đăng nhập không chính xác'
             ];
-        }else if ($user->act == 0) {
+        }
+        else if ($user->act == 0) {
             $infoCheck = [
                 'code' => 100,
                 'message' => 'Tài khoản chưa được kích hoạt. Vui lòng kích hoạt tài khoản'
             ];
-        } else if ($user->banned == 1) {
+        }
+        else if ($user->banned == 1) {
             $infoCheck = [
                 'code' => 100,
                 'message' => 'Tài khoản đã bị cấm'
             ];
-        } else{
+        }
+        else{
             $infoCheck = [
                 'code' => 200,
                 'message' => ''

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html itemscope="" itemtype="http://schema.org/WebPage" lang="vi">
+
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -11,6 +12,29 @@
     <link rel="stylesheet" href="{{ Support::asset('theme/frontend/css/lightbox.css')}}"/>
     <link rel="stylesheet" href="{{ Support::asset('theme/frontend/css/main.css')}}"/>
     <link rel="stylesheet" href="{{ Support::asset('theme/frontend/css/toastify.css')}}"/>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'Averta': ['"Averta"'],
+                    },
+                    screens: {
+                        'sm': '576px',
+                        'md': '768px',
+                        'lg': '1024px',
+                        'xl': '1280px',
+                        '2xl': '1408px',
+
+                    },
+                    container: {
+                        center: true,
+                    },
+                }
+            }
+        }
+    </script>
     @yield('cssl')
     @yield('css')
     <script type="text/javascript">
@@ -52,6 +76,13 @@
     @yield('main')
     @include('layouts.footer')
     {[CMS_FOOTER]}
+    <script src="theme/frontend/tech5s_js/tech5s_base.min.js" defer></script>
+    <script src="theme/frontend/tech5s_js/libraries/Tech.js" defer></script>
+    <script src="theme/frontend/tech5s_js/libraries/BackToTop.js" defer></script>
+    <script src="theme/frontend/js/wow.min.js" defer></script>
+    <script src="theme/frontend/js/fslightbox.js" defer></script>
+    <script src="theme/frontend/js/swiper-bundle.min.js" defer></script>
+    <script src="theme/frontend/js/tabs.js" defer></script>
     <script src="{{ Support::asset('theme/frontend/js/xhr.js') }}" defer></script>
     <script src="{{ Support::asset('theme/frontend/js/validator.js') }}" defer></script>
     <script src="{{ Support::asset('theme/frontend/js/toastify.js') }}" defer></script>
@@ -68,5 +99,7 @@
     <script src="{{ Support::asset('theme/frontend/js/slider.js') }}" defer></script>
     <script src="{{ Support::asset('theme/frontend/js/script.js') }}" defer></script>
     @yield('js')
+    <script src="{{ Support::asset('theme/frontend/js/add/script.js') }}" defer></script>
 </body>
+
 </html>
