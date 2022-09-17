@@ -1,0 +1,73 @@
+:root{
+    --color-multiple-checked : #eb9316;
+    --color-multiple-check-item : white;
+    --color-multiple-start : #979797;
+    --color-multiple-check-disabled : #979797;
+    --width-height-check: 14px
+}
+/* css m-checkbox */
+input[c-multiple],
+input[c-parent-single],
+input[c-single]{
+    display: none;
+}
+
+input[c-multiple]~span,
+input[c-parent-single]~span,
+input[c-single]~span{
+    width: var(--width-height-check);
+    height: var(--width-height-check);
+    display: block;
+    margin: auto;
+    box-shadow: 0 0 1px 1px var(--color-multiple-start);
+    cursor: pointer;
+    transition: all 200ms;
+}
+
+input[c-multiple]:hover~span,
+input[c-parent-single]:hover~span,
+input[c-single]:hover~span{
+    box-shadow: 0 0 1px 1px var(--color-multiple-checked);
+}
+
+input[c-multiple]:checked ~span,
+input[c-parent-single]:checked ~span,
+input[c-single]:checked ~span{
+    box-shadow: 0 0 1px 1px var(--color-multiple-checked);
+    background: var(--color-multiple-checked);
+}
+
+input[c-multiple] ~ span:after,
+input[c-parent-single] ~ span:after,
+input[c-single] ~ span:after {
+    content: '';
+    width: 5px;
+    height: 10px;
+    display: block;
+    border-right: 2px solid var(--color-multiple-check-item);
+    border-bottom: 2px solid var(--color-multiple-check-item);
+    transform: rotate(45deg) translateX(5px) translateY(-3px) scale(0);
+    transition: all 200ms;
+}
+input[c-multiple]:focus ~ span:after,
+input[c-parent-single]:focus ~ span:after,
+input[c-single]:focus ~ span:after{
+    box-shadow: 0 0 5px 1px var(--color-multiple-checked);
+}
+
+input[c-multiple]:checked ~ span:after,
+input[c-parent-single]:checked ~ span:after,
+input[c-single]:checked ~ span:after {
+    transform: rotate(45deg) translateX(5px) translateY(-3px) scale(1);
+}
+
+input[c-multiple][disabled] ~ span,
+input[c-parent-single][disabled] ~ span,
+input[c-single][disabled] ~ span{
+    background-color: var(--color-multiple-check-disabled);
+    box-shadow: 0 0 1px 1px var(--color-multiple-check-disabled);
+}
+
+label.c-hidden{
+    display: none !important;
+}

@@ -17,7 +17,7 @@ trait GetDataComment
 
     public function getRating(String $type = '', $noCalculator = true)
     {
-        if ($type == '' && $noCalculator) {
+        if ($type == '' && $noCalculator && isset($this->info_rating)) {
             if (json_decode($this->info_rating, true) == null) {
                 return [
                     'oneStar' => 0,
@@ -159,6 +159,6 @@ trait GetDataComment
 
     public function comments()
     {
-        return $this->hasMany(Comment::class, 'map_id', 'id')->with('ratings','user')->where('act', 1)->where('map_table', $this->getTable())->where('parent', null);
+        return $this->hasMany(Comment::class, 'map_id', 'id')->with('rating','user')->where('act', 1)->where('map_table', $this->getTable())->where('comment_id', null);
     }
 }

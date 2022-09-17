@@ -11,6 +11,9 @@
     display: inline-block;
     color: var(--color-star-checked);
 }
+.fa-star:before {
+    font-family: "FontAwesome";
+}
 
 .rating--active {
     position: absolute;
