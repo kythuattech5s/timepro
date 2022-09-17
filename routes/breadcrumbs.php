@@ -6,8 +6,6 @@ Breadcrumbs::for('static', function ($trail,$name,$link) {
     $trail->parent('home');
     $trail->push($name,$link);
 });
-	$trail->push(trans('fdb::home'), url('/'));
-});
 Breadcrumbs::for('login', function ($trail) {
 	$trail->parent('home');
     $trail->push(trans('fdb::login'));

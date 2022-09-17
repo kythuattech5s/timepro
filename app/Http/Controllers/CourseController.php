@@ -16,7 +16,9 @@ class CourseController extends Controller
             abort(404);
         }
         if (isset($video)) {
-            $videos = CourseVideo::where('course_id', $currentItem->id)->get();
+            $videos = CourseVideo::with(['notes' => function ($q) {
+                $q->where('user_id', \Auth::id());
+            }])->where('course_id', $currentItem->id)->get();
             return view('courses.video', compact('videos', 'currentItem'));
         }
         $parent = $currentItem->category()->first();

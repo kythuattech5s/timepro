@@ -250,8 +250,7 @@ const videoUpload = (base64img, id, jsonFile, duration) => {
     const div = document.querySelector(`[data-id="${id}"]`);
     const image = div.querySelector("img");
     const input = div.querySelector(`input[id="${id}"]`);
-    console.log(input.nextElementSibling);
-    input.nextElementSibling.value = Helper.toHHMMSS(duration);
+    input.nextElementSibling.value = duration;
     input.value = JSON.stringify(jsonFile);
     image.src = base64img;
     input.dispatchEvent(new Event("change"));

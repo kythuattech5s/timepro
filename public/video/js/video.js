@@ -751,8 +751,7 @@ var videoUpload = function videoUpload(base64img, id, jsonFile, duration) {
   var div = document.querySelector("[data-id=\"".concat(id, "\"]"));
   var image = div.querySelector("img");
   var input = div.querySelector("input[id=\"".concat(id, "\"]"));
-  console.log(input.nextElementSibling);
-  input.nextElementSibling.value = _roniejisa_scripts_assets_js_Helper_js__WEBPACK_IMPORTED_MODULE_1__["default"].toHHMMSS(duration);
+  input.nextElementSibling.value = duration;
   input.value = JSON.stringify(jsonFile);
   image.src = base64img;
   input.dispatchEvent(new Event("change"));
