@@ -1,0 +1,17 @@
+{
+    "name": "tech5s/promotion",
+    "description": "Tech5s Khuyến mại",
+    "keywords": ["laravel"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "roniejisa",
+            "email": "roniejisa@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Tech5s\\Promotion\\": "packages/tech5s/promotion/src"
+        }
+    }
+}
