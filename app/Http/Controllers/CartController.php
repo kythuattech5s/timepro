@@ -6,6 +6,8 @@ use App\Models\CourseCombo;
 use App\Models\CourseComboTimePackage;
 use App\Models\CourseTimePackage;
 use App\Models\PaymentMethod;
+use App\Models\UserCourse;
+use App\Models\UserCourseCombo;
 use Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -234,10 +236,26 @@ class CartController extends Controller
                     case 'course':
                         $realItem = Course::baseView()->with('category')->find($item->id);
                         $itemTimePackage = CourseTimePackage::find($item->options->id ?? 0);
+                        $foreverUserCourse = UserCourse::where('user_id',$user->id)
+                                    ->where('is_forever',1)
+                                    ->where('course_id',$realItem->id)
+                                    ->first();
+                        if ($foreverUserCourse) {
+                            Tech5sCart::update($item->rowId,0);
+                            return Support::redirectTo(\VRoute::get("viewCart"),200,vsprintf('Khóa học %s của bạn đã được kích hoạt vĩnh viễn. Giỏ hàng đã tự cập nhật lại',[$realItem->name]));
+                        }
                         break;
                     case 'vip':
                         $realItem = CourseCombo::baseView()->find($item->id);
                         $itemTimePackage = CourseComboTimePackage::find($item->options->id ?? 0);
+                        $foreverUserCourse = UserCourseCombo::where('user_id',$user->id)
+                                    ->where('is_forever',1)
+                                    ->where('course_combo_id',$realItem->id)
+                                    ->first();
+                        if ($foreverUserCourse) {
+                            Tech5sCart::update($item->rowId,0);
+                            return Support::redirectTo(\VRoute::get("viewCart"),200,vsprintf('Gói Vip %s của bạn đã được kích hoạt vĩnh viễn. Giỏ hàng đã tự cập nhật lại',[$realItem->name]));
+                        }
                         break;
                     default:
                         $realItem = null;

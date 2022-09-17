@@ -11,7 +11,7 @@
 		{{-- Previous Page Link --}}
 		@if ($paginator->onFirstPage())
 		@else
-			<a href="{{ $paginator->previousPageUrl() }}" {{ $attribute ?? 'data-page' }}="{{ $currentPage - 1 }}"><i class="fa-solid fa-arrow-left"></i></a>
+			<a href="{{ $paginator->previousPageUrl() }}" {{ $attribute ?? 'data-page' }}="{{ $currentPage - 1 }}"><i class="fa fa-arrow-left"></i></a>
 			@if (!in_array($currentPage, [1, 2, 3, 4]))
 				<a href="{{ $urlDefault ? Support::buildLinkPagination($urlDefault, 1) : $paginator->url(1) }}" {{ $attribute ?? 'data-page' }}="1">1</a></li>
 				@if ($currentPage !== 5)
@@ -39,7 +39,7 @@
 				@endif
 				<a href="{{ $urlDefault ? Support::buildLinkPagination($urlDefault,$page) : $paginator->url($page) }}" {{ $attribute ?? 'data-page' }}="{{ $page }}">{{ $page }}</a></li>
 			@endif
-			<a href="{{ $urlDefault ? Support::buildLinkPagination($urlDefault,$currentPage + 1) : $paginator->nextPageUrl() }}" {{ $attribute ?? 'data-page' }}="{{ $currentPage + 1 }}"><i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
+			<a href="{{ $urlDefault ? Support::buildLinkPagination($urlDefault,$currentPage + 1) : $paginator->nextPageUrl() }}" {{ $attribute ?? 'data-page' }}="{{ $currentPage + 1 }}"><i class="fa fa-arrow-right" aria-hidden="true"></i></a>
 		@else
 		@endif
 	</div>

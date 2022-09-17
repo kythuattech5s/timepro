@@ -26,7 +26,7 @@
     </p>
     <p class="contact-sutdent mb-2">
         <strong class="font-semibold">Khóa học đã tham gia</strong>
-        {{$countUserCourse ?? 0}}
+        {{count($user->userAllCourseId())}}
     </p>
     <hr class="line border-[#ebebeb] opacity-100 my-4">
     <div class="box-wallet flex items-center justify-between gap-4">

@@ -6,7 +6,7 @@
 @section('main')
     <section class="section-lesson mx-auto max-w-[1920px] py-6 2xl:py-14">
         <div class="head mb-6 block items-center justify-between gap-4 px-4 lg:flex lg:px-6 2xl:mb-8 2xl:px-10">
-            <a href="#" title="Trở về" class="back mb-2 inline-block font-bold text-[#CD272F] lg:mb-0 2xl:text-[1.125rem]">
+            <a href="{{$currentItem->slug}}" title="Trở về" class="back mb-2 inline-block font-bold text-[#CD272F] lg:mb-0 2xl:text-[1.125rem]">
                 <svg width="24" height="24" class="mr-2 inline-block" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M19 12H5" stroke="#CD272F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                     <path d="M12 19L5 12L12 5" stroke="#CD272F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
@@ -55,86 +55,74 @@
                         </div>
                     </div>
                     <div class="tabcontent px-4 2xl:px-10" id="tab-lesson-2">
-                        <div class="grid gap-4 md:grid-cols-1 lg:grid-cols-5">
-                            <div class="col-span-1 lg:col-span-3">
-                                <div class="module-info-teacher">
-                                    <div class="info-teacher mb-4 flex items-center gap-4">
-                                        <span class="ava block h-14 w-14 shrink-0 overflow-hidden rounded-full lg:h-20 lg:w-20 2xl:h-28 2xl:w-28">
-                                            <img src="theme/frontend/images/ava-teacher.jpg" alt="">
-                                        </span>
-                                        <div class="info-content">
-                                            <p class="name mb-1 font-bold text-[#252525] 2xl:text-[1.25rem]">Mr. Chu
-                                                Quang
-                                                Thuận</p>
-                                            <p class="desc text-[#CD272F]">Giám Đốc Điều Hành Times Pro</p>
+                        @if (isset($currentItem->teacher))
+                            @php
+                                $userTeacher = $currentItem->teacher;
+                            @endphp
+                            <div class="grid gap-4 md:grid-cols-1 lg:grid-cols-5">
+                                <div class="col-span-1 lg:col-span-3">
+                                    <div class="module-info-teacher">
+                                        <div class="info-teacher mb-4 flex items-center gap-4">
+                                            <span class="ava block h-14 w-14 shrink-0 overflow-hidden rounded-full lg:h-20 lg:w-20 2xl:h-28 2xl:w-28">
+                                                @include('image_loader.big',['itemImage'=>$userTeacher,'key'=>'img'])
+                                            </span>
+                                            <div class="info-content">
+                                                <p class="name mb-1 font-bold text-[#252525] 2xl:text-[1.25rem]">{{Support::show($userTeacher,'name')}}</p>
+                                                <p class="desc text-[#CD272F]">{{Support::show($userTeacher,'teacher_job')}}</p>
+                                            </div>
                                         </div>
+                                        <div class="s-content mb-4 text-justify 2xl:mb-6">{!!$userTeacher->teacher_description!!}</div>
+                                        <div class="statis ml-0 mr-auto mb-4 grid max-w-[25rem] grid-cols-3 gap-4 rounded border-[1px] border-solid border-[#ebebeb] py-4 px-4 lg:px-6 2xl:mb-6 2xl:px-9">
+                                            <div class="col-span-1 text-center">
+                                                <p class="title mb-2 text-[0.75rem] font-semibold text-[#252525]">Số khóa học</p>
+                                                <span class="count inline-block rounded bg-[#E27B76] px-2 py-1 font-semibold text-white">{{count($userTeacher->course)}}</span>
+                                            </div>
+                                            <div class="col-span-1 text-center">
+                                                <p class="title mb-2 text-[0.75rem] font-semibold text-[#252525]">Tổng giờ giảng</p>
+                                                <span class="count inline-block rounded bg-[#E27B76] px-2 py-1 font-semibold text-white">{{(int)($userTeacher->course->sum('duration')/60)}}</span>
+                                            </div>
+                                            <div class="col-span-1 text-center">
+                                                <p class="title mb-2 text-[0.75rem] font-semibold text-[#252525]">Lượt đánh
+                                                    giá</p>
+                                                <span class="count inline-block rounded bg-[#E27B76] px-2 py-1 font-semibold text-white">4.6/5</span>
+                                            </div>
+                                        </div>
+                                        <ul class="social-teacher">
+                                            <li class="mr-4 inline-block last:mr-0 2xl:mr-6">
+                                                <a href="tel:{{Support::show($userTeacher,'phone')}}" title="Số điện thoại" class="flex h-8 w-8 items-center justify-center rounded-full bg-[#D2D2D2] text-white">
+                                                    <i class="fa fa-phone" aria-hidden="true"></i>
+                                                </a>
+                                            </li>
+                                            <li class="mr-4 inline-block last:mr-0 2xl:mr-6">
+                                                <a href="mailto:{{Support::show($userTeacher,'email')}}" title="Email" class="flex h-8 w-8 items-center justify-center rounded-full bg-[#D2D2D2] text-white">
+                                                    <i class="fa fa-envelope-o" aria-hidden="true"></i>
+                                                </a>
+                                            </li>
+                                            <li class="mr-4 inline-block last:mr-0 2xl:mr-6">
+                                                <a href="{{Support::show($userTeacher,'facebook')}}" title="Facebool" class="flex h-8 w-8 items-center justify-center rounded-full bg-[#D2D2D2] text-white" target="_blank" rel="noindex,nofollow,noopener">
+                                                    <i class="fa fa-facebook" aria-hidden="true"></i>
+                                                </a>
+                                            </li>
+                                        </ul>
                                     </div>
-                                    <div class="s-content mb-4 text-justify 2xl:mb-6">
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Dignissim sit ut lorem
-                                        odio
-                                        ultrices sed massa pharetra. Lacus auctor accumsan, odio tincidunt facilisis
-                                        lorem.
-                                        Adipiscing arcu velit sem pharetra ipsum justo, vitae. Sit elementum, nisi cum
-                                        habitant aliquam. Et at eu quis in. Iaculis porttitor tristique purus augue.
-                                        Amet
-                                        scelerisque orci, interdum tempor tempor arcu. Morbi nullam aenean adipiscing
-                                        dictum
-                                        at nunc. Sed id id placerat aliquam suspendisse faucibus nisl, quis accumsan.
-                                    </div>
-                                    <div class="statis ml-0 mr-auto mb-4 grid max-w-[25rem] grid-cols-3 gap-4 rounded border-[1px] border-solid border-[#ebebeb] py-4 px-4 lg:px-6 2xl:mb-6 2xl:px-9">
-                                        <div class="col-span-1 text-center">
-                                            <p class="title mb-2 text-[0.75rem] font-semibold text-[#252525]">Số khóa
-                                                học</p>
-                                            <span class="count inline-block rounded bg-[#E27B76] px-2 py-1 font-semibold text-white">10</span>
-                                        </div>
-                                        <div class="col-span-1 text-center">
-                                            <p class="title mb-2 text-[0.75rem] font-semibold text-[#252525]">Tổng giờ
-                                                giảng</p>
-                                            <span class="count inline-block rounded bg-[#E27B76] px-2 py-1 font-semibold text-white">699</span>
-                                        </div>
-                                        <div class="col-span-1 text-center">
-                                            <p class="title mb-2 text-[0.75rem] font-semibold text-[#252525]">Lượt đánh
-                                                giá</p>
-                                            <span class="count inline-block rounded bg-[#E27B76] px-2 py-1 font-semibold text-white">4.6/5</span>
-                                        </div>
-                                    </div>
-                                    <ul class="social-teacher">
-                                        <li class="mr-4 inline-block last:mr-0 2xl:mr-6">
-                                            <a href="#" title="" class="flex h-8 w-8 items-center justify-center rounded-full bg-[#D2D2D2] text-white">
-                                                <i class="fa fa-phone" aria-hidden="true"></i>
-                                            </a>
-                                        </li>
-                                        <li class="mr-4 inline-block last:mr-0 2xl:mr-6">
-                                            <a href="#" title="" class="flex h-8 w-8 items-center justify-center rounded-full bg-[#D2D2D2] text-white">
-                                                <i class="fa fa-envelope-o" aria-hidden="true"></i>
-                                            </a>
-                                        </li>
-                                        <li class="mr-4 inline-block last:mr-0 2xl:mr-6">
-                                            <a href="#" title="" class="flex h-8 w-8 items-center justify-center rounded-full bg-[#D2D2D2] text-white">
-                                                <i class="fa fa-facebook" aria-hidden="true"></i>
-                                            </a>
-                                        </li>
-                                    </ul>
                                 </div>
-
-
-                            </div>
-                            <div class="col-span-1 lg:col-span-2">
-                                <div class="form-rating__teacher rounded-lg border-[1px] border-solid border-[#ebebeb] p-4 lg:p-6 2xl:py-10 2xl:px-7">
-                                    <p class="title mb-2 text-center text-[1rem] font-bold text-[#252525] 2xl:text-[1.3rem]">
-                                        Đánh giá giảng viên
-                                    </p>
-                                    <p class="desc mb-6 text-center text-[0.875rem]">
-                                        Vui lòng để lại cảm nghĩ của bạn nhé! Đánh giá của bạn góp phần cải thiện chất
-                                        lượng giảng dạy của giảng viên chúng tôi.
-                                    </p>
-                                    <form action="" method="" class="form">
-                                        <textarea class="form-control mb-4 h-24 w-full resize-none rounded-lg bg-[#F5F5F5] p-3 outline-none" placeholder="Nhập ghi chú và nhấn Enter để lưu lại "></textarea>
-                                        <button class="btn btn-red-gradien mx-auto flex w-fit items-center justify-center rounded bg-gradient-to-r from-[#F44336] to-[#C62828] py-2 px-4 font-semibold uppercase text-white shadow-[0_6px_20px_rgba(178,30,37,.4)]">GỬI ĐÁNH GIÁ</button>
-                                    </form>
+                                <div class="col-span-1 lg:col-span-2">
+                                    <div class="form-rating__teacher rounded-lg border-[1px] border-solid border-[#ebebeb] p-4 lg:p-6 2xl:py-10 2xl:px-7">
+                                        <p class="title mb-2 text-center text-[1rem] font-bold text-[#252525] 2xl:text-[1.3rem]">
+                                            Đánh giá giảng viên
+                                        </p>
+                                        <p class="desc mb-6 text-center text-[0.875rem]">
+                                            Vui lòng để lại cảm nghĩ của bạn nhé! Đánh giá của bạn góp phần cải thiện chất
+                                            lượng giảng dạy của giảng viên chúng tôi.
+                                        </p>
+                                        <form action="" method="" class="form">
+                                            <textarea class="form-control mb-4 h-24 w-full resize-none rounded-lg bg-[#F5F5F5] p-3 outline-none" name="" placeholder="Nhập ghi chú và nhấn Enter để lưu lại "></textarea>
+                                            <button class="btn btn-red-gradien mx-auto flex w-fit items-center justify-center rounded bg-gradient-to-r from-[#F44336] to-[#C62828] py-2 px-4 font-semibold uppercase text-white shadow-[0_6px_20px_rgba(178,30,37,.4)]">GỬI ĐÁNH GIÁ</button>
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        @endif
                     </div>
                     <div class="tabcontent px-4 2xl:px-10" id="tab-lesson-3">
                         <div class="item-document mb-4 block items-center justify-between gap-4 rounded-lg border-[1px] border-solid border-[#ebebeb] p-2 transition-all duration-300 last:mb-0 hover:border-transparent hover:bg-[#f5f5f5] sm:flex md:p-4 2xl:p-6">

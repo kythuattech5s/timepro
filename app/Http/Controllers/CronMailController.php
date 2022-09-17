@@ -41,7 +41,7 @@ class CronMailController extends Controller
                     $mail->status = 3;
                     return $error->getMessage();
                 }
-                $this->plusCountEmail(config('mail')['username']);
+                $this->plusCountEmail(config('mail')['from']['address']);
                 $mail->result = $result;
                 $mail->save();
                 sleep(2);
@@ -54,6 +54,6 @@ class CronMailController extends Controller
     }
     public function plusCountEmail($email)
     {
-        \DB::table('emails')->where('email', $email)->increment('count_usage', 1);
+        \DB::table('emails')->where('username', $email)->increment('count_usage', 1);
     }
 }

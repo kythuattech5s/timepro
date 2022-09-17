@@ -10,6 +10,7 @@ use Illuminate\Notifications\Notifiable;
 class User extends Authenticatable
 {
     use HasFactory, Notifiable;
+    protected $listUserCourseId = null;
     protected $hidden = ['remember_token'];
     protected $casts = [
         'email_verified_at' => 'datetime',
@@ -68,8 +69,11 @@ class User extends Authenticatable
     {
         return $this->hasMany(UserCourseCombo::class);
     }
-    public function userCoursePaginage($paginateNumber)
+    public function userAllCourseId()
     {
+        if (isset($this->listUserCourseId)) {
+            return $this->listUserCourseId;
+        }
         $userCourseComboAllCount = $this->userCourseCombo()->whereHas('courseCombo',function($q){
                                                                 $q->where('all_course',1);
                                                             })
@@ -78,13 +82,13 @@ class User extends Authenticatable
                                                             })
                                                             ->first();
         if (isset($userCourseComboAllCount)) {
-            return Course::act()->paginate($paginateNumber);
+            return Course::act()->get()->pluck('id');
         }
         $userCourseComboSpecialCourse = $this->userCourseCombo()->whereHas('courseCombo',function($q){
-                                                                    $q->where('all_course','!=',1);
+                                                                    $q->act()->where('all_course','!=',1);
                                                                 })
                                                                 ->with(['courseCombo'=>function($q){
-                                                                    $q->where('all_course','!=',1)->with('course');
+                                                                    $q->act()->where('all_course','!=',1)->with('course');
                                                                 }])
                                                                 ->where(function($q){
                                                                     $q->where('expired_time','>',now())->orWhere('is_forever',1);
@@ -94,12 +98,13 @@ class User extends Authenticatable
         foreach ($userCourseComboSpecialCourse as $item) {
             $listCourseId = $listCourseId->merge($item->courseCombo->course->pluck('id'));
         }
-        $listUserCourseId = $this->userCourse()->where(function($q){
-                                            $q->where('expired_time','>',now())->orWhere('is_forever',1);
-                                        })
-                                        ->pluck('course_id');
+        $listUserCourseId = $this->userCourse()->act()->where(function($q){
+                                                    $q->where('expired_time','>',now())->orWhere('is_forever',1);
+                                                })
+                                                ->pluck('course_id');
         $listCourseId = $listCourseId->merge($listUserCourseId)->unique();
-        return Course::whereIn('id',$listCourseId)->act()->paginate($paginateNumber);
+        $this->listUserCourseId = $listCourseId;
+        return $listCourseId;
     }
     public function wallet(){
         return $this->hasOne(UserWallet::class,'user_id','id');
