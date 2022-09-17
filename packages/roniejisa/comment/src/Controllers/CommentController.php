@@ -38,6 +38,25 @@ class CommentController extends Controller
         ]);
     }
 
+    public function commentCourse(Request $request)
+    {
+        if (!Auth::check() && config('cmrsc_comment.checkUser', false)) {
+            return response([
+                'code' => 100,
+                'message' => 'Vui lòng đăng nhập',
+                'redirect_url' => url('dang-nhap'),
+            ]);
+        }
+
+        $comment = Helper::addComment($request);
+
+        return response([
+            'code' => 200,
+            'message' => 'Đánh giá khóa học thành công',
+            'html' => view('courses.components.rating_course', compact('comment'))->render()
+        ]);
+    }
+
     public function commentNow(Request $request)
     {
         if (!Auth::check() && config('cmrsc_comment.checkUser', false)) {

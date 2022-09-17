@@ -51,7 +51,7 @@ return [
     // Cấu hình cho các trường
 
     // Tài khoản
-    'checkUser' => false,
+    'checkUser' => true,
 
     
     'fields' => [
