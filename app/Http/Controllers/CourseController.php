@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Course;
 use Auth;
+use Roniejisa\Comment\Models\Comment;
 use Support;
 use Tech5s\VideoChapter\Models\CourseVideo;
 
@@ -17,7 +18,6 @@ class CourseController extends Controller
         if ($currentItem == null) {
             abort(404);
         }
-        $listVideo = $currentItem->videos()->where('act',1)->get();
         $isOwn = $currentItem->isOwn(Auth::user());
         if (isset($video)) {
             $videos = CourseVideo::with(['notes' => function ($q) {
@@ -25,8 +25,11 @@ class CourseController extends Controller
             }])->where('course_id', $currentItem->id)->get();
             return view('courses.video', compact('videos', 'currentItem', 'isOwn'));
         }
+        $comments = Comment::where('act', 1)->where('map_table', 'courses')->where('map_id', $currentItem->id)->whereNull('comment_id')->orderBy('id', 'DESC')->paginate(5);
+        $listVideo = $currentItem->videos()->where('act', 1)->get();
         $parent = $currentItem->category()->orderBy('id', 'desc')->first();
         $listRelateCourse = $currentItem->getRelatesCollection(4);
-        return view('courses.view', compact('currentItem', 'parent', 'listRelateCourse', 'isOwn', 'listVideo'));
+        $ratings = $currentItem->getRating();
+        return view('courses.view', compact('currentItem', 'parent', 'listRelateCourse', 'isOwn', 'listVideo', 'comments', 'ratings'));
     }
 }

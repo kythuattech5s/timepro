@@ -2,6 +2,7 @@
 
 namespace Tech5s\Promotion\Models;
 
+use App\Models\Course;
 use App\Models\CourseCategory;
 use Currency;
 use DateTime;
@@ -17,6 +18,11 @@ class FlashSale extends BaseModel
     public function promotionTypeComparison()
     {
         return $this->belongsTo(PromotionTypeComparison::class);
+    }
+
+    public function courses()
+    {
+        return $this->belongsToMany(Course::class, 'flash_sale_course', 'flash_sale_id', 'course_id');
     }
 
     public function course_categories()

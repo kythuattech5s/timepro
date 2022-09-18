@@ -12,6 +12,39 @@
 
 namespace App\Models{
 /**
+ * App\Models\AskAndAnswer
+ *
+ * @property int $id
+ * @property string|null $map_table Tên bảng
+ * @property int|null $map_id Id
+ * @property string|null $content Nội dung
+ * @property string|null $gender Nam/ Nữ
+ * @property string|null $name Tên
+ * @property string|null $phone Số điện thoại
+ * @property int|null $user_id User
+ * @property string|null $user_type Loại tài khoản
+ * @property \Illuminate\Support\Carbon|null $created_at Ngày tạo
+ * @property \Illuminate\Support\Carbon|null $updated_at Ngày cập nhật
+ * @method static \Illuminate\Database\Eloquent\Builder|AskAndAnswer newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|AskAndAnswer newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|AskAndAnswer query()
+ * @method static \Illuminate\Database\Eloquent\Builder|AskAndAnswer whereContent($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|AskAndAnswer whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|AskAndAnswer whereGender($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|AskAndAnswer whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|AskAndAnswer whereMapId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|AskAndAnswer whereMapTable($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|AskAndAnswer whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|AskAndAnswer wherePhone($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|AskAndAnswer whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|AskAndAnswer whereUserId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|AskAndAnswer whereUserType($value)
+ */
+	class AskAndAnswer extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
  * App\Models\BaseModel
  *
  * @method static \Illuminate\Database\Eloquent\Builder|BaseModel act()
