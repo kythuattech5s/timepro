@@ -156,7 +156,7 @@
                                     <img src="theme/frontend/images/banner-lec.jpg" alt="">
                                 </span>
                                 <div class="content relative lg:p-4 p-2 pt-0 text-center lg:mt-[-75px] -mt-10">
-                                    <span class="ava block img-ava mx-auto lg:w-[8rem] lg:h-[8rem] w-[5rem] h-[5rem rounded-full overflow-hidden">
+                                    <span class="ava block img-ava mx-auto lg:w-[8rem] lg:h-[8rem] w-[5rem] h-[5rem] rounded-full overflow-hidden">
                                         @include('image_loader.big',['itemImage'=>$itemTeacher,'key'=>'img'])
                                     </span>
                                     <p class="name font-bold text-[#252525] 2lx:text-[1.25rem] text-[1rem] mb-1">{{Support::show($itemTeacher,'name')}}</p>
