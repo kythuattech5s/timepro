@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AskAndAnswer;
 use App\Models\Course;
 use Auth;
 use Roniejisa\Comment\Models\Comment;
@@ -30,6 +31,7 @@ class CourseController extends Controller
         $parent = $currentItem->category()->orderBy('id', 'desc')->first();
         $listRelateCourse = $currentItem->getRelatesCollection(4);
         $ratings = $currentItem->getRating();
-        return view('courses.view', compact('currentItem', 'parent', 'listRelateCourse', 'isOwn', 'listVideo', 'comments', 'ratings'));
+        $asks = AskAndAnswer::with('likes')->where('map_id', $currentItem->id)->where('map_table', 'courses')->where('act', 1)->whereNull('ask_and_answer_id')->paginate(1);
+        return view('courses.view', compact('currentItem', 'parent', 'listRelateCourse', 'isOwn', 'listVideo', 'comments', 'ratings', 'asks'));
     }
 }
