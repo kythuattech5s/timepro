@@ -17,6 +17,7 @@ class CourseController extends Controller
         if ($currentItem == null) {
             abort(404);
         }
+        $listVideo = $currentItem->videos()->where('act',1)->get();
         $isOwn = $currentItem->isOwn(Auth::user());
         if (isset($video)) {
             $videos = CourseVideo::with(['notes' => function ($q) {

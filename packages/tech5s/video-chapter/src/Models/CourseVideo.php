@@ -15,7 +15,10 @@ class CourseVideo extends Model
     {
         return $this->belongsTo(Course::class);
     }
-
+    public function courseVideoUser()
+    {
+        return $this->hasMany(CourseVideoUser::class);
+    }
     public function notes()
     {
         return $this->hasMany(CourseVideoNote::class, 'course_video_id')->where('user_id', \Auth::id());
