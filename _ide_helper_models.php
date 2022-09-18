@@ -114,6 +114,7 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $created_at Ngày tạo
  * @property \Illuminate\Support\Carbon|null $updated_at Ngày sửa
  * @property int|null $parent Sắp xếp
+ * @property int|null $home Kích hoạt
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Course[] $course
  * @property-read int|null $course_count
  * @method static \Illuminate\Database\Eloquent\Builder|BaseModel act()
@@ -127,6 +128,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|CourseCategory whereAct($value)
  * @method static \Illuminate\Database\Eloquent\Builder|CourseCategory whereContent($value)
  * @method static \Illuminate\Database\Eloquent\Builder|CourseCategory whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|CourseCategory whereHome($value)
  * @method static \Illuminate\Database\Eloquent\Builder|CourseCategory whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|CourseCategory whereImg($value)
  * @method static \Illuminate\Database\Eloquent\Builder|CourseCategory whereName($value)
