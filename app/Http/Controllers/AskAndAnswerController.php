@@ -10,7 +10,6 @@ class AskAndAnswerController extends Controller
     public function ask(Request $request)
     {
         $validator = $this->validateAsk();
-
         if ($validator->fails()) {
             return response()->json([
                 'code' => 100,
@@ -18,22 +17,25 @@ class AskAndAnswerController extends Controller
             ]);
         }
 
-        $ask = new AskAndAnswer();
-        $ask->map_table = $request->map_table;
-        $ask->map_id = $request->map_id;
-        $ask->content = $request->content;
-        $ask->gender = $request->gender;
-        $ask->phone = $request->phone;
-        $ask->name = $request->name;
-        $ask->act = 0;
+        $data = [
+            'map_table' => $request->map_table,
+            'map_id' => $request->map_id,
+            'content' => $request->content,
+            'gender' => $request->gender,
+            'phone' => $request->phone,
+            'name' => $request->name,
+            'act' => 0
+        ];
+
         if (\Auth::check()) {
-            $ask->user_id = \Auth::id();
-            $ask->user_type = \Auth::user()->user_type_id;
+            $data['user_id'] = \Auth::id();
+            $data['user_type'] = \Auth::user()->user_type_id;
         }
-        $ask->save();
+        \DB::table($request->input('table'))->insert($data);
+
         return response([
             'code' => 200,
-            'message' => 'Chúng tôi đã nhận được câu hỏi của bạn'
+            'message' => 'Chúng tôi đã nhận được ' . $request->input('table_name') . ' của bạn'
         ]);
     }
 
@@ -145,6 +147,18 @@ class AskAndAnswerController extends Controller
         ], [
             'ask_and_answer_id' => 'Câu hỏi',
             'content' => 'Nội dung',
+        ]);
+    }
+
+    public function loadMoreAsk(Request $request)
+    {
+        $asks = AskAndAnswer::with(['likes', 'asks' => function ($q) {
+            $q->with('user');
+        }])->where('map_table', $request->input('map_table'))->where('map_id', $request->input('map_id'))->where('act', 1)->orderBy('id', 'DESC')->paginate(5);
+        return response([
+            'code' => 200,
+            'html' => view('courses.components.ask_item', compact('asks'))->render(),
+            'isLastPage' => $asks->onLastPage()
         ]);
     }
 }
