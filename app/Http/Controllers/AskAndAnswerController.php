@@ -78,7 +78,7 @@ class AskAndAnswerController extends Controller
         if ($like == null) {
             \DB::table('ask_and_answer_user')->insert([
                 'ask_and_answer_id' => $ask->id,
-                'user_id', \Auth::id()
+                'user_id' => \Auth::id()
             ]);
             return response([
                 'code' => 200,
@@ -86,10 +86,64 @@ class AskAndAnswerController extends Controller
             ]);
         }
 
-        \DB::table('ask_and_answer_user')->where('ask_and_answer_user', $ask->id)->where('user_id', \Auth::id())->delete();
+        \DB::table('ask_and_answer_user')->where('ask_and_answer_id', $ask->id)->where('user_id', \Auth::id())->delete();
         return response([
             'code' => 100,
             'message' => 'Bỏ yêu thích câu hỏi'
+        ]);
+    }
+
+    public function replyAsk(Request $request)
+    {
+        if (!\Auth::check()) {
+            return response([
+                'code' => 100,
+                'message' => 'Vui lòng đăng nhập để thực hiện hành động này'
+            ]);
+        }
+        $validator = $this->validateReply();
+
+        if ($validator->fails()) {
+            return response()->json([
+                'code' => 100,
+                'message' => $validator->errors()->first(),
+            ]);
+        }
+        $ask = AskAndAnswer::find($request->input('ask_and_answer_id'));
+        if ($ask == null) {
+            return response([
+                'code' => 100,
+                'message' => 'Câu hỏi không tồn tại'
+            ]);
+        }
+
+        $askRep = new AskAndAnswer();
+        $askRep->map_table = $ask->map_table;
+        $askRep->map_id = $ask->map_id;
+        $askRep->content = $request->input('content');
+        $askRep->act = 0;
+        $askRep->ask_and_answer_id = $ask->id;
+        $askRep->user_id = \Auth::id();
+        $askRep->user_type = \Auth::user()->user_type_id;
+        $askRep->save();
+
+        return response([
+            'code' => 200,
+            'message' => 'Trả lời câu hỏi thành công'
+        ]);
+    }
+
+    private function validateReply()
+    {
+        $request = request();
+        return \Validator::make($request->all(), [
+            'ask_and_answer_id' => ['required'],
+            'content' => ['required']
+        ], [
+            'required' => 'Vui lòng chọn hoặc nhập :attribute',
+        ], [
+            'ask_and_answer_id' => 'Câu hỏi',
+            'content' => 'Nội dung',
         ]);
     }
 }
