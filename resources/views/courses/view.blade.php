@@ -97,13 +97,13 @@
                     <div class="box comment-box mb-[1.5rem] overflow-hidden rounded-[0.3125rem] bg-[#fff] p-[0.5rem] md:p-[1.5rem]" id="danh-gia">
                         @include('commentRS::comment_box', ['map_table' => 'courses'])
                     </div>
-                    <div class="box mb-[1.5rem] overflow-hidden rounded-[0.3125rem] bg-[#fff] p-[0.5rem] md:p-[1.5rem]" id="hoi-dap" rs-qaa data-name="ask_and_answers" data-label="Câu hỏi" data-like="ask_and_answer_user">
+                    <div class="box mb-[1.5rem] overflow-hidden rounded-[0.3125rem] bg-[#fff] p-[0.5rem] md:p-[1.5rem]" id="hoi-dap">
                         <div class="">
                             <p class="mb-4 font-bold">Hỏi đáp</p>
                             <form action="hoi-dap" class="form-validate overflow-hidden rounded-lg border-[1px] border-solid border-[#ebebeb]" absolute check method="POST" data-success="ASK_AND_ANSWER.showNotify" clear>
                                 @csrf
-                                <input type="hidden" name="table" value="ask_and_answers">
-                                <input type="hidden" name="table_name" value="Câu hỏi">
+                                <input type="hidden" name="model" value="\App\Models\AskAndAnswer">
+                                <input type="hidden" name="label" value="Câu hỏi">
                                 <input type="hidden" name="map_table" value="courses">
                                 <input type="hidden" name="map_id" value="{{ $currentItem->id }}">
                                 <textarea name="content" class="h-[6.25rem] w-full resize-none border-b-[1px] border-solid border-[#ebebeb] p-3" placeholder="Mời bạn tham gia thảo luận, vui lòng nhập tiếng Việt có đấu."></textarea>
@@ -132,7 +132,7 @@
                         <div class="mt-6">
                             @include('courses.components.ask_item')
                             @if (!$asks->onLastPage())
-                                <button class="mt-6 text-[0.875rem] font-semibold text-[#252525] block w-fit mx-auto" ask-load-more data-table="courses" data-id="{{ $currentItem->id }}" data-next-page="{{ $asks->currentPage() + 1 }}">Xem thêm <i class="fa fa-caret-down ml-1" aria-hidden="true"></i></button>
+                                <button class="mx-auto mt-6 block w-fit text-[0.875rem] font-semibold text-[#252525]" ask-load-more data-table="courses" data-id="{{ $currentItem->id }}" data-next-page="{{ $asks->currentPage() + 1 }}">Xem thêm <i class="fa fa-caret-down ml-1" aria-hidden="true"></i></button>
                             @endif
                         </div>
                     </div>
@@ -168,51 +168,52 @@
                                             <span class="price-old item-price-sub mr-2 text-[#888888] line-through"></span>
                                             <span class="price color-gradient item-price-main text-[1.1rem] font-semibold lg:text-[1.375rem]"></span>
                                         </div>
-                                     
-                                            <select class="select-time-package my-[1.125rem] w-full overflow-hidden rounded bg-[#F5F5F5] px-[1rem] py-[0.8125rem] font-semibold text-[#888888] lg:my-[1.5rem]">
-                                                @foreach ($currentItem->timePackage as $key => $itemTimePackage)
-                                                    <option value="{{ $itemTimePackage->id }}" data-price="{{ Currency::showMoney($itemTimePackage->price) }}" data-subprice="{{ $itemTimePackage->price_old > $itemTimePackage->price ? Currency::showMoney($itemTimePackage->price_old) : '' }}">{{ $itemTimePackage->name }}</option>
-                                                @endforeach
-                                            </select>
-                                         
-                                                <a href="javascript:void(0)" title="Đăng ký ngay" class="btn btn-red-gradien btn-buy-item mb-2 flex items-center justify-center overflow-hidden rounded border-[2px] border-[#fff] bg-gradient-to-r from-[#F44336] to-[#C62828] py-[0.725rem] px-[0.3125rem] font-semibold text-white hover:text-[#fff]" data-action="buy-now" data-type="course" data-id="{{ $currentItem->id }}" data-package="{{ $fisrtPackage->id }}">Đăng kí ngay</a>
-                                                <a href="javascript:void(0)" title="Thêm vào giỏ hàng" class="btn-buy-item flex items-center justify-center overflow-hidden rounded border-[2px] border-[#CD272F] bg-[#fff] py-[0.725rem] px-[0.3125rem] font-semibold text-[#CD272F]" data-action="add-cart" data-type="course" data-id="{{ $currentItem->id }}" data-package="{{ $fisrtPackage->id }}"> @include('icon_svgs.add_cart') Thêm vào giỏ hàng </a>
-                                              
+
+                                        <select class="select-time-package my-[1.125rem] w-full overflow-hidden rounded bg-[#F5F5F5] px-[1rem] py-[0.8125rem] font-semibold text-[#888888] lg:my-[1.5rem]">
+                                            @foreach ($currentItem->timePackage as $key => $itemTimePackage)
+                                                <option value="{{ $itemTimePackage->id }}" data-price="{{ Currency::showMoney($itemTimePackage->price) }}" data-subprice="{{ $itemTimePackage->price_old > $itemTimePackage->price ? Currency::showMoney($itemTimePackage->price_old) : '' }}">{{ $itemTimePackage->name }}</option>
+                                            @endforeach
+                                        </select>
+
+                                        <a href="javascript:void(0)" title="Đăng ký ngay" class="btn btn-red-gradien btn-buy-item mb-2 flex items-center justify-center overflow-hidden rounded border-[2px] border-[#fff] bg-gradient-to-r from-[#F44336] to-[#C62828] py-[0.725rem] px-[0.3125rem] font-semibold text-white hover:text-[#fff]" data-action="buy-now" data-type="course" data-id="{{ $currentItem->id }}" data-package="{{ $fisrtPackage->id }}">Đăng kí ngay</a>
+                                        <a href="javascript:void(0)" title="Thêm vào giỏ hàng" class="btn-buy-item flex items-center justify-center overflow-hidden rounded border-[2px] border-[#CD272F] bg-[#fff] py-[0.725rem] px-[0.3125rem] font-semibold text-[#CD272F]" data-action="add-cart" data-type="course" data-id="{{ $currentItem->id }}" data-package="{{ $fisrtPackage->id }}"> @include('icon_svgs.add_cart') Thêm vào giỏ hàng </a>
+
                                     </div>
                                 </div>
                             </div>
                         @endif
-                      
-                            <div class="box mt-[1.275rem] overflow-hidden rounded bg-[#fff] md:mt-0 2xl:mt-[1.875rem]">
-                                <p class="bg-gradient-to-r from-[#F44336] to-[#C62828] p-[1rem] text-center text-[1.1rem] font-semibold text-white lg:text-[1.375rem]">Thông tin khóa học</p>
-                                <div class="p-[0.75rem] md:p-[1.25rem]">
-                                    <div class="mb-[0.75rem] flex items-center lg:mb-[1rem]">
-                                        @include('icon_svgs.course_clock')
-                                        <strong class="mr-2 inline-block text-[0.875rem] font-semibold text-[#252525] md:text-base">Thời lượng</strong>
-                                        <span class="line-block text-[0.875rem] text-[#454545] md:text-base">{{ $currentItem->getDurationView() }}</span>
-                                    </div>
-                                    <div class="mb-[0.75rem] flex items-center lg:mb-[1rem]">
-                                        @include('icon_svgs.giao_trinh')
-                                        <strong class="mr-2 inline-block text-[0.875rem] font-semibold text-[#252525] md:text-base">Videos</strong>
-                                        <span class="line-block text-[0.875rem] text-[#454545] md:text-base">{{ count($listVideo) }} Video</span>
-                                    </div>
-                                    <div class="mb-[0.75rem] flex items-center lg:mb-[1rem]">
-                                        @include('icon_svgs.tai_lieu')
-                                        <strong class="mr-2 inline-block text-[0.875rem] font-semibold text-[#252525] md:text-base">{{ $currentItem->getCountDocument() }}
-                                            tài liệu</strong>
-                                        </span>
-                                    </div>
-                                    <div class="mb-[0.75rem] flex items-center lg:mb-[1rem]">
-                                        @include('icon_svgs.calender')
-                                        <strong class="mr-2 inline-block text-[0.875rem] font-semibold text-[#252525] md:text-base">Cập
-                                            nhật {{ Support::showDateTime($currentItem->updated_at, 'd/m/Y') }}</strong>
-                                        </span>
-                                    </div>
+
+                        <div class="box mt-[1.275rem] overflow-hidden rounded bg-[#fff] md:mt-0 2xl:mt-[1.875rem]">
+                            <p class="bg-gradient-to-r from-[#F44336] to-[#C62828] p-[1rem] text-center text-[1.1rem] font-semibold text-white lg:text-[1.375rem]">Thông tin khóa học</p>
+                            <div class="p-[0.75rem] md:p-[1.25rem]">
+                                <div class="mb-[0.75rem] flex items-center lg:mb-[1rem]">
+                                    @include('icon_svgs.course_clock')
+                                    <strong class="mr-2 inline-block text-[0.875rem] font-semibold text-[#252525] md:text-base">Thời lượng</strong>
+                                    <span class="line-block text-[0.875rem] text-[#454545] md:text-base">{{ $currentItem->getDurationView() }}</span>
+                                </div>
+                                <div class="mb-[0.75rem] flex items-center lg:mb-[1rem]">
+                                    @include('icon_svgs.giao_trinh')
+                                    <strong class="mr-2 inline-block text-[0.875rem] font-semibold text-[#252525] md:text-base">Videos</strong>
+                                    <span class="line-block text-[0.875rem] text-[#454545] md:text-base">{{ count($listVideo) }} Video</span>
+                                </div>
+                                <div class="mb-[0.75rem] flex items-center lg:mb-[1rem]">
+                                    @include('icon_svgs.tai_lieu')
+                                    <strong class="mr-2 inline-block text-[0.875rem] font-semibold text-[#252525] md:text-base">{{ $currentItem->getCountDocument() }}
+                                        tài liệu</strong>
+                                    </span>
+                                </div>
+                                <div class="mb-[0.75rem] flex items-center lg:mb-[1rem]">
+                                    @include('icon_svgs.calender')
+                                    <strong class="mr-2 inline-block text-[0.875rem] font-semibold text-[#252525] md:text-base">Cập
+                                        nhật {{ Support::showDateTime($currentItem->updated_at, 'd/m/Y') }}</strong>
+                                    </span>
                                 </div>
                             </div>
+                        </div>
                     </div>
                 </div>
             </div>
+        </div>
         </div>
     </section>
 @endsection
@@ -221,5 +222,5 @@
     <script src="{'assets/js/ValidateFormHasFile.js'}" defer></script>
     <script src="{'assets/js/XHR.js'}" defer></script>
     <script src="{'comment/js/comment.js'}" defer></script>
-    <script src="{'theme/frontend/js/question.js'}" defer></script>
+    <script type="module" src="{'theme/frontend/js/question.js'}" defer></script>
 @endsection
