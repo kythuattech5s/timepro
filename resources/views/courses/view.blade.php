@@ -92,7 +92,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                @if ($userTeacher->uslug != '')
+                                @if ($userTeacher->slug != '')
                                     <a href="thong-tin-giang-vien/{{ $userTeacher->uslug }}" title="Chi tiết giảng viên" class="block rounded-md bg-gradient-to-r from-[#F44336] to-[#C62828] py-2 px-5 text-center font-semibold text-white shadow-lg md:inline-block">Chi tiết giảng viên</a>
                                 @endif
                             </div>
