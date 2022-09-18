@@ -14,50 +14,13 @@ var CLICK = {
         /* Khai báo header */
         var header = Tech.$(".header");
         var headerHeight = header.outerHeight();
-        var headerTop = Tech.$('.header-top').outerHeight();
-        var headerNavHeight = Tech.$('.header-nav').outerHeight();
-
-        // var classMenuInShow = "in-menu-show";
-        // var classMenuInHide = "in-menu-hide";
-        // var _width = window.innerWidth;
         var bodyPage = Tech.$("body");
         var width_ = window.innerWidth;
-        if (width_ > 1023) {
-            Tech.$("body").css("padding-top", headerTop + `px`);
-            if(typeof Tech.$('.section-banner__index') !=='undefined'){
+        Tech.$("body").css("padding-top", headerHeight + `px`);
+     
+        header.addClass("fixedd");
 
-                Tech.$(".section-banner__index").css("padding-top", headerNavHeight + `px`);
-            }
-        } else {
-            Tech.$("body").css("padding-top", headerHeight + `px`);
-
-        }
-        header.addClass("fixed");
-
-        /* Function phụ trợ */
-
-
-        /* Ẩn hiện menu khi scroll */
-        var lastScrollTop = 0;
-        window.addEventListener("scroll", function () {
-            var st = window.pageYOffset || document.documentElement.scrollTop;
-            if (st > lastScrollTop) {
-                if (lastScrollTop > headerHeight) {
-                    header.css("top", `-` + headerTop + `px`);
-                }
-            } else {
-                header.css("top", "0px");
-
-            }
-            if(st > headerHeight){
-                header.addClass('scroll');
-            }else{
-                header.removeClass('scroll');
-
-            }
-
-            lastScrollTop = st <= 0 ? 0 : st;
-        }, );
+      
     },
     showMenu: function () {
         var buttonShowMenu = Tech.$('.show-menu-mobile ')
@@ -200,46 +163,57 @@ var CLICK = {
             })
         }
     },
-    showModal: function () {
-        var ebModal = document.getElementById('mySizeChartModal');
-
-        var ebBtn = Tech.$('span[data-modal]');
-
-        var ebSpan = document.getElementsByClassName("ebcf_close")[0];
-
-        if (typeof ebBtn !== 'undefined' && ebBtn !== null) {
-                     ebBtn._element.onclick = function () {
-                        ebModal.style.display = "block";
-                     
+  
+    openModal:function(){
+        var btnOpen=Tech.$('[data-bs-toggle]');
+        var btnClose=Tech.$('[data-bs-dismiss]')
+        if(typeof btnOpen !=='undefined'){
+            if(btnOpen._element.length > 1){
+                btnOpen._element.forEach(function(elm){
+                    elm._element.onclick=function(e){
+                        e.preventDefault();
+                        var idModal=Tech.$(this)._element.dataset.bsTarget;
+                        Tech.$('#' + idModal).addClass('active');
                     }
-
-
-
-        }
-        if (typeof ebSpan !== 'undefined' && ebSpan !== null) {
-            ebSpan.onclick = function () {
-                ebModal.style.display = "none";
+                })
+            }else{
+                btnOpen.onClick(function(e){
+                    e.preventDefault();
+                    var idModal=Tech.$(this)._element.dataset.bsTarget;
+                    Tech.$('#' + idModal).addClass('active');
+                })
             }
-
         }
-
-        window.onclick = function (event) {
-            if (event.target == ebModal) {
-                ebModal.style.display = "none";
-            }
+        if(typeof btnClose !=='undefined'){
+            btnClose.onClick(function(){
+                Tech.$('.h-modal').removeClass('active');
+            })
         }
     },
-
+    showPaymentMethod:function(){
+        var input=document.getElementById('method_banking');
+  
+        if(typeof input !=='undefined' && input !==null){
+            input.addEventListener('click',event=>{
+                if(event.target.checked) {
+                   Tech.$('.method-des').addClass('show');
+                }else{
+                   Tech.$('.method-des').removeClass('show');
+                }
+            })
+        }
+     
+    },
     init: function () {
         CLICK.loadMap();
         CLICK.initCountUp();
         CLICK.showMenu();
-        // CLICK.initAnimation();
-        // CLICK.fixedMenu();
+        CLICK.fixedMenu();
      
-        // CLICK.moduleSearch();
+        CLICK.moduleSearch();
         CLICK.showResult();
-        // CLICK.showModal();
+        CLICK.openModal();
+        CLICK.showPaymentMethod();
 
     },
 }

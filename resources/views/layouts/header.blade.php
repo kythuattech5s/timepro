@@ -13,7 +13,7 @@
                 @include('image_loader.config.big',['config_key'=>'logo','noLazyLoad'=>1])
             </a>
             @php
-                $menus = Support::getMenuRecursive(1);
+            $menus = Support::getMenuRecursive(1);
             @endphp
             {{Support::showMenuRecursive($menus,0)}}
             <span class="show-form-search cursor-pointer">
@@ -27,22 +27,30 @@
                 <span class="count count-item-cart absolute top-[-5px] right-[-5px] font-bold text-[8px] text-white min-w-[12px] h-3 rounded-full bg-gradient-to-r from-[#F44336] to-[#C62828] z-[1] text-center leading-3">0</span>
             </a>
             @if (Auth::check())
-            <div class="flex items-center gap-2">
-                <span class="ava img-ava block lg:w-12 lg:h-12 w-8 h-8 rounded-full overflow-hidden">
+            <div class="flex items-center gap-2 relative group cursor-pointer">
+                <a href="" title="" class="ava img-ava block lg:w-12 lg:h-12 w-8 h-8 rounded-full overflow-hidden">
                     <img src="" alt="">
-                </span>
+                </a>
                 <div class="content hidden lg:block">
                     <p class="text-[0.75rem] mb-1">Xin chào</p>
-                    <p class="name-user font-semibold text-[#252525]">Nguyễn Đức Tuấn</p>
+                    <a href="" title="" class="name-user font-semibold text-[#252525]">Nguyễn Đức Tuấn</a>
+                </div>
+                <div class="auth-content hidden lg:block rounded overflow-hidden opacity-0 invisible pointer-events-none whitespace-nowrap min-w-full absolute top-[100%] left-0 z-[1] bg-white shadow-[0_4px_10px_rgba(0,0,0,.3)] group-hover:opacity-100 group-hover:visible group-hover:pointer-events-auto transition-all duration-300">
+                    <a href="" title="" class="block py-2 px-4 text-[#252525] border-b-[1px] border-solid border-[#252525] last:border-none">
+                        Thông tin cá nhân
+                    </a>
+                    <a href="" title="" class="block py-2 px-4 text-[#252525] border-b-[1px] border-solid border-[#252525] last:border-none">
+                        Đăng xuất
+                    </a>
                 </div>
             </div>
             @else
-                <div class="h-auth font-semibold bg-gradient-to-r from-[#F44336] to-[#C62828] rounded-md py-2 sm:px-5 px-3 text-white">
-                    <i class="fa fa-user-circle-o mr-2 hidden lg:inline-block" aria-hidden="true"></i>
-                    <a href="{{\VRoute::get("login")}}" title="Đăng nhập" class="link hover:text-white">Đăng nhập</a>
-                    <span class="hidden lg:inline-block">/</span>
-                    <a href="{{\VRoute::get("register")}}" title="Đăng ký" class="link hover:text-white hidden lg:inline-block">Đăng ký</a>
-                </div>
+            <div class="h-auth font-semibold bg-gradient-to-r from-[#F44336] to-[#C62828] rounded-md py-2 sm:px-5 px-3 text-white">
+                <i class="fa fa-user-circle-o mr-2 hidden lg:inline-block" aria-hidden="true"></i>
+                <a href="{{\VRoute::get("login")}}" title="Đăng nhập" class="link hover:text-white">Đăng nhập</a>
+                <span class="hidden lg:inline-block">/</span>
+                <a href="{{\VRoute::get("register")}}" title="Đăng ký" class="link hover:text-white hidden lg:inline-block">Đăng ký</a>
+            </div>
             @endif
         </div>
     </div>
@@ -54,4 +62,23 @@
             <input type="text" name="q" placeholder="Nhập từ khoá tìm kiếm ..." class="form-control w-full py-2 px-4 outline-none border-[1px] border-solid border-[#ebebeb] rounded-lg pl-12">
         </form>
     </div>
+    <!-- Search desktop -->
+    <div class="form-search transition-all duration-300 fixed top-[-100%] left-0 w-full h-full bg-[rgba(0,0,0,.7)] z-[100] hidden lg:flex items-center justify-center">
+
+        <span class="close-form-search"></span>
+
+        <form action="{{\VRoute::get("search")}}" method="get" class="form flex items-center" accept-charset="utf-8">
+
+            <input type="text" name="q" value="" id="input-search-header" placeholder="Nhập từ khóa tìm kiếm ..." class="form-control">
+
+            <button class="btn-search text-[1.25rem] ml-1 text-white" type="submit">
+
+                <i class="fa fa-search" aria-hidden="true"></i>
+
+            </button>
+
+        </form>
+
+    </div>
+    <!-- End -->
 </header>
