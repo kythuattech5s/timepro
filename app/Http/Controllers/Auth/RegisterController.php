@@ -62,6 +62,7 @@ class RegisterController extends Controller
         if ($request->isMethod('post')) {
             return $this->register($request);
         } else {
+            Support::URLPrevious();
             $currentItem = $route;
             return view('auth.register', compact('currentItem'));
         }
@@ -93,8 +94,25 @@ class RegisterController extends Controller
         }
         $user = $this->createUser($request->all());
         WalletHelper::create($user);
-        Auth::login($user);
-        return Support::sendResponse(200,'Đăng kí tài khoản thành công',\VRoute::get('profile'));
+
+        $code = \Str::random(6);
+        session()->put('EMAIL_CURRENT_REGISTER', $user->email);
+        event('sendmail.static', [[
+            'title' => 'Tạo tài khoàn thành công và mã xác nhận kích hoạt tài khoản',
+            'data' => [
+                'link' => url('kich-hoat-tai-khoan') . "?token=$code&email=$user->email",
+                'user' => $user,
+            ],
+            'email' => $user->email,
+            'type' => 'user_create',
+        ]]);
+
+        return response()->json([
+            'code' => 200,
+            'token' => $code,
+            'message' => 'Đăng ký tài khoản thành công. Vui lòng kiểm tra email để kích hoạt tài khoản ' . Support::show($user, 'name'),
+            'redirect_url' => Support::URLPrevious(false),
+        ]);
     }
     protected function createUser($data){
         $user = new User;

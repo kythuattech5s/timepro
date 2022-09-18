@@ -44,8 +44,8 @@
 	                <li class="inline-block text-[0.875rem] font-semibold text-[#252525] mr-4">Tags:</li>
 	                @foreach($tags as $tag)
 	                <li class="inline-block lg:text-[0.875rem]  mr-4">
-	                    <a href="{{Suppport::show($tag,'slug')}}" title="{{Suppport::show($tag,'name')}}" class="link inline-block text-[#888] bg-[#EBEBEB] rounded-[50px] py-1 px-3 hover:bg-[#F44336] hover:text-white whitespace-nowrap">
-	                        {{Suppport::show($tag,'name')}}
+	                    <a href="{{Support::show($tag,'slug')}}" title="{{Support::show($tag,'name')}}" class="link inline-block text-[#888] bg-[#EBEBEB] rounded-[50px] py-1 px-3 hover:bg-[#F44336] hover:text-white whitespace-nowrap">
+	                        {{Support::show($tag,'name')}}
 	                    </a>
 	                </li>
 	                @endforeach
