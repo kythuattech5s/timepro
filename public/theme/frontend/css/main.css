@@ -33,7 +33,7 @@ body::-webkit-scrollbar {
 body::-webkit-scrollbar-thumb {
   background: #F44336;
 }
-img, svg, video, canvas, audio, iframe, embed, object{
+img, video, canvas, audio, iframe, embed, object{
   margin-left: auto;
   margin-right: auto;
 }
