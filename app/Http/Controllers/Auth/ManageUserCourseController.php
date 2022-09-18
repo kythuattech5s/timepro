@@ -18,9 +18,8 @@ class ManageUserCourseController extends Controller
         }
         $user = Auth::user();
         $listUserCourseId = $user->userAllCourseId();
-        // $listItems = Course::baseView()->whereIn('id',$listUserCourseId)
-        //                                 ->whereHas()
-        //                                 ->paginate(6);
+        $listItems = Course::baseView()->whereIn('id',$listUserCourseId)
+                                        ->paginate(6);
         return view('auth.account.my_course',compact('user','listItems'));
     }
 }
