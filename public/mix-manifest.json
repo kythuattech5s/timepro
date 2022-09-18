@@ -156,6 +156,7 @@
     "/admin/promotion/assets/images/shops.png": "/admin/promotion/assets/images/shops.png",
     "/admin/promotion/assets/js/Combo.js": "/admin/promotion/assets/js/Combo.js",
     "/admin/promotion/assets/js/Deal.js": "/admin/promotion/assets/js/Deal.js",
+    "/admin/promotion/assets/js/DetailFlashSale.js": "/admin/promotion/assets/js/DetailFlashSale.js",
     "/admin/promotion/assets/js/FlashSale.js": "/admin/promotion/assets/js/FlashSale.js",
     "/admin/promotion/assets/js/Promotion.js": "/admin/promotion/assets/js/Promotion.js",
     "/admin/promotion/assets/js/ShopFlashSale.js": "/admin/promotion/assets/js/ShopFlashSale.js",
@@ -272,6 +273,5 @@
     "/admin/promotion/assets/_rs/plugins/tinymce/tinymce.min.js": "/admin/promotion/assets/_rs/plugins/tinymce/tinymce.min.js",
     "/admin/promotion/assets/_rs/plugins/tom-select/tom-select.complete.min.js": "/admin/promotion/assets/_rs/plugins/tom-select/tom-select.complete.min.js",
     "/admin/promotion/assets/_rs/plugins/tom-select/tom-select.css": "/admin/promotion/assets/_rs/plugins/tom-select/tom-select.css",
-    "/admin/promotion/assets/_rs/works/js/address.js": "/admin/promotion/assets/_rs/works/js/address.js",
-    "/admin/promotion/assets/js/DetailFlashSale.js": "/admin/promotion/assets/js/DetailFlashSale.js"
+    "/admin/promotion/assets/_rs/works/js/address.js": "/admin/promotion/assets/_rs/works/js/address.js"
 }

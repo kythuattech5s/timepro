@@ -57,17 +57,6 @@
                     @include('tp::components.update_image')
                 </div>
             </div>
-            <div class="col-lg-12">
-                <div class="flash-sale-group">
-                    <h4>Sản phẩm tham gia cùng Flash Sale</h4>
-                    <div class="item-product" m-checkbox="CHOOSE_FLASH_SALE">
-                        <button type="button" class="btn bg-green-400 text-white" data-action="{{ $action }}" data-toggle="modal" data-target="#modalProduct"
-                                data-type="flash_sales" disabled>
-                            Thêm sản phẩm
-                        </button>
-                    </div>
-                </div>
-            </div>
             <span class="frag-footer"></span>
             <div class="form-footer">
                 <a href="{{ base64_decode(request()->input('returnurl', base64_encode(url('esystem/views/flash_sales')))) }}" class="btn bg-red-400 text-white">Quay lại</a>

@@ -4,7 +4,6 @@ namespace Tech5s\Promotion\Controllers;
 
 use App\Models\Course;
 use App\Models\CourseCategory;
-use App\Models\Shop;
 use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
@@ -44,6 +43,10 @@ class MarketingController extends BaseAdminController
             $item = new DealService;
             $shop_id = $item->deal->shop_id;
         }
+
+        if ($promotion == 'flashsale') {
+            dd($promotion);
+        }
         foreach ($old_product_selected as $product) {
             $product_chooses[] = [
                 'id' => $product,
@@ -67,6 +70,9 @@ class MarketingController extends BaseAdminController
                     return session()->get(DealService::PREFIX_SESSION_PRODUCT_SUB, collect());
                 }
                 break;
+            case 'flashsale':
+
+                break;
             default:
                 return session()->get(VoucherService::PREFIX_SESSION_PRODUCT, collect());
                 break;
@@ -78,7 +84,7 @@ class MarketingController extends BaseAdminController
         $promotion = $request->input('promotion');
         $action = $request->input('action');
         $product_chooses = collect(json_decode($request->input('product_chooses', []), true));
-        $product_checked_old = $product_chooses->filter(fn($item) => isset($item['disabled']));
+        $product_checked_old = $product_chooses->filter(fn ($item) => isset($item['disabled']));
         $products = $this->queryFilterProduct();
         if ($request->input('isShow') !== null && $product_checked_old->count() > 0) {
             $products->whereNotIn('id', $product_checked_old->pluck('id'));
@@ -102,9 +108,10 @@ class MarketingController extends BaseAdminController
             case "vouchers":
                 $item = new VoucherService();
                 if (($product_ids = $request->input('product_id')) !== null) {
-                    $dataProductId = collect($product_ids)->map(fn($value) => [
-                        "id" => $value['id'],
-                    ]
+                    $dataProductId = collect($product_ids)->map(
+                        fn ($value) => [
+                            "id" => $value['id'],
+                        ]
                     )->unique();
                     session()->put(VoucherService::PREFIX_SESSION_PRODUCT, $dataProductId);
                 } else {
@@ -195,7 +202,6 @@ class MarketingController extends BaseAdminController
                             $q->where('deals.id', $item->deal->id);
                         }]);
                     }])->whereIn('id', collect($product_ids)->pluck('id'))->get();
-
                 } else {
                     session()->put($type == 'main' ? DealService::PREFIX_SESSION_PRODUCT_MAIN : DealService::PREFIX_SESSION_PRODUCT_SUB, collect());
                     $products = collect();
