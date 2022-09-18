@@ -27,14 +27,17 @@ class FlashSaleController extends Controller
 
     public function show(Request $request)
     {
+        $promotion = 'flashsale';
         $this->resetSession();
         $id = $request->input('id');
         $item = new FlashSaleService($id);
-        $repository = new FlashSaleRepository();
-        $listProducts = session()->get(FlashSaleDetailHelper::SESSION_PRODUCT_REAL);
+        // $repository = new FlashSaleRepository($item->flash_sale);
+        // $listProduct = $repository->getListProduct();
+        // dd($listProduct);
+        // $listProducts = session()->get(FlashSaleDetailHelper::SESSION_PRODUCT_REAL);
         $item->saveSessionFlashSale();
         $currentItem = $item->flash_sale;
-        return view('tp::flash_sales.detail', compact('currentItem'));
+        return view('tp::flash_sales.detail', compact('currentItem', 'promotion'));
     }
 
     public function resetSession()
