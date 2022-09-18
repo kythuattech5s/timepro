@@ -121,7 +121,7 @@ class OrderController extends Controller
             $orderDetail->user_id = $user->id;
             $orderDetail->map_id = $item->realItem->id;
             $orderDetail->name = $item->realItem->name;
-            $orderDetail->slug = $item->realItem->slug;
+            $orderDetail->slug = $item->realItem->slug ?? '';
             $orderDetail->img = $item->realItem->img;
             $orderDetail->name_time_package = $item->itemTimePackage->name;
             $orderDetail->description = $item->itemTimePackage->description;

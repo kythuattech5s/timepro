@@ -6,7 +6,7 @@
     </div>
     <div class="new-content">
         <h3>
-            <a href="{{Support::show($item,'slug')}}" title="{{Support::show($item,'name')}}" class="title block text-[#252525] mb-2">
+            <a href="{{Support::show($item,'slug')}}" title="{{Support::show($item,'name')}}" class="title block text-[#252525] mb-2 line-clamp-2">
                 {{Support::show($item,'name')}}
             </a>
         </h3>

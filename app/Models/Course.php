@@ -89,8 +89,8 @@ class Course extends BaseModel
             return true;
         }
         $userCourseComboAllCount = $user->userCourseCombo()->whereHas('courseCombo', function ($q) {
-            $q->where('all_course', 1);
-        })
+                $q->where('all_course', 1);
+            })
             ->where(function ($q) {
                 $q->where('expired_time', '>', now())->orWhere('is_forever', 1);
             })
@@ -100,14 +100,44 @@ class Course extends BaseModel
         }
         $idCourse = $this->id;
         $userCourseComboSpecialCourse = $user->userCourseCombo()->whereHas('courseCombo', function ($q) use ($idCourse) {
-            $q->where('all_course', '!=', 1)->whereHas('course', function ($q) use ($idCourse) {
-                $q->where('id', $idCourse);
-            });
-        })
+                $q->where('all_course', '!=', 1)->whereHas('course', function ($q) use ($idCourse) {
+                    $q->where('id', $idCourse);
+                });
+            })
             ->where(function ($q) {
                 $q->where('expired_time', '>', now())->orWhere('is_forever', 1);
             })
             ->first();
+        if (isset($userCourseComboSpecialCourse)) {
+            return true;
+        }
+        return false;
+    }
+    public function isOwnForever($user = null)
+    {
+        if ($this->isFree()) return true;
+        if (!isset($user)) return false;
+        $foreverUserCourse = UserCourse::where('user_id',$user->id)
+                                    ->where('is_forever',1)
+                                    ->where('course_id',$this->id)
+                                    ->first();
+        if (isset($foreverUserCourse)) {
+            return true;
+        }
+        $userCourseComboAllCount = $user->userCourseCombo()->whereHas('courseCombo', function ($q) {
+                                                            $q->where('all_course', 1)->where('is_forever', 1);
+                                                        })->first();
+        if (isset($userCourseComboAllCount)) {
+            return true;
+        }
+        $idCourse = $this->id;
+        $userCourseComboSpecialCourse = $user->userCourseCombo()->whereHas('courseCombo', function ($q) use ($idCourse) {
+                                                                    $q->where('all_course', '!=', 1)->whereHas('course', function ($q) use ($idCourse) {
+                                                                        $q->where('id', $idCourse);
+                                                                    });
+                                                                })
+                                                                ->where('is_forever', 1)
+                                                                ->first();
         if (isset($userCourseComboSpecialCourse)) {
             return true;
         }
