@@ -83,10 +83,12 @@ a:hover, a:focus {
   transform: skewX(-25deg);
 }
 
-input {
+input,textarea {
   outline: none;
 }
-
+textarea{
+  resize: none;
+}
 .c-img {
   position: relative;
   display: block;
@@ -1225,6 +1227,7 @@ color: #F44336 !important;
     color: #252525;
     font-weight: 600;
     border-top: 1px solid #252525;
+    font-size: 1rem;
   }
   .menu ul li ul {
     display: none;
@@ -1238,8 +1241,8 @@ color: #F44336 !important;
     right: 0;
     z-index: 1;
     font-size: 1.25rem;
-    width: 37.5px;
-    height: 37.5px;
+    width: 43px;
+    height: 43px;
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;

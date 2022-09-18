@@ -28,7 +28,7 @@
             </a>
             @if (Auth::check())
             <div class="flex items-center gap-2 relative group cursor-pointer">
-                <a href="" title="" class="ava img-ava block lg:w-12 lg:h-12 w-8 h-8 rounded-full overflow-hidden">
+                <a href="" title="" class="ava shrink-0 img-ava block lg:w-12 lg:h-12 w-8 h-8 rounded-full overflow-hidden">
                     <img src="" alt="">
                 </a>
                 <?php $user = Auth::user(); ?>

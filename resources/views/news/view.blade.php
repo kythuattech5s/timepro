@@ -51,7 +51,7 @@
 					@endforeach
 				</ul>
 				@endif
-				<div class="flex items-center justify-between mb-4">
+				<div class="flex items-center justify-between mb-4 flex-wrap gap-2">
 					<div class="rating-item mb-2">
 						<p class="rating">
 							<span class="rating-box">
@@ -73,8 +73,8 @@
 					<div class="flex items-center gap-4">
 						<div class="like">
 							<div id="fb-root"></div>
-							<script async defer crossorigin="anonymous" src="https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v15.0" nonce="ndNn5AGw"></script>
-							<div class="fb-like" data-href="https://developers.facebook.com/docs/plugins/" data-width="" data-layout="button" data-action="like" data-size="small" data-share="false"></div>
+							<script async defer crossorigin="anonymous" src="https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v15.0" nonce="ejJKIBLB"></script>
+							<div class="fb-like" data-href="https://developers.facebook.com/docs/plugins/" data-width="" data-layout="button" data-action="like" data-size="large" data-share="false"></div>
 						</div>
 						<ul>
 							<li class="inline-block text-[0.875rem] text-[#252525] mr-4 last:mr-0">Chia sẻ: </li>
