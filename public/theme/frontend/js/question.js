@@ -60,9 +60,9 @@ class RSQAA {
                         <input type="hidden" name="table_name" value="${
                             this.tableName
                         }">
-                        <div>
-                            <textarea class="" rules="required" name="content" placeholder="Câu trả lời"></textarea>
-                            <button type="submit">Trả lời</button>
+                        <div class="flex items-center">
+                            <textarea class="flex-1" rules="required" name="content" placeholder="Câu trả lời"></textarea>
+                            <button type="submit" class="btn btn-red-gradien inline-flex items-center justify-center rounded bg-gradient-to-r from-[#F44336] to-[#C62828] py-2 px-4 font-semibold text-white">Trả lời</button>
                         </div>
                     </form>`
                 );
