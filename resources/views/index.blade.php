@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="{{ Support::asset('theme/frontend/css/main.css') }}" />
     <link rel="stylesheet" href="{{ Support::asset('theme/frontend/css/toastify.css') }}" />
     @yield('cssl')
-    <link rel="stylesheet" href="{{ mix('css/app.css') }}">
+    <link rel="stylesheet" href="{{ Support::asset(mix('css/app.css')) }}">
     @yield('css')
     <script type="text/javascript">
         var showNotify = "";
