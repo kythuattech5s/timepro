@@ -1,5 +1,6 @@
 class RSQAA {
-    constructor(table, tableName, tableLike) {
+    constructor(el, table, tableName, tableLike) {
+        this.select = el;
         this.table = table;
         this.tableName = tableName;
         this.tableLike = tableLike;
@@ -9,7 +10,8 @@ class RSQAA {
     }
 
     like = () => {
-        const likeButtons = document.querySelectorAll("[like-ask]");
+        const likeButtons = this.select.querySelectorAll("[rs-qaa-reply]");
+        console.log(likeButtons);
         likeButtons.forEach((button) => {
             button.onclick = () => {
                 const id = button.dataset.id;
@@ -37,27 +39,34 @@ class RSQAA {
     };
 
     reply = () => {
-        const replyAsk = document.querySelectorAll("[rep-ask]");
+        const replyAsk = this.select.querySelectorAll("[rs-qaa-reply]");
         replyAsk.forEach((button) => {
             button.onclick = () => {
                 const parentElement = button.parentElement;
-                const listChild =
-                    parentElement.querySelector("[list-ask-child]");
+                const listChild = parentElement.querySelector(
+                    "[rs-qaa-list-child]"
+                );
+                if (listChild.querySelector("form")) return;
                 listChild.insertAdjacentHTML(
                     "beforeend",
-                    `<form action="reply-cau-hoi" class="form-validate" data-success="ASK_AND_ANSWER.showNotify" method="POST">
+                    `<form action="reply-cau-hoi" class="form-validate" data-success="ASK_AND_ANSWER.showNotifyRemoveForm" method="POST">
                         <input type="hidden" name="_token" value="${document
                             .querySelector("meta[name='csrf-token']")
                             .getAttribute("content")}" />
                         <input  type="hidden" name="ask_and_answer_id" value="${
                             button.dataset.id
                         }" />
+                        <input type="hidden" name="table" value="${this.table}">
+                        <input type="hidden" name="table_name" value="${
+                            this.tableName
+                        }">
                         <div>
                             <textarea class="" rules="required" name="content" placeholder="Câu trả lời"></textarea>
                             <button type="submit">Trả lời</button>
                         </div>
                     </form>`
                 );
+                listChild.querySelector("textarea").focus();
                 VALIDATE_FORM.refresh();
             };
         });
@@ -83,8 +92,8 @@ class RSQAA {
                     nextPage.remove();
                 }
             });
-            like();
-            repAsk();
+            this.like();
+            this.repAsk();
         };
     };
 }
@@ -94,6 +103,7 @@ var ASK_AND_ANSWER = (() => {
             const rqaas = document.querySelectorAll("[rs-qaa]");
             rqaas.forEach((item) => {
                 new RSQAA(
+                    item,
                     item.dataset.name,
                     item.dataset.label,
                     item.dataset.like
@@ -102,6 +112,10 @@ var ASK_AND_ANSWER = (() => {
         })(),
         showNotify: (res) => {
             NOTIFICATION.showNotify(res.code, res.message);
+        },
+        showNotifyRemoveForm: (res, data, form) => {
+            NOTIFICATION.showNotify(res.code, res.message);
+            form.remove();
         },
     };
 })();

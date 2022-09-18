@@ -112,7 +112,7 @@ class AskAndAnswerController extends Controller
                 'message' => $validator->errors()->first(),
             ]);
         }
-        $ask = AskAndAnswer::find($request->input('ask_and_answer_id'));
+        $ask = \DB::table($request->input('table'))->where('id', $request->input('id'))->first();
         if ($ask == null) {
             return response([
                 'code' => 100,
