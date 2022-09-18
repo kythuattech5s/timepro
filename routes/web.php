@@ -35,5 +35,6 @@ Route::group([
     Route::post('cart/{action}', 'CartController@action');
     Route::get('thong-tin-giang-vien/{uslug}', 'UserController@view');
 
+    Route::post('hoi-dap', 'AskAndAnswerController@ask');
     Route::match(['get', 'post'], '/{link}', array('uses' => 'RouteController@direction'))->where('link', '^((?!esystem)[0-9a-zA-Z\?\.\-/])*$');
 });
