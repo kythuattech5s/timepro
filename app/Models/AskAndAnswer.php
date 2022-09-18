@@ -11,7 +11,7 @@ class AskAndAnswer extends Model
 
     public function likes()
     {
-        return $this->belongsToMany(User::class, 'ask_and_answer_like', 'ask_and_answer_id', 'user_id');
+        return $this->belongsToMany(User::class, 'ask_and_answer_user', 'ask_and_answer_id', 'user_id');
     }
 
     public function asks()

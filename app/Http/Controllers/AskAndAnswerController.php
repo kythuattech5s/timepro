@@ -57,4 +57,39 @@ class AskAndAnswerController extends Controller
             'gender' => 'Giới tính',
         ]);
     }
+
+    public function like(Request $request)
+    {
+        if (!\Auth::check()) {
+            return response([
+                'code' => 300,
+                'message' => 'Vui lòng đăng nhập để thực hiện hành động này'
+            ]);
+        }
+        $ask = AskAndAnswer::find($request->ask_and_answer_id);
+        if ($ask == null) {
+            return response([
+                'code' => 100,
+                'message' => 'Câu hỏi không tồn tại'
+            ]);
+        }
+
+        $like = \DB::table('ask_and_answer_user')->where('ask_and_answer_id', $ask->id)->where('user_id', \Auth::id())->first();
+        if ($like == null) {
+            \DB::table('ask_and_answer_user')->insert([
+                'ask_and_answer_id' => $ask->id,
+                'user_id', \Auth::id()
+            ]);
+            return response([
+                'code' => 200,
+                'message' => 'Đã yêu thích câu hỏi'
+            ]);
+        }
+
+        \DB::table('ask_and_answer_user')->where('ask_and_answer_user', $ask->id)->where('user_id', \Auth::id())->delete();
+        return response([
+            'code' => 100,
+            'message' => 'Bỏ yêu thích câu hỏi'
+        ]);
+    }
 }
