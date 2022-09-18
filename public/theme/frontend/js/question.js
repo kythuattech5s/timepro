@@ -1,4 +1,5 @@
 /******/ (() => { // webpackBootstrap
+<<<<<<< HEAD
 var __webpack_exports__ = {};
 /*!**********************************!*\
   !*** ./resources/js/question.js ***!
@@ -118,5 +119,10 @@ window["ASK_AND_ANSWER"] = function () {
     }
   };
 }();
+=======
+/******/ 	"use strict";
+/******/ 	
+/******/ 	
+>>>>>>> b6d955529b870c313097396db27ee1fb536c20d2
 /******/ })()
 ;
