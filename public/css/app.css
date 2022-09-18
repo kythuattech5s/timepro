@@ -1144,6 +1144,9 @@ video {
 .max-w-\[21\.5rem\] {
   max-width: 21.5rem;
 }
+.max-w-\[130px\] {
+  max-width: 130px;
+}
 .flex-1 {
   flex: 1 1 0%;
 }
@@ -2828,6 +2831,10 @@ video {
     height: 6rem;
   }
 
+  .lg\:h-12 {
+    height: 3rem;
+  }
+
   .lg\:min-h-\[776px\] {
     min-height: 776px;
   }
@@ -2864,6 +2871,10 @@ video {
 
   .lg\:w-24 {
     width: 6rem;
+  }
+
+  .lg\:w-12 {
+    width: 3rem;
   }
 
   .lg\:max-w-\[20\.5rem\] {

@@ -895,6 +895,20 @@ input {
 .item-course .rating-item .rating-box{
   margin-right: 0 !important;
 }
+.name-user{
+  width: 130px;
+    overflow: hidden;
+    white-space: nowrap; 
+    text-overflow: ellipsis;
+}
+.formComment__action .btn,.formComment__action label{
+border: 1px solid #F44336 !important;
+color: #F44336 !important;
+}
+.formComment__action .btn:hover,.formComment__action label:hover{
+  background: #F44336 !important;
+  color: #fff !important;
+}
 @media (min-width: 992px) {
   .container {
     max-width: 992px;
