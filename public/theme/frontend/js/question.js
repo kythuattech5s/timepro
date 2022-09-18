@@ -56,7 +56,7 @@ var commentRS = /*#__PURE__*/_createClass(function commentRS(model, label, table
           return;
         }
 
-        listChild.insertAdjacentHTML("beforeend", "<form action=\"reply-cau-hoi\" absolute clear class=\"form-validate\" data-success=\"ASK_AND_ANSWER.showNotifyRemoveForm\" method=\"POST\">\n                        <input type=\"hidden\" name=\"_token\" value=\"".concat(document.querySelector("meta[name='csrf-token']").getAttribute("content"), "\" />\n                        <input  type=\"hidden\" name=\"id\" value=\"").concat(button.dataset.id, "\" />\n                        <input type=\"hidden\" name=\"field_main\" value=\"").concat(_this.fieldMain, "\" />\n                        <input type=\"hidden\" name=\"model\" value=\"").concat(_this.model, "\">\n                        <input type=\"hidden\" name=\"label\" value=\"").concat(_this.label, "\">\n                        <div class=\"flex items-center p-3 rounded-md shadow-lg gap-2\">\n                            <textarea class=\"flex-1 outline-none p-2 h-[38px] bg-transparent\" rules=\"required\" name=\"content\" placeholder=\"C\xE2u tr\u1EA3 l\u1EDDi\"></textarea>\n                            <button type=\"submit\" class=\"btn btn-red-gradien inline-flex items-center justify-center rounded bg-gradient-to-r from-[#F44336] to-[#C62828] py-2 px-4 font-semibold text-white\">Tr\u1EA3 l\u1EDDi</button>\n                        </div>\n                    </form>"));
+        listChild.insertAdjacentHTML("beforeend", "<form action=\"reply-cau-hoi\" absolute clear class=\"form-validate\" data-success=\"ASK_AND_ANSWER.showNotifyRemoveForm\" method=\"POST\">\n                        <input type=\"hidden\" name=\"_token\" value=\"".concat(document.querySelector("meta[name='csrf-token']").getAttribute("content"), "\" />\n                        <input  type=\"hidden\" name=\"id\" value=\"").concat(button.dataset.id, "\" />\n                        <input type=\"hidden\" name=\"field_main\" value=\"").concat(_this.fieldMain, "\" />\n                        <input type=\"hidden\" name=\"model\" value=\"").concat(_this.model, "\">\n                        <input type=\"hidden\" name=\"label\" value=\"").concat(_this.label, "\">\n                        <div class=\"flex items-center p-3 rounded-md shadow-lg gap-2\">\n                            <textarea class=\"flex-1 outline-none p-2 h-[38px] bg-transparent resize-none rules=\"required\" name=\"content\" placeholder=\"C\xE2u tr\u1EA3 l\u1EDDi\"></textarea>\n                            <button type=\"submit\" class=\"btn btn-red-gradien inline-flex items-center justify-center rounded bg-gradient-to-r from-[#F44336] to-[#C62828] py-2 px-4 font-semibold text-white\">Tr\u1EA3 l\u1EDDi</button>\n                        </div>\n                    </form>"));
         listChild.querySelector("textarea").focus();
         VALIDATE_FORM.refresh();
       };
@@ -106,8 +106,8 @@ var commentRS = /*#__PURE__*/_createClass(function commentRS(model, label, table
 window["ASK_AND_ANSWER"] = function () {
   return {
     _: function () {
-      new commentRS("\\App\\Models\\AskAndAnswer", "Câu hỏi", "ask_and_answer_user", "ask_and_answer_id", "likes,asks");
-      new commentRS("\\App\\Models\\AskAndAnswer", "Câu hỏi", "ask_and_answer_user", "ask_and_answer_id", "likes,asks");
+      new commentRS("\\App\\Models\\AskAndAnswer", "câu hỏi", "ask_and_answer_user", "ask_and_answer_id", "likes,asks");
+      new commentRS("\\App\\Models\\QuestionTeacher", "câu hỏi cho giảng viên", "question_teacher_user", "question_teacher_id", "likes,asks");
     }(),
     showNotify: function showNotify(res) {
       NOTIFICATION.showNotify(res.code, res.message);

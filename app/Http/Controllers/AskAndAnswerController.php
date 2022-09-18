@@ -21,37 +21,45 @@ class AskAndAnswerController extends Controller
             'map_table' => $request->map_table,
             'map_id' => $request->map_id,
             'content' => $request->content,
-            'gender' => $request->gender,
-            'phone' => $request->phone,
-            'name' => $request->name,
             'created_at' => new DateTime,
             'updated_at' => new DateTime,
             'act' => 0
         ];
 
+        if (isset($request->phone)) {
+            $data['phone'] =  $request->phone;
+        }
+        if (isset($request->name)) {
+            $data['name'] =  $request->name;
+        }
+        if (isset($request->gender)) {
+            $data['gender'] =  $request->gender;
+        }
+
         if (\Auth::check()) {
             $data['user_id'] = \Auth::id();
-            $data['user_type'] = \Auth::user()->user_type_id;
+            $data['user_type_id'] = \Auth::user()->user_type_id;
         }
         $model::insert($data);
 
         return response([
             'code' => 200,
-            'message' => 'Chúng tôi đã nhận được ' . $request->input('table_name') . ' của bạn'
+            'message' => 'Chúng tôi đã nhận được ' . $request->input('label') . ' của bạn'
         ]);
     }
 
     private function validateAsk()
     {
         $request = request();
-        return \Validator::make($request->all(), [
-            'name' => ['required'],
-            'phone' => ['required'],
+        $data = [
+            'name' => $request->input('name', null) !== null ? ['required'] : [],
+            'phone' => $request->input('phone', null) !== null ? ['required'] : [],
             'content' => ['required'],
             'map_table' => ['required'],
             'map_id' => ['required'],
-            'gender' => ['required'],
-        ], [
+            'gender' => $request->input('phone', null) !== null ? ['required'] : [],
+        ];
+        return \Validator::make($request->all(), $data, [
             'required' => ':attribute ít nhất ký tự',
         ], [
             'name' => 'Họ và tên',
@@ -129,18 +137,25 @@ class AskAndAnswerController extends Controller
             'map_table' => $dataOld->map_table,
             'map_id' => $dataOld->map_id,
             'content' => $request->content,
-            'gender' => $request->gender,
-            'phone' => $request->phone,
-            'name' => $request->name,
             $request->input('field_main') => $dataOld->id,
             'created_at' => new DateTime,
             'updated_at' => new DateTime,
             'act' => 0
         ];
 
+        if (isset($request->phone)) {
+            $data['phone'] =  $request->phone;
+        }
+        if (isset($request->name)) {
+            $data['name'] =  $request->name;
+        }
+        if (isset($request->gender)) {
+            $data['gender'] =  $request->gender;
+        }
+
         if (\Auth::check()) {
             $data['user_id'] = \Auth::id();
-            $data['user_type'] = \Auth::user()->user_type_id;
+            $data['user_type_id'] = \Auth::user()->user_type_id;
         }
         $model = $request->input('model');
         $model::insert($data);
