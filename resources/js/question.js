@@ -66,7 +66,7 @@ class commentRS {
                         <input type="hidden" name="model" value="${this.model}">
                         <input type="hidden" name="label" value="${this.label}">
                         <div class="flex items-center p-3 rounded-md shadow-lg gap-2">
-                            <textarea class="flex-1 outline-none p-2 h-[38px] bg-transparent" rules="required" name="content" placeholder="Câu trả lời"></textarea>
+                            <textarea class="flex-1 outline-none p-2 h-[38px] bg-transparent resize-none rules="required" name="content" placeholder="Câu trả lời"></textarea>
                             <button type="submit" class="btn btn-red-gradien inline-flex items-center justify-center rounded bg-gradient-to-r from-[#F44336] to-[#C62828] py-2 px-4 font-semibold text-white">Trả lời</button>
                         </div>
                     </form>`
@@ -108,17 +108,17 @@ window["ASK_AND_ANSWER"] = (() => {
         _: (() => {
             new commentRS(
                 "\\App\\Models\\AskAndAnswer",
-                "Câu hỏi",
+                "câu hỏi",
                 "ask_and_answer_user",
                 "ask_and_answer_id",
                 "likes,asks"
             );
 
             new commentRS(
-                "\\App\\Models\\AskAndAnswer",
-                "Câu hỏi",
-                "ask_and_answer_user",
-                "ask_and_answer_id",
+                "\\App\\Models\\QuestionTeacher",
+                "câu hỏi cho giảng viên",
+                "question_teacher_user",
+                "question_teacher_id",
                 "likes,asks"
             );
         })(),

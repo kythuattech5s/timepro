@@ -4,7 +4,7 @@
     <link rel="stylesheet" href="{'comment/css/star.css'}">
 @endsection
 @section('main')
-    <section class="section-lesson mx-auto max-w-[1920px] py-6 2xl:py-14">
+    <section class="section-lesson mx-auto max-w-[1920px] bg-white py-6 2xl:py-14">
         <div class="head mb-6 block items-center justify-between gap-4 px-4 lg:flex lg:px-6 2xl:mb-8 2xl:px-10">
             <a href="{{ $currentItem->slug }}" title="Trở về" class="back mb-2 inline-block font-bold text-[#CD272F] lg:mb-0 2xl:text-[1.125rem]">
                 <svg width="24" height="24" class="mr-2 inline-block" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -43,18 +43,18 @@
                     </div>
                 </div>
                 <div class="button-tabs tab-info-lesson mb-4 flex flex-wrap border-b-[1px] border-solid border-[#ebebeb] px-4 sm:block lg:px-10 2xl:mb-6 2xl:px-20">
-                    <button class="tablinks active basis-1/2 border-b-[2px] border-solid border-transparent py-4 font-bold last:mr-0 sm:mr-4 lg:mr-8 2xl:mr-16 2xl:text-[1.25rem]" data-electronic="tab-lesson-1">Tổng quan</button>
-                    <button class="tablinks basis-1/2 border-b-[2px] border-solid border-transparent py-4 font-bold last:mr-0 sm:mr-4 lg:mr-8 2xl:mr-16 2xl:text-[1.25rem]" data-electronic="tab-lesson-2">Thông tin giảng viên</button>
-                    <button class="tablinks basis-1/2 border-b-[2px] border-solid border-transparent py-4 font-bold last:mr-0 sm:mr-4 lg:mr-8 2xl:mr-16 2xl:text-[1.25rem]" data-electronic="tab-lesson-3">Tài liệu</button>
-                    <button class="tablinks basis-1/2 border-b-[2px] border-solid border-transparent py-4 font-bold last:mr-0 sm:mr-4 lg:mr-8 2xl:mr-16 2xl:text-[1.25rem]" data-electronic="tab-lesson-4">Hỏi đáp cùng giảng viên</button>
+                    <button class="tablinks active basis-1/2 border-b-[2px] border-solid border-transparent py-4 font-bold last:mr-0 sm:mr-4 lg:mr-8 2xl:mr-16 2xl:text-[1.25rem]" data-electronic="tab-lesson-1" data-target="tab-lesson">Tổng quan</button>
+                    <button class="tablinks basis-1/2 border-b-[2px] border-solid border-transparent py-4 font-bold last:mr-0 sm:mr-4 lg:mr-8 2xl:mr-16 2xl:text-[1.25rem]" data-electronic="tab-lesson-2" data-target="tab-lesson">Thông tin giảng viên</button>
+                    <button class="tablinks basis-1/2 border-b-[2px] border-solid border-transparent py-4 font-bold last:mr-0 sm:mr-4 lg:mr-8 2xl:mr-16 2xl:text-[1.25rem]" data-electronic="tab-lesson-3" data-target="tab-lesson">Tài liệu</button>
+                    <button class="tablinks basis-1/2 border-b-[2px] border-solid border-transparent py-4 font-bold last:mr-0 sm:mr-4 lg:mr-8 2xl:mr-16 2xl:text-[1.25rem]" data-electronic="tab-lesson-4" data-target="tab-lesson">Hỏi đáp cùng giảng viên</button>
                 </div>
                 <div class="wrapper_tabcontent mb-4">
-                    <div class="tabcontent active px-4 2xl:px-10" id="tab-lesson-1">
+                    <div class="tabcontent active px-4 2xl:px-10" id="tab-lesson-1" data-target="tab-lesson">
                         <div class="s-content">
                             {!! Support::show($currentItem, 'content') !!}
                         </div>
                     </div>
-                    <div class="tabcontent px-4 2xl:px-10" id="tab-lesson-2">
+                    <div class="tabcontent px-4 2xl:px-10" id="tab-lesson-2" data-target="tab-lesson">
                         @if (isset($currentItem->teacher))
                             @php
                                 $userTeacher = $currentItem->teacher;
@@ -124,7 +124,7 @@
                             </div>
                         @endif
                     </div>
-                    <div class="tabcontent px-4 2xl:px-10" id="tab-lesson-3">
+                    <div class="tabcontent px-4 2xl:px-10" id="tab-lesson-3" data-target="tab-lesson">
                         <div class="item-document mb-4 block items-center justify-between gap-4 rounded-lg border-[1px] border-solid border-[#ebebeb] p-2 transition-all duration-300 last:mb-0 hover:border-transparent hover:bg-[#f5f5f5] sm:flex md:p-4 2xl:p-6">
                             <div class="item mb-2 flex items-center gap-2 sm:mb-0">
                                 <span class="icon block h-12 w-12 shrink-0">
@@ -156,22 +156,120 @@
                             </a>
                         </div>
                     </div>
-                    <div class="tabcontent px-4 2xl:px-10" id="tab-lesson-4"></div>
+                    <div class="tabcontent px-4 2xl:px-10" id="tab-lesson-4" data-target="tab-lesson">
+                        <div class="mb-2 flex justify-between">
+                            <p class="font-bold">
+                                Đặt câu hỏi
+                            </p>
+                            <div class="flex items-center gap-2">
+                                <span>Sắp xếp theo:</span>
+                                <select name="sort" id="" class="rounded-md bg-[#F2F2F2] p-2">
+                                    <option value="new">Mới nhất</option>
+                                    <option value="old">Cũ nhất</option>
+                                </select>
+                            </div>
+                        </div>
+                        @if (Auth::check())
+                            @php
+                                $user = Auth::user();
+                            @endphp
+                            <div>
+                                <form action="hoi-dap" method="POST" class="form-validate flex items-center gap-4" data-success="ASK_AND_QUESTION.showNotify">
+                                    @csrf
+                                    <input type="hidden" name="model" value="\App\Models\QuestionTeacher">
+                                    <input type="hidden" name="label" value="câu hỏi cho giảng viên">
+                                    <input type="hidden" name="map_table" value="courses">
+                                    <input type="hidden" name="map_id" value="{{ $currentItem->id }}">
+                                    <img src="{%IMGV2.user.img.-1%}" class="border-md h-12 w-12" alt="{%AIMGV2.user.img.alt%}" title="{%AIMGV2.user.img.title%}">
+                                    <div class="flex flex-1 items-center rounded-lg bg-[#F5F5F5] px-4 py-3">
+                                        <textarea name="content" class="h-6 flex-1 resize-none bg-transparent outline-none" placeholder="Đặt câu hỏi..."></textarea>
+                                        <button type="submit" class="button-text-gradient px-4">Gửi</button>
+                                    </div>
+                                </form>
+                            </div>
+                        @else
+                            <p>Vui lòng đăng nhập để thực hiện chức năng này</p>
+                        @endif
+                        <div class="mt-12 flex flex-col gap-3" list-question-for-teacher>
+                            @foreach ($listQuestions as $question)
+                                <div class="relative before:content-[''] before:h-[calc(100%_-_70px)] before:absolute before:top-12 before:left-[21px] before:w-[1px] before:bg-[#D9D9D9]">
+                                    <div class="flex gap-2">
+                                        @php
+                                            $user = $question->user;
+                                        @endphp
+                                        <img src="{%IMGV2.user.img.-1%}" alt="{%AIMGV2.user.img.alt%}" class="h-11 w-11 rounded-full" title="{%AIMGV2.user.img.title%}">
+                                        <div class="flex-1">
+                                            <div class="flex h-11 flex-col justify-between">
+                                                <p class="font-bold">{{ $user->name }}</p>
+                                                <p class="text-xs text-[#888888]">{{ RSCustom::showTime($question->created_at) }}</p>
+                                            </div>
+                                            <p class="my-2">
+                                                {!! $question->content !!}
+                                            </p>
+                                            <div class="flex flex-wrap gap-4">
+                                                <a class="{{ $question->likes->first(function ($q) {
+                                                    return $q->pivot->user_id == Auth::id();
+                                                }) != null
+                                                    ? 'like'
+                                                    : '' }} flex cursor-pointer items-center gap-[4px]" data-id="{-question.id-}" rs-qaa-like>
+                                                    @include('commentRS::icon.like') <span>Thích</span>
+                                                </a>
+                                                <a type="button" data-id="{{ $question->id }}" data-placeholder="Trả lời bình luận" class="group flex cursor-pointer items-center gap-[4px] duration-300 hover:text-[#CD272F]" rs-qaa-reply>
+                                                    @include('commentRS::icon.reply') <span> Trả lời</span></a>
+                                                <div class="w-full" rs-qaa-list-child>
+                                                    @foreach ($question->questions as $item_child)
+                                                        <div class="flex gap-2 relative before:content-[''] before:h-[calc(100%_-_70px)] before:absolute before:top-12 before:left-[21px] before:w-[1px] before:bg-[#D9D9D9]">
+                                                            @php
+                                                                $user = $question->user;
+                                                            @endphp
+                                                            <img src="{%IMGV2.user.img.-1%}" alt="{%AIMGV2.user.img.alt%}" class="h-11 w-11 rounded-full" title="{%AIMGV2.user.img.title%}">
+                                                            <div class="flex-1">
+                                                                <div class="flex h-11 flex-col justify-between">
+                                                                    <p class="font-bold">{{ $user->name }}</p>
+                                                                    <p class="text-xs text-[#888888]">{{ RSCustom::showTime($item_child->created_at) }}</p>
+                                                                </div>
+                                                                <p class="my-2">
+                                                                    {!! $question->content !!}
+                                                                </p>
+                                                                <div class="flex flex-wrap gap-4">
+                                                                    <a class="{{ $item_child->likes->first(function ($q) {
+                                                                        return $q->pivot->user_id == Auth::id();
+                                                                    }) != null
+                                                                        ? 'like'
+                                                                        : '' }} flex cursor-pointer items-center gap-[4px]" data-id="{-item_child.id-}" rs-qaa-like>
+                                                                        @include('commentRS::icon.like') <span>Thích</span>
+                                                                    </a>
+                                                                    <a type="button" data-id="{{ $question->id }}" data-placeholder="Trả lời bình luận" class="group flex cursor-pointer items-center gap-[4px] duration-300 hover:text-[#CD272F]" rs-qaa-reply>
+                                                                        @include('commentRS::icon.reply') <span> Trả lời</span></a>
+                                                                    <div class="w-full" rs-qaa-list-child>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    @endforeach
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="col-span-1 lg:ml-[-2px]">
                 <div course-el>
                     <div class="button-tabs tab-sidebar__lesson flex">
-                        <button class="tablinks active inline-flex flex-1 items-center justify-center bg-[#ebebeb] p-3 font-semibold text-[#888] transition-all duration-300" data-electronic="tab-sidebar-1">
+                        <button class="tablinks active inline-flex flex-1 items-center justify-center bg-[#ebebeb] p-3 font-semibold text-[#888] transition-all duration-300" data-electronic="tab-sidebar-1" data-target="tab-sidebar">
                             <i class="fa fa-file-text-o mr-2" aria-hidden="true"></i> Nội dung bài học
                         </button>
-                        <button class="tablinks inline-flex flex-1 items-center justify-center bg-[#ebebeb] p-3 font-semibold text-[#888] transition-all duration-300" data-electronic="tab-sidebar-2">
+                        <button class="tablinks inline-flex flex-1 items-center justify-center bg-[#ebebeb] p-3 font-semibold text-[#888] transition-all duration-300" data-electronic="tab-sidebar-2" data-target="tab-sidebar">
                             <i class="fa fa-pencil-square-o mr-2" aria-hidden="true"></i>
                             Ghi chú
                         </button>
                     </div>
                     <div class="wrapper_tabcontent py-3 px-4 lg:px-6 2xl:py-6 2xl:px-10">
-                        <div class="tabcontent active" id="tab-sidebar-1">
+                        <div class="tabcontent active" id="tab-sidebar-1" data-target="tab-sidebar">
                             <p class="title mb-4 text-[1rem] font-bold text-[#252525] 2xl:text-[1.25rem]">Nội dung bài học
                             </p>
                             <div class="list-lesson__item mb-10 border-b-[1px] border-solid border-[#ebebeb] pb-4 2xl:mb-20">
@@ -196,7 +294,7 @@
                                 <textarea class="form-control h-24 w-full resize-none rounded-lg bg-[#F5F5F5] p-3 outline-none" name="note" placeholder="Nhập ghi chú và nhấn Enter để lưu lại "></textarea>
                             </form>
                         </div>
-                        <div class="tabcontent" id="tab-sidebar-2">
+                        <div class="tabcontent" id="tab-sidebar-2" data-target="tab-sidebar">
                             <div list-note>
                                 @include('courses.components.list_note')
                             </div>

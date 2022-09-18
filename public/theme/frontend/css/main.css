@@ -33,7 +33,10 @@ body::-webkit-scrollbar {
 body::-webkit-scrollbar-thumb {
   background: #F44336;
 }
-
+img, svg, video, canvas, audio, iframe, embed, object{
+  margin-left: auto;
+  margin-right: auto;
+}
 .container {
   padding-left: 0.938rem;
   padding-right: 0.938rem;
@@ -665,6 +668,7 @@ input {
           box-shadow: inset 0px 4px 16px rgba(255, 255, 255, 0.25);
   border-radius: 100%;
   position: absolute;
+  animation: scale 2s linear infinite;
 }
 .btn-play::after {
   content: "";
@@ -679,8 +683,23 @@ input {
           box-shadow: inset 0px 8px 48px rgba(255, 255, 255, 0.25);
   border-radius: 100%;
   position: absolute;
-}
+  animation: scale 2s linear infinite;
+  animation-delay: 2s;
 
+}
+@keyframes scale {
+    0%{
+      transform: translate(-50%,-50%) scale(0);
+      opacity: 1;
+    }
+    70%{
+      opacity: 1;
+    }
+    100%{
+      transform: translate(-50%,-50%) scale(1);
+      opacity: 0;
+    }
+}
 .section-cate__index .item {
   background-size: 100%;
   background-repeat: no-repeat;
@@ -908,6 +927,14 @@ color: #F44336 !important;
 .formComment__action .btn:hover,.formComment__action label:hover{
   background: #F44336 !important;
   color: #fff !important;
+}
+.main-roadmap .box-logo img{
+  max-width: 80%;
+  max-height: 80%;
+}
+.payment-method__content img{
+  display: inline-block;
+  width: 2.5rem;
 }
 @media (min-width: 992px) {
   .container {
