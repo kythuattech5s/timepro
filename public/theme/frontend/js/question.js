@@ -12,11 +12,11 @@ var ASK_AND_ANSWER = (() => {
                     },
                 }).then((res) => {
                     if (res.code == 200) {
-                        !button.classList.contains("active") &&
-                            button.classList.add("active");
+                        !button.classList.contains("like") &&
+                            button.classList.add("like");
                     } else if (res.code == 100) {
-                        button.classList.contains("active") &&
-                            button.classList.remove("active");
+                        button.classList.contains("like") &&
+                            button.classList.remove("like");
                     }
                     NOTIFICATION.showNotify(res.code, res.message);
                 });
@@ -26,6 +26,29 @@ var ASK_AND_ANSWER = (() => {
 
     const repAsk = () => {
         const replyAsk = document.querySelectorAll("[rep-ask]");
+        replyAsk.forEach((button) => {
+            button.onclick = () => {
+                const parentElement = button.parentElement;
+                const listChild =
+                    parentElement.querySelector("[list-ask-child]");
+                listChild.insertAdjacentHTML(
+                    "beforeend",
+                    `<form action="reply-cau-hoi" class="form-validate" data-success="ASK_AND_ANSWER.showNotify" method="POST">
+                        <input type="hidden" name="_token" value="${document
+                            .querySelector("meta[name='csrf-token']")
+                            .getAttribute("content")}" />
+                        <input  type="hidden" name="ask_and_answer_id" value="${
+                            button.dataset.id
+                        }" />
+                        <div>
+                            <textarea class="" rules="required" name="content" placeholder="Câu trả lời"></textarea>
+                            <button type="submit">Trả lời</button>
+                        </div>
+                    </form>`
+                );
+                VALIDATE_FORM.refresh();
+            };
+        });
     };
     return {
         init: (() => {
