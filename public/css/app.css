@@ -2214,9 +2214,9 @@ video {
   margin-right: 0.5rem;
 }
 
-.before\:h-full::before {
+.before\:h-\[calc\(100\%_-_70px\)\]::before {
   content: var(--tw-content);
-  height: 100%;
+  height: calc(100% - 70px);
 }
 
 .before\:h-1::before {
@@ -2224,24 +2224,9 @@ video {
   height: 0.25rem;
 }
 
-.before\:h-\[calc\(100-70px\)\]::before {
+.before\:w-\[1px\]::before {
   content: var(--tw-content);
-  height: calc(100 - 70px);
-}
-
-.before\:h-\[calc\(100_-_70px\)\]::before {
-  content: var(--tw-content);
-  height: calc(100 - 70px);
-}
-
-.before\:h-\[calc\(100\%_-_70px\)\]::before {
-  content: var(--tw-content);
-  height: calc(100% - 70px);
-}
-
-.before\:w-\[2px\]::before {
-  content: var(--tw-content);
-  width: 2px;
+  width: 1px;
 }
 
 .before\:w-1::before {
@@ -2249,32 +2234,21 @@ video {
   width: 0.25rem;
 }
 
-.before\:w-\[1px\]::before {
-  content: var(--tw-content);
-  width: 1px;
-}
-
 .before\:rounded-full::before {
   content: var(--tw-content);
   border-radius: 9999px;
-}
-
-.before\:bg-gray-500::before {
-  content: var(--tw-content);
-  --tw-bg-opacity: 1;
-  background-color: rgb(107 114 128 / var(--tw-bg-opacity));
-}
-
-.before\:bg-\[\#888\]::before {
-  content: var(--tw-content);
-  --tw-bg-opacity: 1;
-  background-color: rgb(136 136 136 / var(--tw-bg-opacity));
 }
 
 .before\:bg-\[\#D9D9D9\]::before {
   content: var(--tw-content);
   --tw-bg-opacity: 1;
   background-color: rgb(217 217 217 / var(--tw-bg-opacity));
+}
+
+.before\:bg-\[\#888\]::before {
+  content: var(--tw-content);
+  --tw-bg-opacity: 1;
+  background-color: rgb(136 136 136 / var(--tw-bg-opacity));
 }
 
 .before\:content-\[\'\'\]::before {
@@ -2373,12 +2347,6 @@ video {
   border-radius: 9999px;
 }
 
-.after\:bg-white::after {
-  content: var(--tw-content);
-  --tw-bg-opacity: 1;
-  background-color: rgb(255 255 255 / var(--tw-bg-opacity));
-}
-
 .after\:bg-\[\#252525\]::after {
   content: var(--tw-content);
   --tw-bg-opacity: 1;
@@ -2422,11 +2390,6 @@ video {
 .after\:to-\[rgba\(0\2c 0\2c 0\2c 0\.8\)\]::after {
   content: var(--tw-content);
   --tw-gradient-to: rgba(0,0,0,0.8);
-}
-
-.after\:content-\[\'\'\]::after {
-  --tw-content: '';
-  content: var(--tw-content);
 }
 
 .first\:border-t-\[1px\]:first-child {
