@@ -68,12 +68,11 @@
                 {:content_form_forgot_password:}
             </div>
             <div class="p-6 space-y-6 pt-0">
-                <form action="" class="frm">
-                    <label for="#username" class="block text-[#252525] mb-2">Email hoặc Số điện thoại *</label>
-                    <input type="text" placeholder="Nhập..." name="username" id="username" class="placeholder-[#888888] text-base border-[1px] border-[#EBEBEB] rounded rounded-[5px] overflow-hidden w-full h-[3rem] md:px-4 px-3 mb-[1.25rem] md:text-base text-sm"/>
-                    <button type="submit" class="rounded rounded-[0.3125rem] overflow-hidden px-[0.625rem] py-[0.825rem] bg-gradient-to-r from-[#F44336] to-[#C62828] text-white w-full md:mb-[1.5rem] mb-[1rem]">
-                        Lấy lại mật khẩu
-                    </button>
+                <form action="{{\VRoute::get('forgot-password')}}" method="POST" class="frm formValidation" absolute data-success="NOTIFICATION.toastrMessageRedirect" accept-charset="utf8">
+                    @csrf
+                    <label for="#username_forgot_password" class="block text-[#252525] mb-2">Địa chỉ email đăng ký *</label>
+                    <input type="text" placeholder="Nhập..." name="email" rules="required" id="username_forgot_password" class="placeholder-[#888888] text-base border-[1px] border-[#EBEBEB] rounded rounded-[5px] overflow-hidden w-full h-[3rem] md:px-4 px-3 mb-[1.25rem] md:text-base text-sm"/>
+                    <button type="submit" class="rounded rounded-[0.3125rem] overflow-hidden px-[0.625rem] py-[0.825rem] bg-gradient-to-r from-[#F44336] to-[#C62828] text-white w-full md:mb-[1.5rem] mb-[1rem]">Lấy lại mật khẩu</button>
                 </form>
                 <div class="text-center lg:mt-[1.875rem] md:mt-[1.25rem] mt-[1rem] text-[#454545]">
                     <span>Bạn chưa có tài khoản?</span>

@@ -127,4 +127,106 @@ class RegisterController extends Controller
         $user->save();
         return $user;
     }
+
+
+    public function activeAccount(Request $request)
+    {
+        if (!$request->input('token', false) || !$request->input('email', false)) {
+            return redirect()->to('/')->with('messageNotify', 'Yêu cầu không hợp lệ')->with('typeNotify', 100);
+        }
+        $user = User::where('email', $request->input('email'))->first();
+        if ($user == null) {
+            return redirect()->to('/')->with('messageNotify', 'Email không tồn tại')->with('typeNotify', 100);
+        }
+        if (!Hash::check($request->input('token'), $user->token)) {
+            return redirect()->to('/')->with('messageNotify', 'Mã xác nhận không hợp lệ')->with('typeNotify', 100);
+        }
+        $user->act = 1;
+        $user->save();
+        return redirect()->to(\VRoute::get('login'))->with('messageNotify', 'Kích hoạt tài khoản thành công vui lòng đăng nhập')->with('typeNotify', 200);
+    }
+
+    public function checkToken(Request $request)
+    {
+        if ($request->input('phone', false)) {
+            $user = User::where('phone', $request->input('phone'))->first();
+            $user->act = 1;
+            $user->save();
+            return response([
+                'code' => 200,
+                'message' => 'Tài khoản của bạn đã được kích hoạt thành công, bạn có thể đăng nhập ngay!',
+                'redirect_url' => \VRoute::get('login'),
+            ]);
+        }
+
+        $email = session()->get('EMAIL_CURRENT_REGISTER');
+        $user = User::where('email', $email)->first();
+        if ($user == null) {
+            return response([
+                'code' => 100,
+                'message' => 'Yêu cầu không hợp lệ vui lòng thử lại sau',
+            ]);
+        }
+
+        session()->forget('EMAIL_CURRENT_REGISTER');
+        if (Hash::check($request->otp, $user->token)) {
+            $user->act = 1;
+            $user->save();
+            if ($request->input('social') == 1) {
+                Auth::login($user);
+                return response([
+                    'code' => 200,
+                    'message' => 'Kích hoạt tài khoản và đăng nhập thành công',
+                    'redirect_url' => Support::URLPrevious(false),
+                ]);
+            }
+            return response([
+                'code' => 200,
+                'message' => 'Tài khoản của bạn đã được xác nhận thành công, bạn có thể đăng nhập ngay!',
+                'redirect_url' => \VRoute::get('login'),
+            ]);
+        }
+
+        return response([
+            'code' => 100,
+            'message' => 'Token không hợp lệ!',
+        ]);
+    }
+
+    public function sendTokenAgain()
+    {
+        $email = session()->get('EMAIL_CURRENT_REGISTER');
+        if ($email == null) {
+            return response([
+                'code' => 100,
+                'message' => 'Email không tồn tại trong hệ thống',
+            ]);
+        }
+        $user = User::where('email', $email)->first();
+        if ($user == null) {
+            return response([
+                'code' => 100,
+                'message' => 'Email không hợp lệ vui lòng thử lại sau',
+            ]);
+        }
+        $code = \Str::random(6);
+        $user->token = Hash::make($code);
+        $user->save();
+        event('sendmail.static', [[
+            'title' => 'Mã xác nhận kích hoạt tài khoản',
+            'data' => [
+                'link' => url('kich-hoat-tai-khoan') . "?token=$code&email=$user->email",
+                'user' => $user,
+            ],
+            'email' => $user->email,
+            'type' => 'user_create',
+        ]]);
+
+        return response([
+            'code' => 200,
+            'token' => $code,
+            'message' => "Gửi yêu cầu nhận lại mã xác nhận tài khoản thành công. Hãy kiểm tra email $email",
+        ]);
+    }
+
 }
