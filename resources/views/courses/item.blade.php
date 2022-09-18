@@ -36,7 +36,7 @@
                 </div>
             </div>
         @endif
-        <div class="flex gap-4 items-center justify-between button-action mt-auto">
+        <div class="flex gap-4 items-end justify-between button-action mt-auto">
             <a href="{{Support::show($item,'slug')}}" title="Tham gia" class="btn btn-orange lg:text-[0.875rem] whitespace-nowrap inline-flex items-center justify-center py-2 px-4 rounded bg-gradient-to-r from-[#FE8C00] to-[#F83600] text-white">Tham gia <i class="fa fa-angle-double-right ml-1" aria-hidden="true"></i></a>
             <div class="form-price">
                 <div class="rating-item mb-1 justify-end">
