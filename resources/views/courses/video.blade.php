@@ -43,18 +43,18 @@
                     </div>
                 </div>
                 <div class="button-tabs tab-info-lesson mb-4 flex flex-wrap border-b-[1px] border-solid border-[#ebebeb] px-4 sm:block lg:px-10 2xl:mb-6 2xl:px-20">
-                    <button class="tablinks active basis-1/2 border-b-[2px] border-solid border-transparent py-4 font-bold last:mr-0 sm:mr-4 lg:mr-8 2xl:mr-16 2xl:text-[1.25rem]" data-electronic="tab-lesson-1">Tổng quan</button>
-                    <button class="tablinks basis-1/2 border-b-[2px] border-solid border-transparent py-4 font-bold last:mr-0 sm:mr-4 lg:mr-8 2xl:mr-16 2xl:text-[1.25rem]" data-electronic="tab-lesson-2">Thông tin giảng viên</button>
-                    <button class="tablinks basis-1/2 border-b-[2px] border-solid border-transparent py-4 font-bold last:mr-0 sm:mr-4 lg:mr-8 2xl:mr-16 2xl:text-[1.25rem]" data-electronic="tab-lesson-3">Tài liệu</button>
-                    <button class="tablinks basis-1/2 border-b-[2px] border-solid border-transparent py-4 font-bold last:mr-0 sm:mr-4 lg:mr-8 2xl:mr-16 2xl:text-[1.25rem]" data-electronic="tab-lesson-4">Hỏi đáp cùng giảng viên</button>
+                    <button class="tablinks active basis-1/2 border-b-[2px] border-solid border-transparent py-4 font-bold last:mr-0 sm:mr-4 lg:mr-8 2xl:mr-16 2xl:text-[1.25rem]" data-electronic="tab-lesson-1" data-target="tab-lesson">Tổng quan</button>
+                    <button class="tablinks basis-1/2 border-b-[2px] border-solid border-transparent py-4 font-bold last:mr-0 sm:mr-4 lg:mr-8 2xl:mr-16 2xl:text-[1.25rem]" data-electronic="tab-lesson-2" data-target="tab-lesson">Thông tin giảng viên</button>
+                    <button class="tablinks basis-1/2 border-b-[2px] border-solid border-transparent py-4 font-bold last:mr-0 sm:mr-4 lg:mr-8 2xl:mr-16 2xl:text-[1.25rem]" data-electronic="tab-lesson-3" data-target="tab-lesson">Tài liệu</button>
+                    <button class="tablinks basis-1/2 border-b-[2px] border-solid border-transparent py-4 font-bold last:mr-0 sm:mr-4 lg:mr-8 2xl:mr-16 2xl:text-[1.25rem]" data-electronic="tab-lesson-4" data-target="tab-lesson">Hỏi đáp cùng giảng viên</button>
                 </div>
                 <div class="wrapper_tabcontent mb-4">
-                    <div class="tabcontent active px-4 2xl:px-10" id="tab-lesson-1">
+                    <div class="tabcontent active px-4 2xl:px-10" id="tab-lesson-1" data-target="tab-lesson">
                         <div class="s-content">
                             {!! Support::show($currentItem, 'content') !!}
                         </div>
                     </div>
-                    <div class="tabcontent px-4 2xl:px-10" id="tab-lesson-2">
+                    <div class="tabcontent px-4 2xl:px-10" id="tab-lesson-2" data-target="tab-lesson">
                         @if (isset($currentItem->teacher))
                             @php
                                 $userTeacher = $currentItem->teacher;
@@ -124,7 +124,7 @@
                             </div>
                         @endif
                     </div>
-                    <div class="tabcontent px-4 2xl:px-10" id="tab-lesson-3">
+                    <div class="tabcontent px-4 2xl:px-10" id="tab-lesson-3" data-target="tab-lesson">
                         <div class="item-document mb-4 block items-center justify-between gap-4 rounded-lg border-[1px] border-solid border-[#ebebeb] p-2 transition-all duration-300 last:mb-0 hover:border-transparent hover:bg-[#f5f5f5] sm:flex md:p-4 2xl:p-6">
                             <div class="item mb-2 flex items-center gap-2 sm:mb-0">
                                 <span class="icon block h-12 w-12 shrink-0">
@@ -156,22 +156,22 @@
                             </a>
                         </div>
                     </div>
-                    <div class="tabcontent px-4 2xl:px-10" id="tab-lesson-4"></div>
+                    <div class="tabcontent px-4 2xl:px-10" id="tab-lesson-4" data-target="tab-lesson"></div>
                 </div>
             </div>
             <div class="col-span-1 lg:ml-[-2px]">
                 <div course-el>
                     <div class="button-tabs tab-sidebar__lesson flex">
-                        <button class="tablinks active inline-flex flex-1 items-center justify-center bg-[#ebebeb] p-3 font-semibold text-[#888] transition-all duration-300" data-electronic="tab-sidebar-1">
+                        <button class="tablinks active inline-flex flex-1 items-center justify-center bg-[#ebebeb] p-3 font-semibold text-[#888] transition-all duration-300" data-electronic="tab-sidebar-1" data-target="tab-sidebar">
                             <i class="fa fa-file-text-o mr-2" aria-hidden="true"></i> Nội dung bài học
                         </button>
-                        <button class="tablinks inline-flex flex-1 items-center justify-center bg-[#ebebeb] p-3 font-semibold text-[#888] transition-all duration-300" data-electronic="tab-sidebar-2">
+                        <button class="tablinks inline-flex flex-1 items-center justify-center bg-[#ebebeb] p-3 font-semibold text-[#888] transition-all duration-300" data-electronic="tab-sidebar-2" data-target="tab-sidebar">
                             <i class="fa fa-pencil-square-o mr-2" aria-hidden="true"></i>
                             Ghi chú
                         </button>
                     </div>
                     <div class="wrapper_tabcontent py-3 px-4 lg:px-6 2xl:py-6 2xl:px-10">
-                        <div class="tabcontent active" id="tab-sidebar-1">
+                        <div class="tabcontent active" id="tab-sidebar-1" data-target="tab-sidebar">
                             <p class="title mb-4 text-[1rem] font-bold text-[#252525] 2xl:text-[1.25rem]">Nội dung bài học
                             </p>
                             <div class="list-lesson__item mb-10 border-b-[1px] border-solid border-[#ebebeb] pb-4 2xl:mb-20">
@@ -196,7 +196,7 @@
                                 <textarea class="form-control h-24 w-full resize-none rounded-lg bg-[#F5F5F5] p-3 outline-none" name="note" placeholder="Nhập ghi chú và nhấn Enter để lưu lại "></textarea>
                             </form>
                         </div>
-                        <div class="tabcontent" id="tab-sidebar-2">
+                        <div class="tabcontent" id="tab-sidebar-2" data-target="tab-sidebar">
                             <div list-note>
                                 @include('courses.components.list_note')
                             </div>
