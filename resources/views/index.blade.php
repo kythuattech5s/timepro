@@ -27,7 +27,7 @@
     {[CMS_HEADER]}
 </head>
 
-<body class="wrapper lg:text-[16px] mx-auto overflow-x-hidden bg-[#EEEAEA] text-[12px] leading-snug text-[#454545] sm:text-[14px]">
+<body class="wrapper 2xl:text-[16px] mx-auto overflow-x-hidden bg-[#EEEAEA] text-[12px] leading-snug text-[#454545] sm:text-[14px]">
     @include('layouts.header')
     @yield('main')
     @include('layouts.footer')
