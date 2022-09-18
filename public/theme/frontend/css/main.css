@@ -892,7 +892,9 @@ input {
 .btn-red-gradien::before {
   background: #F44336;
 }
-
+.item-course .rating-item .rating-box{
+  margin-right: 0 !important;
+}
 @media (min-width: 992px) {
   .container {
     max-width: 992px;
