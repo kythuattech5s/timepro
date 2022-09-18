@@ -1,5 +1,14 @@
-var ASK_AND_ANSWER = (() => {
-    const like = () => {
+class RSQAA {
+    constructor(table, tableName, tableLike) {
+        this.table = table;
+        this.tableName = tableName;
+        this.tableLike = tableLike;
+        this.like();
+        this.reply();
+        this.nextPage();
+    }
+
+    like = () => {
         const likeButtons = document.querySelectorAll("[like-ask]");
         likeButtons.forEach((button) => {
             button.onclick = () => {
@@ -9,6 +18,9 @@ var ASK_AND_ANSWER = (() => {
                     method: "POST",
                     data: {
                         ask_and_answer_id: id,
+                        table: this.table,
+                        table_name: this.tableName,
+                        tableLike: this.tableLike,
                     },
                 }).then((res) => {
                     if (res.code == 200) {
@@ -24,7 +36,7 @@ var ASK_AND_ANSWER = (() => {
         });
     };
 
-    const repAsk = () => {
+    reply = () => {
         const replyAsk = document.querySelectorAll("[rep-ask]");
         replyAsk.forEach((button) => {
             button.onclick = () => {
@@ -50,10 +62,43 @@ var ASK_AND_ANSWER = (() => {
             };
         });
     };
-    return {
-        init: (() => {
+
+    nextPage = () => {
+        const nextPage = document.querySelector("[ask-load-more]");
+        if (!nextPage) return;
+        nextPage.onclick = () => {
+            XHR.send({
+                url: "tai-them-cau-hoi",
+                method: "GET",
+                data: {
+                    map_table: nextPage.dataset.table,
+                    map_id: nextPage.dataset.id,
+                    page: nextPage.dataset.nextPage,
+                    table: this.table,
+                    table_name: this.tableName,
+                },
+            }).then((res) => {
+                nextPage.insertAdjacentHTML("beforebegin", res.html);
+                if (res.isLastPage) {
+                    nextPage.remove();
+                }
+            });
             like();
             repAsk();
+        };
+    };
+}
+var ASK_AND_ANSWER = (() => {
+    return {
+        init: (() => {
+            const rqaas = document.querySelectorAll("[rs-qaa]");
+            rqaas.forEach((item) => {
+                new RSQAA(
+                    item.dataset.name,
+                    item.dataset.label,
+                    item.dataset.like
+                );
+            });
         })(),
         showNotify: (res) => {
             NOTIFICATION.showNotify(res.code, res.message);
