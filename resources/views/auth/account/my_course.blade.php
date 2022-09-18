@@ -2,9 +2,9 @@
 @section('css')
 <style>
     .tabs .active {
-        border: 1px solid;
-        border-image-slice: 1;
-        border-image-source: linear-gradient(to right bottom,#f44336,#c62828);
+        border: 1px solid #f44336;
+        color:#f44336;
+     
     }
 </style>
 @endsection
@@ -37,7 +37,7 @@
                             </div>
                         </div>
                         <div class="tabs flex flex-nowrap items-center lg:gap-4 gap-3 overflow-x-auto snap-start mb-[1.25rem] sm:pb-0 pb-[0.625rem]">
-                            <label class="flex-none text-[#888888] border-[1px] border-[#888888] font-semibold inline-block rounded-[1.875rem] p-1 px-3 active color-gradient">
+                            <label class="flex-none text-[#888888] border-[1px] border-[#888888] font-semibold inline-block rounded-[1.875rem] p-1 px-3 active">
                                 <input class="hidden" type="radio" name="type" value="1">
                                 Tất cả
                             </label>
