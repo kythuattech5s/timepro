@@ -86,8 +86,9 @@ var CART = (function () {
             ".btn-delete-item-cart"
         );
         listItembtnDeleteItemCart.forEach((itembtnDeleteItemCart) => {
-            console.log(itembtnDeleteItemCart);
             itembtnDeleteItemCart.addEventListener("click", function () {
+                var _this = this;
+                BASE_GUI.disableButton(_this);
                 const formData = new FormData();
                 formData.append("row", itembtnDeleteItemCart.dataset.row);
                 formData.append(
@@ -99,6 +100,7 @@ var CART = (function () {
                     method: "POST",
                     formData: formData,
                 }).then((res) => {
+                    BASE_GUI.enableButton(_this);
                     NOTIFICATION.toastrMessage(res);
                     initCartCount();
                     if (res.code == 200) {

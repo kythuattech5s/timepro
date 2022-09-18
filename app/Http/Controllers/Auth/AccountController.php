@@ -11,7 +11,7 @@ use Validator;
 use Support;
 class AccountController extends Controller
 {
-    use UpgradeVip,UserWallet;
+    use UserWallet;
     public function goLogin()
     {   
         if(request()->isMethod('GET')){
