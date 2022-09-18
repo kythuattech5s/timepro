@@ -94,4 +94,9 @@ class MailHelper
         $this->from_email = \SettingHelper::getSetting('mail_from_address') ?? 'CSKH.nhatquangshop@gmail.com';
         return $this;
     }
+    public function setReplyTo($reply = null)
+    {
+        $this->replyTo = $reply ?? config('mail.from.replyTo');
+        return $this;
+    }
 }

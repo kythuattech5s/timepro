@@ -1,4 +1,4 @@
-@extends('mail_templates.main_templete')
+@extends('mail_templates.main_template')
 @section('content')
 <div style="margin-bottom: 10px;">
     {[content_email_order_success]}
