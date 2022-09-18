@@ -1,6 +1,7 @@
 var MORE_FUNCTION = (function(){
 	var showModal = function(element){
 		var modal_id = element.getAttribute('data-modal');
+		console.log(modal_id);
 		var modal = document.getElementById(modal_id);
 		modal.classList.toggle("active");
 	}
