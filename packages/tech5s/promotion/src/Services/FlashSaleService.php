@@ -20,7 +20,7 @@ class FlashSaleService extends FlashSaleCondition
         if (session()->has(static::PREFIX_SESSION_FLASH_SALE) && is_null($id)) {
             $this->flash_sale = session()->get(static::PREFIX_SESSION_FLASH_SALE);
         } else {
-            $this->flash_sale = is_null($id) ? new FlashSale : FlashSale::with('course_categories')->find($id);
+            $this->flash_sale = is_null($id) ? new FlashSale : FlashSale::with('courses')->find($id);
         }
     }
 

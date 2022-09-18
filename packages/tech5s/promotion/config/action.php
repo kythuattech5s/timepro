@@ -15,7 +15,7 @@ return [
                 ],
             ],
             'show' => [ //không bắt buộc
-
+                
             ]
         ],
     ]

@@ -17,11 +17,10 @@ class FlashSaleRepository
 
     public function getListProduct()
     {
-
-        return $this->courses->pluck('id');
         if ($this->courses->count() > 0) {
             $itemCurrent = $this->getItemCurrent();
             $listItem = $this->getItemReal($itemCurrent);
+            return $listItem;
             return;
         } else {
             return false;
@@ -31,16 +30,11 @@ class FlashSaleRepository
     public function getItemCurrent()
     {
         $itemCurrent = collect();
-        foreach ($this->courses as $product) {
-            if ($product->parent !== null) {
-                $itemCurrent[] = $product->parent;
-            } else {
-                $itemCurrent[] = $product->id;
-            }
+        foreach ($this->courses as $course) {
+            $itemCurrent[] = $course->id;
         }
         $itemCurrent = $itemCurrent->unique();
         session()->put(FlashSaleDetailHelper::SESSION_PRODUCT_CURRENT, $itemCurrent);
-
         return $itemCurrent;
     }
 
@@ -60,7 +54,7 @@ class FlashSaleRepository
                     if ($course !== null) {
                         $itemReal[] = $this->createProductItem($course);
                     } else {
-                        $itemDelete[] = $this->createProductRemove($itemVariant);
+                        $itemDelete[] = $this->createProductRemove($course);
                     }
                 }
             } else {
