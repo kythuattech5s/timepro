@@ -103,27 +103,29 @@
                     </div>
                     <div class="box mb-[1.5rem] overflow-hidden rounded-[0.3125rem] bg-[#fff] p-[0.5rem] md:p-[1.5rem]" id="hoi-dap">
                         <div class="">
-                            <p class="font-bold mb-4">Hỏi đáp</p>
-                            <form action="hoi-dap" class="form-validate overflow-hidden border-[1px] border-solid border-[#ebebeb] rounded-lg" absolute check method="POST" data-success="ASK_AND_ANSWER.showNotify">
+                            <p class="mb-4 font-bold">Hỏi đáp</p>
+                            <form action="hoi-dap" class="form-validate overflow-hidden rounded-lg border-[1px] border-solid border-[#ebebeb]" absolute check method="POST" data-success="ASK_AND_ANSWER.showNotify">
                                 @csrf
-                                <textarea name="" class="w-full resize-none h-[6.25rem] p-3 border-b-[1px] border-solid border-[#ebebeb]" placeholder="Mời bạn tham gia thảo luận, vui lòng nhập tiếng Việt có đấu."></textarea>
+                                <input type="hidden" name="map_table" value="courses">
+                                <input type="hidden" name="map_id" value="{{ $currentItem->id }}">
+                                <textarea name="content" class="h-[6.25rem] w-full resize-none border-b-[1px] border-solid border-[#ebebeb] p-3" placeholder="Mời bạn tham gia thảo luận, vui lòng nhập tiếng Việt có đấu."></textarea>
                                 <input type="text">
-                                <div class="flex flex-col sm:flex-row items-center p-3 gap-4 flex-wrap">
-                                    <div class="gap-4 flex items-center">
+                                <div class="flex flex-col flex-wrap items-center gap-4 p-3 sm:flex-row">
+                                    <div class="flex items-center gap-4">
                                         <label for="asMale">
-                                            <input type="radio" name="gender" rules="required" id="asMale" type="male">
+                                            <input type="radio" name="gender" rules="required" id="asMale" value="male">
                                             <span></span>
                                             <span>Anh</span>
                                         </label>
                                         <label for="asFemale">
-                                            <input type="radio" name="gender" rules="required" id="asFemale" type="female">
+                                            <input type="radio" name="gender" rules="required" id="asFemale" value="female">
                                             <span></span>
                                             <span>Chị</span>
                                         </label>
                                     </div>
-                                    <div class="flex-1 flex gap-4 flex-wrap">
-                                        <input type="text" name="name" class="py-2 px-4 rounded border-[1px] border-solid border-[#ebebeb] flex-1" placeholder="Họ tên *" rules="required">
-                                        <input type="text" class="py-2 px-4 rounded border-[1px] border-solid border-[#ebebeb] flex-1" placeholder="Số điện thoại*" name="phone" rules="required">
+                                    <div class="flex flex-1 flex-wrap gap-4">
+                                        <input type="text" name="name" class="flex-1 rounded border-[1px] border-solid border-[#ebebeb] py-2 px-4" placeholder="Họ tên *" rules="required">
+                                        <input type="text" class="flex-1 rounded border-[1px] border-solid border-[#ebebeb] py-2 px-4" placeholder="Số điện thoại*" name="phone" rules="required">
                                     </div>
                                     <button type="submit" class="btn btn-red-gradien inline-flex items-center justify-center rounded bg-gradient-to-r from-[#F44336] to-[#C62828] py-2 px-4 font-semibold text-white">Gửi</button>
                                 </div>
@@ -141,24 +143,27 @@
                                         {!! $ask->content !!}
                                     </div>
                                     <div>
-                                        <a type="button" data-placeholder="Trả lời bình luận" class="group flex cursor-pointer gap-[4px] duration-300 hover:text-[#CD272F]" comment-skeleton>
+                                        <a type="button" data-placeholder="Trả lời bình luận" class="group flex cursor-pointer gap-[4px] duration-300 hover:text-[#CD272F]" rep-ask data-id="{{ $ask->id }}">
                                             @include('commentRS::icon.reply') <span> Trả lời</span></a>
                                         <a class="{{ $ask->likes->first(function ($q) {
                                             return $q->pivot->user_id == Auth::id();
                                         }) != null
                                             ? 'like'
-                                            : '' }} flex cursor-pointer gap-[4px]" data-id="{-ask.id-}" comment-skeleton>
+                                            : '' }} flex cursor-pointer gap-[4px]" data-id="{-ask.id-}" like-ask>
                                             @include('commentRS::icon.like') <span>Thích</span>
                                         </a>
                                         @php
                                             $ask_childs = $ask->asks;
+                                            
                                         @endphp
                                         <div class="">
                                             @foreach ($ask_childs as $ask_child)
+                                                @php
+                                                    $user = $ask_child->user;
+                                                @endphp
                                                 <div>
                                                     <div>
-
-                                                        <img src="" alt="">
+                                                        @include('image_loader.big', ['itemImage' => $user])
                                                     </div>
                                                     <div>
                                                         <div>

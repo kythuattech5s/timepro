@@ -36,5 +36,6 @@ Route::group([
     Route::get('thong-tin-giang-vien/{uslug}', 'UserController@view');
 
     Route::post('hoi-dap', 'AskAndAnswerController@ask');
+    Route::post('thich-cau-hoi', 'AskAndAnswerController@like');
     Route::match(['get', 'post'], '/{link}', array('uses' => 'RouteController@direction'))->where('link', '^((?!esystem)[0-9a-zA-Z\?\.\-/])*$');
 });
