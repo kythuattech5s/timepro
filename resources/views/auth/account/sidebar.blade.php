@@ -4,7 +4,7 @@
 ?>
 <div class="box-info-student bg-white p-4 rounded mb-2">
     @if(Support::show($user,'img'))
-    <span class="ava block mx-auto 2xl:w-40 2xl:h-40 lg:w-24 lg:h-24 w-20 h-20 rounded-full overflow-hidden mb-4">
+    <span class="ava img-ava block mx-auto 2xl:w-40 2xl:h-40 lg:w-24 lg:h-24 w-20 h-20 rounded-full overflow-hidden mb-4">
         @include('image_loader.tiny',['keyImage'=>'img','itemImage'=>$user])
     </span>
     @else
@@ -62,7 +62,7 @@
 </a>
 <a href="{{\VRoute::get('my_notification')}}" class="sidebar-admin__item bg-white rounded flex items-center justify-between py-3 2xl:px-6 px-4 mb-2 transition-all duration-300">
     <span class="title font-bold text-[#252525]">Thông báo</span>
-    <div class="noti">
+    <div class="noti flex items-center">
         <span class="count mr-4 inline-block min-w-[1.25rem] h-5 rounded-full text-white font-semibold text-[0.875rem] leading-5 text-center bg-gradient-to-r from-[#F44336] to-[#C62828]">
             3
         </span>

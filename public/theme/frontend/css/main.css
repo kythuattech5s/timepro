@@ -943,7 +943,9 @@ color: #F44336 !important;
   display: inline-block;
   width: 2.5rem;
 }
-
+.menu ul li a.active{
+  color: #F44336;
+}
 @media (min-width: 992px) {
   .container {
     max-width: 992px;

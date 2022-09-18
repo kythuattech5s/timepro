@@ -133,7 +133,7 @@
                             </div>
                         @else
                             <div class="bg-white rounded p-3">
-                                <p class="text-[1.125rem]">Tạm thời chưa có đơn hàng nào</p>
+                                <p class="text-[1.125rem] text-center">Tạm thời chưa có đơn hàng nào</p>
                             </div>
                         @endif
                     </div>
