@@ -6,7 +6,7 @@
 @section('main')
     <section class="section-lesson mx-auto max-w-[1920px] py-6 2xl:py-14">
         <div class="head mb-6 block items-center justify-between gap-4 px-4 lg:flex lg:px-6 2xl:mb-8 2xl:px-10">
-            <a href="{{$currentItem->slug}}" title="Trở về" class="back mb-2 inline-block font-bold text-[#CD272F] lg:mb-0 2xl:text-[1.125rem]">
+            <a href="{{ $currentItem->slug }}" title="Trở về" class="back mb-2 inline-block font-bold text-[#CD272F] lg:mb-0 2xl:text-[1.125rem]">
                 <svg width="24" height="24" class="mr-2 inline-block" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M19 12H5" stroke="#CD272F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                     <path d="M12 19L5 12L12 5" stroke="#CD272F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
@@ -64,22 +64,22 @@
                                     <div class="module-info-teacher">
                                         <div class="info-teacher mb-4 flex items-center gap-4">
                                             <span class="ava block h-14 w-14 shrink-0 overflow-hidden rounded-full lg:h-20 lg:w-20 2xl:h-28 2xl:w-28">
-                                                @include('image_loader.big',['itemImage'=>$userTeacher,'key'=>'img'])
+                                                @include('image_loader.big', ['itemImage' => $userTeacher, 'key' => 'img'])
                                             </span>
                                             <div class="info-content">
-                                                <p class="name mb-1 font-bold text-[#252525] 2xl:text-[1.25rem]">{{Support::show($userTeacher,'name')}}</p>
-                                                <p class="desc text-[#CD272F]">{{Support::show($userTeacher,'teacher_job')}}</p>
+                                                <p class="name mb-1 font-bold text-[#252525] 2xl:text-[1.25rem]">{{ Support::show($userTeacher, 'name') }}</p>
+                                                <p class="desc text-[#CD272F]">{{ Support::show($userTeacher, 'teacher_job') }}</p>
                                             </div>
                                         </div>
-                                        <div class="s-content mb-4 text-justify 2xl:mb-6">{!!$userTeacher->teacher_description!!}</div>
+                                        <div class="s-content mb-4 text-justify 2xl:mb-6">{!! $userTeacher->teacher_description !!}</div>
                                         <div class="statis ml-0 mr-auto mb-4 grid max-w-[25rem] grid-cols-3 gap-4 rounded border-[1px] border-solid border-[#ebebeb] py-4 px-4 lg:px-6 2xl:mb-6 2xl:px-9">
                                             <div class="col-span-1 text-center">
                                                 <p class="title mb-2 text-[0.75rem] font-semibold text-[#252525]">Số khóa học</p>
-                                                <span class="count inline-block rounded bg-[#E27B76] px-2 py-1 font-semibold text-white">{{count($userTeacher->course)}}</span>
+                                                <span class="count inline-block rounded bg-[#E27B76] px-2 py-1 font-semibold text-white">{{ count($userTeacher->course) }}</span>
                                             </div>
                                             <div class="col-span-1 text-center">
                                                 <p class="title mb-2 text-[0.75rem] font-semibold text-[#252525]">Tổng giờ giảng</p>
-                                                <span class="count inline-block rounded bg-[#E27B76] px-2 py-1 font-semibold text-white">{{(int)($userTeacher->course->sum('duration')/60)}}</span>
+                                                <span class="count inline-block rounded bg-[#E27B76] px-2 py-1 font-semibold text-white">{{ (int) ($userTeacher->course->sum('duration') / 60) }}</span>
                                             </div>
                                             <div class="col-span-1 text-center">
                                                 <p class="title mb-2 text-[0.75rem] font-semibold text-[#252525]">Lượt đánh
@@ -89,17 +89,17 @@
                                         </div>
                                         <ul class="social-teacher">
                                             <li class="mr-4 inline-block last:mr-0 2xl:mr-6">
-                                                <a href="tel:{{Support::show($userTeacher,'phone')}}" title="Số điện thoại" class="flex h-8 w-8 items-center justify-center rounded-full bg-[#D2D2D2] text-white">
+                                                <a href="tel:{{ Support::show($userTeacher, 'phone') }}" title="Số điện thoại" class="flex h-8 w-8 items-center justify-center rounded-full bg-[#D2D2D2] text-white">
                                                     <i class="fa fa-phone" aria-hidden="true"></i>
                                                 </a>
                                             </li>
                                             <li class="mr-4 inline-block last:mr-0 2xl:mr-6">
-                                                <a href="mailto:{{Support::show($userTeacher,'email')}}" title="Email" class="flex h-8 w-8 items-center justify-center rounded-full bg-[#D2D2D2] text-white">
+                                                <a href="mailto:{{ Support::show($userTeacher, 'email') }}" title="Email" class="flex h-8 w-8 items-center justify-center rounded-full bg-[#D2D2D2] text-white">
                                                     <i class="fa fa-envelope-o" aria-hidden="true"></i>
                                                 </a>
                                             </li>
                                             <li class="mr-4 inline-block last:mr-0 2xl:mr-6">
-                                                <a href="{{Support::show($userTeacher,'facebook')}}" title="Facebool" class="flex h-8 w-8 items-center justify-center rounded-full bg-[#D2D2D2] text-white" target="_blank" rel="noindex,nofollow,noopener">
+                                                <a href="{{ Support::show($userTeacher, 'facebook') }}" title="Facebool" class="flex h-8 w-8 items-center justify-center rounded-full bg-[#D2D2D2] text-white" target="_blank" rel="noindex,nofollow,noopener">
                                                     <i class="fa fa-facebook" aria-hidden="true"></i>
                                                 </a>
                                             </li>
@@ -179,7 +179,7 @@
                                     @php
                                         $source = json_decode(Support::show($video, 'source'), true);
                                     @endphp
-                                    <div class="item-lesson active mb-2 flex cursor-pointer items-center justify-between gap-4 rounded-md p-2 transition-all duration-300 last:mb-0" data-link="{{ $source['path'] . $source['file_name'] }}" data-id="{{ Support::show($video, 'id') }}">
+                                    <div class="item-lesson active mb-2 flex cursor-pointer items-center justify-between gap-4 rounded-md p-2 transition-all duration-300 last:mb-0" @if ($video->isFree()) data-link="{{ $source['path'] . $source['file_name'] }}" data-id="{{ Support::show($video, 'id') }}" @endif>
                                         <span class="title relative pl-2 font-semibold text-[#252525] after:absolute after:top-1/2 after:left-0 after:h-1 after:w-1 after:-translate-y-1/2 after:rounded-full after:bg-[#252525]">{{ Support::show($video, 'name') }}</span>
                                         <span class="time">{{ RSCustom::getTimeOfVideo(Support::show($video, 'duration'), [
                                             'hour' => ' giờ ',
@@ -233,4 +233,5 @@
     <script src="{'assets/js/ValidateFormHasFile.js'}" defer></script>
     <script src="{'theme/frontend/js/video-chapter.js'}" defer></script>
     <script type="module" src="{'video/js/app.js'}" defer></script>
+    <script type="module" src="{'theme/frontend/js/question.js'}"></script>
 @endsection
