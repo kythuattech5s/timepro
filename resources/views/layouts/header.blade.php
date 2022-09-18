@@ -1,7 +1,7 @@
 <header class="header py-2 lg:py-0 bg-white shadow-[0_4px_48px_rgba(0,0,0,.08)]">
     <div class="container flex justify-between lg:flex-start items-center gap-4">
         <div class="flex items-center gap-2">
-            <span class="show-menu-mobile flex items-center justify-center text-white lg:hidden text-[1.25rem] w-8 h-8 rounded-full bg-gradient-to-r from-[#F44336] to-[#C62828]">
+            <span class="show-menu-mobile shrink-0 flex items-center justify-center text-white lg:hidden text-[1.25rem] w-8 h-8 rounded-full bg-gradient-to-r from-[#F44336] to-[#C62828]">
                 <i class="fa fa-bars" aria-hidden="true"></i>
             </span>
             <a href="{{\VRoute::get("home")}}" title="Trang chủ" class="logo-header block shrink-0 md:max-w-[208px] max-w-[150px]">
@@ -27,6 +27,15 @@
                 <span class="count count-item-cart absolute top-[-5px] right-[-5px] font-bold text-[8px] text-white min-w-[12px] h-3 rounded-full bg-gradient-to-r from-[#F44336] to-[#C62828] z-[1] text-center leading-3">0</span>
             </a>
             @if (Auth::check())
+            <div class="flex items-center gap-2">
+                <span class="ava img-ava block lg:w-12 lg:h-12 w-8 h-8 rounded-full overflow-hidden">
+                    <img src="" alt="">
+                </span>
+                <div class="content hidden lg:block">
+                    <p class="text-[0.75rem] mb-1">Xin chào</p>
+                    <p class="name-user font-semibold text-[#252525]">Nguyễn Đức Tuấn</p>
+                </div>
+            </div>
             @else
                 <div class="h-auth font-semibold bg-gradient-to-r from-[#F44336] to-[#C62828] rounded-md py-2 sm:px-5 px-3 text-white">
                     <i class="fa fa-user-circle-o mr-2 hidden lg:inline-block" aria-hidden="true"></i>
