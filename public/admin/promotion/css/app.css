@@ -510,6 +510,8 @@ video {
 }
 .container {
   width: 100%;
+  margin-right: auto;
+  margin-left: auto;
 }
 @media (min-width: 576px) {
 
@@ -813,6 +815,9 @@ video {
 .mb-\[1\.2rem\] {
   margin-bottom: 1.2rem;
 }
+.mb-5 {
+  margin-bottom: 1.25rem;
+}
 .ml-2 {
   margin-left: 0.5rem;
 }
@@ -827,9 +832,6 @@ video {
 }
 .ml-\[5px\] {
   margin-left: 5px;
-}
-.mb-5 {
-  margin-bottom: 1.25rem;
 }
 .mt-0 {
   margin-top: 0px;
@@ -1763,6 +1765,9 @@ video {
 }
 .text-justify {
   text-align: justify;
+}
+.font-Averta {
+  font-family: "Averta";
 }
 .text-\[12px\] {
   font-size: 12px;
