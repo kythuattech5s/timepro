@@ -130,17 +130,17 @@
                             </form>
                         </div>
 
-                        <div>
+                        <div class="mt-6">
                             @foreach ($asks as $ask)
                                 <div>
-                                    <div>
-                                        <p>{{ $ask->name }}</p>
-                                        <span>{{ RSCustom::showTime($ask->created_at) }}</span>
+                                    <div class="flex gap-2 mb-2">
+                                        <p class="font-semibold text-[#252525]">{{ $ask->name }}</p>
+                                        <span class="inline-flex lg:text-[0.75rem] text-[#888] relative before:w-1 before:h-1 before:rounded-full before:bg-[#888] before:mr-2">{{ RSCustom::showTime($ask->created_at) }}</span>
                                     </div>
-                                    <div>
+                                    <div class="text-[#252525] mb-2">
                                         {!! $ask->content !!}
                                     </div>
-                                    <div>
+                                    <div class="flex flex-wrap gap-4">
                                         <a type="button" data-placeholder="Trả lời bình luận" class="group flex cursor-pointer gap-[4px] duration-300 hover:text-[#CD272F]" comment-skeleton>
                                             @include('commentRS::icon.reply') <span> Trả lời</span></a>
                                         <a class="{{ $ask->likes->first(function ($q) {
@@ -153,7 +153,7 @@
                                         @php
                                             $ask_childs = $ask->asks;
                                         @endphp
-                                        <div class="">
+                                        <div class="w-full">
                                             @foreach ($ask_childs as $ask_child)
                                                 <div>
                                                     <div>
