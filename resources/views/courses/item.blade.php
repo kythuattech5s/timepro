@@ -27,7 +27,7 @@
         </h3>
         @if (isset($item->teacher))
             <div class="teacher flex items-center gap-2 mb-4">
-                <span class="ava block lg:w-10 lg:h-10 w-8 h-8 rounded-full overflow-hidden shrink-0">
+                <span class="ava img-ava block lg:w-10 lg:h-10 w-8 h-8 rounded-full overflow-hidden shrink-0">
                     @include('image_loader.tiny',['itemImage'=>$item->teacher,'key'=>'img'])
                 </span>
                 <div class="teacher-info">

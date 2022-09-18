@@ -78,7 +78,7 @@
                             <p class="mb-[1rem] border-b-[1px] border-b-[#EBEBEB] pb-[0.625rem] text-[1.125rem] font-semibold text-[#252525]">Thông tin giảng viên</p>
                             <div class="teacher flex-wrap items-center justify-between md:flex">
                                 <div class="teacher-info mb-3 flex items-center md:mb-0">
-                                    <div class="d-block mr-[1rem] h-[9.375rem] w-[9.375rem] overflow-hidden rounded-[50%] border-[1px] border-[#C4C4C4] lg:mr-[1.25rem]">
+                                    <div class="d-block shrink-0 img-ava mr-[1rem] h-[9.375rem] w-[9.375rem] overflow-hidden rounded-[50%] border-[1px] border-[#C4C4C4] lg:mr-[1.25rem]">
                                         @include('image_loader.big', ['itemImage' => $userTeacher, 'key' => 'img'])
                                     </div>
                                     <div class="teacher-content text-[#454545]">
