@@ -46,7 +46,7 @@ class CartController extends Controller
         foreach ($this->cartInstance as $itemCartInstance) {
             Tech5sCart::instance($itemCartInstance);
             foreach (Tech5sCart::content() as $item) {
-                if (isset($newItem) && $item->id == $newItem->id && $item->rowId != $newItem->rowId) {
+                if (isset($newItem) && $item->id == $newItem->id && $item->rowId != $newItem->rowId && $newItem->instance == $itemCartInstance) {
                     Tech5sCart::update($item->rowId,0,false);
                 }else{
                     Tech5sCart::update($item->rowId,1,false);
@@ -109,6 +109,7 @@ class CartController extends Controller
         }
         Tech5sCart::instance($request->type);
         $newItem = Tech5sCart::add($itemBuy->id,$itemBuy->name,1,$itemTimePackage->price,0,$itemTimePackage->toArray());
+        $newItem->instance = $request->type;
         $this->_resetQtyItemCart($newItem);
         switch ($request->action) {
             case 'buy-now':

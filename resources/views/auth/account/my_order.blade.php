@@ -142,15 +142,19 @@
         </div>
     </div>
 </section>
-{{-- <div id="cancelOrder" modal tabindex="-1" aria-hidden="true" class="overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal md:h-full d-none">
+<div id="cancelOrder" modal tabindex="-1" aria-hidden="true" class="overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal md:h-full d-none">
     <div class="relative p-4 w-full max-w-[34rem] h-full md:h-auto mx-auto">
         <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
-            <button type="button" class="absolute top-[0.625rem] right-[0.625rem] z-10 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-toggle="defaultModal" button_close_modal>
+            <button type="button" class="absolute top-[0.625rem] right-[0.625rem] z-10 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white" button_close_modal>
                 @include('svg.icon_close')
             </button>
+            <div class="p-3">
+                <p class="title text-center font-bold text-[#252525] 2xl:text-[1.25rem] text-[1rem] mb-4">Hủy đơn hàng</p>
+                <p class="text-[#456345]">Bạn có muốn xác nhận hủy đơn hàng này không</p>
+            </div>
         </div>
     </div>
-</div> --}}
+</div>
 @endsection
 @section('js')
     <script src="{{ Support::asset('theme/frontend/js/user_course_control.js') }}" defer></script>

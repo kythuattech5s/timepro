@@ -8,6 +8,8 @@ use App\Models\UserType;
 use Auth;
 use Illuminate\Http\Request;
 use Support;
+use Tech5sCart;
+
 class ManageUserCourseController extends Controller
 {
     public function __construct()
@@ -72,8 +74,27 @@ class ManageUserCourseController extends Controller
         if (!isset($order)) {
             return response()->json([
                 'code' => 100,
-                'message' => 'Không có thông '
+                'message' => 'Không tìm thấy thông tin đơn hàng'
             ]);
         }
+        // dd($order->orderDetail);
+        foreach ($order->orderDetail as $itemOrderDetail) {
+            Tech5sCart::instance($request->type);
+            $dataTimePackage = [];
+            $dataTimePackage['id'] = $itemOrderDetail->time_package_id;
+            $dataTimePackage['name'] = $itemOrderDetail->name_time_package;
+            $dataTimePackage['price'] = $itemOrderDetail->price;
+            $dataTimePackage['price_old'] = $itemOrderDetail->price_old;
+            $dataTimePackage['description'] = $itemOrderDetail->description;
+            $dataTimePackage['number_day'] = $itemOrderDetail->number_day;
+            $dataTimePackage['is_forever'] = $itemOrderDetail->is_forever;
+            Tech5sCart::add($itemOrderDetail->map_id,$itemOrderDetail->name,1,$itemOrderDetail->price,0,$dataTimePackage);
+        }
+        session()->flash('typeNotify',200);
+        session()->flash('messageNotify','Đã thêm tất cả sản phẩm vào giỏ hàng');
+        return response()->json([
+            'code' => 200,
+            'redirect_url' => \VRoute::get("viewCart")
+        ]);
     }
 }

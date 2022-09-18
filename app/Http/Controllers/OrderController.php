@@ -123,6 +123,7 @@ class OrderController extends Controller
             $orderDetail->name = $item->realItem->name;
             $orderDetail->slug = $item->realItem->slug ?? '';
             $orderDetail->img = $item->realItem->img;
+            $orderDetail->time_package_id = $item->itemTimePackage->id;
             $orderDetail->name_time_package = $item->itemTimePackage->name;
             $orderDetail->description = $item->itemTimePackage->description;
             $orderDetail->number_day = $item->itemTimePackage->number_day;

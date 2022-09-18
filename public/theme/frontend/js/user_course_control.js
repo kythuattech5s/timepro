@@ -15,7 +15,7 @@ var MY_ORDER = (function () {
                     formData: formData,
                 }).then((res) => {
                     BASE_GUI.enableButton(_this);
-                    NOTIFICATION.toastrMessage(res);
+                    NOTIFICATION.toastrMessageRedirect(res);
                 });
             });
         });
