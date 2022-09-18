@@ -6,36 +6,14 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="csrf-token" content="{{ csrf_token() }}">
     {!! SEOHelper::HEADER_SEO(@$currentItem ? $currentItem : null) !!}
-    <link rel="stylesheet" href="{{ Support::asset('theme/frontend/css/animate.min.css')}}"/>
-    <link rel="stylesheet" href="{{ Support::asset('theme/frontend/css/font-awesome.min.css')}}"/>
-    <link rel="stylesheet" href="{{ Support::asset('theme/frontend/css/swiper-bundle.min.css')}}"/>
-    <link rel="stylesheet" href="{{ Support::asset('theme/frontend/css/lightbox.css')}}"/>
-    <link rel="stylesheet" href="{{ Support::asset('theme/frontend/css/main.css')}}"/>
-    <link rel="stylesheet" href="{{ Support::asset('theme/frontend/css/toastify.css')}}"/>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        'Averta': ['"Averta"'],
-                    },
-                    screens: {
-                        'sm': '576px',
-                        'md': '768px',
-                        'lg': '1024px',
-                        'xl': '1280px',
-                        '2xl': '1408px',
-
-                    },
-                    container: {
-                        center: true,
-                    },
-                }
-            }
-        }
-    </script>
+    <link rel="stylesheet" href="{{ Support::asset('theme/frontend/css/animate.min.css') }}" />
+    <link rel="stylesheet" href="{{ Support::asset('theme/frontend/css/font-awesome.min.css') }}" />
+    <link rel="stylesheet" href="{{ Support::asset('theme/frontend/css/swiper-bundle.min.css') }}" />
+    <link rel="stylesheet" href="{{ Support::asset('theme/frontend/css/lightbox.css') }}" />
+    <link rel="stylesheet" href="{{ Support::asset('theme/frontend/css/main.css') }}" />
+    <link rel="stylesheet" href="{{ Support::asset('theme/frontend/css/toastify.css') }}" />
     @yield('cssl')
+    <link rel="stylesheet" href="{{ Support::asset(mix('css/app.css')) }}">
     @yield('css')
     <script type="text/javascript">
         var showNotify = "";
@@ -47,31 +25,9 @@
         var redirect = "{{ Session::get('redirect', '') }}";
     </script>
     {[CMS_HEADER]}
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        'Averta': ['"Averta"'],
-                    },
-                    screens: {
-                        'sm': '576px',
-                        'md': '768px',
-                        'lg': '1024px',
-                        'xl': '1280px',
-                        '2xl': '1408px',
-
-                    },
-                    container: {
-                        center: true,
-                    },
-                }
-            }
-        }
-    </script>
 </head>
-<body class="wrapper mx-auto xxl:text-[16px] sm:text-[14px] text-[12px] text-[#454545] leading-snug overflow-x-hidden bg-[#EEEAEA]">
+
+<body class="wrapper 2xl:text-[16px] mx-auto overflow-x-hidden bg-[#EEEAEA] text-[12px] leading-snug text-[#454545] sm:text-[14px]">
     @include('layouts.header')
     @yield('main')
     @include('layouts.footer')

@@ -13,7 +13,7 @@ class AccountController extends Controller
 {
     use UserWallet;
     public function goLogin()
-    {
+    {   
         if(request()->isMethod('GET')){
             return \Redirect::to(url('/'))->with('typeNotify',100)->with('messageNotify','Vui lòng đăng nhập');
         }

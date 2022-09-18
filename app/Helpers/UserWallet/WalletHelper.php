@@ -25,9 +25,10 @@ class WalletHelper{
 		$wallet = new UserWallet;
 		$wallet->name = Support::show($user,'name');
 		$wallet->amount = 0;
+		$wallet->amount_available = 0;
 		$wallet->amount_frozen = 0;
 		$wallet->amount_spent = 0;
-		$wallet->agency_id = Support::show($user,'id');
+		$wallet->user_id = Support::show($user,'id');
 		$wallet->token = Hash::make(Support::show($user,'uslug'));
 		$wallet->act = 1;
 		$wallet->ord = 1;

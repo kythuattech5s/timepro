@@ -289,7 +289,6 @@ p.comment-box__title:first-letter {
     display: flex;
     flex-wrap: wrap;
     padding-top: 20px;
-    border-top: 1px solid var(--color-hr);
 }
 
 .rep-comment textarea {

@@ -21,7 +21,7 @@ class News extends BaseModel
         if ($category == null) {
             return null;
         }
-        return $category->news();
+        return $category->news()->where('id','!=',$this->id);
     }
     public function getRelatesCollection(){
         $relate = $this->getRelates();
