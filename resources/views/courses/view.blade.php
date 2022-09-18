@@ -130,6 +130,54 @@
                                 </div>
                             </form>
                         </div>
+
+                        <div>
+                            @foreach ($asks as $ask)
+                                <div>
+                                    <div>
+                                        <p>{{ $ask->name }}</p>
+                                        <span>{{ RSCustom::showTime($ask->created_at) }}</span>
+                                    </div>
+                                    <div>
+                                        {!! $ask->content !!}
+                                    </div>
+                                    <div>
+                                        <a type="button" data-placeholder="Trả lời bình luận" class="group flex cursor-pointer gap-[4px] duration-300 hover:text-[#CD272F]" comment-skeleton>
+                                            @include('commentRS::icon.reply') <span> Trả lời</span></a>
+                                        <a class="{{ $ask->likes->first(function ($q) {
+                                            return $q->pivot->user_id == Auth::id();
+                                        }) != null
+                                            ? 'like'
+                                            : '' }} flex cursor-pointer gap-[4px]" data-id="{-ask.id-}" comment-skeleton>
+                                            @include('commentRS::icon.like') <span>Thích</span>
+                                        </a>
+                                        @php
+                                            $ask_childs = $ask->asks;
+                                        @endphp
+                                        <div class="">
+                                            @foreach ($ask_childs as $ask_child)
+                                                <div>
+                                                    <div>
+
+                                                        <img src="" alt="">
+                                                    </div>
+                                                    <div>
+                                                        <div>
+                                                            <p>{!! $ask_child->user->name !!}</p>
+                                                            <span>Đã trả lời</span>
+                                                            <p>{{ RSCustom::showTime($ask_child->created_at) }}</p>
+                                                        </div>
+                                                        <div>
+                                                            {!! $ask_child->content !!}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
                     </div>
                     @if (count($listRelateCourse) > 0)
                         <div class="course-block overflow-hidden rounded rounded-[0.3125rem]">
