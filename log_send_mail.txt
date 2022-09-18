@@ -1,0 +1,4 @@
+{"code":0,"message":"Address in mailbox given [] does not comply with RFC 2822, 3.6.2."}
+{"code":0,"message":"Address in mailbox given [] does not comply with RFC 2822, 3.6.2."}
+{"code":0,"message":"Address in mailbox given [] does not comply with RFC 2822, 3.6.2."}
+{"code":200,"message":"success"}

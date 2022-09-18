@@ -12,9 +12,7 @@
             <a href="{{\VRoute::get('home')}}" title="Trang chủ" class="logo-mobile block lg:hidden text-center py-3">
                 @include('image_loader.config.big',['config_key'=>'logo','noLazyLoad'=>1])
             </a>
-            @php
-            $menus = Support::getMenuRecursive(1);
-            @endphp
+            <?php $menus = Support::getMenuRecursive(1); ?>
             {{Support::showMenuRecursive($menus,0)}}
             <span class="show-form-search cursor-pointer">
                 @include('icon_svgs.icon_search')
@@ -28,10 +26,14 @@
             </a>
             @if (Auth::check())
             <div class="flex items-center gap-2 relative group cursor-pointer">
-                <a href="" title="" class="ava shrink-0 img-ava block lg:w-12 lg:h-12 w-8 h-8 rounded-full overflow-hidden">
-                    <img src="" alt="">
-                </a>
                 <?php $user = Auth::user(); ?>
+                <a href="{{\VRoute::get('my_profile')}}" title="{{Support::show($user,'name')}}" class="ava img-ava block lg:w-12 lg:h-12 w-8 h-8 rounded-full overflow-hidden">
+                    @if(Support::show($user,'img'))
+                        @include('image_loader.tiny',['keyImage'=>'img','itemImage'=>$user])
+                    @else
+                        @include('image_loader.config.tiny',['config_key'=>'logo'])
+                    @endif
+                </a>
                 <div class="content hidden lg:block">
                     <p class="text-[0.75rem] mb-1">Xin chào</p>
                     <a href="{{\VRoute::get('my_profile')}}" title="Thông tin cá nhân" class="name-user font-semibold text-[#252525]">{{Support::show($user,'name')}}</a>
@@ -46,12 +48,12 @@
                 </div>
             </div>
             @else
-                <div class="h-auth font-semibold bg-gradient-to-r from-[#F44336] to-[#C62828] rounded-md py-2 sm:px-5 px-3 text-white">
-                    <i class="fa fa-user-circle-o mr-2 hidden lg:inline-block" aria-hidden="true"></i>
-                    <a href="{{\VRoute::get('login')}}" title="Đăng nhập" class="link hover:text-white">Đăng nhập</a>
-                    <span class="hidden lg:inline-block">/</span>
-                    <a href="{{\VRoute::get('register')}}" title="Đăng ký" class="link hover:text-white hidden lg:inline-block">Đăng ký</a>
-                </div>
+            <div class="h-auth font-semibold bg-gradient-to-r from-[#F44336] to-[#C62828] rounded-md py-2 sm:px-5 px-3 text-white">
+                <i class="fa fa-user-circle-o mr-2 hidden lg:inline-block" aria-hidden="true"></i>
+                <a href="{{\VRoute::get('login')}}" title="Đăng nhập" class="link hover:text-white">Đăng nhập</a>
+                <span class="hidden lg:inline-block">/</span>
+                <a href="{{\VRoute::get('register')}}" title="Đăng ký" class="link hover:text-white hidden lg:inline-block">Đăng ký</a>
+            </div>
             @endif
         </div>
     </div>
@@ -63,23 +65,13 @@
             <input type="text" name="q" placeholder="Nhập từ khoá tìm kiếm ..." class="form-control w-full py-2 px-4 outline-none border-[1px] border-solid border-[#ebebeb] rounded-lg pl-12">
         </form>
     </div>
-    <!-- Search desktop -->
     <div class="form-search transition-all duration-300 fixed top-[-100%] left-0 w-full h-full bg-[rgba(0,0,0,.7)] z-[100] hidden lg:flex items-center justify-center">
-
         <span class="close-form-search"></span>
-
         <form action="{{\VRoute::get("search")}}" method="get" class="form flex items-center" accept-charset="utf-8">
-
             <input type="text" name="q" value="" id="input-search-header" placeholder="Nhập từ khóa tìm kiếm ..." class="form-control">
-
             <button class="btn-search text-[1.25rem] ml-1 text-white" type="submit">
-
                 <i class="fa fa-search" aria-hidden="true"></i>
-
             </button>
-
         </form>
-
     </div>
-    <!-- End -->
 </header>

@@ -22,7 +22,7 @@ namespace App\Models{
  * @property string|null $name Tên
  * @property string|null $phone Số điện thoại
  * @property int|null $user_id User
- * @property string|null $user_type Loại tài khoản
+ * @property int|null $user_type_id Loại tài khoản
  * @property \Illuminate\Support\Carbon|null $created_at Ngày tạo
  * @property \Illuminate\Support\Carbon|null $updated_at Ngày cập nhật
  * @property int|null $ask_and_answer_id Câu trả lời
@@ -47,7 +47,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|AskAndAnswer wherePhone($value)
  * @method static \Illuminate\Database\Eloquent\Builder|AskAndAnswer whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|AskAndAnswer whereUserId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|AskAndAnswer whereUserType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|AskAndAnswer whereUserTypeId($value)
  */
 	class AskAndAnswer extends \Eloquent {}
 }
@@ -192,7 +192,6 @@ namespace App\Models{
  *
  * @property int $id
  * @property string $name Tên
- * @property string $slug Slug
  * @property string|null $img Ảnh
  * @property string|null $content Mô tả
  * @property int|null $act Kích hoạt
@@ -230,7 +229,6 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|CourseCombo whereSeoDes($value)
  * @method static \Illuminate\Database\Eloquent\Builder|CourseCombo whereSeoKey($value)
  * @method static \Illuminate\Database\Eloquent\Builder|CourseCombo whereSeoTitle($value)
- * @method static \Illuminate\Database\Eloquent\Builder|CourseCombo whereSlug($value)
  * @method static \Illuminate\Database\Eloquent\Builder|CourseCombo whereTimePackage($value)
  * @method static \Illuminate\Database\Eloquent\Builder|CourseCombo whereUpdatedAt($value)
  */
@@ -1054,6 +1052,9 @@ namespace App\Models{
  * @property string|null $name Tên
  * @property \Illuminate\Support\Carbon|null $created_at Ngày tạo
  * @property \Illuminate\Support\Carbon|null $updated_at Ngày cập nhật
+ * @property string|null $action Tên
+ * @property string|null $user_view_name
+ * @property string|null $action_product Tên hành động
  * @method static \Illuminate\Database\Eloquent\Builder|BaseModel act()
  * @method static \Illuminate\Database\Eloquent\Builder|BaseModel fullTextSearch($columns, $term)
  * @method static \Illuminate\Database\Eloquent\Builder|BaseModel fullTextSearchNoRelevance($columns, $term)
@@ -1062,10 +1063,13 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|BaseModel ord()
  * @method static \Illuminate\Database\Eloquent\Builder|OrderStatus query()
  * @method static \Illuminate\Database\Eloquent\Builder|BaseModel slug($slug, $table = null)
+ * @method static \Illuminate\Database\Eloquent\Builder|OrderStatus whereAction($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|OrderStatus whereActionProduct($value)
  * @method static \Illuminate\Database\Eloquent\Builder|OrderStatus whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|OrderStatus whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|OrderStatus whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|OrderStatus whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|OrderStatus whereUserViewName($value)
  */
 	class OrderStatus extends \Eloquent {}
 }
@@ -1164,6 +1168,42 @@ namespace App\Models{
 
 namespace App\Models{
 /**
+ * App\Models\QuestionTeacher
+ *
+ * @property int $id
+ * @property int|null $map_id ID
+ * @property string|null $map_table Bảng
+ * @property string|null $content Nội dung
+ * @property int|null $act Kích hoạt
+ * @property int|null $user_id Tài khoản
+ * @property \Illuminate\Support\Carbon|null $created_at Ngày tạo
+ * @property \Illuminate\Support\Carbon|null $updated_at Ngày cập nhật
+ * @property int|null $question_teacher_id Cha
+ * @property int|null $user_type_id Loại
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\User[] $likes
+ * @property-read int|null $likes_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|QuestionTeacher[] $questions
+ * @property-read int|null $questions_count
+ * @property-read \App\Models\User|null $user
+ * @method static \Illuminate\Database\Eloquent\Builder|QuestionTeacher newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|QuestionTeacher newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|QuestionTeacher query()
+ * @method static \Illuminate\Database\Eloquent\Builder|QuestionTeacher whereAct($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|QuestionTeacher whereContent($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|QuestionTeacher whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|QuestionTeacher whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|QuestionTeacher whereMapId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|QuestionTeacher whereMapTable($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|QuestionTeacher whereQuestionTeacherId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|QuestionTeacher whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|QuestionTeacher whereUserId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|QuestionTeacher whereUserTypeId($value)
+ */
+	class QuestionTeacher extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
  * App\Models\QueueEmail
  *
  * @property int $id ID
@@ -1230,6 +1270,40 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|TeacherSkill whereUpdatedAt($value)
  */
 	class TeacherSkill extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * App\Models\Testimonial
+ *
+ * @property int $id Mã
+ * @property string|null $name Tên
+ * @property string|null $star Số sao
+ * @property string|null $img Hình ảnh
+ * @property string|null $content Mô tả
+ * @property int|null $act Kích hoạt
+ * @property int|null $ord Sắp xếp
+ * @property \Illuminate\Support\Carbon|null $created_at Thời gian tạo
+ * @property \Illuminate\Support\Carbon|null $updated_at Thời gian sửa
+ * @method static \Illuminate\Database\Eloquent\Builder|BaseModel act()
+ * @method static \Illuminate\Database\Eloquent\Builder|BaseModel fullTextSearch($columns, $term)
+ * @method static \Illuminate\Database\Eloquent\Builder|BaseModel fullTextSearchNoRelevance($columns, $term)
+ * @method static \Illuminate\Database\Eloquent\Builder|Testimonial newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Testimonial newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|BaseModel ord()
+ * @method static \Illuminate\Database\Eloquent\Builder|Testimonial query()
+ * @method static \Illuminate\Database\Eloquent\Builder|BaseModel slug($slug, $table = null)
+ * @method static \Illuminate\Database\Eloquent\Builder|Testimonial whereAct($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Testimonial whereContent($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Testimonial whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Testimonial whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Testimonial whereImg($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Testimonial whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Testimonial whereOrd($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Testimonial whereStar($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Testimonial whereUpdatedAt($value)
+ */
+	class Testimonial extends \Eloquent {}
 }
 
 namespace App\Models{

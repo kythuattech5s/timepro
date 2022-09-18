@@ -5,11 +5,11 @@ use Laravel\Socialite\Facades\Socialite;
 use Illuminate\Support\Facades\Hash;
 use App\Events\ConfirmDataSuccess;
 use App\Events\RegisterSuccess;
-use App\Helpers\CodeOtpHelper;
-use App\Models\User;
-use Auth;
-use Session;
 use App\Helpers\MediaHelper;
+use App\Models\User;
+use Session;
+use Support;
+use Auth;
 trait LoginSocial
 {
     /**
@@ -19,8 +19,7 @@ trait LoginSocial
      */
     public function redirectToSocial($request, $route, $link)
     {
-        $urlRedirect = $request->input('redirect',url('/'));
-        Session::put('_url_intended_',$urlRedirect);
+        Support::URLPrevious(true);
         $provider = $this->getProvider($request->segment(2));
         return $provider->redirect();
     }
@@ -32,90 +31,93 @@ trait LoginSocial
     public function handleProviderCallback($request, $route, $link)
     {
         $infos = [
-            'name' => null,
-            'picture' => null,
-            'email' => null,
-            'email_verified' => null,
-            'locale' => null,
-            'id' => null,
+            'name' => null, 
+            'picture' => null, 
+            'email' => null, 
+            'email_verified' => null, 
+            'locale' => null, 
+            'id' => null, 
             'verified_email' => null
         ];
-        if ($link == 'callback-facebook') {
-            try {
-                $results = Socialite::driver('facebook')->stateless()->user();
-            } catch (\Exception $ex) {
-                return \Support::response([
-                    'code' => 100,
-                    'message' => trans("fdb::refuse_auth_fb"),
-                    'redirect' => \VRoute::get('register')
-                ]);
+        try
+        {
+            $results = Socialite::driver(str_replace('callback-', '', $link))->stateless()->user();
+        }
+        catch (\Exception$ex) {
+            if (request()->ajax()) {
+                return response(
+                    ['code' => 100, 'message' => 'Bạn đã từ chối ủy quyền cho Google xác thực', 'redirect' => \VRoute::get('register'),
+                    ]);
             }
-            $infos['name'] = $results->user['name'];
+            else {
+                return redirect()->to('/')->with('typeNotify', 100)->with('messageNotify', 'Bạn đã từ chối ủy quyền cho Google xác thực');
+            }
+        }
+        if ($link == 'callback-facebook') {
+            if (!isset($results->user['email'])) {
+                return redirect()->to('/')->with("typeNotify", 100)->with("messageNotify", "Không thể đăng nhập, Không thể xác thực tài khoản email từ tài khoản facebook của bạn");
+            }
+            $infos['name'] = $results->user['name'] ?? '';
             $infos['picture'] = $results->getAvatar();
-            $infos['email'] = isset($results->user['email'])?$results->user['email']:$results->user['id'].'@fb.com';
+            $infos['email'] = $results->user['email'] ?? '';
             $infos['id'] = $results->user['id'];
         }
         if ($link == 'callback-google') {
-            try {
-                $results = Socialite::driver('google')->stateless()->user();
-            }
-            catch (\Exception $ex) {
-                return response([
-                    'code' => 100,
-                    'message' => trans("fdb::refuse_auth_gg"),
-                    'redirect' => \VRoute::get('register')
-                ]);
-            }
             $infos['name'] = $results->user['name'];
             $infos['picture'] = $results->user['picture'];
-            $infos['email'] =  isset($results->user['email'])?$results->user['email']:$results->user['id'].'@google.com';
+            $infos['email'] = $results->user['email'];
             $infos['email_verified'] = $results->user['email_verified'];
             $infos['locale'] = $results->user['locale'];
             $infos['id'] = $results->user['id'];
             $infos['verified_email'] = $results->user['verified_email'];
         }
-        if ($infos['email'] == null) {
-            return  response([
-                'code' => 100,
-                'message' => 'Tài khoản thiếu email',
-                'redirect' => url('/dang-ky')
-            ]);
-        }
+
         $user = User::where('email', $infos['email'])->first();
+
         if ($user == null) {
             $user = new User;
             $user->name = $infos['name'];
             if ($infos['picture'] != null) {
-                $user->img = MediaHelper::insertFileFromUrl('users', $infos['picture']);
+                $user->img = \App\Helpers\MediaHelper::insertFileFromUrl('users', $infos['picture']);
             }
             $user->email = $infos['email'];
-            $user->act = 1;
             $user->banned = 0;
+            $user->act = 0;
             $user->created_at = new \DateTime;
             $user->updated_at = new \DateTime;
+            $code = \Str::random(6);
+            $user->token = Hash::make($code);
             $user->save();
-            //event(new Registered($user));
+            event('sendmail.static', [[
+                'title' => 'Tạo tài khoàn thành công và mã xác nhận kích hoạt tài khoản',
+                'data' => [
+                    'link' => url('kich-hoat-tai-khoan') . "?token=$code&email=$user->email",
+                    'user' => $user,
+                ],
+                'email' => $user->email,
+                'type' => 'user_create',
+            ]]);
+            $user->save();
+            event(new Registered($user));
+            session()->put('EMAIL_CURRENT_REGISTER', $user->email);
+            session()->put('REGISTER_SOCIAL_NOW', '1');
+            return redirect()->to('xac-nhan-tai-khoan?token=' . $code)->with('messageNotify', 'Tài khoản của bạn đã được tạo vui lòng kiểm tra địa chỉ Email để xác nhận tại khoản')->with('typeNotify', 200);
         }
         else {
             if ($user->banned == 1) {
-                return  response([
-                    'code' => 101,
-                    'message' => 'Tài khoản đã bị khóa',
-                    'redirect' => url('/dang-ky')
-                ]);
+                return redirect()->to('/')->with('messageNotify', 'Tài khoản của bạn đã bị khóa')->with('typeNotify', 100);
             }
             if ($user->act == 0) {
-                return  response([
-                    'code' => 102,
-                    'message' => 'Tài khoản chưa được kích hoạt',
-                    'redirect' => url('/dang-ky')
-                ]);
+                return redirect()->to('/')->with('messageNotify', 'Tài khoản của bạn chưa được kích hoạt vui lòng liên hệ với quản trị viên')->with('typeNotify', 100);
             }
+            auth()->login($user, true);
         }
-        auth()->login($user, true);
-        
-        $url = Session::has('_url_intended_')?url(Session::get('_url_intended_')):'/';
-        return redirect($url);
+        if ($request->ajax()) {
+            return response(['code' => 200, 'message' => 'Đăng nhập thành công', 'redirect' => Support::URLPrevious(false)]);
+        }
+        else {
+            return redirect(Support::URLPrevious(false))->with('typeNotify', 200)->with('messageNotify', 'Đăng nhập thành công');
+        }
     }
     public function setPasswordLoginSocial($request)
     {

@@ -1,4 +1,4 @@
-@extends('mail_templates.main_templete')
+@extends('mail_templates.main_template')
 @section('content')
 <div style="text-align:center">
     <p style="font-size:20px">Bạn hoặc ai đó đã gửi yêu cầu lấy lại mật khẩu</p>

@@ -1,17 +1,21 @@
 <?php
 namespace App\Http\Controllers;
 
-use App\Models\CourseCombo;
-use App\Models\CourseComboTimePackage;
+use App\Models\Banner;
+use App\Models\CourseCategory;
+use App\Models\User;
 use Illuminate\Http\Request;
 class HomeController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        // $itemBuy = CourseCombo::find(2);
-        // $itemTimePackage = CourseComboTimePackage::find(1);
-        // \Tech5sCart::instance('vip');
-        // \Tech5sCart::add($itemBuy->id,$itemBuy->name,1,$itemTimePackage->price,0,$itemTimePackage->toArray());
-        return view('home');
+        $listBanner = Banner::act()->ord()->get();
+        $listCourseCategory = CourseCategory::act()->with(['course'=>function($q){
+                                            $q->select('id','act')->act();
+                                        }])->where('home',1)->ord()->limit(5)->get();
+        $listTeacher = User::teacher()->where('act', 1)->where('banned', 0)->with(['course'=>function($q){
+                                                                            $q->select('id','act','duration','teacher_id')->act();
+                                                                        }])->get();
+        return view('home',compact('listBanner','listCourseCategory','listTeacher'));
     }
 }
