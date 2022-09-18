@@ -200,7 +200,7 @@
 
 <section class="section-form relative lg:py-0 py-6">
     <div class="hidden lg:block bg-form absolute top-0 left-0 w-[60%] h-full img-ava">
-        @inclue('image_loader.all',['config_key'=>'image_form_contact_about'])
+        @include('image_loader.config.all',['config_key'=>'image_form_contact_about'])
     </div>
     <div class="hidden lg:block absolute top-0 right-0 w-[40%] h-full bg-no-repeat bg-[length:100%_100%]" style="background-image: url(theme/frontend/images/bg-form-2.png);"></div>
     <div class="container relative z-[1] lg:flex items-center justify-end 2xl:min-h-[700px] lg:min-h-[500px]">
