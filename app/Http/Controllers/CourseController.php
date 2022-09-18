@@ -13,7 +13,7 @@ class CourseController extends Controller
     {
         $video = request()->segment(2);
         $currentVideoId = request()->segment(3);
-        $currentItem = Course::slug($link)->baseView()->with('timePackage')->act()->first();
+        $currentItem = Course::slug($link)->baseView()->act()->first();
         if ($currentItem == null) {
             abort(404);
         }

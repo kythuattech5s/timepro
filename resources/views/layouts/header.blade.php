@@ -45,4 +45,13 @@
             <input type="text" name="q" placeholder="Nhập từ khoá tìm kiếm ..." class="form-control w-full py-2 px-4 outline-none border-[1px] border-solid border-[#ebebeb] rounded-lg pl-12">
         </form>
     </div>
+   <div class="form-search transition-all duration-300 fixed top-[-100%] left-0 w-full h-full bg-[rgba(0,0,0,.7)] z-[100] hidden lg:flex items-center justify-center">
+        <span class="close-form-search"></span>
+        <form action="" method="" class="form flex items-center">
+            <input type="text" name="" value="" id="input-search-header" placeholder="Nhập từ khóa tìm kiếm ..." class="form-control">
+            <button class="btn-search text-[1.25rem] ml-1 text-white">
+                <i class="fa fa-search" aria-hidden="true"></i>
+            </button>
+        </form>
+    </div>
 </header>
