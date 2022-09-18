@@ -35,14 +35,14 @@
                         <a href="#thong-tin-giang-vien" title="Thông tin giảng viên" class="flex-none text-[0.875rem] font-semibold text-[#454545] md:text-base">Thông tin giảng viên</a>
                         <a href="#danh-gia" title="Đánh giá" class="flex-none text-[0.875rem] font-semibold text-[#454545] md:text-base">Đánh giá</a>
                     </div>
-                    <div class="box mb-[1.5rem] overflow-hidden rounded-[0.3125rem] bg-[#fff] p-[0.5rem] md:p-[1.5rem]" id="gioi-thieu">
+                    <div class="box mb-[1.5rem] overflow-hidden rounded bg-[#fff] p-[0.5rem] md:p-[1.5rem]" id="gioi-thieu">
                         <p class="mb-[0.625rem] border-b-[1px] border-b-[#EBEBEB] pb-[0.625rem] text-[1.125rem] font-semibold text-[#252525]">
                             Giới thiệu khóa học</p>
                         <div class="s-content">
                             {!! $currentItem->content !!}
                         </div>
                     </div>
-                    <div class="box mb-[1.5rem] overflow-hidden rounded-[0.3125rem] bg-[#fff] p-[0.5rem] md:p-[1.5rem]" id="noi-dung-khoa-hoc">
+                    <div class="box mb-[1.5rem] overflow-hidden rounded bg-[#fff] p-[0.5rem] md:p-[1.5rem]" id="noi-dung-khoa-hoc">
                         <p class="mb-[0.625rem] border-b-[1px] border-b-[#EBEBEB] pb-[0.625rem] text-[1.125rem] font-semibold text-[#252525]">
                             Nội dung bài học</p>
                         <div class="list max-h-[31.25rem] overflow-y-hidden text-[#252525]">
@@ -78,7 +78,7 @@
                         @php
                             $userTeacher = $currentItem->teacher;
                         @endphp
-                        <div class="box mb-[1.5rem] overflow-hidden rounded-[0.3125rem] bg-[#fff] p-[0.5rem] md:p-[1.5rem]" id="thong-tin-giang-vien">
+                        <div class="box mb-[1.5rem] overflow-hidden rounded bg-[#fff] p-[0.5rem] md:p-[1.5rem]" id="thong-tin-giang-vien">
                             <p class="mb-[1rem] border-b-[1px] border-b-[#EBEBEB] pb-[0.625rem] text-[1.125rem] font-semibold text-[#252525]">Thông tin giảng viên</p>
                             <div class="teacher flex-wrap items-center justify-between md:flex">
                                 <div class="teacher-info mb-3 flex items-center md:mb-0">
@@ -133,7 +133,6 @@
                                 </div>
                             </form>
                         </div>
-
                         <div class="mt-6">
                             @include('courses.components.ask_item')
                             @if (!$asks->onLastPage())
@@ -142,7 +141,7 @@
                         </div>
                     </div>
                     @if (count($listRelateCourse) > 0)
-                        <div class="course-block overflow-hidden rounded-[0.3125rem]">
+                        <div class="course-block overflow-hidden rounded">
                             <div class="course-head p-2 px-3 md:p-4 lg:px-4" style="background-image:url('theme/frontend/images/course-banner.jpg');background-repeat: no-repeat;background-size: cover;">
                                 <p class="border-l-[4px] border-l-[#fff] py-2 pl-[1rem] text-[1.125rem] font-semibold uppercase text-[#fff] sm:text-[1.325rem] 2xl:text-[1.625rem]">CÁC KHÓA HỌC LIÊN QUAN</p>
                             </div>
@@ -173,44 +172,57 @@
                                             <span class="price-old item-price-sub mr-2 text-[#888888] line-through"></span>
                                             <span class="price color-gradient item-price-main text-[1.1rem] font-semibold lg:text-[1.375rem]"></span>
                                         </div>
-                                        <select class="select-time-package my-[1.125rem] w-full overflow-hidden rounded-[5px] bg-[#F5F5F5] px-[1rem] py-[0.8125rem] font-semibold text-[#888888] lg:my-[1.5rem]">
-                                            @foreach ($currentItem->timePackage as $key => $itemTimePackage)
-                                                <option value="{{ $itemTimePackage->id }}" data-price="{{ Currency::showMoney($itemTimePackage->price) }}" data-subprice="{{ $itemTimePackage->price_old > $itemTimePackage->price ? Currency::showMoney($itemTimePackage->price_old) : '' }}">{{ $itemTimePackage->name }}</option>
-                                            @endforeach
-                                        </select>
-                                        <a href="javascript:void(0)" title="Đăng ký ngay" class="btn-buy-item mb-2 flex items-center justify-center overflow-hidden rounded-[0.3125rem] border-[2px] border-[#fff] bg-gradient-to-r from-[#F44336] to-[#C62828] py-[0.725rem] px-[0.3125rem] font-semibold text-white hover:text-[#fff]" data-action="buy-now" data-type="course" data-id="{{ $currentItem->id }}" data-package="{{ $fisrtPackage->id }}">Đăng kí ngay</a>
-                                        <a href="javascript:void(0)" title="Thêm vào giỏ hàng" class="btn-buy-item flex items-center justify-center overflow-hidden rounded-[0.3125rem] border-[2px] border-[#CD272F] bg-[#fff] py-[0.725rem] px-[0.3125rem] font-semibold text-[#CD272F]" data-action="add-cart" data-type="course" data-id="{{ $currentItem->id }}" data-package="{{ $fisrtPackage->id }}"> @include('icon_svgs.add_cart') Thêm vào giỏ hàng </a>
+                                        <<<<<<< HEAD
+                                                <select class="select-time-package my-[1.125rem] w-full overflow-hidden rounded-[5px] bg-[#F5F5F5] px-[1rem] py-[0.8125rem] font-semibold text-[#888888] lg:my-[1.5rem]">
+                                            =======
+                                            <select class="select-time-package my-[1.125rem] w-full overflow-hidden rounded bg-[#F5F5F5] px-[1rem] py-[0.8125rem] font-semibold text-[#888888] lg:my-[1.5rem]">
+                                                >>>>>>> f2d6ca06e7a0caa654ca4c38d527f6cb16a801cb
+                                                @foreach ($currentItem->timePackage as $key => $itemTimePackage)
+                                                    <option value="{{ $itemTimePackage->id }}" data-price="{{ Currency::showMoney($itemTimePackage->price) }}" data-subprice="{{ $itemTimePackage->price_old > $itemTimePackage->price ? Currency::showMoney($itemTimePackage->price_old) : '' }}">{{ $itemTimePackage->name }}</option>
+                                                @endforeach
+                                            </select>
+                                            <<<<<<< HEAD
+                                                    <a href="javascript:void(0)" title="Đăng ký ngay" class="btn-buy-item mb-2 flex items-center justify-center overflow-hidden rounded-[0.3125rem] border-[2px] border-[#fff] bg-gradient-to-r from-[#F44336] to-[#C62828] py-[0.725rem] px-[0.3125rem] font-semibold text-white hover:text-[#fff]" data-action="buy-now" data-type="course" data-id="{{ $currentItem->id }}" data-package="{{ $fisrtPackage->id }}">Đăng kí ngay</a>
+                                                <a href="javascript:void(0)" title="Thêm vào giỏ hàng" class="btn-buy-item flex items-center justify-center overflow-hidden rounded-[0.3125rem] border-[2px] border-[#CD272F] bg-[#fff] py-[0.725rem] px-[0.3125rem] font-semibold text-[#CD272F]" data-action="add-cart" data-type="course" data-id="{{ $currentItem->id }}" data-package="{{ $fisrtPackage->id }}"> @include('icon_svgs.add_cart') Thêm vào giỏ hàng </a>
+                                                =======
+                                                <a href="javascript:void(0)" title="Đăng ký ngay" class="btn btn-red-gradien btn-buy-item mb-2 flex items-center justify-center overflow-hidden rounded border-[2px] border-[#fff] bg-gradient-to-r from-[#F44336] to-[#C62828] py-[0.725rem] px-[0.3125rem] font-semibold text-white hover:text-[#fff]" data-action="buy-now" data-type="course" data-id="{{ $currentItem->id }}" data-package="{{ $fisrtPackage->id }}">Đăng kí ngay</a>
+                                                <a href="javascript:void(0)" title="Thêm vào giỏ hàng" class="btn-buy-item flex items-center justify-center overflow-hidden rounded border-[2px] border-[#CD272F] bg-[#fff] py-[0.725rem] px-[0.3125rem] font-semibold text-[#CD272F]" data-action="add-cart" data-type="course" data-id="{{ $currentItem->id }}" data-package="{{ $fisrtPackage->id }}"> @include('icon_svgs.add_cart') Thêm vào giỏ hàng </a>
+                                                >>>>>>> f2d6ca06e7a0caa654ca4c38d527f6cb16a801cb
                                     </div>
                                 </div>
                             </div>
                         @endif
-                        <div class="box mt-[1.275rem] overflow-hidden rounded-[0.3125rem] bg-[#fff] md:mt-0 2xl:mt-[1.875rem]">
-                            <p class="bg-gradient-to-r from-[#F44336] to-[#C62828] p-[1rem] text-center text-[1.1rem] font-semibold text-white lg:text-[1.375rem]">Thông tin khóa học</p>
-                            <div class="p-[0.75rem] md:p-[1.25rem]">
-                                <div class="mb-[0.75rem] flex items-center lg:mb-[1rem]">
-                                    @include('icon_svgs.course_clock')
-                                    <strong class="mr-2 inline-block text-[0.875rem] font-semibold text-[#252525] md:text-base">Thời lượng</strong>
-                                    <span class="line-block text-[0.875rem] text-[#454545] md:text-base">{{ $currentItem->getDurationView() }}</span>
-                                </div>
-                                <div class="mb-[0.75rem] flex items-center lg:mb-[1rem]">
-                                    @include('icon_svgs.giao_trinh')
-                                    <strong class="mr-2 inline-block text-[0.875rem] font-semibold text-[#252525] md:text-base">Videos</strong>
-                                    <span class="line-block text-[0.875rem] text-[#454545] md:text-base">{{ count($listVideo) }} Video</span>
-                                </div>
-                                <div class="mb-[0.75rem] flex items-center lg:mb-[1rem]">
-                                    @include('icon_svgs.tai_lieu')
-                                    <strong class="mr-2 inline-block text-[0.875rem] font-semibold text-[#252525] md:text-base">{{ $currentItem->getCountDocument() }}
-                                        tài liệu</strong>
-                                    </span>
-                                </div>
-                                <div class="mb-[0.75rem] flex items-center lg:mb-[1rem]">
-                                    @include('icon_svgs.calender')
-                                    <strong class="mr-2 inline-block text-[0.875rem] font-semibold text-[#252525] md:text-base">Cập
-                                        nhật {{ Support::showDateTime($currentItem->updated_at, 'd/m/Y') }}</strong>
-                                    </span>
+                        <<<<<<< HEAD
+                                <div class="box mt-[1.275rem] overflow-hidden rounded-[0.3125rem] bg-[#fff] md:mt-0 2xl:mt-[1.875rem]">
+                            =======
+                            <div class="box mt-[1.275rem] overflow-hidden rounded bg-[#fff] md:mt-0 2xl:mt-[1.875rem]">
+                                >>>>>>> f2d6ca06e7a0caa654ca4c38d527f6cb16a801cb
+                                <p class="bg-gradient-to-r from-[#F44336] to-[#C62828] p-[1rem] text-center text-[1.1rem] font-semibold text-white lg:text-[1.375rem]">Thông tin khóa học</p>
+                                <div class="p-[0.75rem] md:p-[1.25rem]">
+                                    <div class="mb-[0.75rem] flex items-center lg:mb-[1rem]">
+                                        @include('icon_svgs.course_clock')
+                                        <strong class="mr-2 inline-block text-[0.875rem] font-semibold text-[#252525] md:text-base">Thời lượng</strong>
+                                        <span class="line-block text-[0.875rem] text-[#454545] md:text-base">{{ $currentItem->getDurationView() }}</span>
+                                    </div>
+                                    <div class="mb-[0.75rem] flex items-center lg:mb-[1rem]">
+                                        @include('icon_svgs.giao_trinh')
+                                        <strong class="mr-2 inline-block text-[0.875rem] font-semibold text-[#252525] md:text-base">Videos</strong>
+                                        <span class="line-block text-[0.875rem] text-[#454545] md:text-base">{{ count($listVideo) }} Video</span>
+                                    </div>
+                                    <div class="mb-[0.75rem] flex items-center lg:mb-[1rem]">
+                                        @include('icon_svgs.tai_lieu')
+                                        <strong class="mr-2 inline-block text-[0.875rem] font-semibold text-[#252525] md:text-base">{{ $currentItem->getCountDocument() }}
+                                            tài liệu</strong>
+                                        </span>
+                                    </div>
+                                    <div class="mb-[0.75rem] flex items-center lg:mb-[1rem]">
+                                        @include('icon_svgs.calender')
+                                        <strong class="mr-2 inline-block text-[0.875rem] font-semibold text-[#252525] md:text-base">Cập
+                                            nhật {{ Support::showDateTime($currentItem->updated_at, 'd/m/Y') }}</strong>
+                                        </span>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
                     </div>
                 </div>
             </div>
