@@ -136,7 +136,7 @@
                         <div class="mt-6">
                             @include('courses.components.ask_item')
                             @if (!$asks->onLastPage())
-                                <button ask-load-more data-table="courses" data-id="{{ $currentItem->id }}" data-next-page="{{ $asks->currentPage() + 1 }}">Xem thêm</button>
+                                <button class="mt-6 text-[0.875rem] font-semibold text-[#252525] block w-fit mx-auto" ask-load-more data-table="courses" data-id="{{ $currentItem->id }}" data-next-page="{{ $asks->currentPage() + 1 }}">Xem thêm <i class="fa fa-caret-down ml-1" aria-hidden="true"></i></button>
                             @endif
                         </div>
                     </div>
@@ -172,31 +172,22 @@
                                             <span class="price-old item-price-sub mr-2 text-[#888888] line-through"></span>
                                             <span class="price color-gradient item-price-main text-[1.1rem] font-semibold lg:text-[1.375rem]"></span>
                                         </div>
-                                        <<<<<<< HEAD
-                                                <select class="select-time-package my-[1.125rem] w-full overflow-hidden rounded-[5px] bg-[#F5F5F5] px-[1rem] py-[0.8125rem] font-semibold text-[#888888] lg:my-[1.5rem]">
-                                            =======
+                                     
                                             <select class="select-time-package my-[1.125rem] w-full overflow-hidden rounded bg-[#F5F5F5] px-[1rem] py-[0.8125rem] font-semibold text-[#888888] lg:my-[1.5rem]">
-                                                >>>>>>> f2d6ca06e7a0caa654ca4c38d527f6cb16a801cb
                                                 @foreach ($currentItem->timePackage as $key => $itemTimePackage)
                                                     <option value="{{ $itemTimePackage->id }}" data-price="{{ Currency::showMoney($itemTimePackage->price) }}" data-subprice="{{ $itemTimePackage->price_old > $itemTimePackage->price ? Currency::showMoney($itemTimePackage->price_old) : '' }}">{{ $itemTimePackage->name }}</option>
                                                 @endforeach
                                             </select>
-                                            <<<<<<< HEAD
-                                                    <a href="javascript:void(0)" title="Đăng ký ngay" class="btn-buy-item mb-2 flex items-center justify-center overflow-hidden rounded-[0.3125rem] border-[2px] border-[#fff] bg-gradient-to-r from-[#F44336] to-[#C62828] py-[0.725rem] px-[0.3125rem] font-semibold text-white hover:text-[#fff]" data-action="buy-now" data-type="course" data-id="{{ $currentItem->id }}" data-package="{{ $fisrtPackage->id }}">Đăng kí ngay</a>
-                                                <a href="javascript:void(0)" title="Thêm vào giỏ hàng" class="btn-buy-item flex items-center justify-center overflow-hidden rounded-[0.3125rem] border-[2px] border-[#CD272F] bg-[#fff] py-[0.725rem] px-[0.3125rem] font-semibold text-[#CD272F]" data-action="add-cart" data-type="course" data-id="{{ $currentItem->id }}" data-package="{{ $fisrtPackage->id }}"> @include('icon_svgs.add_cart') Thêm vào giỏ hàng </a>
-                                                =======
+                                         
                                                 <a href="javascript:void(0)" title="Đăng ký ngay" class="btn btn-red-gradien btn-buy-item mb-2 flex items-center justify-center overflow-hidden rounded border-[2px] border-[#fff] bg-gradient-to-r from-[#F44336] to-[#C62828] py-[0.725rem] px-[0.3125rem] font-semibold text-white hover:text-[#fff]" data-action="buy-now" data-type="course" data-id="{{ $currentItem->id }}" data-package="{{ $fisrtPackage->id }}">Đăng kí ngay</a>
                                                 <a href="javascript:void(0)" title="Thêm vào giỏ hàng" class="btn-buy-item flex items-center justify-center overflow-hidden rounded border-[2px] border-[#CD272F] bg-[#fff] py-[0.725rem] px-[0.3125rem] font-semibold text-[#CD272F]" data-action="add-cart" data-type="course" data-id="{{ $currentItem->id }}" data-package="{{ $fisrtPackage->id }}"> @include('icon_svgs.add_cart') Thêm vào giỏ hàng </a>
-                                                >>>>>>> f2d6ca06e7a0caa654ca4c38d527f6cb16a801cb
+                                              
                                     </div>
                                 </div>
                             </div>
                         @endif
-                        <<<<<<< HEAD
-                                <div class="box mt-[1.275rem] overflow-hidden rounded-[0.3125rem] bg-[#fff] md:mt-0 2xl:mt-[1.875rem]">
-                            =======
+                      
                             <div class="box mt-[1.275rem] overflow-hidden rounded bg-[#fff] md:mt-0 2xl:mt-[1.875rem]">
-                                >>>>>>> f2d6ca06e7a0caa654ca4c38d527f6cb16a801cb
                                 <p class="bg-gradient-to-r from-[#F44336] to-[#C62828] p-[1rem] text-center text-[1.1rem] font-semibold text-white lg:text-[1.375rem]">Thông tin khóa học</p>
                                 <div class="p-[0.75rem] md:p-[1.25rem]">
                                     <div class="mb-[0.75rem] flex items-center lg:mb-[1rem]">
