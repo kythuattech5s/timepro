@@ -85,7 +85,7 @@ class CartController extends Controller
                 $itemBuy = Course::find($request->id);
                 break;
             case 'vip':
-                $itemBuy = Course::find($request->id);
+                $itemBuy = CourseCombo::find($request->id);
                 break;
             default:
                 return response()->json([
@@ -240,7 +240,7 @@ class CartController extends Controller
                                     ->where('is_forever',1)
                                     ->where('course_id',$realItem->id)
                                     ->first();
-                        if ($foreverUserCourse) {
+                        if ($realItem->isOwnForever($user)) {
                             Tech5sCart::update($item->rowId,0);
                             return Support::redirectTo(\VRoute::get("viewCart"),200,vsprintf('Khóa học %s của bạn đã được kích hoạt vĩnh viễn. Giỏ hàng đã tự cập nhật lại',[$realItem->name]));
                         }
