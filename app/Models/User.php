@@ -57,6 +57,10 @@ class User extends Authenticatable
     {
         return $this->hasMany(Course::class,'teacher_id');
     }
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
     public function userType()
     {
         return $this->belongsTo(UserType::class);
@@ -98,7 +102,10 @@ class User extends Authenticatable
         foreach ($userCourseComboSpecialCourse as $item) {
             $listCourseId = $listCourseId->merge($item->courseCombo->course->pluck('id'));
         }
-        $listUserCourseId = $this->userCourse()->act()->where(function($q){
+        $listUserCourseId = $this->userCourse()->whereHas('course',function($q){
+                                                    $q->act();
+                                                })
+                                                ->where(function($q){
                                                     $q->where('expired_time','>',now())->orWhere('is_forever',1);
                                                 })
                                                 ->pluck('course_id');

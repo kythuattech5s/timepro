@@ -22,14 +22,16 @@
             @endphp
             <div class="w-full" rs-qaa-list-child>
                 @foreach ($ask_childs as $ask_child)
+                    @php
+                        $user = $ask_child->user;
+                    @endphp
                     <div class="mb-4 flex gap-3 last:mb-0">
                         <div class="img-ava h-12 w-12 shrink-0 overflow-hidden rounded-full">
-
-                            <img src="" alt="">
+                            @include('image_loader.big', ['itemImage' => $user])
                         </div>
                         <div>
                             <div class="mb-2 flex flex-wrap items-center gap-2">
-                                <p>{!! $ask_child->user->name !!}</p>
+                                <p>{{ $user->name }}</p>
                                 <span class="relative pl-3 text-[#F44336] after:absolute after:left-0 after:top-1/2 after:h-1 after:w-1 after:-translate-y-1/2 after:rounded-full after:bg-[#F44336]">Đã trả lời</span>
                                 <p class="relative pl-3 text-[#888] after:absolute after:top-1/2 after:left-0 after:h-1 after:w-1 after:-translate-y-1/2 after:rounded-full after:bg-[#888]">{{ RSCustom::showTime($ask_child->created_at) }}</p>
                             </div>

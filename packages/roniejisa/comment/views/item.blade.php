@@ -4,8 +4,7 @@
             $user = $comment->user;
         @endphp
         @if (config('cmrsc_comment.hasAvatar'))
-            <div class="comment-item__img" style="background-image:url({%IMGV2.user.img.390x0%})" comment-skeleton>
-            </div>
+            <div class="comment-item__img" style="background-image:url({%IMGV2.user.img.390x0%})" comment-skeleton></div>
         @endif
         <div class="comment-item__info">
             <div class="comment-user__info">
