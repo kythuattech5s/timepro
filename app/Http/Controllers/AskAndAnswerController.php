@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\AskAndAnswer;
+use DateTime;
 use Illuminate\Http\Request;
 
 class AskAndAnswerController extends Controller
@@ -16,7 +16,7 @@ class AskAndAnswerController extends Controller
                 'message' => $validator->errors()->first(),
             ]);
         }
-
+        $model = $request->input('model');
         $data = [
             'map_table' => $request->map_table,
             'map_id' => $request->map_id,
@@ -24,6 +24,8 @@ class AskAndAnswerController extends Controller
             'gender' => $request->gender,
             'phone' => $request->phone,
             'name' => $request->name,
+            'created_at' => new DateTime,
+            'updated_at' => new DateTime,
             'act' => 0
         ];
 
@@ -31,7 +33,7 @@ class AskAndAnswerController extends Controller
             $data['user_id'] = \Auth::id();
             $data['user_type'] = \Auth::user()->user_type_id;
         }
-        \DB::table($request->input('table'))->insert($data);
+        $model::insert($data);
 
         return response([
             'code' => 200,
@@ -69,18 +71,19 @@ class AskAndAnswerController extends Controller
                 'message' => 'Vui lòng đăng nhập để thực hiện hành động này'
             ]);
         }
-        $ask = AskAndAnswer::find($request->ask_and_answer_id);
-        if ($ask == null) {
+        $model = $request->input('model');
+        $oldData = $model::where('id', $request->input('id'))->first();
+        if ($oldData == null) {
             return response([
                 'code' => 100,
                 'message' => 'Câu hỏi không tồn tại'
             ]);
         }
 
-        $like = \DB::table('ask_and_answer_user')->where('ask_and_answer_id', $ask->id)->where('user_id', \Auth::id())->first();
+        $like = \DB::table($request->input('table_like'))->where($request->input('field_main'), $oldData->id)->where('user_id', \Auth::id())->first();
         if ($like == null) {
-            \DB::table('ask_and_answer_user')->insert([
-                'ask_and_answer_id' => $ask->id,
+            \DB::table($request->input('table_like'))->insert([
+                $request->input('field_main') => $oldData->id,
                 'user_id' => \Auth::id()
             ]);
             return response([
@@ -89,7 +92,7 @@ class AskAndAnswerController extends Controller
             ]);
         }
 
-        \DB::table('ask_and_answer_user')->where('ask_and_answer_id', $ask->id)->where('user_id', \Auth::id())->delete();
+        \DB::table($request->input('table_like'))->where($request->input('field_main'), $oldData->id)->where('user_id', \Auth::id())->delete();
         return response([
             'code' => 100,
             'message' => 'Bỏ yêu thích câu hỏi'
@@ -112,23 +115,35 @@ class AskAndAnswerController extends Controller
                 'message' => $validator->errors()->first(),
             ]);
         }
-        $ask = \DB::table($request->input('table'))->where('id', $request->input('id'))->first();
-        if ($ask == null) {
+        $model = $request->input('model');
+
+        $dataOld = $model::where('id', $request->input('id'))->first();
+        if ($dataOld == null) {
             return response([
                 'code' => 100,
                 'message' => 'Câu hỏi không tồn tại'
             ]);
         }
 
-        $askRep = new AskAndAnswer();
-        $askRep->map_table = $ask->map_table;
-        $askRep->map_id = $ask->map_id;
-        $askRep->content = $request->input('content');
-        $askRep->act = 0;
-        $askRep->ask_and_answer_id = $ask->id;
-        $askRep->user_id = \Auth::id();
-        $askRep->user_type = \Auth::user()->user_type_id;
-        $askRep->save();
+        $data = [
+            'map_table' => $dataOld->map_table,
+            'map_id' => $dataOld->map_id,
+            'content' => $request->content,
+            'gender' => $request->gender,
+            'phone' => $request->phone,
+            'name' => $request->name,
+            $request->input('field_main') => $dataOld->id,
+            'created_at' => new DateTime,
+            'updated_at' => new DateTime,
+            'act' => 0
+        ];
+
+        if (\Auth::check()) {
+            $data['user_id'] = \Auth::id();
+            $data['user_type'] = \Auth::user()->user_type_id;
+        }
+        $model = $request->input('model');
+        $model::insert($data);
 
         return response([
             'code' => 200,
@@ -140,21 +155,21 @@ class AskAndAnswerController extends Controller
     {
         $request = request();
         return \Validator::make($request->all(), [
-            'ask_and_answer_id' => ['required'],
+            'id' => ['required'],
             'content' => ['required']
         ], [
             'required' => 'Vui lòng chọn hoặc nhập :attribute',
         ], [
-            'ask_and_answer_id' => 'Câu hỏi',
+            'id' => $request->input('label'),
             'content' => 'Nội dung',
         ]);
     }
 
     public function loadMoreAsk(Request $request)
     {
-        $asks = AskAndAnswer::with(['likes', 'asks' => function ($q) {
-            $q->with('user');
-        }])->where('map_table', $request->input('map_table'))->where('map_id', $request->input('map_id'))->where('act', 1)->orderBy('id', 'DESC')->paginate(5);
+        $model = $request->input('model');
+        $with = $request->input('with');
+        $asks = $model::with(explode(',', $with))->where('map_table', $request->input('map_table'))->where('map_id', $request->input('map_id'))->where('act', 1)->orderBy('id', 'DESC')->paginate(5);
         return response([
             'code' => 200,
             'html' => view('courses.components.ask_item', compact('asks'))->render(),
