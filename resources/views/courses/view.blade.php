@@ -106,8 +106,9 @@
                             <p class="font-bold">Hỏi đáp</p>
                             <form action="hoi-dap" class="form-validate" absolute check method="POST" data-success="ASK_AND_ANSWER.showNotify">
                                 @csrf
-                                <textarea name="" id="" cols="30" rows="10" placeholder="Mời bạn tham gia thảo luận, vui lòng nhập tiếng Việt có đấu."></textarea>
-                                <input type="text">
+                                <textarea name="content" id="" cols="30" rows="10" placeholder="Mời bạn tham gia thảo luận, vui lòng nhập tiếng Việt có đấu."></textarea>
+                                <input type="hidden" name="map_table" value="courses">
+                                <input type="hidden" name="map_id" value="{{ $currentItem->id }}">
                                 <div>
                                     <div>
                                         <label for="asMale">
@@ -122,8 +123,8 @@
                                         </label>
                                     </div>
                                     <div>
-                                        <input type="text" placeholder="Họ tên *" rules="required">
-                                        <input type="text" placeholder="Số điện thoại*" rules="required">
+                                        <input type="text" name="name" placeholder="Họ tên *" rules="required">
+                                        <input type="text" name="phone" placeholder="Số điện thoại*" rules="required">
                                     </div>
                                     <button type="submit">Gửi</button>
                                 </div>
