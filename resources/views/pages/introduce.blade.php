@@ -20,7 +20,6 @@
     	$historyBeginAbouts = Support::extractJson(SettingHelper::getSetting('history_begin_about')); 
     	$historyBeginAboutLefts = array_slice($historyBeginAbouts, 0,2);
     	$historyBeginAboutRights = array_slice($historyBeginAbouts, 2,2);
-
     ?>
     <div class="max-w-[1700px] mx-auto px-[0.938rem]">
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 sm:gap-4 gap-2 module-statis">
@@ -60,58 +59,23 @@
         </div>
     </div>
 </section>
-<section class="endow-index 2xl:py-14 py-6 bg-no-repeat bg-cover"
-    style="background-image: url(theme/frontend/images/bg-endow.jpg)">
+<?php 
+	$advantageAbouts = Support::extractJson(SettingHelper::getSetting('advantage_about')); 
+?>
+<section class="endow-index 2xl:py-14 py-6 bg-no-repeat bg-cover" style="background-image: url({Ibg_advantage_about.imgI})">
     <div class="container">
         <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        	@foreach($advantageAbouts as $advantageAbout)
             <div class="col-span-1 text-center">
                 <span class="icon block lg:w-[3.75rem] lg:h-[3.75rem] w-[2.5rem] h-[2.5rem] mx-auto 2xl:mb-4 mb-2">
-                    <img src="theme/frontend/images/endow-1.svg" alt="" />
+                    @include('image_loader.tiny',['keyImage'=>'image','itemImage'=>$advantageAbout])
                 </span>
-                <p class="font-bold text-white 2xl:text-[1.25rem] mb-1">
-                    Chất lượng bài giảng cao
-                </p>
+                <p class="font-bold text-white 2xl:text-[1.25rem] mb-1">{{Support::show($advantageAbout,'title')}}</p>
                 <p class="text-white">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit ipsum
-                    dolor.
+                    {!! nl2br(Support::show($advantageAbout,'content')) !!}
                 </p>
             </div>
-            <div class="col-span-1 text-center">
-                <span class="icon block lg:w-[3.75rem] lg:h-[3.75rem] w-[2.5rem] h-[2.5rem] mx-auto 2xl:mb-4 mb-2">
-                    <img src="theme/frontend/images/endow-2.svg" alt="" />
-                </span>
-                <p class="font-bold text-white 2xl:text-[1.25rem] mb-1">
-                    Đăng ký học dễ dàng
-                </p>
-                <p class="text-white">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit ipsum
-                    dolor.
-                </p>
-            </div>
-            <div class="col-span-1 text-center">
-                <span class="icon block lg:w-[3.75rem] lg:h-[3.75rem] w-[2.5rem] h-[2.5rem] mx-auto 2xl:mb-4 mb-2">
-                    <img src="theme/frontend/images/endow-3.svg" alt="" />
-                </span>
-                <p class="font-bold text-white 2xl:text-[1.25rem] mb-1">
-                    Hỗ trợ học viên tận tình
-                </p>
-                <p class="text-white">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit ipsum
-                    dolor.
-                </p>
-            </div>
-            <div class="col-span-1 text-center">
-                <span class="icon block lg:w-[3.75rem] lg:h-[3.75rem] w-[2.5rem] h-[2.5rem] mx-auto 2xl:mb-4 mb-2">
-                    <img src="theme/frontend/images/endow-4.svg" alt="" />
-                </span>
-                <p class="font-bold text-white 2xl:text-[1.25rem] mb-1">
-                    Có thể áp dụng thực tế ngay
-                </p>
-                <p class="text-white">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit ipsum
-                    dolor.
-                </p>
-            </div>
+            @endforeach
         </div>
     </div>
 </section>
