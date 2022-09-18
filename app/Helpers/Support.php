@@ -261,4 +261,14 @@ class Support
         $active_sheet->getStyle($cells)->applyFromArray($styleArray);
         $active_sheet->getStyle($columnHeading)->applyFromArray($heading);
     }
+    public static function getYoutubeId($link){
+        if($link == '')return 0;
+        preg_match("/^(?:http(?:s)?:\/\/)?(?:www\.)?(?:m\.)?(?:youtu\.be\/|youtube\.com\/(?:(?:watch)?\?(?:.*&)?v(?:i)?=|(?:embed|v|vi|user)\/))([^\?&\"'>]+)/", $link, $matches);
+        if(isset($matches[1]) && $matches[1] !=""){
+            return $matches[1];
+        }
+        else{
+            return 0;
+        }
+    }
 }

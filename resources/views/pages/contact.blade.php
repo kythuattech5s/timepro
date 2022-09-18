@@ -54,7 +54,7 @@
                         {[email_support]}
                     </a>
                 </p>
-                <ul class="social-contact mt-6">
+                <ul class="social-contact flex items-center mt-6">
                     <li class="inline-block 2xl:mr-6 mr-4 last:mr-0">
                         <a href="{[facebook]}" rel="noopener" title="Facebook" target="_blanl" class="flex items-center justify-center w-10 h-10 rounded-full bg-[#888] text-white hover:bg-[#0969AE] hover:text-white text-[1.25rem]">
                             <i class="fa fa-facebook" aria-hidden="true"></i>

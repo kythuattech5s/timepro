@@ -47,7 +47,7 @@ class LoginController extends Controller
     public function switchLogin($request, $route, $link)
     {
         if (Auth::check()) {
-            return Support::sendResponse(200,'Bạn đang đăng nhập rồi',\VRoute::get("home"));
+            return Support::sendResponse(200,'Bạn đang đăng nhập rồi',Support::URLPrevious(false));
         }
         if ($request->isMethod('post')) {
             return $this->login($request);
@@ -86,7 +86,7 @@ class LoginController extends Controller
             return $this->authenticated($request,$user);
         }
         else{
-            return Support::sendResponse(100,'Tài khoản hoặc mật khẩu đăng nhập không chính xác',\VRoute::get("login"));
+            return Support::sendResponse(100,'Tài khoản hoặc mật khẩu đăng nhập không chính xác',Support::URLPrevious(false));
         }
     }
     protected function checkInfoUser($usernameField,$username)

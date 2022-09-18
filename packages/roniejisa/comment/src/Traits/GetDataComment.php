@@ -15,9 +15,9 @@ trait GetDataComment
         return $default;
     }
 
-    public function getRating(String $type = '', $noCalculator = true)
+    public function getRating(String $type = 'default', $noCalculator = true)
     {
-        if ($type == '' && $noCalculator && isset($this->info_rating)) {
+        if ($type == 'default' && $noCalculator && isset($this->info_rating)) {
             if (json_decode($this->info_rating, true) == null) {
                 return [
                     'oneStar' => 0,
