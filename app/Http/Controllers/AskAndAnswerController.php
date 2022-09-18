@@ -28,6 +28,7 @@ class AskAndAnswerController extends Controller
         $ask->act = 0;
         if (\Auth::check()) {
             $ask->user_id = \Auth::id();
+            $ask->user_type = \Auth::user()->user_type_id;
         }
         $ask->save();
         return response([
