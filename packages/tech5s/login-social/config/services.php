@@ -1,6 +1,6 @@
 <?php
-$saveCache = base_path('storage\framework\cache\data\login-social');
-$fileCache = base_path('storage\framework\cache\data\login-social\json');
+$saveCache = base_path('storage/framework/cache/data/login-social');
+$fileCache = base_path('storage/framework/cache/data/login-social/json');
 
 if (!file_exists($fileCache)) {
     $services = [

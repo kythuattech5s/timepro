@@ -30,13 +30,14 @@ class Course extends BaseModel
         }
         return $category->course();
     }
-    public function getRelatesCollection($limit){
+    public function getRelatesCollection($limit)
+    {
         $relate = $this->getRelates();
-        return $relate?$relate->baseView()->where('id','!=',$this->id)->take($limit)->get():collect();
+        return $relate ? $relate->baseView()->where('id', '!=', $this->id)->take($limit)->get() : collect();
     }
     public function getDurationView()
     {
-        return sprintf('%02d giờ %02d phút',($this->duration/60),$this->duration%60);
+        return sprintf('%02d giờ %02d phút', ($this->duration / 60), $this->duration % 60);
     }
     public function getCountDocument()
     {
@@ -89,8 +90,8 @@ class Course extends BaseModel
             return true;
         }
         $userCourseComboAllCount = $user->userCourseCombo()->whereHas('courseCombo', function ($q) {
-                $q->where('all_course', 1);
-            })
+            $q->where('all_course', 1);
+        })
             ->where(function ($q) {
                 $q->where('expired_time', '>', now())->orWhere('is_forever', 1);
             })
@@ -100,10 +101,10 @@ class Course extends BaseModel
         }
         $idCourse = $this->id;
         $userCourseComboSpecialCourse = $user->userCourseCombo()->whereHas('courseCombo', function ($q) use ($idCourse) {
-                $q->where('all_course', '!=', 1)->whereHas('course', function ($q) use ($idCourse) {
-                    $q->where('id', $idCourse);
-                });
-            })
+            $q->where('all_course', '!=', 1)->whereHas('course', function ($q) use ($idCourse) {
+                $q->where('id', $idCourse);
+            });
+        })
             ->where(function ($q) {
                 $q->where('expired_time', '>', now())->orWhere('is_forever', 1);
             })
@@ -117,27 +118,27 @@ class Course extends BaseModel
     {
         if ($this->isFree()) return true;
         if (!isset($user)) return false;
-        $foreverUserCourse = UserCourse::where('user_id',$user->id)
-                                    ->where('is_forever',1)
-                                    ->where('course_id',$this->id)
-                                    ->first();
+        $foreverUserCourse = UserCourse::where('user_id', $user->id)
+            ->where('is_forever', 1)
+            ->where('course_id', $this->id)
+            ->first();
         if (isset($foreverUserCourse)) {
             return true;
         }
         $userCourseComboAllCount = $user->userCourseCombo()->whereHas('courseCombo', function ($q) {
-                                                            $q->where('all_course', 1)->where('is_forever', 1);
-                                                        })->first();
+            $q->where('all_course', 1)->where('is_forever', 1);
+        })->first();
         if (isset($userCourseComboAllCount)) {
             return true;
         }
         $idCourse = $this->id;
         $userCourseComboSpecialCourse = $user->userCourseCombo()->whereHas('courseCombo', function ($q) use ($idCourse) {
-                                                                    $q->where('all_course', '!=', 1)->whereHas('course', function ($q) use ($idCourse) {
-                                                                        $q->where('id', $idCourse);
-                                                                    });
-                                                                })
-                                                                ->where('is_forever', 1)
-                                                                ->first();
+            $q->where('all_course', '!=', 1)->whereHas('course', function ($q) use ($idCourse) {
+                $q->where('id', $idCourse);
+            });
+        })
+            ->where('is_forever', 1)
+            ->first();
         if (isset($userCourseComboSpecialCourse)) {
             return true;
         }
@@ -203,10 +204,10 @@ class Course extends BaseModel
         if ($videoCount == 0) {
             return 0;
         }
-        $countVideoDone = $this->videos()->whereHas('courseVideoUser',function($q) use ($userId) {
-                                            $q->where('user_id',$userId);
-                                        })->count();
-        return floor($countVideoDone*100/$videoCount,2);
+        $countVideoDone = $this->videos()->whereHas('courseVideoUser', function ($q) use ($userId) {
+            $q->where('user_id', $userId);
+        })->count();
+        return floor($countVideoDone * 100 / $videoCount, 2);
     }
     public function percentStudy()
     {
@@ -222,6 +223,11 @@ class Course extends BaseModel
             }
             $totalTime += $video->duration;
         }
-        return round($totalStuding / $totalTime * 100);
+        return $totalTime == 0 ? 0 : round($totalStuding / $totalTime * 100);
+    }
+
+    public function isDone()
+    {
+        return $this->percentStudy() == 100;
     }
 }
