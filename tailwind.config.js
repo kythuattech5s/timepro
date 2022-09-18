@@ -9,12 +9,18 @@ module.exports = {
     ],
     theme: {
         extend: {
+            fontFamily: {
+                Averta: ['"Averta"'],
+            },
             screens: {
                 sm: "576px",
                 md: "768px",
                 lg: "1024px",
                 xl: "1280px",
                 "2xl": "1408px",
+            },
+            container: {
+                center: true,
             },
         },
     },
