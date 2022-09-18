@@ -98,18 +98,18 @@
                             </div>
                         </div>
                     @endif
-                    <div class="box comment-box mb-[1.5rem] overflow-hidden rounded rounded-[0.3125rem] bg-[#fff] p-[0.5rem] md:p-[1.5rem]" id="danh-gia">
+                    <div class="box comment-box mb-[1.5rem] overflow-hidden rounded-[0.3125rem] bg-[#fff] p-[0.5rem] md:p-[1.5rem]" id="danh-gia">
                         @include('commentRS::comment_box', ['map_table' => 'courses'])
                     </div>
-                    <div class="box mb-[1.5rem] overflow-hidden rounded rounded-[0.3125rem] bg-[#fff] p-[0.5rem] md:p-[1.5rem]" id="hoi-dap">
+                    <div class="box mb-[1.5rem] overflow-hidden rounded-[0.3125rem] bg-[#fff] p-[0.5rem] md:p-[1.5rem]" id="hoi-dap">
                         <div class="">
-                            <p class="font-bold">Hỏi đáp</p>
-                            <form action="hoi-dap" class="form-validate" absolute check method="POST" data-success="ASK_AND_ANSWER.showNotify">
+                            <p class="font-bold mb-4">Hỏi đáp</p>
+                            <form action="hoi-dap" class="form-validate overflow-hidden border-[1px] border-solid border-[#ebebeb] rounded-lg" absolute check method="POST" data-success="ASK_AND_ANSWER.showNotify">
                                 @csrf
-                                <textarea name="" id="" cols="30" rows="10" placeholder="Mời bạn tham gia thảo luận, vui lòng nhập tiếng Việt có đấu."></textarea>
+                                <textarea name="" class="w-full resize-none h-[6.25rem] p-3 border-b-[1px] border-solid border-[#ebebeb]" placeholder="Mời bạn tham gia thảo luận, vui lòng nhập tiếng Việt có đấu."></textarea>
                                 <input type="text">
-                                <div>
-                                    <div>
+                                <div class="flex flex-col sm:flex-row items-center p-3 gap-4 flex-wrap">
+                                    <div class="gap-4 flex items-center">
                                         <label for="asMale">
                                             <input type="radio" name="gender" rules="required" id="asMale" type="male">
                                             <span></span>
@@ -121,13 +121,61 @@
                                             <span>Chị</span>
                                         </label>
                                     </div>
-                                    <div>
-                                        <input type="text" placeholder="Họ tên *" rules="required">
-                                        <input type="text" placeholder="Số điện thoại*" rules="required">
+                                    <div class="flex-1 flex gap-4 flex-wrap">
+                                        <input type="text" name="name" class="py-2 px-4 rounded border-[1px] border-solid border-[#ebebeb] flex-1" placeholder="Họ tên *" rules="required">
+                                        <input type="text" class="py-2 px-4 rounded border-[1px] border-solid border-[#ebebeb] flex-1" placeholder="Số điện thoại*" name="phone" rules="required">
                                     </div>
-                                    <button type="submit">Gửi</button>
+                                    <button type="submit" class="btn btn-red-gradien inline-flex items-center justify-center rounded bg-gradient-to-r from-[#F44336] to-[#C62828] py-2 px-4 font-semibold text-white">Gửi</button>
                                 </div>
                             </form>
+                        </div>
+
+                        <div class="mt-6">
+                            @foreach ($asks as $ask)
+                                <div>
+                                    <div class="flex gap-2 mb-2">
+                                        <p class="font-semibold text-[#252525]">{{ $ask->name }}</p>
+                                        <span class="inline-flex lg:text-[0.75rem] text-[#888] relative before:w-1 before:h-1 before:rounded-full before:bg-[#888] before:mr-2">{{ RSCustom::showTime($ask->created_at) }}</span>
+                                    </div>
+                                    <div class="text-[#252525] mb-2">
+                                        {!! $ask->content !!}
+                                    </div>
+                                    <div class="flex flex-wrap gap-4">
+                                        <a type="button" data-placeholder="Trả lời bình luận" class="group flex cursor-pointer gap-[4px] duration-300 hover:text-[#CD272F]" comment-skeleton>
+                                            @include('commentRS::icon.reply') <span> Trả lời</span></a>
+                                        <a class="{{ $ask->likes->first(function ($q) {
+                                            return $q->pivot->user_id == Auth::id();
+                                        }) != null
+                                            ? 'like'
+                                            : '' }} flex cursor-pointer gap-[4px]" data-id="{-ask.id-}" comment-skeleton>
+                                            @include('commentRS::icon.like') <span>Thích</span>
+                                        </a>
+                                        @php
+                                            $ask_childs = $ask->asks;
+                                        @endphp
+                                        <div class="w-full">
+                                            @foreach ($ask_childs as $ask_child)
+                                                <div>
+                                                    <div>
+
+                                                        <img src="" alt="">
+                                                    </div>
+                                                    <div>
+                                                        <div>
+                                                            <p>{!! $ask_child->user->name !!}</p>
+                                                            <span>Đã trả lời</span>
+                                                            <p>{{ RSCustom::showTime($ask_child->created_at) }}</p>
+                                                        </div>
+                                                        <div>
+                                                            {!! $ask_child->content !!}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
                         </div>
                     </div>
                     @if (count($listRelateCourse) > 0)
