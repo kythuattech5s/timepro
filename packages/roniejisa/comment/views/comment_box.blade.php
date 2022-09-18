@@ -1,5 +1,5 @@
 <div class="comment-box__content {{ config('cmrsc_comment.class') }}">
-    <p class="title-medium__all f-bold cl-blue mb-15">{{ $comments->total() }} đánh giá cho khóa học Tìm khách hàng khó hay dễ?</p>
+    <p class="title-medium__all font-bold cl-blue mb-5 ">{{ $comments->total() }} đánh giá cho khóa học Tìm khách hàng khó hay dễ?</p>
     @if (config('cmrsc_comment.hasShowTotal'))
         <div class="box-percent-load">
             @include('commentRS::box_percent')
