@@ -1,8 +1,8 @@
 @php
     $firstPriceInfo = $item->getFirstPrice();
 @endphp
-<div class="item-course h-full bg-white rounded-lg overflow-hidden border-[1px] border-solid border-[#ebebeb] transition-all duration-300 hover:border-transparent hover:shadow-[0_4px_10px_rgba(0,0,0,.3)]">
-    <div class="relative box-img">
+<div class="item-course flex flex-col h-full bg-white rounded-lg overflow-hidden border-[1px] border-solid border-[#ebebeb] transition-all duration-300 hover:border-transparent hover:shadow-[0_4px_10px_rgba(0,0,0,.3)]">
+    <div class="relative shrink-0 box-img">
         @if (!$item->isFree() && $firstPriceInfo['sale_percent'] > 0)
             <span class="discount absolute top-0 left-6 z-[1] rounded-b-md font-semibold text-white text-[0.875rem] bg-gradient-to-r from-[#F44336] to-[#C62828] inline-block p-1">-{{$firstPriceInfo['sale_percent']}}%</span>
         @endif
@@ -21,7 +21,7 @@
             </span>
         </div>
     </div>
-    <div class="content 2xl:p-4 lg:p-2 p-1">
+    <div class="content flex-1 flex flex-col 2xl:p-4 lg:p-2 p-1">
         <h3>
             <a href="{{Support::show($item,'slug')}}" title="{{Support::show($item,'name')}}" class="title font-bold 2xl:text-[1.125rem] text-[#252525] block line-clamp-2 mb-2">{{Support::show($item,'name')}}</a>
         </h3>
@@ -36,12 +36,12 @@
                 </div>
             </div>
         @endif
-        <div class="flex gap-4 items-center justify-between button-action">
-            <a href="{{Support::show($item,'slug')}}" title="Tham gia" class="btn btn-orange inline-flex items-center justify-center py-2 lg:px-5 px-4 rounded bg-gradient-to-r from-[#FE8C00] to-[#F83600] text-white">Tham gia <i class="fa fa-angle-double-right ml-1" aria-hidden="true"></i></a>
+        <div class="flex gap-4 items-center justify-between button-action mt-auto">
+            <a href="{{Support::show($item,'slug')}}" title="Tham gia" class="btn btn-orange lg:text-[0.875rem] whitespace-nowrap inline-flex items-center justify-center py-2 px-4 rounded bg-gradient-to-r from-[#FE8C00] to-[#F83600] text-white">Tham gia <i class="fa fa-angle-double-right ml-1" aria-hidden="true"></i></a>
             <div class="form-price">
-                <div class="rating-item mb-1">
+                <div class="rating-item mb-1 justify-end">
                     <p class="rating">
-                        <span class="rating-box">
+                        <span class="rating-box mr-0">
                             <i class="fa fa-star-o" aria-hidden="true"></i>
                             <i class="fa fa-star-o" aria-hidden="true"></i>
                             <i class="fa fa-star-o" aria-hidden="true"></i>
@@ -57,7 +57,7 @@
                         </span>
                     </p>
                 </div>
-                <p class="">
+                <p class="text-right">
                     @if (!$item->isFree())
                         @if ($firstPriceInfo['sale_percent'] > 0)
                             <span class="price-old text-[#888 text-[0.75rem] line-through">{{Currency::showMoney($firstPriceInfo['price_old'])}}</span>

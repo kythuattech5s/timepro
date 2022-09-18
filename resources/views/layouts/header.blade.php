@@ -30,9 +30,9 @@
             @else
                 <div class="h-auth font-semibold bg-gradient-to-r from-[#F44336] to-[#C62828] rounded-md py-2 sm:px-5 px-3 text-white">
                     <i class="fa fa-user-circle-o mr-2 hidden lg:inline-block" aria-hidden="true"></i>
-                    <a href="{{\VRoute::get("login")}}" title="Đăng nhập" class="link">Đăng nhập</a>
+                    <a href="{{\VRoute::get("login")}}" title="Đăng nhập" class="link hover:text-white">Đăng nhập</a>
                     <span class="hidden lg:inline-block">/</span>
-                    <a href="{{\VRoute::get("register")}}" title="Đăng ký" class="link hidden lg:inline-block">Đăng ký</a>
+                    <a href="{{\VRoute::get("register")}}" title="Đăng ký" class="link hover:text-white hidden lg:inline-block">Đăng ký</a>
                 </div>
             @endif
         </div>
