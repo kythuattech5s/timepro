@@ -25,10 +25,15 @@ class AskAndAnswerController extends Controller
         $ask->gender = $request->gender;
         $ask->phone = $request->phone;
         $ask->name = $request->name;
+        $ask->act = 0;
         if (\Auth::check()) {
             $ask->user_id = \Auth::id();
         }
         $ask->save();
+        return response([
+            'code' => 200,
+            'message' => 'Chúng tôi đã nhận được câu hỏi của bạn'
+        ]);
     }
 
     private function validateAsk()
@@ -42,14 +47,14 @@ class AskAndAnswerController extends Controller
             'map_id' => ['required'],
             'gender' => ['required'],
         ], [
-            'required' => ':attribute ít nhất :min ký tự',
+            'required' => ':attribute ít nhất ký tự',
         ], [
             'name' => 'Họ và tên',
             'phone' => 'Số điện thoại',
             'content' => 'Nội dung',
             'map_table' => 'Bảng',
             'map_id' => 'Khóa học',
-            'gender' => 'Giói tính',
+            'gender' => 'Giới tính',
         ]);
     }
 }
