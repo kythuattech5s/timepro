@@ -26,6 +26,7 @@
             </a>
             @if (Auth::check())
             <div class="flex items-center gap-2 relative group cursor-pointer">
+                <?php $user = Auth::user(); ?>
                 <a href="{{\VRoute::get('my_profile')}}" title="{{Support::show($user,'name')}}" class="ava img-ava block lg:w-12 lg:h-12 w-8 h-8 rounded-full overflow-hidden">
                     @if(Support::show($user,'img'))
                         @include('image_loader.tiny',['keyImage'=>'img','itemImage'=>$user])
@@ -33,7 +34,6 @@
                         @include('image_loader.config.tiny',['config_key'=>'logo'])
                     @endif
                 </a>
-                <?php $user = Auth::user(); ?>
                 <div class="content hidden lg:block">
                     <p class="text-[0.75rem] mb-1">Xin chào</p>
                     <a href="{{\VRoute::get('my_profile')}}" title="Thông tin cá nhân" class="name-user font-semibold text-[#252525]">{{Support::show($user,'name')}}</a>
