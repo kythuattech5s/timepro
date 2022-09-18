@@ -90,7 +90,7 @@
                                 <img src="theme/frontend/images/mail.svg" class="w-6 h-6 object-contain absolute top-0 left-0" alt="Email">
                                 <a href="mailto:{[email_support]}" class="phone">{[email_support]}</a>
                             </p>
-                            <div class="flex flex-wrap 2xl:gap-8 gap-4 items-center">
+                            <div class="flex flex-wrap gap-2 items-center">
                                 <a href="{[dcma_link]}" title="DCMA" class="icon" target="_blank" rel="noopener">
                                     <img src="theme/frontend/images/dmca.png" alt="" />
                                 </a>
