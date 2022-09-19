@@ -286,7 +286,7 @@
                                         ]) }}</span>
                                     </div>
                                 @endforeach
-                                @if ($currentItem->percentStudy() == 100)
+                                @if ($currentItem->isDone())
                                     <button rating-course class="btn btn-red-gradien mx-auto flex w-fit items-center justify-center rounded bg-gradient-to-r from-[#F44336] to-[#C62828] py-2 px-4 font-semibold uppercase text-white shadow-[0_6px_20px_rgba(178,30,37,.4)]">Đánh giá khóa học</button>
                                 @endif
                             </div>
