@@ -359,6 +359,21 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   var load = function load() {
     var video = document.querySelector("video");
     if (!video) return;
+    video.onplay = handleEventVideo;
+    video.onpause = handleEventVideo;
+  };
+
+  var handleEventVideo = function handleEventVideo(e) {
+    var video = e.target;
+    var currentTime = video.currentTime;
+    XHR.send({
+      url: "danh-dau-da-hoc-xong",
+      method: "POST",
+      data: {
+        course_video_id: video.dataset.id,
+        duration: currentTime
+      }
+    });
   };
 
   var changeVideo = function changeVideo() {
@@ -400,7 +415,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         url: "danh-dau-da-hoc-xong",
         method: "POST",
         data: {
-          course_video_id: video.dataset.id
+          course_video_id: video.dataset.id,
+          is_done: 1,
+          duration: video.currentTime
         }
       }).then( /*#__PURE__*/function () {
         var _ref = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee(res) {

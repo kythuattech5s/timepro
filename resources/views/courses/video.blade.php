@@ -157,103 +157,7 @@
                         </div>
                     </div>
                     <div class="tabcontent px-4 2xl:px-10" id="tab-lesson-4" data-target="tab-lesson">
-                        <div class="mb-2 flex justify-between">
-                            <p class="font-bold">
-                                Đặt câu hỏi
-                            </p>
-                            <div class="flex items-center gap-2">
-                                <span>Sắp xếp theo:</span>
-                                <select name="sort" id="" class="rounded-md bg-[#F2F2F2] p-2">
-                                    <option value="new">Mới nhất</option>
-                                    <option value="old">Cũ nhất</option>
-                                </select>
-                            </div>
-                        </div>
-                        @if (Auth::check())
-                            @php
-                                $user = Auth::user();
-                            @endphp
-                            <div>
-                                <form action="hoi-dap" method="POST" class="form-validate flex items-center gap-4" data-success="ASK_AND_QUESTION.showNotify">
-                                    @csrf
-                                    <input type="hidden" name="model" value="\App\Models\QuestionTeacher">
-                                    <input type="hidden" name="label" value="câu hỏi cho giảng viên">
-                                    <input type="hidden" name="map_table" value="courses">
-                                    <input type="hidden" name="map_id" value="{{ $currentItem->id }}">
-                                    <img src="{%IMGV2.user.img.-1%}" class="border-md h-12 w-12" alt="{%AIMGV2.user.img.alt%}" title="{%AIMGV2.user.img.title%}">
-                                    <div class="flex flex-1 items-center rounded-lg bg-[#F5F5F5] px-4 py-3">
-                                        <textarea name="content" class="h-6 flex-1 resize-none bg-transparent outline-none" placeholder="Đặt câu hỏi..."></textarea>
-                                        <button type="submit" class="button-text-gradient px-4">Gửi</button>
-                                    </div>
-                                </form>
-                            </div>
-                        @else
-                            <p>Vui lòng đăng nhập để thực hiện chức năng này</p>
-                        @endif
-                        <div class="mt-12 flex flex-col gap-3" list-question-for-teacher>
-                            @foreach ($listQuestions as $question)
-                                <div class="relative before:content-[''] before:h-[calc(100%_-_70px)] before:absolute before:top-12 before:left-[21px] before:w-[1px] before:bg-[#D9D9D9]">
-                                    <div class="flex gap-2">
-                                        @php
-                                            $user = $question->user;
-                                        @endphp
-                                        <img src="{%IMGV2.user.img.-1%}" alt="{%AIMGV2.user.img.alt%}" class="h-11 w-11 rounded-full" title="{%AIMGV2.user.img.title%}">
-                                        <div class="flex-1">
-                                            <div class="flex h-11 flex-col justify-between">
-                                                <p class="font-bold">{{ $user->name }}</p>
-                                                <p class="text-xs text-[#888888]">{{ RSCustom::showTime($question->created_at) }}</p>
-                                            </div>
-                                            <p class="my-2">
-                                                {!! $question->content !!}
-                                            </p>
-                                            <div class="flex flex-wrap gap-4">
-                                                <a class="{{ $question->likes->first(function ($q) {
-                                                    return $q->pivot->user_id == Auth::id();
-                                                }) != null
-                                                    ? 'like'
-                                                    : '' }} flex cursor-pointer items-center gap-[4px]" data-id="{-question.id-}" rs-qaa-like>
-                                                    @include('commentRS::icon.like') <span>Thích</span>
-                                                </a>
-                                                <a type="button" data-id="{{ $question->id }}" data-placeholder="Trả lời bình luận" class="group flex cursor-pointer items-center gap-[4px] duration-300 hover:text-[#CD272F]" rs-qaa-reply>
-                                                    @include('commentRS::icon.reply') <span> Trả lời</span></a>
-                                                <div class="w-full" rs-qaa-list-child>
-                                                    @foreach ($question->questions as $item_child)
-                                                        <div class="flex gap-2 relative before:content-[''] before:h-[calc(100%_-_70px)] before:absolute before:top-12 before:left-[21px] before:w-[1px] before:bg-[#D9D9D9]">
-                                                            @php
-                                                                $user = $question->user;
-                                                            @endphp
-                                                            <img src="{%IMGV2.user.img.-1%}" alt="{%AIMGV2.user.img.alt%}" class="h-11 w-11 rounded-full" title="{%AIMGV2.user.img.title%}">
-                                                            <div class="flex-1">
-                                                                <div class="flex h-11 flex-col justify-between">
-                                                                    <p class="font-bold">{{ $user->name }}</p>
-                                                                    <p class="text-xs text-[#888888]">{{ RSCustom::showTime($item_child->created_at) }}</p>
-                                                                </div>
-                                                                <p class="my-2">
-                                                                    {!! $question->content !!}
-                                                                </p>
-                                                                <div class="flex flex-wrap gap-4">
-                                                                    <a class="{{ $item_child->likes->first(function ($q) {
-                                                                        return $q->pivot->user_id == Auth::id();
-                                                                    }) != null
-                                                                        ? 'like'
-                                                                        : '' }} flex cursor-pointer items-center gap-[4px]" data-id="{-item_child.id-}" rs-qaa-like>
-                                                                        @include('commentRS::icon.like') <span>Thích</span>
-                                                                    </a>
-                                                                    <a type="button" data-id="{{ $question->id }}" data-placeholder="Trả lời bình luận" class="group flex cursor-pointer items-center gap-[4px] duration-300 hover:text-[#CD272F]" rs-qaa-reply>
-                                                                        @include('commentRS::icon.reply') <span> Trả lời</span></a>
-                                                                    <div class="w-full" rs-qaa-list-child>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    @endforeach
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            @endforeach
-                        </div>
+                        @include('components.question_teacher', ['listItems' => $listQuestions])
                     </div>
                 </div>
             </div>
@@ -331,5 +235,5 @@
     <script src="{'assets/js/ValidateFormHasFile.js'}" defer></script>
     <script src="{'theme/frontend/js/video-chapter.js'}" defer></script>
     <script type="module" src="{'video/js/app.js'}" defer></script>
-    <script type="module" src="{'theme/frontend/js/question.js'}"></script>
+    <script type="module" src="{'assets/js/question.js'}"></script>
 @endsection
