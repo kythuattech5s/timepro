@@ -1,8 +1,10 @@
 @extends('tp::flash_sales.view')
 @section('tp_css_end')
     <link rel="stylesheet" href="admin/css/font-awesome.min.css" type="text/css" media="screen" />
-    <link rel="stylesheet" href="{'admin/promotion/assets/css/flash_sale.css'}" type="text/css">
-    <link rel="stylesheet" href="{'admin/promotion/assets/css/add.css'}" type="text/css">
+    <link rel="stylesheet" href="{'admin/promotion/assets/css/flash_sales.css'}" type="text/css">
+    <style>
+        
+    </style>
 @endsection
 @section('tp_content')
     <input type="hidden" name="flash_sale_id" value="{{ $currentItem->id }}">
@@ -33,17 +35,39 @@
                 </div>
             </div>
             <div class="fs-list-product">
-                <div class="flash-sale-tab mt-0">
-                    <div class="box-product" m-checkbox="flash_real">
-                        @if (isset($listItems))
-                            @include('sp::flash_sales.path.itemShow', ['flashSale' => $currentItem])
-                        @else
-                            <button type="button" class="btn btn-success fz-14 mb-3" data-toggle="modal" data-target="#modalProduct" data-type="flash_sales" data-action="add">
-                                Thêm sản phẩm
-                            </button>
-                        @endif
-                    </div>
-                </div>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Khóa học</th>
+                            <th>Giá khóa học</th>
+                            <th>% Giảm</th>
+                            <th>Kích hoạt</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($courses as $course)
+                            <tr>
+                                <td>{{ $course->name }}</td>
+                                <td>
+                                    @php
+                                        $price = $course->getFirstPrice();
+                                    @endphp
+                                    {{ $price['price_old'] }}
+                                </td>
+                                <td>
+                                    <input type="text" placeholder="Phần trăm giảm">
+                                </td>
+                                <td>
+                                    <label for="switch-act-{{ $course->id }}" class="switch">
+                                        <input id="switch-act-{{ $course->id }}" type="checkbox" name="act" value="0">
+                                        <span class="slider"></span>
+                                    </label>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+
             </div>
         </div>
     </div>
