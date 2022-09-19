@@ -967,6 +967,17 @@ color: #F44336 !important;
   }
 }
 @media (min-width: 1024px) {
+  .slide-category__thumbs .swiper-slide-thumb-active{
+    display: none;
+  }
+  .section-cate__index .item:nth-child(2n+1) .slide-category__thumbs .swiper-slide-thumb-active{
+    display: block;
+  }
+  .section-cate__index .item:nth-child(2n+1) .slide-category-main .swiper-slide-next,
+  .section-cate__index .item:nth-child(2n+1) .slide-category-main .swiper-slide-active
+  {
+    display: none;
+  }
   .slide-category__thumbs,
 .slide-category-main {
     padding: 1.25rem 0;
