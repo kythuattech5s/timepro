@@ -98,7 +98,7 @@ class LoginController extends Controller
                 'message' => 'Tài khoản hoặc mật khẩu đăng nhập không chính xác'
             ];
         }
-        else if ($user->act == 0) {
+        else if ($user->act != 1) {
             $infoCheck = [
                 'code' => 100,
                 'message' => 'Tài khoản chưa được kích hoạt. Vui lòng kích hoạt tài khoản'
