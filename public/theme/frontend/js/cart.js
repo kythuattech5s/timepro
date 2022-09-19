@@ -101,17 +101,11 @@ var CART = (function () {
                     formData: formData,
                 }).then((res) => {
                     BASE_GUI.enableButton(_this);
-                    NOTIFICATION.toastrMessage(res);
                     initCartCount();
                     if (res.code == 200) {
-                        var currentRow = document.querySelector(
-                            `[rowcart="${itembtnDeleteItemCart.dataset.row}"]`
-                        );
-                        if (currentRow) {
-                            currentRow.remove();
-                        }
-                    } else {
                         window.location.reload();
+                    } else {
+                        NOTIFICATION.toastrMessage(res);
                     }
                 });
             });

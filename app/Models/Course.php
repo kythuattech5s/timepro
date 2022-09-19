@@ -14,6 +14,10 @@ class Course extends BaseModel
     {
         return $this->belongsTo(User::class, 'teacher_id', 'id');
     }
+    public function exam()
+    {
+        return $this->belongsTo(Exam::class);
+    }
     public function pivot()
     {
         return $this->hasMany(CourseCourseCategory::class, 'course_id', 'id');
