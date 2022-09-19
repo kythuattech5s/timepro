@@ -16,9 +16,10 @@ class Exam extends BaseModel
     {
         return $this->belongsToMany(ExamCategory::class);
     }
-    public function builDataFrontend(){
+    public function builDataFrontend($mapId){
         $ret = [];
         $ret['exam'] = [];
+        $ret['exam']['map_id'] = $mapId;
         $ret['exam']['idx'] = $this->id;
         $ret['exam']['total_question'] = 0;
         $ret['exam']['start_time'] = '';

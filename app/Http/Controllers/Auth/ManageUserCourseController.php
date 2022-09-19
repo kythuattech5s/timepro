@@ -4,11 +4,13 @@ use App\Http\Controllers\Controller;
 use App\Models\Course;
 use App\Models\CourseCategory;
 use App\Models\CourseCombo;
+use App\Models\Exam;
+use App\Models\ExamResult;
 use App\Models\OrderStatus;
 use App\Models\UserType;
 use Auth;
 use Illuminate\Http\Request;
-use RSCustom;
+use multiplechoicequestions\managequestion\Models\Question;
 use Support;
 use Tech5sCart;
 
@@ -117,7 +119,64 @@ class ManageUserCourseController extends Controller
                                         ->paginate(6);
         return view('auth.account.exams.my_exam', compact('user','currentItem','listItems'));
     }
+    public function sendExamResult(Request $request)
+    {
+        $user = Auth::user();
+        $data = $request->data ?? [];
+        $dataExam = $data['exam'] ?? [];
+        unset($data['exam']);
+        $examId = $dataExam['idx'] ?? 0;
+        $mainCourse = Course::act()->whereHas('exam')->with('exam')->find(str_replace('lam-bai-kiem-tra-','',$dataExam['map_id'] ?? 0));
+        if (!isset($mainCourse) || $mainCourse->exam_id != $examId) {
+            return response()->json([
+                'code'=>100,
+                'message'=>'Thiếu thông tin dữ liệu. Không thế xác nhận kết quả bài thi.'
+            ]);
+        }
+        $examResult = $mainCourse->examResult()->where('user_id',$user->id)->first();
+        if (isset($examResult)) {
+            return response()->json([
+                'code'=>200,
+                'message'=>'Bạn đã hoàn thành bài kiểm tra này rồi'
+            ]);
+        }
 
+        $listQuestionPivot = $mainCourse->exam->pivotQuestion()->whereHas('question')->with('question')->get();
+        $pointAchieved = 0;
+        $totalPoint = 0;
+        $totalQuestion = count($listQuestionPivot);
+        $totalQuestionDone = 0;
+        foreach ($listQuestionPivot as $itemQuestionPivot) {
+            $question = $itemQuestionPivot->question;
+            $totalPoint += $itemQuestionPivot->point;
+            if (isset($data[$question->id]['answer']) && $question->check($data[$question->id]['answer'])) {
+                $pointAchieved += $itemQuestionPivot->point;
+                $totalQuestionDone++;
+            }
+            $data[$question->id]['answer'] = $data[$question->id]['answer'] ?? '';
+        }
+        $percenDone = $totalQuestion > 0 ? 100*$totalQuestionDone/$totalQuestion:0;
+        $startTime = \Carbon\Carbon::createFromFormat(Exam::FORMAT_START_TIME,$dataExam['start_time']);
+        $examResult = new ExamResult;
+        $examResult->total_time = now()->timestamp - $startTime->timestamp;
+        $examResult->user_id = $user->id;
+        $examResult->exam_id = $examId;
+        $examResult->percen_done = $percenDone;
+        $examResult->course_id = $mainCourse->id;
+        $examResult->point_achieved = $pointAchieved;
+        $examResult->total_point = $totalPoint;
+        $examResult->total_question_done = $totalQuestionDone;
+        $examResult->total_question = $totalQuestion;
+        $examResult->exam_info = json_encode($dataExam);
+        $examResult->question_info = json_encode($data);
+        // dd($examResult->toArray());
+        return response()->json([
+            'code' => 200,
+            'link_back' => \VRoute::get("my_exam_result"),
+            'html' => view('auth.account.exams.exam_result_ajax', compact('user','examResult','mainCourse'))->render(),
+            'link_result' => \VRoute::get("my_exam_result").'/ket-qua-bai-thi-10'
+        ]);
+    }
     public function upgradeVip(Request $request, $route)
     {
         $currentItem = $route instanceof \vanhenry\manager\model\VRoute ? $route : \vanhenry\manager\model\VRoute::find($route->id ?? 0);

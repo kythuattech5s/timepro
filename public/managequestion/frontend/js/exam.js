@@ -1,3 +1,8 @@
+$.ajaxSetup({
+    headers: {
+        "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+    },
+});
 var MODULE_QUESTION_EXAM = {
     getQuestionAnswerBox: function (dataExam, questionIdx) {
         return $("[question=" + questionIdx + "]").find(
@@ -37,7 +42,12 @@ var MODULE_EXAM = (function () {
             codecs: [{ name: "MP3", codec: "audio/mpeg;" }],
         });
     };
-    var initBaseContent = function () {};
+    var initBaseContent = function () {
+        $(".btn-start-exam").click(function () {
+            $(this).remove();
+            initStartExam();
+        });
+    };
     var initStartExam = function () {
         var currentDate = new Date();
         var startTime =
@@ -53,16 +63,9 @@ var MODULE_EXAM = (function () {
             ":" +
             ("0" + currentDate.getSeconds()).slice(-2);
         dataExam.exam.start_time = startTime;
-        $("#module-content__exam")
-            .find(".module-content__exam")
-            .removeClass("do-start");
-        $("#module-content__exam")
-            .find(".form-button__submit")
-            .removeClass("d-none");
+        $("#module-content__exam").removeClass("hidden");
         if (dataExam.exam.has_time == 1) {
-            setTimeout(function () {
-                $("#count-down-exam").removeClass("d-none");
-            }, 1000);
+            $(".box-exam-time").removeClass("hidden");
             countDown = new CountDown(
                 $("#count-down-exam"),
                 dataExam.exam.time
@@ -78,23 +81,22 @@ var MODULE_EXAM = (function () {
         if (dataExam.exam.status == 0) {
             $.confirm({
                 closeIcon: true,
-                columnClass:
-                    "col-12 col-md-8 col-md-offset-4 col-xl-6 col-xl-offset-6",
+                columnClass: "max-width-800",
                 typeAnimated: true,
-                title: `<p class="fz-24 f-bold text-center">Xác nhận nộp bài</p>`,
+                title: `<p class="title font-bold text-[#252525] 2xl:text-[1.25rem] text-[1.15rem] text-center">Xác nhận nộp bài</p>`,
                 content:
-                    '<p class="fz-18 text-center">Bạn chưa hoàn thành hết câu hỏi. Bạn có muốn tiếp tục nộp bài.</p>',
+                    '<p class="2xl:text-[1.15rem] text-[1rem]">Bạn chưa hoàn thành hết câu hỏi. Bạn có muốn tiếp tục nộp bài.</p>',
                 buttons: {
                     continue: {
                         text: '<i class="fa fa-play me-2" aria-hidden="true"></i> Nộp bài',
-                        btnClass: "btn btn-yellow__all px-3 py-2 me-3",
+                        btnClass: "btn-red px-3 py-2 me-3",
                         action: function () {
                             MODULE_EXAM._submitExam(elm);
                         },
                     },
                     close: {
                         text: '<i class="fa fa-pencil-square-o me-2" aria-hidden="true"></i> Làm tiếp',
-                        btnClass: "btn-green__all text-white px-3 py-2",
+                        btnClass: "btn-blue text-white px-3 py-2",
                         action: function () {},
                     },
                 },
@@ -103,23 +105,22 @@ var MODULE_EXAM = (function () {
         } else {
             $.confirm({
                 closeIcon: true,
-                columnClass:
-                    "col-12 col-md-8 col-md-offset-4 col-xl-6 col-xl-offset-6",
+                columnClass: "max-width-800",
                 typeAnimated: true,
-                title: `<p class="fz-24 f-bold text-center">Bạn có chăc chắn muốn nộp bài không?</p>`,
+                title: `<p class="title font-bold text-[#252525] 2xl:text-[1.25rem] text-[1.15rem] text-center">Bạn có chăc chắn muốn nộp bài không?</p>`,
                 content: " ",
                 buttons: {
+                    close: {
+                        text: '<i class="fa fa-pencil-square-o me-2" aria-hidden="true"></i> Làm tiếp',
+                        btnClass: "btn-blue text-white px-3 py-2",
+                        action: function () {},
+                    },
                     continue: {
                         text: '<i class="fa fa-play me-2" aria-hidden="true"></i> Nộp bài',
-                        btnClass: "btn btn-yellow__all px-3 py-2 me-3",
+                        btnClass: "btn-green px-3 py-2 me-3",
                         action: function () {
                             MODULE_EXAM._submitExam(elm);
                         },
-                    },
-                    close: {
-                        text: '<i class="fa fa-pencil-square-o me-2" aria-hidden="true"></i> Làm tiếp',
-                        btnClass: "btn-green__all text-white px-3 py-2",
-                        action: function () {},
                     },
                 },
             });
@@ -127,24 +128,18 @@ var MODULE_EXAM = (function () {
         }
     };
     var _submitExam = function (elm) {
-        $(elm).remove();
+        // $(elm).remove();
         if (typeof countDown != "undefined") {
             countDown.stop();
         }
-        var url = "";
-        if (dataExam.exam.type == "ability_exam") {
-            url = "send-ability-exam-results";
-        }
-        if (dataExam.exam.type == "exam") {
-            url = "send-exam-results";
-        }
+        url = "send-exam-results";
         $.ajax({
             url: url,
             type: "POST",
             dataType: "json",
             data: { data: dataExam },
         }).done(function (json) {
-            $(".module-question-exam").each(function (index, el) {
+            $(".module-question-exam").each(function () {
                 var questionIdx = parseInt($(this).attr("question"));
                 MODULE_QUESTION_EXAM.disableAnswerQuestion(
                     dataExam,
@@ -155,57 +150,23 @@ var MODULE_EXAM = (function () {
                 if (dataExam.exam.type == "exam") {
                     $.confirm({
                         closeIcon: true,
-                        columnClass: "col-12 col-xl-8 col-xl-offset-4",
+                        columnClass: "max-width-800",
                         typeAnimated: true,
                         title: ` `,
                         content: json.html,
                         buttons: {
                             listExercise: {
-                                text: '<i class="fa fa-list me-2" aria-hidden="true"></i> Danh sách bài kiểm tra',
-                                btnClass:
-                                    "btn-green__all text-white px-3 py-2 me-3",
+                                text: '<i class="fa fa-list me-2" aria-hidden="true"></i> Danh sách kỳ thi',
+                                btnClass: "btn-blue text-white px-3 py-2 me-3",
                                 action: function () {
                                     window.location.href = json.link_back;
                                 },
                             },
-                            redo: {
-                                text: '<i class="fa fa-undo me-2" aria-hidden="true"></i> Làm lại',
-                                btnClass: "btn btn-info text-white py-2",
+                            viewResult: {
+                                text: '<i class="fa fa-undo me-2" aria-hidden="true"></i> Xem lời giải',
+                                btnClass: "btn btn-green text-white py-2",
                                 action: function () {
-                                    $.confirm({
-                                        closeIcon: true,
-                                        columnClass:
-                                            "col-12 col-md-8 col-md-offset-4",
-                                        typeAnimated: true,
-                                        title: `<p class="f-bold fz-24 text-center">Xác nhận làm lại</p>`,
-                                        content:
-                                            '<div class="text-center fz-18">Làm lại sẽ không được tính số sao và điểm thành tích. Bạn có muốn xác nhận làm lại.</div>',
-                                        buttons: {
-                                            close: {
-                                                text: '<i class="fa fa-window-close me-2" aria-hidden="true"></i> Đóng',
-                                                btnClass:
-                                                    "btn-gray__light px-3 py-2 me-3",
-                                                action: function () {},
-                                            },
-                                            listExercise: {
-                                                text: '<i class="fa fa-list me-2" aria-hidden="true"></i> Danh sách bài tập',
-                                                btnClass:
-                                                    "btn-green__all text-white px-3 py-2 me-3",
-                                                action: function () {
-                                                    window.location.href =
-                                                        json.link_back;
-                                                },
-                                            },
-                                            redo: {
-                                                text: '<i class="fa fa-undo me-2" aria-hidden="true"></i> Làm lại',
-                                                btnClass:
-                                                    "btn btn-yellow__all py-2",
-                                                action: function () {
-                                                    window.location.reload();
-                                                },
-                                            },
-                                        },
-                                    });
+                                    window.location.href = json.link_result;
                                 },
                             },
                         },
