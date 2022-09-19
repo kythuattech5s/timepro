@@ -5,7 +5,7 @@
     @if (!$item->isFree() && $firstPriceInfo['sale_percent'] > 0)
         <span class="discount absolute top-0 left-6 z-[1] rounded-b-md font-semibold text-white text-[0.875rem] bg-gradient-to-r from-[#F44336] to-[#C62828] inline-block p-1">-{{$firstPriceInfo['sale_percent']}}%</span>
     @endif
-    <a href="{{Support::show($item,'slug')}}" title="{{Support::show($item,'name')}}" class="img img__ block c-img 2xl:pt-[62.5%] pt-[57%]">
+    <a href="{{Support::show($item,'slug')}}" title="{{Support::show($item,'name')}}" class="img img__ block c-img 2xl:pt-[62.5%] pt-[61%]">
         @include('image_loader.all',['itemImage'=>$item,'key'=>'img'])
     </a>
     <div class="content 2xl:p-4 p-2 bg-[rgba(0,0,0,.5)] absolute bottom-0 left-0 w-full z-[1]">
