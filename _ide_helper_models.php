@@ -54,6 +54,42 @@ namespace App\Models{
 
 namespace App\Models{
 /**
+ * App\Models\Banner
+ *
+ * @property int $id
+ * @property string|null $name Tên
+ * @property string|null $link Link
+ * @property string|null $img Ảnh
+ * @property int|null $ord Sắp xếp
+ * @property int|null $act Kích hoạt
+ * @property int|null $nofollow Kích hoạt
+ * @property int|null $group Nhóm
+ * @property \Illuminate\Support\Carbon|null $created_at Ngày tạo
+ * @property \Illuminate\Support\Carbon|null $updated_at Ngày sửa
+ * @method static \Illuminate\Database\Eloquent\Builder|BaseModel act()
+ * @method static \Illuminate\Database\Eloquent\Builder|BaseModel fullTextSearch($columns, $term)
+ * @method static \Illuminate\Database\Eloquent\Builder|BaseModel fullTextSearchNoRelevance($columns, $term)
+ * @method static \Illuminate\Database\Eloquent\Builder|Banner newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Banner newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|BaseModel ord()
+ * @method static \Illuminate\Database\Eloquent\Builder|Banner query()
+ * @method static \Illuminate\Database\Eloquent\Builder|BaseModel slug($slug, $table = null)
+ * @method static \Illuminate\Database\Eloquent\Builder|Banner whereAct($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Banner whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Banner whereGroup($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Banner whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Banner whereImg($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Banner whereLink($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Banner whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Banner whereNofollow($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Banner whereOrd($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Banner whereUpdatedAt($value)
+ */
+	class Banner extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
  * App\Models\BaseModel
  *
  * @method static \Illuminate\Database\Eloquent\Builder|BaseModel act()
@@ -91,10 +127,14 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $updated_at Ngày sửa
  * @property string|null $time_package Gói thời gian
  * @property int|null $number_student Thời lượng khóa học
+ * @property int|null $exam_id Bài thi cuối khóa
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\CourseCategory[] $category
  * @property-read int|null $category_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\Roniejisa\Comment\Models\Comment[] $comments
  * @property-read int|null $comments_count
+ * @property-read \App\Models\Exam|null $exam
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ExamResult[] $examResult
+ * @property-read int|null $exam_result_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\CourseCourseCategory[] $pivot
  * @property-read int|null $pivot_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\Roniejisa\Comment\Models\Rating[] $ratings
@@ -119,6 +159,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Course whereContent($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Course whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Course whereDuration($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Course whereExamId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Course whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Course whereImg($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Course whereImgVideoTrailer($value)
@@ -404,6 +445,8 @@ namespace App\Models{
  * @property string $mail_from_address Địa chỉ email gửi
  * @property string $mail_encryption Kiểu kết nối
  * @property string $mail_from_name Tên mail gửi
+ * @property \Illuminate\Support\Carbon|null $created_at Ngày tạo
+ * @property \Illuminate\Support\Carbon|null $updated_at Ngày sửa
  * @method static \Illuminate\Database\Eloquent\Builder|BaseModel act()
  * @method static \Illuminate\Database\Eloquent\Builder|BaseModel fullTextSearch($columns, $term)
  * @method static \Illuminate\Database\Eloquent\Builder|BaseModel fullTextSearchNoRelevance($columns, $term)
@@ -414,6 +457,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|BaseModel slug($slug, $table = null)
  * @method static \Illuminate\Database\Eloquent\Builder|Email whereAct($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Email whereCountUsage($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Email whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Email whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Email whereMailAddress($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Email whereMailDriver($value)
@@ -424,6 +468,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Email whereMailPort($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Email whereOrd($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Email wherePassword($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Email whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Email whereUsername($value)
  */
 	class Email extends \Eloquent {}
@@ -435,7 +480,6 @@ namespace App\Models{
  *
  * @property int $id
  * @property string|null $name Tên
- * @property string|null $slug Slug
  * @property string|null $img Hình ảnh
  * @property string|null $short_content Nội dung ngắn
  * @property int|null $time Thời gia làm bài (phút)
@@ -472,7 +516,6 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Exam whereSeoKey($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Exam whereSeoTitle($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Exam whereShortContent($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Exam whereSlug($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Exam whereTime($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Exam whereUpdatedAt($value)
  */
@@ -585,6 +628,7 @@ namespace App\Models{
  *
  * @property int $id
  * @property int|null $user_id User Id
+ * @property int|null $course_id Môn học Id
  * @property int|null $exam_id Bài kiểm tra Id
  * @property int|null $point_achieved Số điểm đạt được
  * @property int|null $total_point Tổng số điểm
@@ -592,10 +636,10 @@ namespace App\Models{
  * @property int|null $total_question Tổng số câu hỏi
  * @property string|null $exam_info Thông tin bài kiểm tra
  * @property string|null $question_info Thông tin câu trả lời
+ * @property int|null $total_time Thời gian làm bài
+ * @property string|null $percen_done Phần trăm hoàn thành
  * @property \Illuminate\Support\Carbon|null $created_at Ngày tạo
  * @property \Illuminate\Support\Carbon|null $updated_at Ngày cập nhật
- * @property int|null $total_time Thời gian làm bài luyện tập
- * @property string|null $percen_done Phần trăm hoàn thành
  * @property-read \App\Models\Exam|null $exam
  * @method static \Illuminate\Database\Eloquent\Builder|BaseModel act()
  * @method static \Illuminate\Database\Eloquent\Builder|BaseModel fullTextSearch($columns, $term)
@@ -605,6 +649,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|BaseModel ord()
  * @method static \Illuminate\Database\Eloquent\Builder|ExamResult query()
  * @method static \Illuminate\Database\Eloquent\Builder|BaseModel slug($slug, $table = null)
+ * @method static \Illuminate\Database\Eloquent\Builder|ExamResult whereCourseId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|ExamResult whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|ExamResult whereExamId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|ExamResult whereExamInfo($value)
@@ -964,6 +1009,9 @@ namespace App\Models{
  * @property int|null $total_final Tổng tiền
  * @property \Illuminate\Support\Carbon|null $created_at Ngày tạo
  * @property \Illuminate\Support\Carbon|null $updated_at Ngày sửa
+ * @property string|null $cancel_user_type Loại user hủy
+ * @property int|null $user_cancel_id Id user hủy đơn hàng
+ * @property int|null $admin_confirm_id Id admin xác nhận đơn hàng
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\OrderDetail[] $orderDetail
  * @property-read int|null $order_detail_count
  * @property-read \App\Models\OrderStatus|null $orderStatus
@@ -977,6 +1025,8 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|BaseModel ord()
  * @method static \Illuminate\Database\Eloquent\Builder|Order query()
  * @method static \Illuminate\Database\Eloquent\Builder|BaseModel slug($slug, $table = null)
+ * @method static \Illuminate\Database\Eloquent\Builder|Order whereAdminConfirmId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Order whereCancelUserType($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Order whereCode($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Order whereContent($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Order whereCreatedAt($value)
@@ -989,6 +1039,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Order whereTotal($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Order whereTotalFinal($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Order whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Order whereUserCancelId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Order whereUserId($value)
  */
 	class Order extends \Eloquent {}
@@ -1015,6 +1066,7 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $created_at Ngày tạo
  * @property \Illuminate\Support\Carbon|null $updated_at Ngày sửa
  * @property string|null $type
+ * @property int|null $time_package_id Id liên kết
  * @method static \Illuminate\Database\Eloquent\Builder|BaseModel act()
  * @method static \Illuminate\Database\Eloquent\Builder|BaseModel fullTextSearch($columns, $term)
  * @method static \Illuminate\Database\Eloquent\Builder|BaseModel fullTextSearchNoRelevance($columns, $term)
@@ -1037,6 +1089,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|OrderDetail wherePriceOld($value)
  * @method static \Illuminate\Database\Eloquent\Builder|OrderDetail whereQty($value)
  * @method static \Illuminate\Database\Eloquent\Builder|OrderDetail whereSlug($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|OrderDetail whereTimePackageId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|OrderDetail whereType($value)
  * @method static \Illuminate\Database\Eloquent\Builder|OrderDetail whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|OrderDetail whereUserId($value)
@@ -1104,6 +1157,27 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Page whereUrl($value)
  */
 	class Page extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * App\Models\PasswordReset
+ *
+ * @property int $id
+ * @property string|null $token
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon $updated_at
+ * @property string|null $email Email
+ * @method static \Illuminate\Database\Eloquent\Builder|PasswordReset newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|PasswordReset newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|PasswordReset query()
+ * @method static \Illuminate\Database\Eloquent\Builder|PasswordReset whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PasswordReset whereEmail($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PasswordReset whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PasswordReset whereToken($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PasswordReset whereUpdatedAt($value)
+ */
+	class PasswordReset extends \Eloquent {}
 }
 
 namespace App\Models{
@@ -1334,12 +1408,15 @@ namespace App\Models{
  * @property string|null $uslug
  * @property string|null $facebook
  * @property string|null $teacher_short_content Công việc
+ * @property string|null $address
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Course[] $course
  * @property-read int|null $course_count
  * @property-read \App\Models\District|null $district
  * @property-read \App\Models\Gender|null $gender
- * @property-read \Illuminate\Notifications\DatabaseNotificationCollection|\Illuminate\Notifications\DatabaseNotification[] $notifications
+ * @property-read \Illuminate\Notifications\DatabaseNotificationCollection|\Tech5s\Notify\Models\Notification[] $notifications
  * @property-read int|null $notifications_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Order[] $orders
+ * @property-read int|null $orders_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\UserTeacherSkill[] $pivot
  * @property-read int|null $pivot_count
  * @property-read \App\Models\Province|null $province
@@ -1357,6 +1434,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|User query()
  * @method static \Illuminate\Database\Eloquent\Builder|User teacher()
  * @method static \Illuminate\Database\Eloquent\Builder|User whereAct($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereAddress($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereBanned($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereBirthday($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereCreatedAt($value)
@@ -1395,6 +1473,7 @@ namespace App\Models{
  * @property int|null $is_forever Có phải vĩnh viễn không
  * @property \Illuminate\Support\Carbon|null $created_at Ngày tạo
  * @property \Illuminate\Support\Carbon|null $updated_at Ngày cập nhật
+ * @property-read \App\Models\Course|null $course
  * @method static \Illuminate\Database\Eloquent\Builder|BaseModel act()
  * @method static \Illuminate\Database\Eloquent\Builder|BaseModel fullTextSearch($columns, $term)
  * @method static \Illuminate\Database\Eloquent\Builder|BaseModel fullTextSearchNoRelevance($columns, $term)

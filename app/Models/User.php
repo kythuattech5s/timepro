@@ -5,11 +5,11 @@ use App\Notifications\ResetPasswordNotification;
 use App\Notifications\User as UserNotify;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
+use Tech5s\Notify\Traits\NotificationUserTrait;
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable;
+    use HasFactory, NotificationUserTrait;
     protected $listUserCourseId = null;
     protected $hidden = ['remember_token'];
     protected $casts = [
