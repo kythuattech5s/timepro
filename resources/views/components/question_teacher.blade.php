@@ -33,8 +33,5 @@
 @else
 @endif
 <div class="mt-12 flex flex-col gap-3" list-data>
-    @include('components.question_item')
-    @if (!$listItems->onLastPage())
-        <button class="mx-auto mt-6 block w-fit text-[0.875rem] font-semibold text-[#252525]" ask-load-more data-table="courses" data-id="{{ $currentItem->id }}" data-next-page="{{ $listItems->currentPage() + 1 }}">Xem thêm <i class="fa fa-angle-down" aria-hidden="true"></i></button>
-    @endif
+    @include('components.question_item', ['map_table' => $map_table ?? 'courses', 'map_id' => $currentItem->id])
 </div>

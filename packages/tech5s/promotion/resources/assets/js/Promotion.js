@@ -298,6 +298,7 @@ var MODALPRODUCT = (() => {
         const productChoose = document.querySelector(
             'textarea[name="product_choose"]'
         );
+        console.log(productChoose);
         if (productChoose !== null) {
             $.ajax({
                 url: "tp/marketing/choose-product-for-promotion",

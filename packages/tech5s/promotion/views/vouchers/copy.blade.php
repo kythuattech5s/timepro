@@ -23,7 +23,7 @@
                                                 <div class="voucher-type__item position-relative">
                                                     <input class="form-control" type="radio" id="type_code_shop"
                                                            name="code_type" value="{{ VoucherHelper::CODE_TYPE_SHOP }}" {{ $currentItem->code_type == VoucherHelper::CODE_TYPE_SHOP ? 'checked' : '' }}>
-                                                    <label for="type_code_shop" class="flex space-x-2">
+                                                    <label for="type_code_shop" class="flex space-x-2 items-center">
                                                         <img src="admin/promotion/assets/images/shops.png"
                                                              alt="Shop">
                                                         Voucher toàn shop
@@ -33,10 +33,10 @@
                                                     <div class="voucher-type__item position-relative">
                                                         <input class="form-control" type="radio" id=type_code_product
                                                                name="code_type" value="{{ VoucherHelper::CODE_TYPE_PRODUCT }}" {{ $currentItem->code_type == VoucherHelper::CODE_TYPE_PRODUCT ? 'checked' : '' }}>
-                                                        <label for="type_code_product" class="flex space-x-2">
+                                                        <label for="type_code_product" class="flex space-x-2 items-center">
                                                             <img src="admin/promotion/assets/images/online-shopping.png"
                                                                  alt="Shop">
-                                                            Voucher sản phẩm
+                                                            Voucher khóa học
                                                         </label>
                                                     </div>
                                                 @endif
@@ -212,7 +212,7 @@
                                         </div>
                                     </div>
                                     <div class="voucher-group footer">
-                                        <h4>Hiện thị mã giảm giá và sản phẩm áp dụng</h4>
+                                        <h4>Hiện thị mã giảm giá và khóa học áp dụng</h4>
                                         <div class="voucher-group__form align-items-baseline">
                                             <label>Thiết lập hiển thị</label>
                                             <div class="voucher-public">
@@ -227,14 +227,14 @@
                                             </div>
                                         </div>
                                         <div class="voucher-group__form apply-product align-items-baseline">
-                                            <label>Sản phẩm được áp dụng</label>
+                                            <label>Khóa học được áp dụng</label>
                                             @if ($currentItem->code_type == VoucherHelper::CODE_TYPE_SHOP)
                                                 <div class="voucher-for">
-                                                    Tất cả sản phẩm
+                                                    Tất cả khóa học
                                                 </div>
                                                 <div class="item-product" style="display:none;">
                                                     <button style="display:none" type="button" class="btn bg-green-400 text-white" data-toggle="modal" data-target="#modalProduct" data-type="vouchers">
-                                                        Thêm sản phẩm
+                                                        Thêm khóa học
                                                     </button>
                                                 </div>
                                             @else

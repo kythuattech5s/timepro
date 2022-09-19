@@ -11,6 +11,7 @@ use DateTime;
 use Illuminate\Http\Request;
 use Shop\Promotion\Models\ShopFlashSale;
 use Tech5s\Promotion\Helpers\FlashSaleDetailHelper;
+use Tech5s\Promotion\Helpers\FlashSaleHelper;
 use Tech5s\Promotion\Models\FlashSale;
 use Tech5s\Promotion\Models\PromotionSlotTime;
 use Tech5s\Promotion\Models\PromotionType;
@@ -27,7 +28,7 @@ class FlashSaleController extends Controller
 
     public function show(Request $request)
     {
-        $promotion = 'flashsale';
+        $promotion = 'flash_sales';
         $this->resetSession();
         $id = $request->input('id');
         $item = new FlashSaleService($id);
@@ -146,10 +147,10 @@ class FlashSaleController extends Controller
             $listData = $listData->where(function ($q) use ($keyword) {
                 $q->where(function ($q) use ($keyword) {
                     $q->FullTextSearch('name', $keyword);
-                })->orWhereHas('childs', function ($q) use ($keyword) {
+                })->orWhereHas('course', function ($q) use ($keyword) {
                     $q->FullTextSearchNoRelevance('name', $keyword);
                 });
-            })->with(['childs' => function ($q) use ($keyword) {
+            })->with(['course' => function ($q) use ($keyword) {
                 $q->FullTextSearchNoRelevance('name', $keyword);
             }]);
         }
@@ -305,5 +306,49 @@ class FlashSaleController extends Controller
             $data = compact('currentItem', 'listData', 'types', 'checkedData', 'listProductOfPromotion', 'type_comparisons');
         }
         return view('tp::flash_sales.copy', $data);
+    }
+
+    public function saveProduct(Request $request, $listItem = false)
+    {
+        $listItems = $listItem ? $listItem : $this->saveDataProduct();
+        $flashSale = FlashSale::find($request->input('flash_sale_id'));
+        $newData = [];
+        foreach ($listItems as $item) {
+            $newData[] = [
+                'course_id' => $item['id'],
+                'price' => $item['price'],
+                'percent' => $item['percent'],
+                'qty' => $item['qty'],
+                'limit' => $item['limit'] ?? null,
+                'act' => $item['act'],
+            ];
+        }
+        $flashSale->courses()->sync($newData);
+
+        return response([
+            'code' => 200,
+            'message' => 'Lưu sản phẩm thành công',
+            'redirect_url' => url('shop/chuong-trinh-flash-sale'),
+        ]);
+    }
+
+    private function saveDataProduct()
+    {
+        $request = request();
+        $listItems = session()->get(FlashSaleHelper::SESSION_PRODUCT_REAL, collect());
+        $data = json_decode($request->input('data'), true);
+        $data = collect(array_filter($data));
+        $newCollect = collect();
+        foreach ($listItems as $key => $item) {
+            $firstItem = $data->first(function ($q) use ($item) {
+                return $q['id'] == $item['id'];
+            });
+            if ($firstItem !== null) {
+                $newCollect[] = $firstItem;
+            } else {
+                $newCollect[] = $item;
+            }
+        }
+        return $newCollect;
     }
 }
