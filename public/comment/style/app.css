@@ -644,8 +644,13 @@ video {
 .top-5 {
   top: 1.25rem;
 }
+<<<<<<< HEAD
 .top-\[100\%\] {
   top: 100%;
+=======
+.left-\[-55px\] {
+  left: -55px;
+>>>>>>> e5104ae454aa1349ba004508088278030447364f
 }
 .top-\[-100\%\] {
   top: -100%;
@@ -886,8 +891,13 @@ video {
 .ml-3 {
   margin-left: 0.75rem;
 }
+<<<<<<< HEAD
 .mr-0 {
   margin-right: 0px;
+=======
+.-mt-10 {
+  margin-top: -2.5rem;
+>>>>>>> e5104ae454aa1349ba004508088278030447364f
 }
 .mt-auto {
   margin-top: auto;
@@ -1484,10 +1494,13 @@ video {
   --tw-border-opacity: 1;
   border-color: rgb(33 37 41 / var(--tw-border-opacity));
 }
+<<<<<<< HEAD
 .border-\[\#252525\] {
   --tw-border-opacity: 1;
   border-color: rgb(37 37 37 / var(--tw-border-opacity));
 }
+=======
+>>>>>>> e5104ae454aa1349ba004508088278030447364f
 .border-\[rgba\(255\2c 255\2c 255\2c \.3\)\] {
   border-color: rgba(255,255,255,.3);
 }
@@ -1627,16 +1640,25 @@ video {
   --tw-bg-opacity: 1;
   background-color: rgb(59 130 246 / var(--tw-bg-opacity));
 }
+<<<<<<< HEAD
 .bg-\[rgba\(0\2c 0\2c 0\2c \.7\)\] {
   background-color: rgba(0,0,0,.7);
+=======
+.bg-\[\#E099C8\] {
+  --tw-bg-opacity: 1;
+  background-color: rgb(224 153 200 / var(--tw-bg-opacity));
+>>>>>>> e5104ae454aa1349ba004508088278030447364f
 }
 .bg-\[rgba\(0\2c 0\2c 0\2c \.5\)\] {
   background-color: rgba(0,0,0,.5);
 }
+<<<<<<< HEAD
 .bg-\[\#F2F2F2\] {
   --tw-bg-opacity: 1;
   background-color: rgb(242 242 242 / var(--tw-bg-opacity));
 }
+=======
+>>>>>>> e5104ae454aa1349ba004508088278030447364f
 .bg-gradient-to-r {
   background-image: linear-gradient(to right, var(--tw-gradient-stops));
 }
@@ -2737,6 +2759,10 @@ video {
     max-width: 208px;
   }
 
+  .md\:max-w-\[50\%\] {
+    max-width: 50%;
+  }
+
   .md\:grid-cols-5 {
     grid-template-columns: repeat(5, minmax(0, 1fr));
   }
@@ -3515,6 +3541,13 @@ video {
     padding-top: 62.5%;
   }
 
+<<<<<<< HEAD
+=======
+  .\32xl\:text-\[16px\] {
+    font-size: 16px;
+  }
+
+>>>>>>> e5104ae454aa1349ba004508088278030447364f
   .\32xl\:text-\[1\.625rem\] {
     font-size: 1.625rem;
   }
@@ -3555,10 +3588,13 @@ video {
     font-size: 1.875rem;
   }
 
+<<<<<<< HEAD
   .\32xl\:text-\[16px\] {
     font-size: 16px;
   }
 
+=======
+>>>>>>> e5104ae454aa1349ba004508088278030447364f
   .\32xl\:text-\[1rem\] {
     font-size: 1rem;
   }

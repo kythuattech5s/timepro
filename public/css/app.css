@@ -2815,6 +2815,10 @@ video {
     max-width: 208px;
   }
 
+  .md\:max-w-\[50\%\] {
+    max-width: 50%;
+  }
+
   .md\:grid-cols-5 {
     grid-template-columns: repeat(5, minmax(0, 1fr));
   }
