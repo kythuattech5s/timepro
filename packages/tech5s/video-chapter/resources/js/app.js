@@ -3,6 +3,21 @@ import Helper from "../../../../roniejisa/scripts/assets/js/Helper.js";
     const load = () => {
         const video = document.querySelector("video");
         if (!video) return;
+        video.onplay = handleEventVideo;
+        video.onpause = handleEventVideo;
+    };
+
+    const handleEventVideo = (e) => {
+        const video = e.target;
+        const { currentTime } = video;
+        XHR.send({
+            url: "danh-dau-da-hoc-xong",
+            method: "POST",
+            data: {
+                course_video_id: video.dataset.id,
+                duration: currentTime,
+            },
+        });
     };
 
     const changeVideo = () => {
@@ -44,6 +59,8 @@ import Helper from "../../../../roniejisa/scripts/assets/js/Helper.js";
                 method: "POST",
                 data: {
                     course_video_id: video.dataset.id,
+                    is_done: 1,
+                    duration: video.currentTime,
                 },
             }).then(async (res) => {
                 let index;

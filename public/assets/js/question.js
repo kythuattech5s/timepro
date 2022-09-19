@@ -3,6 +3,10 @@ var __webpack_exports__ = {};
 /*!**********************************!*\
   !*** ./resources/js/question.js ***!
   \**********************************/
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
@@ -11,10 +15,60 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-var commentRS = /*#__PURE__*/_createClass(function commentRS(model, label, tableLike, fieldMain, withParam) {
+var commentRS = /*#__PURE__*/_createClass(function commentRS(_selector, model, label, tableLike, fieldMain, withParam, view) {
   var _this = this;
 
   _classCallCheck(this, commentRS);
+
+  _defineProperty(this, "filter", function () {
+    _this.selectors.forEach(function (selector) {
+      var listFilters = selector.querySelectorAll("[rs-qaa-filter]");
+      listFilters.forEach(function (filter) {
+        filter.onchange = function () {
+          var fomrData = new FormDataRS("", false);
+
+          var data = _objectSpread({
+            model: _this.model,
+            label: _this.label,
+            "with": _this["with"],
+            view: _this.view
+          }, fomrData.buildData(listFilters, "input"));
+
+          XHR.send({
+            url: "loc-cau-hoi",
+            method: "POST",
+            data: data
+          }).then(function (res) {
+            selector.querySelectorAll("[item]").forEach(function (item) {
+              item.remove();
+            });
+            var listData = selector.querySelector("[list-data]");
+
+            if (res.isLastPage == true) {
+              if (listData.querySelector("[ask-load-more]")) {
+                listData.querySelector("[ask-load-more]").remove();
+                listData.innerHTML = res.html;
+              }
+            } else {
+              if (listData.querySelector("[ask-load-more]")) {
+                listData.querySelector("[ask-load-more]").insertAdjacentHTML("beforeend", res.html);
+              } else {
+                listData.innerHTML = res.html;
+              }
+            }
+
+            _this.like();
+
+            _this.reply();
+
+            _this.filter();
+
+            _this.nextPage();
+          });
+        };
+      });
+    });
+  });
 
   _defineProperty(this, "like", function () {
     var likeButtons = document.querySelectorAll("[rs-qaa-like]");
@@ -64,50 +118,57 @@ var commentRS = /*#__PURE__*/_createClass(function commentRS(model, label, table
   });
 
   _defineProperty(this, "nextPage", function () {
-    var nextPage = document.querySelector("[ask-load-more]");
-    if (!nextPage) return;
+    _this.selectors.forEach(function (selector) {
+      var nextPage = selector.querySelector("[ask-load-more]");
+      if (!nextPage) return;
 
-    nextPage.onclick = function () {
-      XHR.send({
-        url: "tai-them-cau-hoi",
-        method: "GET",
-        data: {
-          model: _this.model,
-          label: _this.label,
-          map_table: nextPage.dataset.table,
-          map_id: nextPage.dataset.id,
-          page: nextPage.dataset.nextPage,
-          "with": _this["with"]
-        }
-      }).then(function (res) {
-        nextPage.insertAdjacentHTML("beforebegin", res.html);
+      nextPage.onclick = function () {
+        XHR.send({
+          url: "tai-them-cau-hoi",
+          method: "GET",
+          data: {
+            model: _this.model,
+            label: _this.label,
+            map_table: nextPage.dataset.table,
+            map_id: nextPage.dataset.id,
+            page: nextPage.dataset.nextPage,
+            "with": _this["with"],
+            view: _this.view
+          }
+        }).then(function (res) {
+          nextPage.insertAdjacentHTML("beforebegin", res.html);
 
-        if (res.isLastPage) {
-          nextPage.remove();
-        }
+          if (res.isLastPage) {
+            nextPage.remove();
+          }
 
-        _this.like();
+          _this.like();
 
-        _this.reply();
-      });
-    };
+          _this.reply();
+        });
+      };
+    });
   });
 
+  this.selectors = document.querySelectorAll(_selector);
+  if (this.selectors.length == 0) return;
   this.fieldMain = fieldMain;
   this.model = model;
   this.label = label;
   this.tableLike = tableLike;
   this["with"] = withParam;
+  this.view = view;
   this.like();
   this.reply();
+  this.filter();
   this.nextPage();
 });
 
 window["ASK_AND_ANSWER"] = function () {
   return {
     _: function () {
-      new commentRS("\\App\\Models\\AskAndAnswer", "câu hỏi", "ask_and_answer_user", "ask_and_answer_id", "likes,asks");
-      new commentRS("\\App\\Models\\QuestionTeacher", "câu hỏi cho giảng viên", "question_teacher_user", "question_teacher_id", "likes,asks");
+      new commentRS("[ask-selector]", "\\App\\Models\\AskAndAnswer", "câu hỏi", "ask_and_answer_user", "ask_and_answer_id", "likes,asks", "courses.components.ask_item");
+      new commentRS("[question-teacher-main]", "\\App\\Models\\QuestionTeacher", "câu hỏi cho giảng viên", "question_teacher_user", "question_teacher_id", "likes,questions", "components.question_item");
     }(),
     showNotify: function showNotify(res) {
       NOTIFICATION.showNotify(res.code, res.message);

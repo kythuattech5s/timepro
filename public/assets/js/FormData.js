@@ -42,7 +42,6 @@ class FormDataRS {
     buildData(enableInputs, customAttribute = "attribute") {
         var dataValues = Array.from(enableInputs).reduce((values, input) => {
             if (!input.value && !this.noCheckAndNoValue) return values;
-
             let nameInput;
 
             switch (customAttribute) {
