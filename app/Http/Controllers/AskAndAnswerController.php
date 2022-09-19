@@ -182,9 +182,11 @@ class AskAndAnswerController extends Controller
 
     public function filter(Request $request)
     {
+        $map_table = $request->input('map_table');
+        $map_id = $request->input('map_id');
         $model = $request->input('model');
         $with = $request->input('with');
-        $listItems = $model::with(explode(',', $with))->where('map_table', $request->input('map_table'))->where('map_id', $request->input('map_id'))->where('act', 1);
+        $listItems = $model::with(explode(',', $with))->where('map_table', $map_table)->whereNull($request->input('field_main'))->where('map_id', $map_id)->where('act', 1);
 
         $listItems->when($request->input('sort'), function ($q, $sort) {
             $q->orderBy('id', $sort);
@@ -197,20 +199,9 @@ class AskAndAnswerController extends Controller
 
         return response([
             'code' => 200,
-            'html' => view($request->input('view'), compact('listItems'))->render(),
-            'isLastPage' => $listItems->onLastPage()
-        ]);
-    }
-
-    public function loadMoreAsk(Request $request)
-    {
-        $model = $request->input('model');
-        $with = $request->input('with');
-        $listItems = $model::with(explode(',', $with))->where('map_table', $request->input('map_table'))->where('map_id', $request->input('map_id'))->where('act', 1)->orderBy('id', 'DESC')->paginate(5);
-        return response([
-            'code' => 200,
-            'html' => view($request->input('view'), compact('listItems'))->render(),
-            'isLastPage' => $listItems->onLastPage()
+            'html' => view($request->input('view'), compact('listItems', 'map_table', 'map_id'))->render(),
+            'isLastPage' => $listItems->onLastPage(),
+            'nextPage' => $listItems->onLastPage() ? $listItems->currentPage() + 1 : $listItems->currentPage()
         ]);
     }
 }

@@ -5,6 +5,7 @@
     <link href="{'comment/css/star.css'}" rel="stylesheet">
     <link href="{'comment/css/selectStar.css'}" rel="stylesheet">
     <link href="{{ mix('comment/style/app.css') }}" rel="stylesheet">
+    <link href="https://vjs.zencdn.net/7.20.3/video-js.css" rel="stylesheet" />
 @endsection
 @section('main')
     @include('course_categories.banner_page')
@@ -49,14 +50,18 @@
                                         {{ Support::show($itemVideo, 'name') }}
                                     </span>
                                     <div class="flex items-center">
-                                        <span class="time mr-4">{{ $itemVideo->getDurationView() }}</span>
+                                        <span class="time mr-4">{{ RSCustom::getTimeOfVideo(Support::show($itemVideo, 'duration'), [
+                                            'hour' => ' giờ ',
+                                            'minute' => ' phút ',
+                                            'second' => ' giây ',
+                                        ]) }}</span>
                                         @if ($isOwn)
                                             <a href="{{ $currentItem->slug }}/video/{{ $itemVideo->id }}" title="{{ Support::show($itemVideo, 'name') }}" class="inline-flex w-fit flex-1 items-center rounded-[1.875rem] bg-gradient-to-r from-[#F44336] to-[#C62828] p-1 text-sm text-white hover:text-[#fff]">
                                                 <img class="mr-1 hidden sm:inline-block" src="theme/frontend/images/play.png" alt="Play"> &emsp;Học&emsp;
                                             </a>
                                         @else
                                             @if ($itemVideo->isFree())
-                                                <a href="{{ $currentItem->slug }}/video/{{ $itemVideo->id }}" title="{{ Support::show($itemVideo, 'name') }}" class="inline-flex w-fit flex-1 items-center rounded-[1.875rem] bg-gradient-to-r from-[#F44336] to-[#C62828] p-1 text-sm text-white hover:text-[#fff]">
+                                                <a video-preview data-id="{{ $itemVideo->id }}" href="{{ $currentItem->slug }}/video/{{ $itemVideo->id }}" title="{{ Support::show($itemVideo, 'name') }}" class="inline-flex w-fit flex-1 items-center rounded-[1.875rem] bg-gradient-to-r from-[#F44336] to-[#C62828] p-1 text-sm text-white hover:text-[#fff]">
                                                     <img class="mr-1 hidden sm:inline-block" src="theme/frontend/images/play.png" alt="Play"> Học thử
                                                 </a>
                                             @else
@@ -99,7 +104,7 @@
                     <div class="box comment-box mb-[1.5rem] overflow-hidden rounded-[0.3125rem] bg-[#fff] p-[0.5rem] md:p-[1.5rem]" id="danh-gia">
                         @include('commentRS::comment_box', ['map_table' => 'courses'])
                     </div>
-                    <div class="box mb-[1.5rem] overflow-hidden rounded-[0.3125rem] bg-[#fff] p-[0.5rem] md:p-[1.5rem]" id="hoi-dap">
+                    <div class="box mb-[1.5rem] overflow-hidden rounded-[0.3125rem] bg-[#fff] p-[0.5rem] md:p-[1.5rem]" id="hoi-dap" ask-selector>
                         <div class="">
                             <p class="mb-4 font-bold">Hỏi đáp</p>
                             <form action="hoi-dap" class="form-validate overflow-hidden rounded-lg border-[1px] border-solid border-[#ebebeb]" absolute check method="POST" data-success="ASK_AND_ANSWER.showNotify" clear>
@@ -131,11 +136,8 @@
                                 </div>
                             </form>
                         </div>
-                        <div class="mt-6" ask-selector>
+                        <div class="mt-6" list-data>
                             @include('courses.components.ask_item', ['listItems' => $asks])
-                            @if (!$asks->onLastPage())
-                                <button class="mx-auto mt-6 block w-fit text-[0.875rem] font-semibold text-[#252525]" ask-load-more data-table="courses" data-id="{{ $currentItem->id }}" data-next-page="{{ $asks->currentPage() + 1 }}">Xem thêm <i class="fa fa-caret-down ml-1" aria-hidden="true"></i></button>
-                            @endif
                         </div>
                     </div>
                     @if (count($listRelateCourse) > 0)
@@ -220,9 +222,11 @@
     </section>
 @endsection
 @section('js')
+    <script src="https://vjs.zencdn.net/7.20.3/video.min.js" defer></script>
     <script src="{'assets/js/FormData.js'}" defer></script>
     <script src="{'assets/js/ValidateFormHasFile.js'}" defer></script>
     <script src="{'assets/js/XHR.js'}" defer></script>
     <script src="{'comment/js/comment.js'}" defer></script>
     <script type="module" src="{'assets/js/question.js'}" defer></script>
+    <script type="module" src="{'assets/js/videoPlayer.js'}" defer></script>
 @endsection

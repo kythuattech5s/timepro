@@ -1,3 +1,11 @@
+/*
+ Cần những attribute sau để có thể chạy 
+    list-data => danh sách item
+    item => item trong danh sách
+    rs-qaa-filter => cần lọc
+    rs-qaa-load-more => load more
+    rs-qaa-like => nút like
+ */
 class commentRS {
     constructor(selector, model, label, tableLike, fieldMain, withParam, view) {
         this.selectors = document.querySelectorAll(selector);
@@ -24,12 +32,13 @@ class commentRS {
                         model: this.model,
                         label: this.label,
                         with: this.with,
+                        field_main: this.fieldMain,
                         view: this.view,
                         ...fomrData.buildData(listFilters, "input"),
                     };
 
                     XHR.send({
-                        url: "loc-cau-hoi",
+                        url: "tai-cau-thoi",
                         method: "POST",
                         data: data,
                     }).then((res) => {
@@ -37,22 +46,13 @@ class commentRS {
                             item.remove();
                         });
                         const listData = selector.querySelector("[list-data]");
-                        if (res.isLastPage == true) {
-                            if (listData.querySelector("[ask-load-more]")) {
-                                listData
-                                    .querySelector("[ask-load-more]")
-                                    .remove();
-                                listData.innerHTML = res.html;
-                            }
-                        } else {
-                            if (listData.querySelector("[ask-load-more]")) {
-                                listData
-                                    .querySelector("[ask-load-more]")
-                                    .insertAdjacentHTML("beforeend", res.html);
-                            } else {
-                                listData.innerHTML = res.html;
-                            }
+                        const buttonNextPage =
+                            listData.querySelector("[rs-qaa-load-more]");
+
+                        if (buttonNextPage) {
+                            buttonNextPage.remove();
                         }
+                        listData.innerHTML = res.html;
                         this.like();
                         this.reply();
                         this.filter();
@@ -132,26 +132,31 @@ class commentRS {
 
     nextPage = () => {
         this.selectors.forEach((selector) => {
-            const nextPage = selector.querySelector("[ask-load-more]");
+            const nextPage = selector.querySelector("[rs-qaa-load-more]");
             if (!nextPage) return;
             nextPage.onclick = () => {
+                const listFilters =
+                    selector.querySelectorAll("[rs-qaa-filter]");
+                const fomrData = new FormDataRS("", false);
+                const data = {
+                    model: this.model,
+                    label: this.label,
+                    field_main: this.fieldMain,
+                    map_table: nextPage.dataset.table,
+                    map_id: nextPage.dataset.id,
+                    page: nextPage.dataset.nextPage,
+                    with: this.with,
+                    view: this.view,
+                    ...fomrData.buildData(listFilters, "input"),
+                };
                 XHR.send({
-                    url: "tai-them-cau-hoi",
-                    method: "GET",
-                    data: {
-                        model: this.model,
-                        label: this.label,
-                        map_table: nextPage.dataset.table,
-                        map_id: nextPage.dataset.id,
-                        page: nextPage.dataset.nextPage,
-                        with: this.with,
-                        view: this.view,
-                    },
+                    url: "tai-cau-thoi",
+                    method: "POST",
+                    data: data,
                 }).then((res) => {
-                    nextPage.insertAdjacentHTML("beforebegin", res.html);
-                    if (res.isLastPage) {
-                        nextPage.remove();
-                    }
+                    nextPage.remove();
+                    const listData = selector.querySelector("[list-data]");
+                    listData.insertAdjacentHTML("beforeend", res.html);
                     this.like();
                     this.reply();
                 });

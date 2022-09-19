@@ -679,7 +679,7 @@ var PRODUCT_FLASH_SALE = (() => {
                                 document.querySelector(
                                     ".box-product"
                                 ).innerHTML = `Đây là chương trình:
-                                <button type="button" class="btn btn-success mb-3" data-bs-toggle="modal" data-bs-target="#modalProduct" data-promotion="flashsale" data-action="add">
+                                <button type="button" class="btn btn-success mb-3" data-bs-toggle="modal" data-bs-target="#modalProduct" data-promotion="flash_sales" data-action="add">
                                     Thêm sản phẩm
                                 </button>`;
                             }

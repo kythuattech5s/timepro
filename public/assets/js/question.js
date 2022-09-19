@@ -15,6 +15,14 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+/*
+ Cần những attribute sau để có thể chạy 
+    list-data => danh sách item
+    item => item trong danh sách
+    rs-qaa-filter => cần lọc
+    rs-qaa-load-more => load more
+    rs-qaa-like => nút like
+ */
 var commentRS = /*#__PURE__*/_createClass(function commentRS(_selector, model, label, tableLike, fieldMain, withParam, view) {
   var _this = this;
 
@@ -31,11 +39,12 @@ var commentRS = /*#__PURE__*/_createClass(function commentRS(_selector, model, l
             model: _this.model,
             label: _this.label,
             "with": _this["with"],
+            field_main: _this.fieldMain,
             view: _this.view
           }, fomrData.buildData(listFilters, "input"));
 
           XHR.send({
-            url: "loc-cau-hoi",
+            url: "tai-cau-thoi",
             method: "POST",
             data: data
           }).then(function (res) {
@@ -43,19 +52,13 @@ var commentRS = /*#__PURE__*/_createClass(function commentRS(_selector, model, l
               item.remove();
             });
             var listData = selector.querySelector("[list-data]");
+            var buttonNextPage = listData.querySelector("[rs-qaa-load-more]");
 
-            if (res.isLastPage == true) {
-              if (listData.querySelector("[ask-load-more]")) {
-                listData.querySelector("[ask-load-more]").remove();
-                listData.innerHTML = res.html;
-              }
-            } else {
-              if (listData.querySelector("[ask-load-more]")) {
-                listData.querySelector("[ask-load-more]").insertAdjacentHTML("beforeend", res.html);
-              } else {
-                listData.innerHTML = res.html;
-              }
+            if (buttonNextPage) {
+              buttonNextPage.remove();
             }
+
+            listData.innerHTML = res.html;
 
             _this.like();
 
@@ -119,28 +122,32 @@ var commentRS = /*#__PURE__*/_createClass(function commentRS(_selector, model, l
 
   _defineProperty(this, "nextPage", function () {
     _this.selectors.forEach(function (selector) {
-      var nextPage = selector.querySelector("[ask-load-more]");
+      var nextPage = selector.querySelector("[rs-qaa-load-more]");
       if (!nextPage) return;
 
       nextPage.onclick = function () {
-        XHR.send({
-          url: "tai-them-cau-hoi",
-          method: "GET",
-          data: {
-            model: _this.model,
-            label: _this.label,
-            map_table: nextPage.dataset.table,
-            map_id: nextPage.dataset.id,
-            page: nextPage.dataset.nextPage,
-            "with": _this["with"],
-            view: _this.view
-          }
-        }).then(function (res) {
-          nextPage.insertAdjacentHTML("beforebegin", res.html);
+        var listFilters = selector.querySelectorAll("[rs-qaa-filter]");
+        var fomrData = new FormDataRS("", false);
 
-          if (res.isLastPage) {
-            nextPage.remove();
-          }
+        var data = _objectSpread({
+          model: _this.model,
+          label: _this.label,
+          field_main: _this.fieldMain,
+          map_table: nextPage.dataset.table,
+          map_id: nextPage.dataset.id,
+          page: nextPage.dataset.nextPage,
+          "with": _this["with"],
+          view: _this.view
+        }, fomrData.buildData(listFilters, "input"));
+
+        XHR.send({
+          url: "tai-cau-thoi",
+          method: "POST",
+          data: data
+        }).then(function (res) {
+          nextPage.remove();
+          var listData = selector.querySelector("[list-data]");
+          listData.insertAdjacentHTML("beforeend", res.html);
 
           _this.like();
 

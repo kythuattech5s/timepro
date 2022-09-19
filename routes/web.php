@@ -38,7 +38,6 @@ Route::group([
     Route::post('hoi-dap', 'AskAndAnswerController@ask');
     Route::post('thich-cau-hoi', 'AskAndAnswerController@like');
     Route::post("reply-cau-hoi", 'AskAndAnswerController@replyAsk');
-    Route::post("loc-cau-hoi", 'AskAndAnswerController@filter');
-    Route::get("tai-them-cau-hoi", 'AskAndAnswerController@loadMoreAsk');
+    Route::post("tai-cau-thoi", 'AskAndAnswerController@filter');
     Route::match(['get', 'post'], '/{link}', array('uses' => 'RouteController@direction'))->where('link', '^((?!esystem)[0-9a-zA-Z\?\.\-/])*$');
 });

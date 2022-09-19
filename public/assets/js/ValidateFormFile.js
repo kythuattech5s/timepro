@@ -4,7 +4,7 @@ var VALIDATE_FORM = ((options = {}) => {
     let _colorMain = "#f99f1b";
     let _backgroundMain = "#000000";
     let _color = _colorMain;
-    let _colorBorder = _colorMain;
+    let _colorBorder = 'transparent';
     let _colorBackground = _backgroundMain;
     let _borderRadius = "4px";
     let _timeLoad = 0;

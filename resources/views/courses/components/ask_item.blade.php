@@ -1,5 +1,5 @@
 @foreach ($listItems as $ask)
-    <div>
+    <div item>
         <div class="mb-2 flex gap-2">
             <p class="font-semibold text-[#252525]">{{ $ask->name }}</p>
             <span class="relative inline-flex items-center text-[#888] before:mr-2 before:h-1 before:w-1 before:rounded-full before:bg-[#888] lg:text-[0.75rem]">{{ RSCustom::showTime($ask->created_at) }}</span>
@@ -45,3 +45,6 @@
         </div>
     </div>
 @endforeach
+@if (!$asks->onLastPage())
+    <button class="mx-auto mt-6 block w-fit text-[0.875rem] font-semibold text-[#252525]" rs-qaa-load-more data-table="{{ $map_table }}" data-id="{{ $map_id }}" data-next-page="{{ $listItems->currentPage() + 1 }}">Xem thêm <i class="fa fa-caret-down ml-1" aria-hidden="true"></i></button>
+@endif

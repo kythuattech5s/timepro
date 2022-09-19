@@ -1,5 +1,5 @@
 @foreach ($listItems as $question)
-    <div class="relative before:absolute before:top-12 before:left-[21px] before:h-[calc(100%_-_70px)] before:w-[1px] before:bg-[#D9D9D9] before:content-['']">
+    <div item class="relative before:absolute before:top-12 before:left-[21px] before:h-[calc(100%_-_70px)] before:w-[1px] before:bg-[#D9D9D9] before:content-['']">
         <div class="flex gap-2">
             @php
                 $user = $question->user;
@@ -61,3 +61,6 @@
         </div>
     </div>
 @endforeach
+@if (!$listItems->onLastPage())
+    <button class="mx-auto mt-6 block w-fit text-[0.875rem] font-semibold text-[#252525]" rs-qaa-load-more data-table="{{ $map_table }}" data-id="{{ $map_id }}" data-next-page="{{ $listItems->currentPage() + 1 }}">Xem thêm <i class="fa fa-angle-down" aria-hidden="true"></i></button>
+@endif

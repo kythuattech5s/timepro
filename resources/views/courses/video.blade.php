@@ -2,6 +2,8 @@
 @section('css')
     <link rel="stylesheet" href="{'comment/css/selectStar.css'}">
     <link rel="stylesheet" href="{'comment/css/star.css'}">
+    <link href="https://vjs.zencdn.net/7.20.3/video-js.css" rel="stylesheet" />
+    <link href="https://unpkg.com/@videojs/themes@1/dist/city/index.css" rel="stylesheet" />
 @endsection
 @section('main')
     <section class="section-lesson mx-auto max-w-[1920px] bg-white py-6 2xl:py-14">
@@ -231,6 +233,7 @@
     </section>
 @endsection
 @section('js')
+    <script src="https://vjs.zencdn.net/7.20.3/video.min.js"></script>
     <script src="{'assets/js/FormData.js'}" defer></script>
     <script src="{'assets/js/ValidateFormHasFile.js'}" defer></script>
     <script src="{'theme/frontend/js/video-chapter.js'}" defer></script>
