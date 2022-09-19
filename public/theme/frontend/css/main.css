@@ -946,6 +946,21 @@ color: #F44336 !important;
 .menu ul li a.active{
   color: #F44336;
 }
+.h-action .ava img{
+  object-fit: contain;
+}
+.items-lecturers {
+  display: flex;
+  flex-direction: column;
+}
+.items-lecturers .banner{
+  flex-shrink: 0;
+}
+.items-lecturers .content{
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
 @media (min-width: 992px) {
   .container {
     max-width: 992px;
