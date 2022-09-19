@@ -37,6 +37,7 @@ var MODULE_EXAM = (function () {
             codecs: [{ name: "MP3", codec: "audio/mpeg;" }],
         });
     };
+    var initBaseContent = function () {};
     var initStartExam = function () {
         var currentDate = new Date();
         var startTime =
@@ -253,7 +254,7 @@ var MODULE_EXAM = (function () {
     };
     return {
         _: function () {
-            initStartExam();
+            initBaseContent();
             initAudio();
         },
         countDownDone(elm) {

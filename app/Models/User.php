@@ -73,6 +73,19 @@ class User extends Authenticatable
     {
         return $this->hasMany(UserCourseCombo::class);
     }
+    public function getCountNeedDoneExam()
+    {
+        $user = $this;
+        $listUserCourseId = $user->userAllCourseId();
+        $strIdCourseUser = implode(',',$listUserCourseId->toArray());
+        return Course::baseView()->whereIn('id', $listUserCourseId)
+                                        ->whereRaw(vsprintf("id in (select id from (select id,case when count_video = 0 then 0 else (100*count_video_done/count_video) end as percent_done from (SELECT *,(SELECT count(*) from course_videos WHERE course_videos.course_id = courses.id) as count_video,(SELECT count(*) from course_video_user WHERE course_video_user.course_id = courses.id and course_video_user.user_id = %s) as count_video_done from courses where id in (%s)) as course_videos_statical having percent_done = 100) as base)",[$user->id,$strIdCourseUser]))
+                                        ->whereHas('exam')
+                                        ->whereDoesntHave('examResult',function($q) use ($user){
+                                            $q->where('user_id',$user->id);
+                                        })
+                                        ->count();
+    }
     public function userAllCourseId()
     {
         if (isset($this->listUserCourseId)) {

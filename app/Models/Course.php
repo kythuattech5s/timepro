@@ -18,6 +18,10 @@ class Course extends BaseModel
     {
         return $this->belongsTo(Exam::class);
     }
+    public function examResult()
+    {
+        return $this->hasMany(ExamResult::class);
+    }
     public function pivot()
     {
         return $this->hasMany(CourseCourseCategory::class, 'course_id', 'id');
@@ -203,7 +207,9 @@ class Course extends BaseModel
     }
     public function percentComplete($userId = null)
     {
-        return 0;
+        if (!isset($userId)) {
+            return 0;
+        }
         $videoCount = $this->videos()->count();
         if ($videoCount == 0) {
             return 0;
@@ -211,7 +217,7 @@ class Course extends BaseModel
         $countVideoDone = $this->videos()->whereHas('courseVideoUser', function ($q) use ($userId) {
             $q->where('user_id', $userId);
         })->count();
-        return floor($countVideoDone * 100 / $videoCount, 2);
+        return floor($countVideoDone * 100 / $videoCount);
     }
     public function percentStudy()
     {
