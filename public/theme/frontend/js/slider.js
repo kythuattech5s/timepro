@@ -103,6 +103,7 @@ var SLIDER = {
 						swiper: swiperBanner,
 					},
 				});
+			
 			}
 		} else {
 			const swiperBanner = new Swiper('.slide-category__thumbs', {

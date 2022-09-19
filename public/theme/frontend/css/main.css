@@ -399,7 +399,7 @@ textarea{
   background: linear-gradient(91.8deg, #F44336 0%, #C62828 100%);
   color: #fff;
 }
-.sidebar-admin__item:hover .title, .sidebar-admin__item:focus .title,.sidebar-admin__item.active {
+.sidebar-admin__item:hover .title, .sidebar-admin__item:focus .title,.sidebar-admin__item.active .title {
   color: #fff;
 }
 

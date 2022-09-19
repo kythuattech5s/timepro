@@ -92,7 +92,6 @@
         </div>
     </div>
 </section>
-<<<<<<< HEAD
 <?php $testimonials = App\Models\Testimonial::act()->get(); ?>
 <section class="2xl:py-14 py-6 section-feeling bg-no-repeat bg-cover" style="background-image: url({Ibg_testimonial.imgI}),linear-gradient(91.8deg, rgba(244, 67, 54, 0.85) 0%, rgba(198, 40, 40, 0.85) 100%);">
     <div class="container">
@@ -162,7 +161,6 @@
         </form>
     </div>
 </section>
-=======
 @include('sections.testimonial')
 @include('sections.contact')
 >>>>>>> e5104ae454aa1349ba004508088278030447364f
