@@ -20,17 +20,18 @@
                                 <p class="text-[#252525] text-[0.875rem] mb-1">Ngày sinh</p>
                                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
                                 	<input type="hidden" name="birthday">
-                                    <div class="col-span-1">
-                                        <select class="form-control w-full py-2 px-4 border-[1px] border-solid border-[#ebebeb] rounded-lg outline-none">
-                                            <option>Ngày</option>
-                                        </select>
-                                    </div>
+                                    <?php $year = (int)date('Y', time()); ?>
                                     <div class="col-span-1">
                                         <select class="form-control w-full py-2 px-4 border-[1px] border-solid border-[#ebebeb] rounded-lg outline-none">
                                             <option>Tháng</option>
                                             @for($i = 1; $i <= 12; $i++)
                                             <option value="{{$i}}">{{$i}}</option>
                                             @endfor
+                                        </select>
+                                    </div>
+                                    <div class="col-span-1">
+                                        <select class="form-control w-full py-2 px-4 border-[1px] border-solid border-[#ebebeb] rounded-lg outline-none">
+                                            <option>Ngày</option>
                                         </select>
                                     </div>
                                     <div class="col-span-1">

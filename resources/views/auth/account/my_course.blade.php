@@ -87,7 +87,7 @@
                                                 </a>
                                             </div>
                                             @php
-                                                $percenComplete = $item->percentComplete();
+                                                $percenComplete = $item->percentStudy();
                                             @endphp
                                             <div class="flex items-center gap-2">
                                                 <div class="process w-full flex-1 h-[6px] rounded-[1.25rem] bg-[#f5f5f5] overflow-hidden">

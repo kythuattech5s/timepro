@@ -650,8 +650,16 @@ video {
 .top-5 {
   top: 1.25rem;
 }
+<<<<<<< HEAD
 .z-\[1\] {
   z-index: 1;
+=======
+.left-\[-55px\] {
+  left: -55px;
+}
+.right-\[-55px\] {
+  right: -55px;
+>>>>>>> e5104ae454aa1349ba004508088278030447364f
 }
 .z-50 {
   z-index: 50;
@@ -895,6 +903,15 @@ video {
 .ml-3 {
   margin-left: 0.75rem;
 }
+<<<<<<< HEAD
+=======
+.-mt-10 {
+  margin-top: -2.5rem;
+}
+.mr-3 {
+  margin-right: 0.75rem;
+}
+>>>>>>> e5104ae454aa1349ba004508088278030447364f
 .box-content {
   box-sizing: content-box;
 }
@@ -1488,6 +1505,12 @@ video {
   --tw-border-opacity: 1;
   border-color: rgb(33 37 41 / var(--tw-border-opacity));
 }
+<<<<<<< HEAD
+=======
+.border-\[rgba\(255\2c 255\2c 255\2c \.3\)\] {
+  border-color: rgba(255,255,255,.3);
+}
+>>>>>>> e5104ae454aa1349ba004508088278030447364f
 .border-b-\[\#EBEBEB\] {
   --tw-border-opacity: 1;
   border-bottom-color: rgb(235 235 235 / var(--tw-border-opacity));
@@ -1634,6 +1657,16 @@ video {
   --tw-bg-opacity: 1;
   background-color: rgb(59 130 246 / var(--tw-bg-opacity));
 }
+<<<<<<< HEAD
+=======
+.bg-\[\#E099C8\] {
+  --tw-bg-opacity: 1;
+  background-color: rgb(224 153 200 / var(--tw-bg-opacity));
+}
+.bg-\[rgba\(0\2c 0\2c 0\2c \.5\)\] {
+  background-color: rgba(0,0,0,.5);
+}
+>>>>>>> e5104ae454aa1349ba004508088278030447364f
 .bg-gradient-to-r {
   background-image: linear-gradient(to right, var(--tw-gradient-stops));
 }
@@ -1664,6 +1697,9 @@ video {
 }
 .bg-center {
   background-position: center;
+}
+.bg-left {
+  background-position: left;
 }
 .bg-no-repeat {
   background-repeat: no-repeat;
@@ -2730,6 +2766,10 @@ video {
     max-width: 208px;
   }
 
+  .md\:max-w-\[50\%\] {
+    max-width: 50%;
+  }
+
   .md\:grid-cols-5 {
     grid-template-columns: repeat(5, minmax(0, 1fr));
   }
@@ -3504,12 +3544,21 @@ video {
     padding-bottom: 3.5rem;
   }
 
+<<<<<<< HEAD
   .\32xl\:text-\[2rem\] {
     font-size: 2rem;
   }
 
   .\32xl\:text-\[3\.5rem\] {
     font-size: 3.5rem;
+=======
+  .\32xl\:pt-\[62\.5\%\] {
+    padding-top: 62.5%;
+  }
+
+  .\32xl\:text-\[16px\] {
+    font-size: 16px;
+>>>>>>> e5104ae454aa1349ba004508088278030447364f
   }
 
   .\32xl\:text-\[1\.875rem\] {

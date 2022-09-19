@@ -1,4 +1,6 @@
 <?php
+
+
 namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\Course;
@@ -36,26 +38,56 @@ class ManageUserCourseController extends Controller
                     'redirect_url' => \VRoute::get("login")
                 ]);
                 die();
-            }else{
+            } else{
                 return redirect()->to(\VRoute::get("home"))->with('messageNotify', 'Tài khoản của bạn không có chức năng này')->with('typeNotify', 100)->send();
             }
         }
     }
-    public function myCourse(Request $request,$route)
+    public function myCourse(Request $request, $route)
     {
-        $currentItem = $route instanceof \vanhenry\manager\model\VRoute ? $route:\vanhenry\manager\model\VRoute::find($route->id ?? 0);
+        $currentItem = $route instanceof \vanhenry\manager\model\VRoute ? $route : \vanhenry\manager\model\VRoute::find($route->id ?? 0);
         $user = Auth::user();
         $listUserCourseId = $user->userAllCourseId();
-        $listItems = Course::baseView()->whereIn('id',$listUserCourseId)
-                                        ->paginate(6);
-        return view('auth.account.my_course',compact('user','listItems','currentItem'));
+        $listItems = Course::baseView()->whereIn('id', $listUserCourseId);
+
+
+        $listItems->when(request()->input('type'), function ($q, $type) use ($user) {
+            //Chưa học
+            if ($type == 2) {
+                $q->whereHas('videos', function ($q) use ($user) {
+                    $q->whereDoesntHave('users');
+                });
+            }
+
+            //Đang học
+            if ($type == 3) {
+                $q->whereHas('videos', function ($q) use ($user) {
+                    $q->whereDoesntHave('users');
+                });
+            }
+
+            //Đã hoàn thành
+            if ($type == 4) {
+                $q->whereHas('videos', function ($q) use ($user) {
+                    $q->whereHas('users', function ($q) use ($user) {
+                        $q->where('course_video_user.user_id', $user->id);
+                    });
+                });
+            }
+            //Đang học
+        });
+
+
+        $listItems = $listItems->paginate(6);
+        return view('auth.account.my_course', compact('user', 'listItems', 'currentItem'));
     }
-    public function upgradeVip(Request $request,$route){
-        $currentItem = $route instanceof \vanhenry\manager\model\VRoute ? $route:\vanhenry\manager\model\VRoute::find($route->id ?? 0);
+    public function upgradeVip(Request $request, $route)
+    {
+        $currentItem = $route instanceof \vanhenry\manager\model\VRoute ? $route : \vanhenry\manager\model\VRoute::find($route->id ?? 0);
         $user = Auth::user();
         $listCourseCombo = CourseCombo::act()->get();
-		return view('auth.account.upgrade_vip',compact('user','listCourseCombo','currentItem'));
-	}
+        return view('auth.account.upgrade_vip', compact('user', 'listCourseCombo', 'currentItem'));
+    }
     public function myOrder (Request $request,$route)
     {
         $currentItem = $route instanceof \vanhenry\manager\model\VRoute ? $route:\vanhenry\manager\model\VRoute::find($route->id ?? 0);

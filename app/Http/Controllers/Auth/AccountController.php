@@ -30,8 +30,14 @@ class AccountController extends Controller
         if ($request->isMethod("POST")) {
             return $this->updateProfile($request, $user);
         }
-        $provinces = Province::all();
-        return view('auth.account.profile', compact('user','provinces'));
+        if(\Support::show($user,'user_type_id') == 1){
+            $provinces = Province::all();
+            return view('auth.account.profile', compact('user','provinces'));
+        }
+        else{
+            $provinces = Province::all();
+            return view('auth.teacher.profile', compact('user','provinces'));
+        }
     }
     protected function validatorUpdateProfile(array $data)
     {
@@ -109,8 +115,14 @@ class AccountController extends Controller
         if ($request->isMethod("POST")) {
             return $this->changePassWord($request);
         }
-        $user = Auth::user();
-        return view('auth.account.change_password', compact('user'));
+        if(\Support::show($user,'user_type_id') == 1){
+            $user = Auth::user();
+            return view('auth.account.change_password', compact('user'));
+        }
+        else{
+            $provinces = Province::all();
+            return view('auth.teacher.change_password', compact('user'));
+        }
     }
     private function changePassWord($request)
     {
