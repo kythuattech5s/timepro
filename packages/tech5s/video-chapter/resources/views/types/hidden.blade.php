@@ -1,0 +1,1 @@
+<input type="hidden" data-name="{{ $key }}" value="{{ $value }}">

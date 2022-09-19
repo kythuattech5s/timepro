@@ -8,10 +8,8 @@ $fields = Support::show($default_data, 'fields');
 
 $dataValue = [];
 if ($actionType == 'edit') {
-    $relationship = Support::show($table, 'relationship');
-    $relationship = json_decode($relationship, true);
-    $nameRelationship = $relationship['data'][0]['name'];
-    $dataValue = $dataItem->$nameRelationship->toArray();
+    $nameField = $table->name;
+    $dataValue = json_decode($dataItem->$nameField, true) == null ? [] : json_decode($dataItem->$nameField, true);
 }
 @endphp
 <div>
@@ -21,7 +19,7 @@ if ($actionType == 'edit') {
     <textarea name="{{ $name }}" class="hidden" id="" cols="30" rows="10">{{ json_encode($dataValue) }}</textarea>
     <p class="bg-[#212529] p-3 uppercase text-white">List {{ $note }}</p>
     <div list-items="{{ $name }}" class="grid grid-cols-4 gap-3 p-3 xl:grid-cols-5">
-        @foreach ($dataValue as $item)
+        @foreach ($dataValue as $keyItem => $item)
             @php
                 unset($item['created_at']);
                 unset($item['updated_at']);

@@ -4,7 +4,7 @@
     <link href="{'comment/css/style.css'}" rel="stylesheet">
     <link href="{'comment/css/star.css'}" rel="stylesheet">
     <link href="{'comment/css/selectStar.css'}" rel="stylesheet">
-    <link href="{{ mix('comment/style/app.css') }}" rel="stylesheet">
+    <link href="{'comment/style/app.css'}" rel="stylesheet">
     <link href="https://vjs.zencdn.net/7.20.3/video-js.css" rel="stylesheet" />
 @endsection
 @section('main')
@@ -91,7 +91,7 @@
                                         <div class="s-content pl-[1.125rem]">
                                             {!! Support::show($userTeacher, 'teacher_description') !!}
                                         </div>
-                                        <div class="text-center pt-2">
+                                        <div class="pt-2 text-center">
                                             @if ($userTeacher->uslug != '')
                                                 <a href="thong-tin-giang-vien/{{ $userTeacher->uslug }}" title="Chi tiết giảng viên" class="btn btn-red-gradien block rounded-md bg-gradient-to-r from-[#F44336] to-[#C62828] py-2 px-5 text-center font-semibold text-white shadow-lg md:inline-block">Chi tiết giảng viên</a>
                                             @endif

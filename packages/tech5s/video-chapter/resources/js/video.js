@@ -127,7 +127,7 @@ class ListVideoChaptr {
             button.onclick = () => {
                 const item = button.closest("[item]");
                 const img = item.querySelector("img");
-                if (img.hasAttribute("data-blob")) {
+                if (img && img.hasAttribute("data-blob")) {
                     window.URL.revokeObjectURL(img.dataset.blob);
                 }
                 item.remove();
@@ -152,12 +152,27 @@ class ListVideoChaptr {
                     <div data-id="${id}">
                         <label htmlFor="">${field.label}</label>
                         <input type="hidden" id="${id}" data-name="${field.name}" />
-                        <input type="hidden" data-name="duration"/>
                         <a href="/esystem/media/view?istiny=${id}&callback=VIDEO_CHAPTER.callbackFile" class="iframe-btn">
-                            <img src="/admin/images/noimage.png" alt="" class="w-full h-auto" />
+                            <p class="disabled" file-name="${id}"></p>
                         </a>
                         <div class="mt-3 gap-2 grid grid-cols-2">
                             <a class="text-center text-white p-2 w-full bg-blue-600 col-span-1 iframe-btn" href="/esystem/media/view?istiny=${id}&callback=VIDEO_CHAPTER.callbackFile" type="button">${field.placeholder}</a>
+                            <a class="text-center text-white p-2 w-full bg-red-600 col-span-1" href="javascript:void(0)" remove-file="${id}" >Xóa</a>
+                        </div>
+                    </div>
+                `;
+                break;
+            case "video":
+                html = `
+                    <div data-id="${id}">
+                        <label htmlFor="">${field.label}</label>
+                        <input type="hidden" id="${id}" data-name="${field.name}" />
+                        <input type="hidden" data-name="duration"/>
+                        <a href="/esystem/media/view?istiny=${id}&callback=VIDEO_CHAPTER.callbackVideo" class="iframe-btn">
+                            <img src="/admin/images/noimage.png" alt="" class="w-full h-auto" />
+                        </a>
+                        <div class="mt-3 gap-2 grid grid-cols-2">
+                            <a class="text-center text-white p-2 w-full bg-blue-600 col-span-1 iframe-btn" href="/esystem/media/view?istiny=${id}&callback=VIDEO_CHAPTER.callbackVideo" type="button">${field.placeholder}</a>
                             <a class="text-center text-white p-2 w-full bg-red-600 col-span-1" href="javascript:void(0)" remove-file="${id}" >Xóa</a>
                         </div>
                     </div>
@@ -219,7 +234,7 @@ window.addEventListener("DOMContentLoaded", function () {
 });
 window["VIDEO_CHAPTER"] = (() => {
     return {
-        callbackFile: (items, id) => {
+        callbackVideo: (items, id) => {
             const media = items[0];
             const img = document.querySelector(`[data-id="${id}"] img`);
             var request = new XMLHttpRequest();
@@ -243,6 +258,15 @@ window["VIDEO_CHAPTER"] = (() => {
                 };
             };
             request.send();
+        },
+        callbackFile: (items, id) => {
+            const media = items[0];
+            const div = document.querySelector(`[data-id="${id}"]`);
+            const p = div.querySelector("p");
+            const input = div.querySelector(`input[id="${id}"]`);
+            p.innerHTML = media.file_name;
+            input.value = JSON.stringify(media);
+            input.dispatchEvent(new Event("change"));
         },
     };
 })();

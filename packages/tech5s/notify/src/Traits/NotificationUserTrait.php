@@ -1,4 +1,5 @@
 <?php
+
 namespace Tech5s\Notify\Traits;
 
 use Illuminate\Notifications\Notifiable;
@@ -13,7 +14,7 @@ trait NotificationUserTrait
     /**
      * @param array $data [string 'link',string 'img',string 'icon',string  'title',string 'body']
      */
-    public function sendNotification(array $data, NotificationCatalog $catalog, $type = null)
+    public function sendNotify(array $data, NotificationCatalog $catalog, $type = null)
     {
         $this->notify(new UserNotification([
             'link' => $data['link'] == '' ? 'javascript:void(0)'  : $data['link'],
@@ -28,5 +29,4 @@ trait NotificationUserTrait
     {
         return $this->morphMany(Notification::class, 'notifiable')->orderBy('created_at', 'desc');
     }
-
 }

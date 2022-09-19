@@ -9,6 +9,8 @@ class NotificationCatalog extends Model
 {
     use HasFactory;
 
+    const COMMENT_COURSE = 1;
+
     public function notifications(){
         return $this->hasMany(Notification::class);
     }

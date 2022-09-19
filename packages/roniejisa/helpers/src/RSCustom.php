@@ -352,11 +352,13 @@ class RSCustom
         'minute' => ':'
     ])
     {
-
+        if ((int) $time === 0) {
+            $time = 0;
+        }
         $hours = floor($time / 3600);
         $minutes = floor(($time - $hours * 3600) / 60);
         $seconds = $time - $hours * 3600 - $minutes * 60;
-
+        $seconds = floor(round($seconds * 100) / 100);
         if ($hours < 10) {
             $hours = "0" . $hours;
         }
@@ -365,7 +367,7 @@ class RSCustom
         }
         if ($seconds < 10) {
             $seconds =
-                "0" . floor(round($seconds * 10) / 10);
+                "0" . $seconds;
         }
         if ((int) $hours  > 0 && (int) $minutes > 0) {
             return $hours . $separator['hour'] . $minutes . $separator['minute'] . $seconds;

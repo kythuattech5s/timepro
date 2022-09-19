@@ -66,7 +66,7 @@
                                     <div class="module-info-teacher">
                                         <div class="info-teacher mb-4 flex items-center gap-4">
                                             <span class="ava img-ava block h-14 w-14 shrink-0 overflow-hidden rounded-full lg:h-20 lg:w-20 2xl:h-28 2xl:w-28">
-                                                @include('image_loader.big',['itemImage'=>$userTeacher,'key'=>'img'])
+                                                @include('image_loader.big', ['itemImage' => $userTeacher, 'key' => 'img'])
 
                                             </span>
                                             <div class="info-content">
@@ -111,53 +111,46 @@
                                 </div>
                                 <div class="col-span-1 lg:col-span-2">
                                     <div class="form-rating__teacher rounded-lg border-[1px] border-solid border-[#ebebeb] p-4 lg:p-6 2xl:py-10 2xl:px-7">
-                                        <p class="title mb-2 text-center text-[1rem] font-bold text-[#252525] 2xl:text-[1.3rem]">
-                                            Đánh giá giảng viên
-                                        </p>
-                                        <p class="desc mb-6 text-center text-[0.875rem]">
-                                            Vui lòng để lại cảm nghĩ của bạn nhé! Đánh giá của bạn góp phần cải thiện chất
-                                            lượng giảng dạy của giảng viên chúng tôi.
-                                        </p>
-                                        <form action="" method="" class="form">
-                                            <textarea class="form-control mb-4 h-24 w-full resize-none rounded-lg bg-[#F5F5F5] p-3 outline-none" name="" placeholder="Nhập ghi chú và nhấn Enter để lưu lại "></textarea>
-                                            <button class="btn btn-red-gradien mx-auto flex w-fit items-center justify-center rounded bg-gradient-to-r from-[#F44336] to-[#C62828] py-2 px-4 font-semibold uppercase text-white shadow-[0_6px_20px_rgba(178,30,37,.4)]">GỬI ĐÁNH GIÁ</button>
-                                        </form>
+                                        @php
+                                            $commentTeacher = $currentItem->commentTeacher->first(function ($q) {
+                                                return $q->user_id == \Auth::id();
+                                            });
+                                        @endphp
+                                        @if ($commentTeacher == null)
+                                            @include('courses.components.form_rating_teacher')
+                                        @else
+                                            <div class="form-rating__teacher mb-6 flex flex-col gap-4 p-4 lg:p-6 lg:px-10 2xl:mb-10 2xl:py-10 2xl:px-14">
+                                                @include('courses.components.rating_teacher', ['comment' => $commentTeacher])
+                                            </div>
+                                        @endif
                                     </div>
                                 </div>
                             </div>
                         @endif
                     </div>
                     <div class="tabcontent px-4 2xl:px-10" id="tab-lesson-3" data-target="tab-lesson">
-                        <div class="item-document mb-4 block items-center justify-between gap-4 rounded-lg border-[1px] border-solid border-[#ebebeb] p-2 transition-all duration-300 last:mb-0 hover:border-transparent hover:bg-[#f5f5f5] sm:flex md:p-4 2xl:p-6">
-                            <div class="item mb-2 flex items-center gap-2 sm:mb-0">
-                                <span class="icon block h-12 w-12 shrink-0">
-                                    <img src="theme/frontend/images/icon-doc.png" class="h-full w-full object-contain" alt="">
-                                </span>
-                                <div class="content">
-                                    <p class="title mb-1 font-bold text-[#252525] 2xl:text-[1.125rem]">Chân dung một nhà môi giới chuyên nghiệp</p>
-                                    <p class="desc text-[0.75rem]">chandungmotnhamoigioichuyennghiep.pdf</p>
+                        @php
+                            $documents = ($documents = json_decode($currentItem->documents, true)) != null ? $documents : [];
+                        @endphp
+                        @foreach ($documents as $document)
+                            @if ($document['act'] == 1 && ($file = json_decode($document['source'], true)) !== null)
+                                <div class="item-document mb-4 block items-center justify-between gap-4 rounded-lg border-[1px] border-solid border-[#ebebeb] p-2 transition-all duration-300 last:mb-0 hover:border-transparent hover:bg-[#f5f5f5] sm:flex md:p-4 2xl:p-6">
+                                    <div class="item mb-2 flex items-center gap-2 sm:mb-0">
+                                        <span class="icon block h-12 w-12 shrink-0">
+                                            <img src="theme/frontend/images/icon-doc.png" class="h-full w-full object-contain" alt="">
+                                        </span>
+                                        <div class="content">
+                                            <p class="title mb-1 font-bold text-[#252525] 2xl:text-[1.125rem]">{{ $document['name'] }}</p>
+                                            <p class="desc text-[0.75rem]">{{ $file['file_name'] }}</p>
+                                        </div>
+                                    </div>
+                                    <a href="/{{ $file['path'] . $file['file_name'] }}" title="" class="btn btn-red-gradien mx-auto flex w-fit items-center justify-center rounded bg-gradient-to-r from-[#F44336] to-[#C62828] py-2 px-4 font-semibold text-white shadow-[0_6px_20px_rgba(178,30,37,.4)] sm:mr-0 sm:inline-flex" download="">
+                                        <img src="theme/frontend/images/icon-download.svg" class="mr-2 h-5 w-5 object-contain" alt="">
+                                        Download
+                                    </a>
                                 </div>
-                            </div>
-                            <a href="" title="" class="btn btn-red-gradien mx-auto flex w-fit items-center justify-center rounded bg-gradient-to-r from-[#F44336] to-[#C62828] py-2 px-4 font-semibold text-white shadow-[0_6px_20px_rgba(178,30,37,.4)] sm:mr-0 sm:inline-flex">
-                                <img src="theme/frontend/images/icon-download.svg" class="mr-2 h-5 w-5 object-contain" alt="">
-                                Download
-                            </a>
-                        </div>
-                        <div class="item-document mb-4 block items-center justify-between gap-4 rounded-lg border-[1px] border-solid border-[#ebebeb] p-2 transition-all duration-300 last:mb-0 hover:border-transparent hover:bg-[#f5f5f5] sm:flex md:p-4 2xl:p-6">
-                            <div class="item mb-2 flex items-center gap-2 sm:mb-0">
-                                <span class="icon block h-12 w-12 shrink-0">
-                                    <img src="theme/frontend/images/icon-doc.png" class="h-full w-full object-contain" alt="">
-                                </span>
-                                <div class="content">
-                                    <p class="title mb-1 font-bold text-[#252525] 2xl:text-[1.125rem]">Chân dung một nhà môi giới chuyên nghiệp</p>
-                                    <p class="desc text-[0.75rem]">chandungmotnhamoigioichuyennghiep.pdf</p>
-                                </div>
-                            </div>
-                            <a href="" title="" class="btn btn-red-gradien mx-auto flex w-fit items-center justify-center rounded bg-gradient-to-r from-[#F44336] to-[#C62828] py-2 px-4 font-semibold text-white shadow-[0_6px_20px_rgba(178,30,37,.4)] sm:mr-0 sm:inline-flex">
-                                <img src="theme/frontend/images/icon-download.svg" class="mr-2 h-5 w-5 object-contain" alt="">
-                                Download
-                            </a>
-                        </div>
+                            @endif
+                        @endforeach
                     </div>
                     <div class="tabcontent px-4 2xl:px-10" id="tab-lesson-4" data-target="tab-lesson">
                         @include('components.question_teacher', ['listItems' => $listQuestions])

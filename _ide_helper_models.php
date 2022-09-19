@@ -128,8 +128,11 @@ namespace App\Models{
  * @property string|null $time_package Gói thời gian
  * @property int|null $number_student Thời lượng khóa học
  * @property int|null $exam_id Bài thi cuối khóa
+ * @property string|null $documents Tài liệu
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\CourseCategory[] $category
  * @property-read int|null $category_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Roniejisa\Comment\Models\Comment[] $commentTeacher
+ * @property-read int|null $comment_teacher_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\Roniejisa\Comment\Models\Comment[] $comments
  * @property-read int|null $comments_count
  * @property-read \App\Models\Exam|null $exam
@@ -158,6 +161,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Course whereAct($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Course whereContent($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Course whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Course whereDocuments($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Course whereDuration($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Course whereExamId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Course whereId($value)
@@ -1409,6 +1413,10 @@ namespace App\Models{
  * @property string|null $facebook
  * @property string|null $teacher_short_content Công việc
  * @property string|null $address
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Roniejisa\Comment\Models\Comment[] $commentTeacher
+ * @property-read int|null $comment_teacher_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Roniejisa\Comment\Models\Comment[] $comments
+ * @property-read int|null $comments_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Course[] $course
  * @property-read int|null $course_count
  * @property-read \App\Models\District|null $district
@@ -1420,8 +1428,12 @@ namespace App\Models{
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\UserTeacherSkill[] $pivot
  * @property-read int|null $pivot_count
  * @property-read \App\Models\Province|null $province
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Roniejisa\Comment\Models\Rating[] $ratings
+ * @property-read int|null $ratings_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\TeacherSkill[] $skills
  * @property-read int|null $skills_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Course[] $teacherCourses
+ * @property-read int|null $teacher_courses_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\UserCourse[] $userCourse
  * @property-read int|null $user_course_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\UserCourseCombo[] $userCourseCombo

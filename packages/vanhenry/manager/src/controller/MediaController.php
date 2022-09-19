@@ -1,4 +1,5 @@
 <?php
+
 namespace vanhenry\manager\controller;
 
 use App\Helpers\MediaHelper;
@@ -284,7 +285,6 @@ class MediaController extends BaseAdminController
                     } else {
                         unlink($dir . "/" . $object);
                     }
-
                 }
             }
             rmdir($dir);
@@ -348,14 +348,12 @@ class MediaController extends BaseAdminController
                     if ($infos->count() > 0) {
                         array_push($ret, $infos[0]);
                     }
-
                 }
             } else {
                 $infos = $this->getSingleMedia($post["id"]);
                 if ($infos->count() > 0) {
                     array_push($ret, $infos[0]);
                 }
-
             }
             return view("vh::media.multifile", array("infos" => $ret, "trash" => 0));
         }
@@ -408,7 +406,7 @@ class MediaController extends BaseAdminController
         $input = request()->file("file");
         $rules = array();
         foreach ($input as $key => $value) {
-            $rules[sprintf('file.%d', $key)] = 'max:' . $max_size . "|mimes:" . $ext;
+            $rules[sprintf('file.%d', $key)] = ['max:' . $max_size];
         }
         $validator = Validator::make(request()->all(), $rules);
         return $validator;
@@ -457,7 +455,7 @@ class MediaController extends BaseAdminController
         if ($validator->fails()) {
             return response()->json([
                 'code' => 150,
-                'message' => 'Thất bại',
+                'message' => $validator->errors()->first(),
             ]);
         } else {
             $files = request()->file("file");
@@ -831,13 +829,11 @@ class MediaController extends BaseAdminController
                                                         ]);
                                                     }
                                                 }
-
                                             } catch (\Exception $err) {
                                                 $row->delete();
                                             }
                                             break;
                                     }
-
                                 }
                             }
                         }

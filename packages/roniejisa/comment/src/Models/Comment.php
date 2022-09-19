@@ -2,6 +2,7 @@
 
 namespace Roniejisa\Comment\Models;
 
+use App\Models\Course;
 use App\Models\Product;
 use App\Models\User;
 use FCHelper;
@@ -21,18 +22,24 @@ class Comment extends Model
         return $this->hasOne(Rating::class);
     }
 
+    public function parent()
+    {
+        return $this->belongsTo(Comment::class, 'comment_id', 'id');
+    }
+
     public function order()
     {
         return $this->belongsTo(Order::class);
     }
+
     public function user()
     {
         return $this->belongsTo(User::class);
     }
 
-    public function product()
+    public function course()
     {
-        return $this->belongsTo(Product::class, 'map_id');
+        return $this->belongsTo(Course::class, 'map_id');
     }
 
     public function likes()
@@ -52,5 +59,10 @@ class Comment extends Model
             $output .= "<img src=$imgSrc>";
         }
         return $output;
+    }
+
+    public function getCourse()
+    {
+        return $this->belongsTo(Course::class);
     }
 }
