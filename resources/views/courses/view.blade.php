@@ -93,7 +93,7 @@
                                         </div>
                                         <div class="text-center pt-2">
                                             @if ($userTeacher->uslug != '')
-                                                <a href="thong-tin-giang-vien/{{ $userTeacher->uslug }}" title="Chi tiết giảng viên" class="block rounded-md bg-gradient-to-r from-[#F44336] to-[#C62828] py-2 px-5 text-center font-semibold text-white shadow-lg md:inline-block">Chi tiết giảng viên</a>
+                                                <a href="thong-tin-giang-vien/{{ $userTeacher->uslug }}" title="Chi tiết giảng viên" class="btn btn-red-gradien block rounded-md bg-gradient-to-r from-[#F44336] to-[#C62828] py-2 px-5 text-center font-semibold text-white shadow-lg md:inline-block">Chi tiết giảng viên</a>
                                             @endif
                                         </div>
                                     </div>

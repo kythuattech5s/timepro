@@ -1946,6 +1946,9 @@ video {
 .pr-2 {
   padding-right: 0.5rem;
 }
+.pt-\[57\%\] {
+  padding-top: 57%;
+}
 .text-left {
   text-align: left;
 }

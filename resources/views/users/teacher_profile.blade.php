@@ -32,12 +32,12 @@
         </div>
         <div class="button-tabs tab-info-lesson justify-center block border-b-[1px] border-solid border-[#d9d9d9] 2xl:mb-6 mb-4">
             <button type="button" class="tablinks font-bold 2xl:text-[1.25rem] py-4 border-b-[2px] border-solid border-transparent 2xl:mr-16 lg:mr-8 mr-4 last:mr-0 active"
-                data-electronic="tab-lesson-1">Thông tin cá nhân</button>
+                data-electronic="tab-lesson-1" data-target="tab-lesson">Thông tin cá nhân</button>
             <button type="button" class="tablinks font-bold 2xl:text-[1.25rem] py-4 border-b-[2px] border-solid border-transparent 2xl:mr-16 lg:mr-8 mr-4 last:mr-0"
-                data-electronic="tab-lesson-2">Khóa học đã dạy</button>
+                data-electronic="tab-lesson-2" data-target="tab-lesson">Khóa học đã dạy</button>
         </div>
         <div class="wrapper_tabcontent">
-            <div class="tabcontent active" id="tab-lesson-1">
+            <div class="tabcontent active" id="tab-lesson-1" data-target="tab-lesson">
                 <div class="grid grid-cols-1 lg:grid-cols-3 2xl:gap-6 gap-4">
                     <div class="col-span-1">
                         <div class="box bg-white rounded-lg lg:p-4 p-2">
@@ -101,7 +101,7 @@
                     </div>
                 </div>
             </div>
-            <div class="tabcontent" id="tab-lesson-2">
+            <div class="tabcontent" id="tab-lesson-2" data-target="tab-lesson">
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 2xl:gap-6 sm:gap-4 gap-2">
                     @foreach ($userTeacher->course as $item)
                         <div class="col-span-1">

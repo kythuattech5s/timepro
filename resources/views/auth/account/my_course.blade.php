@@ -2,9 +2,9 @@
 @section('css')
 <style>
     .tabs .active {
-        border: 1px solid;
-        border-image-slice: 1;
-        border-image-source: linear-gradient(to right bottom,#f44336,#c62828);
+        border: 1px solid #f44336;
+        color:#f44336;
+     
     }
 </style>
 @endsection
@@ -40,8 +40,13 @@
                             </div>
                         </div>
                         <div class="tabs flex flex-nowrap items-center lg:gap-4 gap-3 overflow-x-auto snap-start mb-[1.25rem] sm:pb-0 pb-[0.625rem]">
+<<<<<<< HEAD
                             <label class="flex-none text-[#888888] border-[1px] border-[#888888] font-semibold inline-block rounded-[1.875rem] p-1 px-3 {{$type == 1 ? 'active color-gradient':''}}">
                                 <input class="hidden item-fillter" type="radio" name="type" value="1">
+=======
+                            <label class="flex-none text-[#888888] border-[1px] border-[#888888] font-semibold inline-block rounded-[1.875rem] p-1 px-3 active">
+                                <input class="hidden" type="radio" name="type" value="1">
+>>>>>>> 5f58c06004751c12c42abaee66e04cbb9db5e8cc
                                 Tất cả
                             </label>
                             <label class="flex-none text-[#888888] border-[1px] border-[#888888] font-semibold inline-block rounded-[1.875rem] p-1 px-3 {{$type == 2 ? 'active color-gradient':''}}">

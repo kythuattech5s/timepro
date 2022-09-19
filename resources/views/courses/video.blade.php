@@ -65,8 +65,9 @@
                                 <div class="col-span-1 lg:col-span-3">
                                     <div class="module-info-teacher">
                                         <div class="info-teacher mb-4 flex items-center gap-4">
-                                            <span class="ava block h-14 w-14 shrink-0 overflow-hidden rounded-full lg:h-20 lg:w-20 2xl:h-28 2xl:w-28">
-                                                @include('image_loader.big', ['itemImage' => $userTeacher, 'key' => 'img'])
+                                            <span class="ava img-ava block h-14 w-14 shrink-0 overflow-hidden rounded-full lg:h-20 lg:w-20 2xl:h-28 2xl:w-28">
+                                                @include('image_loader.big',['itemImage'=>$userTeacher,'key'=>'img'])
+
                                             </span>
                                             <div class="info-content">
                                                 <p class="name mb-1 font-bold text-[#252525] 2xl:text-[1.25rem]">{{ Support::show($userTeacher, 'name') }}</p>

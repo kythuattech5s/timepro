@@ -20,6 +20,13 @@
         </div>
         <div class="over-lay block lg:hidden fixed top-0 right-[-100%] w-full h-full bg-[rgba(0,0,0,.6)] z-[50] transition-all duration-300"></div>
         <div class="h-action items-center flex 2xl:-gap-8 gap-4">
+            @if (Auth::check())
+            <a href="#" title="Thông báo" class="h-noti relative block">
+                <img src="theme/frontend/images/noti.svg" alt="icon">
+                <span class="count count-item-cart absolute top-0 right-0 font-bold text-[8px] text-white min-w-[12px] h-3 rounded-full bg-gradient-to-r from-[#F44336] to-[#C62828] z-[1] text-center leading-3">0</span>
+
+            </a>
+            @endif
             <a href="{{\VRoute::get('viewCart')}}" title="Giỏ hàng" class="h-cart relative block">
                 @include('icon_svgs.icon_cart')
                 <span class="count count-item-cart absolute top-[-5px] right-[-5px] font-bold text-[8px] text-white min-w-[12px] h-3 rounded-full bg-gradient-to-r from-[#F44336] to-[#C62828] z-[1] text-center leading-3">0</span>
@@ -29,9 +36,9 @@
                 <?php $user = Auth::user(); ?>
                 <a href="{{\VRoute::get('my_profile')}}" title="{{Support::show($user,'name')}}" class="ava img-ava block lg:w-12 lg:h-12 w-8 h-8 rounded-full overflow-hidden">
                     @if(Support::show($user,'img'))
-                        @include('image_loader.tiny',['keyImage'=>'img','itemImage'=>$user])
+                    @include('image_loader.tiny',['keyImage'=>'img','itemImage'=>$user])
                     @else
-                        @include('image_loader.config.tiny',['config_key'=>'logo'])
+                    @include('image_loader.config.tiny',['config_key'=>'logo'])
                     @endif
                 </a>
                 <div class="content hidden lg:block">
