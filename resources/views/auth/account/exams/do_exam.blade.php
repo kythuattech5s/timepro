@@ -26,7 +26,7 @@
                                 <a href="{{Support::show($mainCourse,'slug')}}" title="{{Support::show($mainCourse,'name')}}" class="title font-bold text-[#252525] lg:text-[1.25rem]">{{Support::show($mainCourse,'name')}}</a>
                             </h3>
                         </div>
-                        <div class="col-span-1 lg:pl-14">
+                        <div class="col-span-1 text-center">
                             <a href="javascript:void(0)" title="Bắt đầu làm bài" class="btn btn-red-gradien inline-flex items-center justify-center font-semibold text-white py-2 px-6 rounded bg-gradient-to-r from-[#F44336] to-[#C62828]">Bắt đầu làm bài</a>
                         </div>
                     </div>
@@ -47,7 +47,7 @@
                             @php $count++; @endphp
                         @endforeach
                         <div class="form-button__submit">
-                            <button title="Hoàn thành" class="btn btn-yellow__all" onclick="MODULE_EXAM.submitExam(this)">Nộp bài</button>
+                            <button title="Hoàn thành" class="btn btn-red-gradien inline-flex items-center justify-center font-semibold text-white py-2 px-6 rounded bg-gradient-to-r from-[#F44336] to-[#C62828]" onclick="MODULE_EXAM.submitExam(this)">Nộp bài</button>
                         </div>
                     </div>
                 </div>

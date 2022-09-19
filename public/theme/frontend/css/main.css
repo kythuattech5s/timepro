@@ -961,6 +961,66 @@ color: #F44336 !important;
   display: flex;
   flex-direction: column;
 }
+.list-question-answer.ChooseAnswer{
+  display: flex;
+  flex-wrap: wrap;
+  
+}
+.item-answer.basic_radio{
+  flex: 0 0 50%;
+  padding: 0 0.938rem;
+  margin-bottom: 1rem;
+  position: relative;
+  padding-left: 2rem;
+}
+.item-answer.basic_radio::before{
+  content: "";
+    width: 20px;
+    height: 20px;
+    border-radius: 100%;
+    border: 3px solid #BEBEBE;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+.item-answer.basic_radio::after{
+  content: "";
+    width: 10px;
+    height: 10px;
+    background: linear-gradient(91.8deg, #F44336 0%, #C62828 100%);
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    border-radius: 100%;
+    display: none;
+}
+.item-answer.basic_radio.checked::before{
+  border: 3px solid #F44336;
+}
+.item-answer.basic_radio.checked::after{
+  display: block;
+}
+#module-content__exam .form-button__submit .btn{
+  display: flex;
+  margin-left: auto;
+  margin-right: auto;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  padding: 8px 24px;
+  width: fit-content;
+  background: linear-gradient(91.8deg, #F44336 0%, #C62828 100%);
+  color: #fff;
+  margin-top: 1rem;
+}
+.jconfirm-buttons .btn-yellow__all{
+  background: #F44336;
+  color: #fff;
+}
+.jconfirm-buttons .btn-green__all{
+  background: #FE8C00;
+  color: #fff;
+}
 @media (min-width: 992px) {
   .container {
     max-width: 992px;
@@ -1314,6 +1374,9 @@ color: #F44336 !important;
 @media (max-width: 767px) {
   .section-categories {
     background-image: unset !important;
+  }
+  .item-answer.basic_radio{
+    flex: 0 0 100%;
   }
 }
 @media (max-width: 575px) {

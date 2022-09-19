@@ -11,8 +11,8 @@
                     <h1 class="title font-bold text-[#252525] 2xl:text-[1.6rem] lg:text-[1.25rem] text-[1rem] mb-4 text-center">Kỳ thi cần hoàn thành</h1>
                     @if (count($listItems) > 0)
                         @foreach ($listItems as $item)
-                            <div class="item-exam grid grid-cols-4 sm:grid-cols-4 gap-2 items-center 2xl:p-4 p-2 rounded border-[1px] border-solid border-[#ebebeb] mb-4">
-                                <div class="col-span-1 sm:col-span-2">
+                            <div class="item-exam grid grid-cols-2 md:grid-cols-4 gap-2 items-center 2xl:p-4 p-2 rounded border-[1px] border-solid border-[#ebebeb] mb-4">
+                                <div class="col-span-2">
                                     <p class="cate text-[#252525] text-[0.875rem] mb-1">Kiểm tra sát hạch</p>
                                     <h3>
                                         <a href="{{\VRoute::get("my_exam")}}/lam-bai-kiem-tra-{{$item->id}}" title="{{Support::show($item->exam,'name')}}" class="title font-bold text-[#252525] lg:text-[1.25rem]">{{Support::show($item->exam,'name')}}</a>
