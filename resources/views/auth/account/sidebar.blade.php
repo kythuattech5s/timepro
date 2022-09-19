@@ -50,7 +50,10 @@
 </a>
 <a href="{{\VRoute::get('my_exam')}}" class="sidebar-admin__item bg-white rounded flex items-center justify-between py-3 2xl:px-6 px-4 mb-2 transition-all duration-300 {{Str::contains(url()->current(),[\VRoute::get('my_exam')]) ? 'active':''}}">
     <span class="title font-bold text-[#252525]">Kỳ thi</span>
-    <i class="fa fa-angle-right text-[1.875rem]" aria-hidden="true"></i>
+    <div class="noti">
+        <span class="count mr-4 inline-block min-w-[1.25rem] h-5 rounded-full text-white font-semibold text-[0.875rem] leading-5 text-center bg-gradient-to-r from-[#F44336] to-[#C62828]">{{$user->getCountNeedDoneExam()}}</span>
+        <i class="fa fa-angle-right text-[1.875rem]" aria-hidden="true"></i>
+    </div>
 </a>
 <a href="{{\VRoute::get('my_exam_result')}}" class="sidebar-admin__item bg-white rounded flex items-center justify-between py-3 2xl:px-6 px-4 mb-2 transition-all duration-300 {{Str::contains(url()->current(),[\VRoute::get('my_exam_result')]) ? 'active':''}}">
     <span class="title font-bold text-[#252525]">Kết quả thi</span>

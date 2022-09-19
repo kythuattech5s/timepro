@@ -2,15 +2,6 @@
     use \App\Models\OrderStatus;
 @endphp
 @extends('index')
-@section('css')
-<style>
-    .tabs .active {
-        border: 1px solid;
-        border-image-slice: 1;
-        border-image-source: linear-gradient(to right bottom,#f44336,#c62828);
-    }
-</style>
-@endsection
 @section('main')
 <section class="2xl:py-8 py-6 bg-[#EEEAEA]">
     <div class="container">

@@ -2,6 +2,7 @@
 namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\Course;
+use App\Models\CourseCategory;
 use App\Models\CourseCombo;
 use App\Models\OrderStatus;
 use App\Models\UserType;
@@ -48,26 +49,73 @@ class ManageUserCourseController extends Controller
         $currentItem = $route instanceof \vanhenry\manager\model\VRoute ? $route : \vanhenry\manager\model\VRoute::find($route->id ?? 0);
         $user = Auth::user();
         $listUserCourseId = $user->userAllCourseId();
-        $listItems = Course::baseView()->whereIn('id', $listUserCourseId);
-        $listItems = $listItems->get();
-        $listItems = $listItems->filter(function ($q) use ($request) {
-            if (isset($request->type)) {
-                switch ($request->type) {
-                    case 2:
-                        return $q->percentStudy() == 0;
-                        break;
-                    case 3:
-                        return $q->percentStudy() > 0 && $q->percentStudy() < 100;
-                        break;
-                    case 4:
-                        return $q->percentStudy() == 100;
-                        break;
-                }
+        $strIdCourseUser = implode(',',$listUserCourseId->toArray());
+        $type = $request->type ?? 1;
+        $activeCategoryId = $request->category ?? null;
+        $sort = $request->sort ?? 1;
+        $sortStr = 'id desc';
+        if ($sort == 2) {
+            $sortStr = 'id asc';
+        }
+        $listItems = Course::baseView()->whereIn('id', $listUserCourseId)
+                                        ->when($activeCategoryId,function($q) use ($activeCategoryId){
+                                            $q->whereHas('category',function($q) use ($activeCategoryId){
+                                                $q->where('id',$activeCategoryId);
+                                            });
+                                        })
+                                        ->when($type != 1,function($q) use($type,$user,$strIdCourseUser) {
+                                            $havingString = '';
+                                            switch ($type) {
+                                                case 2:
+                                                    $havingString = 'HAVING percent_done = 0';
+                                                    break;
+                                                case 3:
+                                                    $havingString = 'HAVING percent_done > 0 and percent_done < 100';
+                                                    break;
+                                                case 4:
+                                                    $havingString = 'HAVING percent_done = 100';
+                                                    break;
+                                                default:
+                                                    break;
+                                            }
+                                            $q->whereRaw(vsprintf("id in (select id from (select id,case when count_video = 0 then 0 else (100*count_video_done/count_video) end as percent_done from (SELECT *,(SELECT count(*) from course_videos WHERE course_videos.course_id = courses.id) as count_video,(SELECT count(*) from course_video_user WHERE course_video_user.course_id = courses.id and course_video_user.user_id = %s) as count_video_done from courses where id in (%s)) as course_videos_statical %s) as base)",[$user->id,$strIdCourseUser,$havingString]));
+                                        })
+                                        ->orderByRaw($sortStr)
+                                        ->paginate(6);
+        $listCourseCategory = CourseCategory::act()->get();
+        return view('auth.account.my_course', compact('user', 'listItems','listCourseCategory', 'currentItem','type','activeCategoryId','sort'));
+    }
+    public function myExam(Request $request, $route)
+    {
+        $currentItem = $route instanceof \vanhenry\manager\model\VRoute ? $route : \vanhenry\manager\model\VRoute::find($route->id ?? 0);
+        $user = Auth::user();
+        $mainCourseId = \FCHelper::getSegment($request, 2);
+        $mainCourse = Course::act()->whereHas('exam')->with('exam')->find(str_replace('lam-bai-kiem-tra-','',$mainCourseId));
+        if ($mainCourseId != '') {
+            if (!isset($mainCourse) || !$mainCourse->isOwn($user)) {
+                return Support::redirectTo(\VRoute::get("my_exam"),100,'Không tìm thấy thông tin kỳ thi');
             }
-        });
-
-        $listItems = RSCustom::paginate($listItems, 6);
-        return view('auth.account.my_course', compact('user', 'listItems', 'currentItem'));
+            $examResult = $mainCourse->examResult()->where('user_id',$user->id)->first();
+            if (isset($examResult)) {
+                return Support::redirectTo(\VRoute::get("my_exam"),200,'Bạn đã hoàn thành bài kiểm tra này rồi');
+            }
+            $exam = $mainCourse->exam;
+            $currentItem->vi_name = $currentItem->vi_name.' - '.$exam->name;
+            $currentItem->vi_seo_title = $currentItem->vi_seo_title.' - '.$exam->name;
+            $currentItem->vi_seo_key = $currentItem->vi_seo_key.' - '.$exam->name;
+            $currentItem->vi_seo_des = $currentItem->vi_seo_des.' - '.$exam->name;
+            return view('auth.account.exams.do_exam', compact('user','currentItem','mainCourse','exam'));
+        }
+        $listUserCourseId = $user->userAllCourseId();
+        $strIdCourseUser = implode(',',$listUserCourseId->toArray());
+        $listItems = Course::baseView()->whereIn('id', $listUserCourseId)
+                                        ->whereRaw(vsprintf("id in (select id from (select id,case when count_video = 0 then 0 else (100*count_video_done/count_video) end as percent_done from (SELECT *,(SELECT count(*) from course_videos WHERE course_videos.course_id = courses.id) as count_video,(SELECT count(*) from course_video_user WHERE course_video_user.course_id = courses.id and course_video_user.user_id = %s) as count_video_done from courses where id in (%s)) as course_videos_statical having percent_done = 100) as base)",[$user->id,$strIdCourseUser]))
+                                        ->whereHas('exam')
+                                        ->whereDoesntHave('examResult',function($q) use ($user){
+                                            $q->where('user_id',$user->id);
+                                        })
+                                        ->paginate(6);
+        return view('auth.account.exams.my_exam', compact('user','currentItem','listItems'));
     }
 
     public function upgradeVip(Request $request, $route)

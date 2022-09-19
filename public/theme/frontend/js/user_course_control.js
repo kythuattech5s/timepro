@@ -1,4 +1,26 @@
 "use strict";
+var MY_COURSE = (function () {
+    var fillterMyCourse = function () {
+        var formFillterMyCourse = document.querySelector(
+            "#form-fillter-my-course"
+        );
+        if (!formFillterMyCourse) {
+            return;
+        }
+        var listItemFillter =
+            formFillterMyCourse.querySelectorAll(".item-fillter");
+        listItemFillter.forEach((itemFillter) => {
+            itemFillter.addEventListener("change", function () {
+                formFillterMyCourse.submit();
+            });
+        });
+    };
+    return {
+        _: function () {
+            fillterMyCourse();
+        },
+    };
+})();
 var MY_ORDER = (function () {
     var cancelOrder = function () {
         var listBtnAcceptCancelOrder = document.querySelectorAll(
@@ -49,5 +71,6 @@ var MY_ORDER = (function () {
     };
 })();
 window.addEventListener("DOMContentLoaded", function () {
+    MY_COURSE._();
     MY_ORDER._();
 });

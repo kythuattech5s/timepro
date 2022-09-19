@@ -43,7 +43,7 @@ class VideoController extends Controller
     public function markVideoDone(Request $request)
     {
         $course_video_done = \DB::table('course_video_user')->where('user_id', \Auth::id())->where('course_video_id', $request->input('course_video_id'))->first();
-        $courseVideo = CourseVideo::find($request->input('course_video_id'))->first();
+        $courseVideo = CourseVideo::find($request->input('course_video_id'));
 
         if ($course_video_done == null) {
             \DB::table('course_video_user')->insert([
