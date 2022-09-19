@@ -79,7 +79,7 @@
                                 <p class="text-[#252525] text-[0.875rem] mb-1">Số điện thoại *</p>
                                 <input type="text" name="phone" placeholder="Số điện thoại..." value="{{Support::show($user,'phone')}}" rules="required" class="form-control w-full py-2 px-4 border-[1px] border-solid border-[#ebebeb] rounded-lg outline-none mb-4">
                                 <p class="text-[#252525] text-[0.875rem] mb-1">Email *</p>
-                                <input type="file" name="avatar" class="input-avatars opacity-0 absolute top-0 left-0 w-full h-full d-none" id="avatar" accept="image/*" onchange="document.getElementById('output').src = window.URL.createObjectURL(this.files[0])">
+                                <input type="file" name="avatar" class="d-none" id="avatar" accept="image/*" onchange="document.getElementById('output').src = window.URL.createObjectURL(this.files[0])">
                                 <input type="text" name="email" placeholder="Cập nhật..." rules="required" rules="required||email" value="{{Support::show($user,'email')}}" class="form-control w-full py-2 px-4 border-[1px] border-solid border-[#ebebeb] rounded-lg outline-none mb-6">
                                 <button type="submit" class="btn btn-red-gradien inline-flex w-full items-center justify-center font-semibold text-white py-2 px-4 rounded bg-gradient-to-r from-[#F44336] to-[#C62828] shadow-[0_6px_20px_rgba(178,30,37,.4)]">
                                     Cập nhật
