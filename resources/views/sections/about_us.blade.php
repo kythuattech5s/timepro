@@ -24,7 +24,7 @@
             <div class="col-span-1 sm:col-span-2 order-first lg:order-[1]">
                 <?php
                 $idYoutube = Support::getYoutubeId(SettingHelper::getSetting('link_video_about'));
-                $imgVideoYoutube = "https://img.youtube.com/vi/$idYoutube/mqdefault.jpg";
+                $imgVideoYoutube = "https://img.youtube.com/vi/$idYoutube/maxresdefault.jpg";
                 ?>
                 <a href="{[link_video]}" title="" data-fslightbox="video-intro" class="video-intro block c-img pt-[52%] rounded-lg overflow-hidden">
                     <img src="{{$imgVideoYoutube ?? ''}}" alt="{[title_about_us]}" title="{[title_about_us]}" />

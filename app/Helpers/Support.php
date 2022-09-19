@@ -271,4 +271,82 @@ class Support
             return 0;
         }
     }
+    public static function uploadImg($inputName, $saveFrom, $checkFileExist = false, $getExtra = false)
+    {
+        if (!request()->hasFile($inputName)) {
+            return '';
+        }
+        $images = request()->file($inputName);
+        if ($images == null) {
+            return '';
+        }
+        if (is_array($images)) {
+            $image = $images[0];
+        } else {
+            $image = $images;
+        }
+        $uploadRootDir = 'public/uploads';
+        $uploadDir = $saveFrom;
+        $pathRelative = $uploadRootDir . '/' . $uploadDir . '/';
+        $pathAbsolute = base_path($pathRelative);
+        $dirs = explode('/', $uploadDir);
+        $parentId = 0;
+        foreach ($dirs as $item) {
+            $parentId = Media::createDir($uploadRootDir, $item, $pathRelative, $pathAbsolute, $parentId);
+        }
+        if (is_bool($parentId)) {
+            return '';
+        }
+        $ext = $image->getClientOriginalExtension();
+        $fileName = strtolower(\Str::random(5)) . '-' . time() . '.' . $ext;
+        if (($checkFileExist && !file_exists($pathAbsolute . "/" . $image->getClientOriginalName())) || !$checkFileExist) {
+            $image->move($pathAbsolute, $fileName);
+            $img_id = Media::insertImageMedia($uploadRootDir, $pathAbsolute, $pathRelative, $fileName, $parentId);
+            event('vanhenry.manager.media.convert.img.via.cron', ['path' => $pathRelative . $fileName, 'id' => $img_id]);
+        } else {
+            $fileName = $image->getClientOriginalName();
+            $img_id = Media::findImageByName($fileName, $parentId);
+        }
+
+        return Media::img($img_id);
+    }
+
+    public static function uploadImgs($inputName, $saveFrom, $checkFileExist = false, $getExtra = false)
+    {
+        if (!request()->hasFile($inputName)) {
+            return null;
+        }
+        $imgs = [];
+        $images = request()->file($inputName);
+        $uploadRootDir = 'public/uploads';
+        $uploadDir = $saveFrom;
+        $pathRelative = $uploadRootDir . '/' . $uploadDir . '/';
+        $pathAbsolute = base_path($pathRelative);
+        $dirs = explode('/', $uploadDir);
+        $parentId = 0;
+        foreach ($dirs as $item) {
+            $parentId = Media::createDir($uploadRootDir, $item, $pathRelative, $pathAbsolute, $parentId);
+        }
+        if (is_bool($parentId)) {
+            return '';
+        }
+        foreach ($images as $key => $image) {
+            if ($image == null) {
+                continue;
+            }
+            $ext = $image->getClientOriginalExtension();
+            $fileName = strtolower(\Str::random(5)) . '-' . time() . '.' . $ext;
+            if (($checkFileExist && !file_exists($pathAbsolute . "/" . $image->getClientOriginalName())) || !$checkFileExist) {
+                $image->move($pathAbsolute, $fileName);
+                $img_id = Media::insertImageMedia($uploadRootDir, $pathAbsolute, $pathRelative, $fileName, $parentId);
+                event('vanhenry.manager.media.convert.img.via.cron', ['path' => $pathRelative . $fileName, 'id' => $img_id]);
+            } else {
+                $fileName = $image->getClientOriginalName();
+                $img_id = Media::findImageByName($fileName, $parentId);
+            }
+            // Thêm vào bảng cron
+            $imgs[] = $img_id;
+        }
+        return Media::libImg($imgs);
+    }
 }

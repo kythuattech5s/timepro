@@ -66,22 +66,22 @@ class AccountController extends Controller
                 'message' => $validator->errors()->first(),
             ]);
         }
-        if ($request->input('product_id','') != '' && ($request->input('district_id','') == '' || $request->input('ward_id','') == '')) {
+        if ($request->input('province_id','') != '' && ($request->input('district_id','') == '' || $request->input('ward_id','') == '')) {
             return response()->json([
                 'code' => 100,
                 'message' => 'Bạn cần điền đầy đủ Quận Huyện / Phường Xã',
             ]);
         }
         $user->name = $request->input('name', '');
-        $user->gender = $request->input('gender', '');
+        $user->gender_id = $request->input('gender', '');
         if (Support::show($user, 'phone') == '') {
             $user->phone = $request->input('phone', '');
         }
         if (Support::show($user, 'email') == '') {
             $user->email = $request->input('email', '');
         }
-        if($request->input('product_id','') != ''){
-            $user->product_id = $request->input('product_id','');
+        if($request->input('province_id','') != ''){
+            $user->province_id = $request->input('province_id','');
         }
         if($request->input('district_id','') != ''){
             $user->district_id = $request->input('district_id','');
@@ -92,13 +92,15 @@ class AccountController extends Controller
         if($request->input('address','') != ''){
             $user->address = $request->input('address','');
         }
+        if($request->input('teacher_job','') != ''){
+            $user->teacher_job = $request->input('teacher_job','');
+        }
+        if($request->input('teacher_description','') != ''){
+            $user->teacher_description = $request->input('teacher_description','');
+        }
         if ($request->input('birthday')) {
-            $day = \DateTime::createFromFormat('d/m/Y', $request->input('birthday'));
-            $validateDay = $day && $day->format('d/m/Y') === $request->input('birthday');
-            if (!$validateDay) {
-                return response(['code' => 100,'message' => 'Vui lòng nhập đúng định dạng ngày tháng']);
-            }
-            $user->birthday = $day;
+            $date = new \Datetime($request->input('birthday'));
+            $user->birthday = $date;
         }
         $user->img = isset($request->avatar) ? \Support::uploadImg('avatar', 'avatar') : $user->img;
         $user->save();
@@ -115,12 +117,11 @@ class AccountController extends Controller
         if ($request->isMethod("POST")) {
             return $this->changePassWord($request);
         }
+        $user = Auth::user();
         if(\Support::show($user,'user_type_id') == 1){
-            $user = Auth::user();
             return view('auth.account.change_password', compact('user'));
         }
         else{
-            $provinces = Province::all();
             return view('auth.teacher.change_password', compact('user'));
         }
     }
@@ -128,7 +129,7 @@ class AccountController extends Controller
     {
         $user = Auth::user();
         $validator = $this->validatorChangePassword($request, $user);
-        if (empty($user->input('password'))) {
+        if (empty($request->input('password'))) {
             $validator = $this->validatorPasswordNew($request);
         }
         else {
