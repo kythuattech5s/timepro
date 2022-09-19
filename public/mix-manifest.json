@@ -1,7 +1,7 @@
 {
     "/video/js/video.js": "/video/js/video.js",
     "/video/js/app.js": "/video/js/app.js",
-    "/theme/frontend/js/question.js": "/theme/frontend/js/question.js",
+    "/assets/js/question.js": "/assets/js/question.js",
     "/css/app.css": "/css/app.css",
     "/video/css/video.css": "/video/css/video.css",
     "/admin/promotion/css/app.css": "/admin/promotion/css/app.css",
@@ -45,6 +45,7 @@
     "/assets/js/ValidateForm.js": "/assets/js/ValidateForm.js",
     "/assets/js/ValidateFormFile.js": "/assets/js/ValidateFormFile.js",
     "/assets/js/ValidateFormHasFile.js": "/assets/js/ValidateFormHasFile.js",
+    "/assets/js/videoPlayer.js": "/assets/js/videoPlayer.js",
     "/assets/js/XHR.js": "/assets/js/XHR.js",
     "/assets/plugins/cancel/app.css": "/assets/plugins/cancel/app.css",
     "/assets/plugins/cancel/app.js": "/assets/plugins/cancel/app.js",

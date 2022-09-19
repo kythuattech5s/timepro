@@ -43,15 +43,38 @@ class VideoController extends Controller
     public function markVideoDone(Request $request)
     {
         $course_video_done = \DB::table('course_video_user')->where('user_id', \Auth::id())->where('course_video_id', $request->input('course_video_id'))->first();
+        $courseVideo = CourseVideo::find($request->input('course_video_id'));
+
         if ($course_video_done == null) {
             \DB::table('course_video_user')->insert([
                 'course_video_id' => $request->input('course_video_id'),
-                'user_id' => \Auth::id()
+                'user_id' => \Auth::id(),
+                'course_id' => $courseVideo->course_id,
+                'duration' => $request->input('duration'),
+                'is_done' => $request->input('is_done', 0),
+            ]);
+        } elseif ($request->input('is_done') && $course_video_done !== null) {
+            \DB::table('course_video_user')->where('user_id', \Auth::id())->where('course_video_id', $request->input('course_video_id'))->update([
+                'is_done' => $request->input('is_done'),
+                'duration' => $request->input('duration')
+            ]);
+        } elseif ($course_video_done !== null &&  $course_video_done->is_done != 1) {
+            \DB::table('course_video_user')->where('user_id', \Auth::id())->where('course_video_id', $request->input('course_video_id'))->update([
+                'duration' => $request->input('duration'),
             ]);
         }
         return response([
             'code' => 200,
             'message' => 'Thành công'
+        ]);
+    }
+
+    public function getVideoSrc(Request $request)
+    {
+        $courseVideo = CourseVideo::find($request->input('course_video_id'));
+        $source = json_decode($courseVideo->source, true);
+        return response([
+            'src' => $source['path'] . $source['file_name']
         ]);
     }
 }

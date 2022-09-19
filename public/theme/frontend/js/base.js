@@ -72,6 +72,9 @@ var NOTIFICATION = {
         }
     },
     showNotify(code, message) {
+        if (message == "undefined" || message == undefined || message == "") {
+            return;
+        }
         for (const toastr of document.querySelectorAll(".toastify")) {
             toastr.remove();
         }

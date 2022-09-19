@@ -14,6 +14,14 @@ class Course extends BaseModel
     {
         return $this->belongsTo(User::class, 'teacher_id', 'id');
     }
+    public function exam()
+    {
+        return $this->belongsTo(Exam::class);
+    }
+    public function examResult()
+    {
+        return $this->hasMany(ExamResult::class);
+    }
     public function pivot()
     {
         return $this->hasMany(CourseCourseCategory::class, 'course_id', 'id');
@@ -199,7 +207,9 @@ class Course extends BaseModel
     }
     public function percentComplete($userId = null)
     {
-        return 0;
+        if (!isset($userId)) {
+            return 0;
+        }
         $videoCount = $this->videos()->count();
         if ($videoCount == 0) {
             return 0;
@@ -207,7 +217,7 @@ class Course extends BaseModel
         $countVideoDone = $this->videos()->whereHas('courseVideoUser', function ($q) use ($userId) {
             $q->where('user_id', $userId);
         })->count();
-        return floor($countVideoDone * 100 / $videoCount, 2);
+        return floor($countVideoDone * 100 / $videoCount);
     }
     public function percentStudy()
     {
@@ -215,11 +225,15 @@ class Course extends BaseModel
         $totalTime = 0;
         $totalStuding = 0;
         foreach ($videos as $video) {
-            $videoDone = $video->users->first(function ($q) use ($video) {
-                return $q->pivot->user_id == \Auth::id() && $q->pivot->course_video_id == $video->id;
+            $user = $video->users->first(function ($q) {
+                return $q->id == \Auth::id();
             });
-            if ($videoDone != null) {
-                $totalStuding += $video->duration;
+            if ($user != null) {
+                if ($user->pivot->is_done == 1) {
+                    $totalStuding += $video->duration;
+                } else {
+                    $totalStuding += $user->pivot->duration;
+                }
             }
             $totalTime += $video->duration;
         }

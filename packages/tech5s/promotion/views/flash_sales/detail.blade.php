@@ -20,6 +20,8 @@
                         <div class="detail-fs-right">
                             <p class="flash-sale__title"><span>Khung giờ khuyến mãi</span></p>
                             <div class="flash-sale-time">
+                                <input type="hidden" name="start_at" value="{{ $currentItem->start_at }}">
+                                <input type="hidden" name="expired_at" value="{{ $currentItem->expired_at }}">
                                 <div class="flash-sale-time--start @if ($currentItem->isRunning()) active @endif">
                                     <p class="mb-1 font-bold">Thời gian diễn ra</p>
                                     <p class="mb-1">{{ Support::showDateTime($currentItem->start_at) }} - {{ Support::showDateTime($currentItem->expired_at) }}</p>
@@ -36,7 +38,7 @@
                         @if (isset($listItems))
                             @include('sp::flash_sales.path.itemShow', ['flashSale' => $currentItem])
                         @else
-                            <button type="button" class="btn btn-success fz-14 mb-3" data-toggle="modal" data-target="#modalProduct" data-type="flashsale" data-action="add">
+                            <button type="button" class="btn btn-success fz-14 mb-3" data-toggle="modal" data-target="#modalProduct" data-type="flash_sales" data-action="add">
                                 Thêm sản phẩm
                             </button>
                         @endif

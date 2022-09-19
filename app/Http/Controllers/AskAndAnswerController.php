@@ -180,15 +180,28 @@ class AskAndAnswerController extends Controller
         ]);
     }
 
-    public function loadMoreAsk(Request $request)
+    public function filter(Request $request)
     {
+        $map_table = $request->input('map_table');
+        $map_id = $request->input('map_id');
         $model = $request->input('model');
         $with = $request->input('with');
-        $asks = $model::with(explode(',', $with))->where('map_table', $request->input('map_table'))->where('map_id', $request->input('map_id'))->where('act', 1)->orderBy('id', 'DESC')->paginate(5);
+        $listItems = $model::with(explode(',', $with))->where('map_table', $map_table)->whereNull($request->input('field_main'))->where('map_id', $map_id)->where('act', 1);
+
+        $listItems->when($request->input('sort'), function ($q, $sort) {
+            $q->orderBy('id', $sort);
+        });
+
+        if (!isset($request->sort)) {
+            $listItems->orderBy('id', 'DESC');
+        }
+        $listItems = $listItems->paginate(5);
+
         return response([
             'code' => 200,
-            'html' => view('courses.components.ask_item', compact('asks'))->render(),
-            'isLastPage' => $asks->onLastPage()
+            'html' => view($request->input('view'), compact('listItems', 'map_table', 'map_id'))->render(),
+            'isLastPage' => $listItems->onLastPage(),
+            'nextPage' => $listItems->onLastPage() ? $listItems->currentPage() + 1 : $listItems->currentPage()
         ]);
     }
 }

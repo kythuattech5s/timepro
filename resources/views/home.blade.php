@@ -84,13 +84,13 @@
                                     <img src="theme/frontend/images/banner-lec.jpg" alt="">
                                 </span>
                                 <div class="content relative lg:p-4 p-2 pt-0 text-center lg:mt-[-75px] -mt-10">
-                                    <span class="ava block img-ava mx-auto lg:w-[8rem] lg:h-[8rem] w-[5rem] h-[5rem rounded-full overflow-hidden">
+                                    <span class="ava block img-ava mx-auto lg:w-[8rem] lg:h-[8rem] w-[5rem] h-[5rem] rounded-full overflow-hidden">
                                         @include('image_loader.big',['itemImage'=>$itemTeacher,'key'=>'img'])
                                     </span>
                                     <p class="name font-bold text-[#252525] 2lx:text-[1.25rem] text-[1rem] mb-1">{{Support::show($itemTeacher,'name')}}</p>
                                     <p class="role text-[#CD272F] mb-4">{{Support::show($itemTeacher,'teacher_job')}}</p>
                                     <div class="short_content lg:text-[0.875rem] mb-4">{{Support::show($itemTeacher,'teacher_short_content')}}</div>
-                                    <div class="grid grid-cols-3 gap-4 border-[1px] border-solid border-[#ebebeb] rounded lg:py-4 py-2 2xl:px-8 lg:px-6 px-4 mb-4">
+                                    <div class="grid grid-cols-3 gap-4 border-[1px] border-solid border-[#ebebeb] rounded lg:py-4 py-2 2xl:px-8 lg:px-6 px-4 mb-4 mt-auto">
                                         <div class="col-span-1 text-center">
                                             <p class="font-bold text-[#252525] text-[0.75rem] mb-2">Số khóa học</p>
                                             <span class="count inline-block font-semibold text-white px-2 py-1 rounded bg-[#E099C8]"> {{$itemTeacher->course->count()}} </span>

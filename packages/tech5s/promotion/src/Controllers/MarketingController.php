@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Tech5s\Promotion\Helpers\DealHelper;
+use Tech5s\Promotion\Helpers\FlashSaleHelper;
 use Tech5s\Promotion\Services\ComboService;
 use Tech5s\Promotion\Services\DealService;
 use Tech5s\Promotion\Services\FlashSaleService;
@@ -44,8 +45,7 @@ class MarketingController extends BaseAdminController
             $shop_id = $item->deal->shop_id;
         }
 
-        if ($promotion == 'flashsale') {
-            dd($promotion);
+        if ($promotion == 'flash_sales') {
         }
         foreach ($old_product_selected as $product) {
             $product_chooses[] = [
@@ -70,8 +70,8 @@ class MarketingController extends BaseAdminController
                     return session()->get(DealService::PREFIX_SESSION_PRODUCT_SUB, collect());
                 }
                 break;
-            case 'flashsale':
-
+            case 'flash_sales':
+                return session()->get(FlashSaleService::SS_PRODUCT_SELECTED, collect());
                 break;
             default:
                 return session()->get(VoucherService::PREFIX_SESSION_PRODUCT, collect());
@@ -195,12 +195,6 @@ class MarketingController extends BaseAdminController
                         $q->where('deals.id', $item->deal->id);
                     }, 'dealMain' => function ($q) use ($item) {
                         $q->where('deals.id', $item->deal->id);
-                    }, 'variants' => function ($q) use ($item) {
-                        $q->with(['dealSub' => function ($q) use ($item) {
-                            $q->where('deals.id', $item->deal->id);
-                        }, 'dealMain' => function ($q) use ($item) {
-                            $q->where('deals.id', $item->deal->id);
-                        }]);
                     }])->whereIn('id', collect($product_ids)->pluck('id'))->get();
                 } else {
                     session()->put($type == 'main' ? DealService::PREFIX_SESSION_PRODUCT_MAIN : DealService::PREFIX_SESSION_PRODUCT_SUB, collect());
@@ -219,6 +213,60 @@ class MarketingController extends BaseAdminController
                     'count' => $products->count(),
                     'type' => $type,
                 ]);
+                break;
+            case 'flash_sales':
+                // dd($request->input('products'));
+                // $listProducts = session()->get(FlashSaleHelper::SESSION_PRODUCT_REAL, collect());
+                // $listProductRemove = session()->get(FlashSaleHelper::SESSION_PRODUCT_REMOVE);
+                // $listItems = Course::whereIn('id', $products)->with('variants', function ($q) use ($listProductRemove) {
+                //     if ($listProductRemove !== null) {
+                //         $q->whereNotIn('id', $listProductRemove->pluck('id'));
+                //     }
+                // })->get();
+
+                // $getProductHasQty = $listProducts != null ? $listProducts->filter(fn ($q) => $q['act'] == 1 && $q['qty'] > 0) : collect();
+                // $getProductHasQtyRemove = $getProductHasQty->filter(fn ($q) => !$products->contains('id', $q['id']));
+                // foreach ($getProductHasQtyRemove as $item) {
+                //     Product::plusOrMinusAvailable($item['id'], $item['qty'], false);
+                // }
+
+                // session()->put(FlashSaleHelper::SESSION_PRODUCT_CURRENT, $products->pluck('id'));
+                // $arrayProductReal = collect();
+
+                // foreach ($listItems as $item) {
+                //     $variants = $item->variants;
+                //     $count = $variants->count();
+                //     if ($count > 0) {
+                //         foreach ($variants as $product) {
+                //             $arrayProductReal[] = [
+                //                 "id" => $product->id,
+                //                 "price" => $product->price,
+                //                 "percent" => 0,
+                //                 "qty" => 0,
+                //                 "limit" => 0,
+                //                 'act' => 0,
+                //             ];
+                //         }
+                //     } else {
+                //         $arrayProductReal[] = [
+                //             "id" => $item->id,
+                //             "price" => $item->price,
+                //             "percent" => 0,
+                //             "qty" => 0,
+                //             "limit" => 0,
+                //             'act' => 0,
+                //         ];
+                //     }
+                // }
+
+                // $controller = new FlashSaleController();
+                // $controller->saveProduct(request(), $arrayProductReal);
+                // session()->put(FlashSaleHelper::SESSION_PRODUCT_REAL, $arrayProductReal);
+                // return response([
+                //     'code' => 200,
+                //     'message' => 'Thêm sản phẩm thành công',
+                //     'html' => view('sp::flash_sales.path.itemShow', compact('listItems', 'promotion', 'action', 'listProducts'))->render(),
+                // ]);
                 break;
         }
     }
@@ -333,132 +381,11 @@ class MarketingController extends BaseAdminController
                         });
                     })->where('deals.act', 1)->where('deal_product_subs.act', 1)->whereNotIn('deal_product_subs.product_id', $product_in_promotion);
                 });
-                $q->whereDoesntHave('variants', function ($q) use ($product_in_promotion, $start_at, $expired_at) {
-                    $q->whereHas('shopFlashSale', function ($q) use ($product_in_promotion, $start_at, $expired_at) {
-                        $q->whereHas('flashSale', function ($q) use ($product_in_promotion, $start_at, $expired_at) {
-                            $q->where(function ($q) use ($start_at, $expired_at) {
-                                $q->where(function ($q) use ($start_at, $expired_at) {
-                                    $q->whereBetween('flash_sales.start_at', [$start_at, $expired_at]);
-                                })->orWhere(function ($q) use ($start_at, $expired_at) {
-                                    $q->whereBetween('flash_sales.expired_at', [$start_at, $expired_at]);
-                                })->orWhere(function ($q) use ($start_at, $expired_at) {
-                                    $q->where('flash_sales.start_at', '<=', $start_at)->where('flash_sales.expired_at', '>=', $expired_at);
-                                });
-                            })->where('flash_sales.act', 1);
-                        })->whereHas('products', function ($q) use ($product_in_promotion, $start_at, $expired_at) {
-                            $q->where('shop_flash_sale_product.act', 1)->whereNotIn('shop_flash_sale_product.product_id', $product_in_promotion);
-                        });
-                    })->orWhereHas('dealSub', function ($q) use ($product_in_promotion, $start_at, $expired_at) {
-                        $q->where(function ($q) use ($start_at, $expired_at) {
-                            $q->where(function ($q) use ($start_at, $expired_at) {
-                                $q->whereBetween('deals.start_at', [$start_at, $expired_at]);
-                            })->orWhere(function ($q) use ($start_at, $expired_at) {
-                                $q->whereBetween('deals.expired_at', [$start_at, $expired_at]);
-                            })->orWhere(function ($q) use ($start_at, $expired_at) {
-                                $q->where('deals.start_at', '<=', $start_at)->where('deals.expired_at', '>=', $expired_at);
-                            });
-                        })->where('deals.act', 1)->where('deal_product_subs.act', 1)->whereNotIn('products.id', $product_in_promotion);
-                    });
-                });
-                $q->whereDoesntHave('shopFlashSale', function ($q) use ($product_in_promotion, $start_at, $expired_at) {
-                    $q->whereHas('flashSale', function ($q) use ($product_in_promotion, $start_at, $expired_at) {
-                        $q->where(function ($q) use ($start_at, $expired_at) {
-                            $q->where(function ($q) use ($start_at, $expired_at) {
-                                $q->whereBetween('flash_sales.start_at', [$start_at, $expired_at]);
-                            })->orWhere(function ($q) use ($start_at, $expired_at) {
-                                $q->whereBetween('flash_sales.expired_at', [$start_at, $expired_at]);
-                            })->orWhere(function ($q) use ($start_at, $expired_at) {
-                                $q->where('flash_sales.start_at', '<=', $start_at)->where('flash_sales.expired_at', '>=', $expired_at);
-                            });
-                        })->where('flash_sales.act', 1);
-                    })->whereHas('products', function ($q) use ($product_in_promotion, $start_at, $expired_at) {
-                        $q->where('shop_flash_sale_product.act', 1)->whereNotIn('shop_flash_sale_product.product_id', $product_in_promotion);
-                    });
-                });
             }
 
             if ($detailPromotion instanceof FlashSaleService) {
-                $q->whereDoesntHave('shopFlashSale', function ($q) use ($product_in_promotion, $start_at, $expired_at) {
-                    $q->whereHas('flashSale', function ($q) use ($product_in_promotion, $start_at, $expired_at) {
-                        $q->where(function ($q) use ($start_at, $expired_at) {
-                            $q->where(function ($q) use ($start_at, $expired_at) {
-                                $q->whereBetween('flash_sales.start_at', [$start_at, $expired_at]);
-                            })->orWhere(function ($q) use ($start_at, $expired_at) {
-                                $q->whereBetween('flash_sales.expired_at', [$start_at, $expired_at]);
-                            })->orWhere(function ($q) use ($start_at, $expired_at) {
-                                $q->where('flash_sales.start_at', '<=', $start_at)->where('flash_sales.expired_at', '>=', $expired_at);
-                            });
-                        })->where('flash_sales.act', 1);
-                    })->whereHas('products', function ($q) use ($product_in_promotion, $start_at, $expired_at) {
-                        $q->where('shop_flash_sale_product.act', 1)->whereNotIn('shop_flash_sale_product.product_id', $product_in_promotion);
-                    });
-                });
-
-                $q->whereDoesntHave('dealMain', function ($q) use ($product_in_promotion, $start_at, $expired_at) {
-                    $q->where(function ($q) use ($start_at, $expired_at) {
-                        $q->where(function ($q) use ($start_at, $expired_at) {
-                            $q->whereBetween('deals.start_at', [$start_at, $expired_at]);
-                        })
-                            ->orWhere(function ($q) use ($start_at, $expired_at) {
-                                $q->whereBetween('deals.expired_at', [$start_at, $expired_at]);
-                            })
-                            ->orWhere(function ($q) use ($start_at, $expired_at) {
-                                $q->where('deals.start_at', '<=', $start_at)->where('deals.expired_at', '>=', $expired_at);
-                            });
-                    })->where('deals.act', 1)->where('deal_product_mains.act', 1)->whereNotIn('deal_product_mains.product_id', $product_in_promotion);
-                });
-
-                $q->whereDoesntHave('combo', function ($q) use ($product_in_promotion, $start_at, $expired_at) {
-                    $q->where(function ($q) use ($start_at, $expired_at) {
-                        $q->where(function ($q) use ($start_at, $expired_at) {
-                            $q->whereBetween('combos.start_at', [$start_at, $expired_at]);
-                        })->orWhere(function ($q) use ($start_at, $expired_at) {
-                            $q->whereBetween('combos.expired_at', [$start_at, $expired_at]);
-                        })->orWhere(function ($q) use ($start_at, $expired_at) {
-                            $q->where('combos.start_at', '<=', $start_at)->where('combos.expired_at', '>=', $expired_at);
-                        });
-                    })->where('combos.act', 1)->where('combo_products.act', 1)->whereNotIn('combo_products.product_id', $product_in_promotion);
-                });
             }
         });
-        if ($detailPromotion instanceof FlashSaleService || $detailPromotion instanceof DealService) {
-            // Không lấy các sản phẩm có thuộc tính và thuộc tính đó có chương trình flash sale đang kích hoạt và có sản phẩm đang kích hoạt với thời gian bắt đầu nhỏ hơn hoặc bằng thời gian két thúc flashsale hiện tại và thời gian kết thúc phải lớn hơn thời gian bắt đàu của flashsale hiện tại
-            $products->where(function ($q) use ($detailPromotion, $product_in_promotion, $start_at, $expired_at) {
-                $q->whereDoesntHave('variants', function ($q) use ($detailPromotion, $product_in_promotion, $start_at, $expired_at) {
-                    if ($detailPromotion instanceof FlashSaleService) {
-                        $q->whereHas('shopFlashSale', function ($q) use ($product_in_promotion, $start_at, $expired_at) {
-                            $q->whereHas('flashSale', function ($q) use ($product_in_promotion, $start_at, $expired_at) {
-                                $q->where(function ($q) use ($start_at, $expired_at) {
-                                    $q->where(function ($q) use ($start_at, $expired_at) {
-                                        $q->whereBetween('flash_sales.start_at', [$start_at, $expired_at]);
-                                    })->orWhere(function ($q) use ($start_at, $expired_at) {
-                                        $q->whereBetween('flash_sales.expired_at', [$start_at, $expired_at]);
-                                    })->orWhere(function ($q) use ($start_at, $expired_at) {
-                                        $q->where('flash_sales.start_at', '<=', $start_at)->where('flash_sales.expired_at', '>=', $expired_at);
-                                    });
-                                })->where('flash_sales.act', 1);
-                            })->whereHas('products', function ($q) use ($product_in_promotion, $start_at, $expired_at) {
-                                $q->where('shop_flash_sale_product.act', 1)->whereNotIn('shop_flash_sale_product.product_id', $product_in_promotion);
-                            });
-                        });
-                    }
-
-                    if ($detailPromotion instanceof DealService) {
-                        $q->whereHas('dealSub', function ($q) use ($product_in_promotion, $start_at, $expired_at) {
-                            $q->where(function ($q) use ($start_at, $expired_at) {
-                                $q->where(function ($q) use ($start_at, $expired_at) {
-                                    $q->whereBetween('deals.start_at', [$start_at, $expired_at]);
-                                })->orWhere(function ($q) use ($start_at, $expired_at) {
-                                    $q->whereBetween('deals.expired_at', [$start_at, $expired_at]);
-                                })->orWhere(function ($q) use ($start_at, $expired_at) {
-                                    $q->where('deals.start_at', '<=', $start_at)->where('deals.expired_at', '>=', $expired_at);
-                                });
-                            })->where('deals.act', 1)->where('deal_product_subs.act', 1)->whereNotIn('products.id', $product_in_promotion);
-                        });
-                    }
-                });
-            });
-        }
         return $products;
     }
 

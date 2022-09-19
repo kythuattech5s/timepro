@@ -3,6 +3,7 @@
 namespace Roniejisa\Comment\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Course;
 use Roniejisa\Comment\Models\Order;
 use Roniejisa\Comment\Models\Product;
 use Auth;
@@ -88,25 +89,9 @@ class CommentController extends Controller
         ];
 
         if (config('cmrsc_comment.hasShowTotal')) {
-            // if ($request->input('map_table') == 'products') {
-            //     $ratings = Product::where('id', $request->input('map_id'))->first()->getRating();
-            // }
-            $ratings = [
-                'scoreAll' => 5,
-                'percentAll' => 10,
-                'totalRating' => 1,
-                'percentFiveStar' => 2,
-                'percentFourStar' => 2,
-                'percentThreeStar' => 2,
-                'percentTwoStar' => 2,
-                'percentOneStar' => 2,
-                'percentFiveStar' => 2,
-                'oneStar' => 2,
-                'twoStar' => 3,
-                'threeStar' => 4,
-                'fourStar' => 5,
-                'fiveStar' => 6,
-            ];
+            if ($request->input('map_table') == 'courses') {
+                $ratings = Course::where('id', $request->input('map_id'))->first()->getRating();
+            }
             $response['total_html'] = view('commentRS::box_percent', compact('ratings'))->render();
         }
 

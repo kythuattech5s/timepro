@@ -24,7 +24,7 @@
                                                     <input class="form-control" type="radio" id="type_code_shop"
                                                            name="code_type" value="{{ VoucherHelper::CODE_TYPE_SHOP }}"
                                                            checked>
-                                                    <label for="type_code_shop" class="flex space-x-2">
+                                                    <label for="type_code_shop" class="flex space-x-2 items-center">
                                                         <img src="admin/promotion/assets/images/shops.png"
                                                              alt="Shop">
                                                         Voucher toàn shop
@@ -34,10 +34,10 @@
                                                     <div class="voucher-type__item relative">
                                                         <input class="form-control" type="radio" id=type_code_product
                                                                name="code_type" value="{{ VoucherHelper::CODE_TYPE_PRODUCT }}">
-                                                        <label for="type_code_product" class="flex space-x-2">
+                                                        <label for="type_code_product" class="flex space-x-2 items-center">
                                                             <img src="admin/promotion/assets/images/online-shopping.png"
                                                                  alt="Shop">
-                                                            Voucher sản phẩm
+                                                            Voucher khóa học
                                                         </label>
                                                     </div>
                                                 @endif
@@ -210,7 +210,7 @@
                                         </div>
                                     </div>
                                     <div class="voucher-group footer">
-                                        <h4>Hiện thị mã giảm giá và sản phẩm áp dụng</h4>
+                                        <h4>Hiện thị mã giảm giá và khóa học áp dụng</h4>
                                         <div class="voucher-group__form align-items-baseline">
                                             <label>Thiết lập hiển thị</label>
                                             <div class="voucher-public">
@@ -227,25 +227,25 @@
                                             </div>
                                         </div>
                                         <div class="voucher-group__form align-items-baseline">
-                                            <label for="">Danh mục sản phẩm được áp dụng</label>
+                                            <label for="">Danh mục khóa học được áp dụng</label>
                                             <div class="voucher-category-all">
-                                                Tất cả danh mục sản phẩm
+                                                Tất cả danh mục khóa học
                                             </div>
                                             <div m-checkbox="CATEGORY_CHOOSE_VOUCHER" class="apply-category d-none flex-1">
 
                                             </div>
                                         </div>
                                         <div class="voucher-group__form apply-product align-items-baseline">
-                                            <label>Sản phẩm được áp dụng</label>
+                                            <label>Khóa học được áp dụng</label>
                                             <div class="voucher-for">
-                                                Tất cả sản phẩm
+                                                Tất cả khóa học
                                             </div>
                                             <div class="item-product"
                                                  m-checkbox="PRODUCT_CHOOSES_VOUCHERS">
                                                 <button type="button" class="btn d-none bg-green-400 text-white"
                                                         data-toggle="modal" data-target="#modalProduct" data-type="vouchers"
                                                         data-action="{{ $action }}">
-                                                    Thêm sản phẩm
+                                                    Thêm khóa học
                                                 </button>
                                             </div>
                                         </div>

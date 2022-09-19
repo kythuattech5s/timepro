@@ -44,6 +44,13 @@ class OrderCourseManageController extends BaseAdminController
             ]);
         }
         $order->order_status_id = $orderStatus->id;
+        if ($order->order_status_id == OrderStatus::CANCEL) {
+            $order->cancel_user_type = 'admin';
+            $order->user_cancel_id = \Auth::guard('h_users')->id();
+        }
+        if ($order->order_status_id == OrderStatus::PAID) {
+            $order->admin_confirm_id = \Auth::guard('h_users')->id();
+        }
         $order->save();
         if ($order->order_status_id == OrderStatus::PAID) {
             \Event::dispatch('course.manager.order.success', array($order->id));
