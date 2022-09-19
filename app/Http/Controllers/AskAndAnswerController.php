@@ -180,15 +180,37 @@ class AskAndAnswerController extends Controller
         ]);
     }
 
+    public function filter(Request $request)
+    {
+        $model = $request->input('model');
+        $with = $request->input('with');
+        $listItems = $model::with(explode(',', $with))->where('map_table', $request->input('map_table'))->where('map_id', $request->input('map_id'))->where('act', 1);
+
+        $listItems->when($request->input('sort'), function ($q, $sort) {
+            $q->orderBy('id', $sort);
+        });
+
+        if (!isset($request->sort)) {
+            $listItems->orderBy('id', 'DESC');
+        }
+        $listItems = $listItems->paginate(5);
+
+        return response([
+            'code' => 200,
+            'html' => view($request->input('view'), compact('listItems'))->render(),
+            'isLastPage' => $listItems->onLastPage()
+        ]);
+    }
+
     public function loadMoreAsk(Request $request)
     {
         $model = $request->input('model');
         $with = $request->input('with');
-        $asks = $model::with(explode(',', $with))->where('map_table', $request->input('map_table'))->where('map_id', $request->input('map_id'))->where('act', 1)->orderBy('id', 'DESC')->paginate(5);
+        $listItems = $model::with(explode(',', $with))->where('map_table', $request->input('map_table'))->where('map_id', $request->input('map_id'))->where('act', 1)->orderBy('id', 'DESC')->paginate(5);
         return response([
             'code' => 200,
-            'html' => view('courses.components.ask_item', compact('asks'))->render(),
-            'isLastPage' => $asks->onLastPage()
+            'html' => view($request->input('view'), compact('listItems'))->render(),
+            'isLastPage' => $listItems->onLastPage()
         ]);
     }
 }

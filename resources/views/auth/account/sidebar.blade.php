@@ -44,23 +44,25 @@
         </a>
     </div>
 </div>
-<a href="{{\VRoute::get('my_course')}}" class="sidebar-admin__item bg-white rounded flex items-center justify-between py-3 2xl:px-6 px-4 mb-2 transition-all duration-300 ">
+
+<a href="{{\VRoute::get('my_course')}}" class="sidebar-admin__item bg-white rounded flex items-center justify-between py-3 2xl:px-6 px-4 mb-2 transition-all duration-300 {{Str::contains(url()->current(),[\VRoute::get('my_course')]) ? 'active':''}}">
+
     <span class="title font-bold text-[#252525]">Khóa học của tôi</span>
     <i class="fa fa-angle-right text-[1.875rem]" aria-hidden="true"></i>
 </a>
-<a href="{{\VRoute::get('my_exam')}}" class="sidebar-admin__item bg-white rounded flex items-center justify-between py-3 2xl:px-6 px-4 mb-2 transition-all duration-300">
+<a href="{{\VRoute::get('my_exam')}}" class="sidebar-admin__item bg-white rounded flex items-center justify-between py-3 2xl:px-6 px-4 mb-2 transition-all duration-300 {{Str::contains(url()->current(),[\VRoute::get('my_exam')]) ? 'active':''}}">
     <span class="title font-bold text-[#252525]">Kỳ thi</span>
     <i class="fa fa-angle-right text-[1.875rem]" aria-hidden="true"></i>
 </a>
-<a href="{{\VRoute::get('my_exam_result')}}" class="sidebar-admin__item bg-white rounded flex items-center justify-between py-3 2xl:px-6 px-4 mb-2 transition-all duration-300">
+<a href="{{\VRoute::get('my_exam_result')}}" class="sidebar-admin__item bg-white rounded flex items-center justify-between py-3 2xl:px-6 px-4 mb-2 transition-all duration-300 {{Str::contains(url()->current(),[\VRoute::get('my_exam_result')]) ? 'active':''}}">
     <span class="title font-bold text-[#252525]">Kết quả thi</span>
     <i class="fa fa-angle-right text-[1.875rem]" aria-hidden="true"></i>
 </a>
-<a href="{{\VRoute::get('my_profile')}}" class="sidebar-admin__item bg-white rounded flex items-center justify-between py-3 2xl:px-6 px-4 mb-2 transition-all duration-300">
+<a href="{{\VRoute::get('my_profile')}}" class="sidebar-admin__item bg-white rounded flex items-center justify-between py-3 2xl:px-6 px-4 mb-2 transition-all duration-300 {{Str::contains(url()->current(),[\VRoute::get('my_profile')]) ? 'active':''}}">
     <span class="title font-bold text-[#252525]">Thông tin cá nhân</span>
     <i class="fa fa-angle-right text-[1.875rem]" aria-hidden="true"></i>
 </a>
-<a href="{{\VRoute::get('my_notification')}}" class="sidebar-admin__item bg-white rounded flex items-center justify-between py-3 2xl:px-6 px-4 mb-2 transition-all duration-300">
+<a href="{{\VRoute::get('my_notification')}}" class="sidebar-admin__item bg-white rounded flex items-center justify-between py-3 2xl:px-6 px-4 mb-2 transition-all duration-300 {{Str::contains(url()->current(),[\VRoute::get('my_notification')]) ? 'active':''}}">
     <span class="title font-bold text-[#252525]">Thông báo</span>
     <div class="noti flex items-center">
         <span class="count mr-4 inline-block min-w-[1.25rem] h-5 rounded-full text-white font-semibold text-[0.875rem] leading-5 text-center bg-gradient-to-r from-[#F44336] to-[#C62828]">
@@ -69,19 +71,19 @@
         <i class="fa fa-angle-right text-[1.875rem]" aria-hidden="true"></i>
     </div>
 </a>
-<a href="{{\VRoute::get('my_order')}}" class="sidebar-admin__item bg-white rounded flex items-center justify-between py-3 2xl:px-6 px-4 mb-2 transition-all duration-300">
+<a href="{{\VRoute::get('my_order')}}" class="sidebar-admin__item bg-white rounded flex items-center justify-between py-3 2xl:px-6 px-4 mb-2 transition-all duration-300 {{Str::contains(url()->current(),[\VRoute::get('my_order')]) ? 'active':''}}">
     <span class="title font-bold text-[#252525]">Theo dõi đơn hàng</span>
     <i class="fa fa-angle-right text-[1.875rem]" aria-hidden="true"></i>
 </a>
-<a href="{{\VRoute::get('my_question')}}" class="sidebar-admin__item bg-white rounded flex items-center justify-between py-3 2xl:px-6 px-4 mb-2 transition-all duration-300">
+<a href="{{\VRoute::get('my_question')}}" class="sidebar-admin__item bg-white rounded flex items-center justify-between py-3 2xl:px-6 px-4 mb-2 transition-all duration-300 {{Str::contains(url()->current(),[\VRoute::get('my_question')]) ? 'active':''}}">
     <span class="title font-bold text-[#252525]">Câu hỏi thắc mắc</span>
     <i class="fa fa-angle-right text-[1.875rem]" aria-hidden="true"></i>
 </a>
-<a href="{{\VRoute::get('my_payment_history')}}" class="sidebar-admin__item bg-white rounded flex items-center justify-between py-3 2xl:px-6 px-4 mb-2 transition-all duration-300">
+{{-- <a href="{{\VRoute::get('my_payment_history')}}" class="sidebar-admin__item bg-white rounded flex items-center justify-between py-3 2xl:px-6 px-4 mb-2 transition-all duration-300">
     <span class="title font-bold text-[#252525]">Lịch sử thanh toán</span>
     <i class="fa fa-angle-right text-[1.875rem]" aria-hidden="true"></i>
-</a>
-<a href="{{\VRoute::get('upgrade_account')}}" class="sidebar-admin__item bg-white rounded flex items-center justify-between py-3 2xl:px-6 px-4 mb-2 transition-all duration-300">
+</a> --}}
+<a href="{{\VRoute::get('upgrade_account')}}" class="sidebar-admin__item bg-white rounded flex items-center justify-between py-3 2xl:px-6 px-4 mb-2 transition-all duration-300 {{Str::contains(url()->current(),[\VRoute::get('upgrade_account')]) ? 'active':''}}">
     <div class="vip">
         <img src="theme/frontend/images/vip.svg" class="inline-block mr-2" alt="">
         <span class="title font-bold text-[#252525]">Nâng cấp tài khoản VIP</span>

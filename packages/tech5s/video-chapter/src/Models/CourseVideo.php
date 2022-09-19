@@ -26,7 +26,7 @@ class CourseVideo extends Model
 
     public function users()
     {
-        return $this->belongsToMany(User::class, 'course_video_user', 'course_video_id', 'user_id');
+        return $this->belongsToMany(User::class, 'course_video_user', 'course_video_id', 'user_id')->withPivot(['is_done', 'duration']);
     }
 
     public function getDurationView()

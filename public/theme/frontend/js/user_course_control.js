@@ -1,5 +1,26 @@
 "use strict";
 var MY_ORDER = (function () {
+    var cancelOrder = function () {
+        var listBtnAcceptCancelOrder = document.querySelectorAll(
+            ".btn-accept-cancel-order"
+        );
+        listBtnAcceptCancelOrder.forEach((btnAcceptCancelOrder) => {
+            btnAcceptCancelOrder.addEventListener("click", function () {
+                var _this = this;
+                BASE_GUI.disableButton(_this);
+                const formData = new FormData();
+                formData.append("order", this.dataset.order);
+                XHR.send({
+                    url: "huy-don-hang",
+                    method: "POST",
+                    formData: formData,
+                }).then((res) => {
+                    BASE_GUI.enableButton(_this);
+                    NOTIFICATION.toastrMessageReload(res);
+                });
+            });
+        });
+    };
     var restoreOrder = function () {
         var listBtnRestoreOrder =
             document.querySelectorAll(".btn-restore-order");
@@ -15,13 +36,14 @@ var MY_ORDER = (function () {
                     formData: formData,
                 }).then((res) => {
                     BASE_GUI.enableButton(_this);
-                    NOTIFICATION.toastrMessage(res);
+                    NOTIFICATION.toastrMessageRedirect(res);
                 });
             });
         });
     };
     return {
         _: function () {
+            cancelOrder();
             restoreOrder();
         },
     };

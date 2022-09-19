@@ -1,4 +1,4 @@
-@foreach ($asks as $ask)
+@foreach ($listItems as $ask)
     <div>
         <div class="mb-2 flex gap-2">
             <p class="font-semibold text-[#252525]">{{ $ask->name }}</p>

@@ -85,13 +85,13 @@ class MailHelper
 
     public function setFrom($obj)
     {
-        $this->from_name = $obj->from ?? \SettingHelper::getSetting("mail_from_address", "");
+        $this->from_name = isset($obj->from) && $obj->from != '' ? $obj->from:config('mail')['from']['name'];
         return $this;
     }
 
     public function setFromEmail()
     {
-        $this->from_email = \SettingHelper::getSetting('mail_from_address') ?? 'CSKH.nhatquangshop@gmail.com';
+        $this->from_email = config('mail')['from']['address'] ?? '';
         return $this;
     }
     public function setReplyTo($reply = null)

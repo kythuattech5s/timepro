@@ -14,6 +14,10 @@ class Course extends BaseModel
     {
         return $this->belongsTo(User::class, 'teacher_id', 'id');
     }
+    public function exam()
+    {
+        return $this->belongsTo(Exam::class);
+    }
     public function pivot()
     {
         return $this->hasMany(CourseCourseCategory::class, 'course_id', 'id');
@@ -215,11 +219,15 @@ class Course extends BaseModel
         $totalTime = 0;
         $totalStuding = 0;
         foreach ($videos as $video) {
-            $videoDone = $video->users->first(function ($q) use ($video) {
-                return $q->pivot->user_id == \Auth::id() && $q->pivot->course_video_id == $video->id;
+            $user = $video->users->first(function ($q) {
+                return $q->id == \Auth::id();
             });
-            if ($videoDone != null) {
-                $totalStuding += $video->duration;
+            if ($user != null) {
+                if ($user->pivot->is_done == 1) {
+                    $totalStuding += $video->duration;
+                } else {
+                    $totalStuding += $user->pivot->duration;
+                }
             }
             $totalTime += $video->duration;
         }

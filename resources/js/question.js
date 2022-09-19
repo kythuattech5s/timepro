@@ -1,14 +1,67 @@
 class commentRS {
-    constructor(model, label, tableLike, fieldMain, withParam) {
+    constructor(selector, model, label, tableLike, fieldMain, withParam, view) {
+        this.selectors = document.querySelectorAll(selector);
+        if (this.selectors.length == 0) return;
         this.fieldMain = fieldMain;
         this.model = model;
         this.label = label;
         this.tableLike = tableLike;
         this.with = withParam;
+        this.view = view;
         this.like();
         this.reply();
+        this.filter();
         this.nextPage();
     }
+
+    filter = () => {
+        this.selectors.forEach((selector) => {
+            const listFilters = selector.querySelectorAll("[rs-qaa-filter]");
+            listFilters.forEach((filter) => {
+                filter.onchange = () => {
+                    const fomrData = new FormDataRS("", false);
+                    const data = {
+                        model: this.model,
+                        label: this.label,
+                        with: this.with,
+                        view: this.view,
+                        ...fomrData.buildData(listFilters, "input"),
+                    };
+
+                    XHR.send({
+                        url: "loc-cau-hoi",
+                        method: "POST",
+                        data: data,
+                    }).then((res) => {
+                        selector.querySelectorAll("[item]").forEach((item) => {
+                            item.remove();
+                        });
+                        const listData = selector.querySelector("[list-data]");
+                        if (res.isLastPage == true) {
+                            if (listData.querySelector("[ask-load-more]")) {
+                                listData
+                                    .querySelector("[ask-load-more]")
+                                    .remove();
+                                listData.innerHTML = res.html;
+                            }
+                        } else {
+                            if (listData.querySelector("[ask-load-more]")) {
+                                listData
+                                    .querySelector("[ask-load-more]")
+                                    .insertAdjacentHTML("beforeend", res.html);
+                            } else {
+                                listData.innerHTML = res.html;
+                            }
+                        }
+                        this.like();
+                        this.reply();
+                        this.filter();
+                        this.nextPage();
+                    });
+                };
+            });
+        });
+    };
 
     like = () => {
         const likeButtons = document.querySelectorAll("[rs-qaa-like]");
@@ -78,48 +131,55 @@ class commentRS {
     };
 
     nextPage = () => {
-        const nextPage = document.querySelector("[ask-load-more]");
-        if (!nextPage) return;
-        nextPage.onclick = () => {
-            XHR.send({
-                url: "tai-them-cau-hoi",
-                method: "GET",
-                data: {
-                    model: this.model,
-                    label: this.label,
-                    map_table: nextPage.dataset.table,
-                    map_id: nextPage.dataset.id,
-                    page: nextPage.dataset.nextPage,
-                    with: this.with,
-                },
-            }).then((res) => {
-                nextPage.insertAdjacentHTML("beforebegin", res.html);
-                if (res.isLastPage) {
-                    nextPage.remove();
-                }
-                this.like();
-                this.reply();
-            });
-        };
+        this.selectors.forEach((selector) => {
+            const nextPage = selector.querySelector("[ask-load-more]");
+            if (!nextPage) return;
+            nextPage.onclick = () => {
+                XHR.send({
+                    url: "tai-them-cau-hoi",
+                    method: "GET",
+                    data: {
+                        model: this.model,
+                        label: this.label,
+                        map_table: nextPage.dataset.table,
+                        map_id: nextPage.dataset.id,
+                        page: nextPage.dataset.nextPage,
+                        with: this.with,
+                        view: this.view,
+                    },
+                }).then((res) => {
+                    nextPage.insertAdjacentHTML("beforebegin", res.html);
+                    if (res.isLastPage) {
+                        nextPage.remove();
+                    }
+                    this.like();
+                    this.reply();
+                });
+            };
+        });
     };
 }
 window["ASK_AND_ANSWER"] = (() => {
     return {
         _: (() => {
             new commentRS(
+                "[ask-selector]",
                 "\\App\\Models\\AskAndAnswer",
                 "câu hỏi",
                 "ask_and_answer_user",
                 "ask_and_answer_id",
-                "likes,asks"
+                "likes,asks",
+                "courses.components.ask_item"
             );
 
             new commentRS(
+                "[question-teacher-main]",
                 "\\App\\Models\\QuestionTeacher",
                 "câu hỏi cho giảng viên",
                 "question_teacher_user",
                 "question_teacher_id",
-                "likes,asks"
+                "likes,questions",
+                "components.question_item"
             );
         })(),
         showNotify: (res) => {

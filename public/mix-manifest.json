@@ -1,6 +1,7 @@
 {
     "/video/js/video.js": "/video/js/video.js",
     "/video/js/app.js": "/video/js/app.js",
+    "/assets/js/question.js": "/assets/js/question.js",
     "/css/app.css": "/css/app.css",
     "/video/css/video.css": "/video/css/video.css",
     "/admin/promotion/css/app.css": "/admin/promotion/css/app.css",
