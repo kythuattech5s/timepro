@@ -68,8 +68,8 @@
 	    	<div class="col-lg-8 mt-4">
                 @if ($order->changeStatusAble())
                     <div class="text-center mb-3">
-                        <button type="button" class="btn btn-success mx-2 btn-change-order-course-status" data-status="{{OrderStatus::PAID}}" style="font-size: 16px;">Xác nhận đã thanh toán <i class="fa fa-check-square-o ms-2" aria-hidden="true"></i></button>
-                        <button type="button" class="btn btn-danger mx-2 btn-change-order-course-status" data-status="{{OrderStatus::CANCEL}}" style="font-size: 16px;">Hủy đơn hàng <i class="fa fa-times ms-2" aria-hidden="true"></i></button>
+                        <button type="button" class="btn btn-success mx-2 btn-change-order-course-status" data-text="đơn hàng đã thanh toán." data-status="{{OrderStatus::PAID}}" style="font-size: 16px;">Xác nhận đã thanh toán <i class="fa fa-check-square-o ms-2" aria-hidden="true"></i></button>
+                        <button type="button" class="btn btn-danger mx-2 btn-change-order-course-status" data-text="hủy đơn hàng." data-status="{{OrderStatus::CANCEL}}" style="font-size: 16px;">Hủy đơn hàng <i class="fa fa-times ms-2" aria-hidden="true"></i></button>
                     </div>
                 @endif
                 <table class="table-view-order-horizontal">
@@ -112,6 +112,10 @@
         var MANAGE_ORDER = (function(){
             var initButtonChangeStatus = function(){
                 $(document).on('click','.btn-change-order-course-status',function(){
+					var confirm = window.confirm(`Bạn có chắc chắn muốn xác nhận ${$(this).data('text')}`);
+					if (!confirm) {
+						return;
+					}
                     $.ajax({
                         url: 'esystem/course-manage/change-order-status',
                         type: 'POST',

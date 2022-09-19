@@ -64,7 +64,7 @@ class ManageUserCourseController extends Controller
         $activeOrderStatus = OrderStatus::where('action',$action)->first();
         $activeStatus = isset($activeOrderStatus) ? $activeOrderStatus->id:OrderStatus::WAIT_PAYMENT;
         $listOrderStatus = OrderStatus::get();
-        $listItems = $user->orders()->with('orderDetail','paymentMethod','orderStatus')->where('order_status_id',$activeStatus)->paginate(6);
+        $listItems = $user->orders()->orderBy('id','desc')->with('orderDetail','paymentMethod','orderStatus')->where('order_status_id',$activeStatus)->paginate(6);
 		return view('auth.account.my_order',compact('user','currentItem','listOrderStatus','activeStatus','listItems'));
     }
     public function restoreOrder(Request $request)
@@ -77,9 +77,7 @@ class ManageUserCourseController extends Controller
                 'message' => 'Không tìm thấy thông tin đơn hàng'
             ]);
         }
-        // dd($order->orderDetail);
         foreach ($order->orderDetail as $itemOrderDetail) {
-            Tech5sCart::instance($request->type);
             $dataTimePackage = [];
             $dataTimePackage['id'] = $itemOrderDetail->time_package_id;
             $dataTimePackage['name'] = $itemOrderDetail->name_time_package;
@@ -88,6 +86,7 @@ class ManageUserCourseController extends Controller
             $dataTimePackage['description'] = $itemOrderDetail->description;
             $dataTimePackage['number_day'] = $itemOrderDetail->number_day;
             $dataTimePackage['is_forever'] = $itemOrderDetail->is_forever;
+            Tech5sCart::instance($itemOrderDetail->type);
             Tech5sCart::add($itemOrderDetail->map_id,$itemOrderDetail->name,1,$itemOrderDetail->price,0,$dataTimePackage);
         }
         session()->flash('typeNotify',200);
@@ -95,6 +94,26 @@ class ManageUserCourseController extends Controller
         return response()->json([
             'code' => 200,
             'redirect_url' => \VRoute::get("viewCart")
+        ]);
+    }
+    public function cancelOrder (Request $request)
+    {
+        $user = Auth::user();
+        $order = $user->orders()->with('orderDetail')->find($request->order);
+        if (!isset($order)) {
+            return response()->json([
+                'code' => 100,
+                'message' => 'Không tìm thấy thông tin đơn hàng'
+            ]);
+        }
+        $order->order_status_id = OrderStatus::CANCEL;
+        $order->cancel_user_type = 'user';
+        $order->user_cancel_id = $user->id;
+        $order->save();
+        session()->flash('typeNotify',200);
+        session()->flash('messageNotify','Thay đổi trạng thái đơn hàng thành công.');
+        return response()->json([
+            'code' => 200,
         ]);
     }
 }

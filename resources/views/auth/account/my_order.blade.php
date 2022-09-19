@@ -117,10 +117,24 @@
                                 <div class="order-action flex flex-col gap-4">
                                     @if ($itemOrder->order_status_id == OrderStatus::WAIT_PAYMENT)
                                         <span class="status inline-flex items-center justify-center font-semibold text-[#888] py-2 px-6 rounded bg-[#F2F2F2]">Đang xử lý</span>
-                                        <a href="javascript:void(0)" onclick="MORE_FUNCTION.showModal(this);" data-modal="cancelOrder" title="Hủy đơn" class="btn btn-red-gradien inline-flex items-center justify-center font-semibold text-white py-2 px-6 rounded bg-gradient-to-r from-[#F44336] to-[#C62828]">Hủy đơn</a>
-                                    @endif
-                                    @if ($itemOrder->order_status_id == OrderStatus::PAID)
-                                        <a href="javascript:void(0)" title="Đánh giá" class="btn btn-red-gradien inline-flex items-center justify-center font-semibold text-white py-2 px-6 rounded bg-gradient-to-r from-[#F44336] to-[#C62828]">Đánh giá</a>
+                                        <a href="javascript:void(0)" onclick="MORE_FUNCTION.showModal(this);" data-modal="cancelOrder{{$itemOrder->id}}" title="Hủy đơn" class="btn btn-red-gradien inline-flex items-center justify-center font-semibold text-white py-2 px-6 rounded bg-gradient-to-r from-[#F44336] to-[#C62828]">Hủy đơn</a>
+                                        <div id="cancelOrder{{$itemOrder->id}}" modal tabindex="-1" aria-hidden="true" class="overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal md:h-full d-none">
+                                            <div class="relative p-4 w-full max-w-[34rem] h-full md:h-auto mx-auto">
+                                                <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                                                    <button type="button" class="absolute top-[0.625rem] right-[0.625rem] z-10 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white" button_close_modal>
+                                                        @include('svg.icon_close')
+                                                    </button>
+                                                    <div class="p-3 text-center">
+                                                        <p class="title text-center font-bold text-[#252525] 2xl:text-[1.25rem] text-[1rem] mb-4">Hủy đơn hàng</p>
+                                                        <p>Bạn có muốn xác nhận hủy đơn hàng này không</p>
+                                                        <div class="mt-3">
+                                                            <button class="btn btn-red-gradien inline-flex items-center justify-center font-semibold text-white py-2 px-6 rounded bg-gradient-to-r from-[#F44336] to-[#C62828] btn-accept-cancel-order" data-order="{{$itemOrder->id}}">Xác nhận</button>
+                                                            <button class="inline-flex items-center justify-center font-semibold text-[#888] py-2 px-6 rounded bg-[#F2F2F2] ml-3" button_close_modal>Thoát</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>    
                                     @endif
                                     @if ($itemOrder->order_status_id == OrderStatus::CANCEL)
                                         <a href="javascript:void(0)" title="Mua lại" class="btn btn-red-gradien inline-flex items-center justify-center font-semibold text-white py-2 px-6 rounded bg-gradient-to-r from-[#F44336] to-[#C62828] btn-restore-order" data-order="{{$itemOrder->id}}">Mua lại</a>
@@ -142,19 +156,6 @@
         </div>
     </div>
 </section>
-<div id="cancelOrder" modal tabindex="-1" aria-hidden="true" class="overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal md:h-full d-none">
-    <div class="relative p-4 w-full max-w-[34rem] h-full md:h-auto mx-auto">
-        <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
-            <button type="button" class="absolute top-[0.625rem] right-[0.625rem] z-10 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white" button_close_modal>
-                @include('svg.icon_close')
-            </button>
-            <div class="p-3">
-                <p class="title text-center font-bold text-[#252525] 2xl:text-[1.25rem] text-[1rem] mb-4">Hủy đơn hàng</p>
-                <p class="text-[#456345]">Bạn có muốn xác nhận hủy đơn hàng này không</p>
-            </div>
-        </div>
-    </div>
-</div>
 @endsection
 @section('js')
     <script src="{{ Support::asset('theme/frontend/js/user_course_control.js') }}" defer></script>
