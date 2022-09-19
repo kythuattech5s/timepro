@@ -3,10 +3,15 @@
     <script src="{{ Support::asset('managequestion/frontend/js/hack-timer.js')}}" defer></script>
 @endsection
 @section('css')
-    {{-- <link rel="stylesheet" href="{{ Support::asset('managequestion/frontend/css/question.css')}}"/> --}}
+    <style>
+        .max-width-800{
+            max-width: 800px;
+            margin: auto;
+        }
+    </style>
     <link rel="stylesheet" href="{{ Support::asset('managequestion/frontend/css/confirm.min.css')}}"/>
     <script type="text/javascript">
-       const dataExam = {!!$exam->builDataFrontend()!!};
+       const dataExam = {!!$exam->builDataFrontend($mainCourse->id)!!};
     </script>
 @endsection
 @section('main')
@@ -18,7 +23,7 @@
             </div>
             <div class="col-span-1 lg:col-span-3">
                 <div class="box-content bg-white p-4 rounded 2xl:mb-6 mb-4 last:mb-0">
-                    <h1 class="title font-bold text-[#252525] 2xl:text-[1.6rem] lg:text-[1.25rem] text-[1rem] mb-4 text-center">Làm bài kiểm tra</h1>
+                    <h1 class="title font-bold text-[#252525] 2xl:text-[1.6rem] lg:text-[1.25rem] text-[1rem] mb-4 text-center">Làm bài thi</h1>
                     <div class="item-exam grid grid-cols-1 sm:grid-cols-3 gap-2 items-center 2xl:p-4 p-2 rounded border-[1px] border-solid border-[#ebebeb] mb-4">
                         <div class="col-span-1">
                             <p class="cate text-[#252525] text-[0.875rem] mb-1">Khóa học</p>
@@ -26,28 +31,40 @@
                                 <a href="{{Support::show($mainCourse,'slug')}}" title="{{Support::show($mainCourse,'name')}}" class="title font-bold text-[#252525] lg:text-[1.25rem]">{{Support::show($mainCourse,'name')}}</a>
                             </h3>
                         </div>
-                        <div class="col-span-1 lg:pl-14">
-                            <a href="javascript:void(0)" title="Bắt đầu làm bài" class="btn btn-red-gradien inline-flex items-center justify-center font-semibold text-white py-2 px-6 rounded bg-gradient-to-r from-[#F44336] to-[#C62828]">Bắt đầu làm bài</a>
+                        <div class="col-span-1">
+                            <p class="cate text-[#252525] text-[0.875rem] mb-1">Ngày thi: <span class="date orange-gradient font-bold lg:text-[1.25rem]">{{now()->format('d/m/Y')}}</span></p>
                         </div>
+                    </div>
+                    <div class="head-exam block sm:flex items-center justify-between 2xl:mb-10 mb-6">
+                        <div class="exam mb-2 sm:mb-0">
+                            <p class="title font-bold text-[#252525] lg:text-[1.25rem] mb-2">{{Support::show($exam,'name')}}</p>
+                            <p class="text-[#252525] ">Thời gian: {{(int)$exam->time/60}} phút</p>
+                        </div>
+                        <div class="box-exam-time hidden flex items-center gap-2">
+                            <img src="theme/frontend/images/clock.svg" alt="clock">
+                            <div id="count-down-exam" class="time font-bold lg:text-[1.25rem] text-[#252525]"></div>
+                        </div>
+                        <a href="javascript:void(0)" title="Nộp bài" class="btn btn-red-gradien inline-flex items-center justify-center font-semibold text-white py-2 px-6 rounded bg-gradient-to-r from-[#F44336] to-[#C62828] btn-start-exam">Bắt đầu làm bài</a>
                     </div>
                     @php
                         $count = 1;
                     @endphp
-                    <div id="module-content__exam">
-                        <div id="count-down-exam" class="time-exam d-none"></div>
+                    <div id="module-content__exam" class="hidden">
                         @foreach ($exam->pivotQuestion as $itemPivotQuestion)
                             @php $question = $itemPivotQuestion->question; @endphp
-                            <div class="module-question-box" question="{{Support::show($question,'id')}}">
-                                <p class="question font-semibold text-[#252525] mb-2">Câu {{$count}}: {{Support::show($question,'name')}}</p>
-                                <div class="s-content mb-4">
-                                    {!!$question->question_content!!}
+                            <div class="module-question-exam" question="{{Support::show($question,'id')}}">
+                                <div class="module-question-box" question="{{Support::show($question,'id')}}">
+                                    <p class="question font-semibold text-[#252525] mb-2">Câu {{$count}}: {{Support::show($question,'name')}}</p>
+                                    <div class="s-content mb-4">
+                                        {!!$question->question_content!!}
+                                    </div>
+                                    @include('mtc::question.load_frontend',['question'=>$question])
                                 </div>
-                                @include('mtc::question.load_frontend',['question'=>$question])
                             </div>
                             @php $count++; @endphp
                         @endforeach
-                        <div class="form-button__submit">
-                            <button title="Hoàn thành" class="btn btn-yellow__all" onclick="MODULE_EXAM.submitExam(this)">Nộp bài</button>
+                        <div class="form-button__submit text-center mt-3">
+                            <button title="Hoàn thành" class="btn btn-red-gradien inline-flex items-center justify-center font-semibold text-white py-2 px-6 rounded bg-gradient-to-r from-[#F44336] to-[#C62828]" onclick="MODULE_EXAM.submitExam(this)">Nộp bài</button>
                         </div>
                     </div>
                 </div>
