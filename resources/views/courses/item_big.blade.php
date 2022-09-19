@@ -42,6 +42,9 @@
         <hr class="line my-3 border-[rgba(255,255,255,.3)]" />
         <div class="flex items-center justify-between flex-wrap">
             <div class="rating-item">
+                @php
+                    $ratingInfo = $item->getRating('main');
+                @endphp
                 <p class="rating">
                     <span class="rating-box">
                         <i class="fa fa-star-o" aria-hidden="true"></i>
@@ -49,7 +52,7 @@
                         <i class="fa fa-star-o" aria-hidden="true"></i>
                         <i class="fa fa-star-o" aria-hidden="true"></i>
                         <i class="fa fa-star-o" aria-hidden="true"></i>
-                        <span style="width: 94%">
+                        <span style="width: {{$ratingInfo['percentAll'] ?? 0}}%">
                             <i class="fa fa-star" aria-hidden="true"></i>
                             <i class="fa fa-star" aria-hidden="true"></i>
                             <i class="fa fa-star" aria-hidden="true"></i>
@@ -58,7 +61,7 @@
                         </span>
                     </span>
                 </p>
-                <p class="text-[#888] text-[0.75rem]">(4.8/5)</p>
+                <p class="text-[#888] text-[0.75rem]">({{$ratingInfo['scoreAll'] ?? 0}}/5)</p>
             </div>
             <span class="item md:text-[0.875rem] text-white">
                 <img src="theme/frontend/images/users.svg" class="mr-1 inline-block w-6 h-6 object-contain" alt="user" /> {{$item->number_student+$plusMoreStudentNumber}} học viên 

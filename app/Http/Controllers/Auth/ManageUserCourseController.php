@@ -91,15 +91,15 @@ class ManageUserCourseController extends Controller
     {
         $currentItem = $route instanceof \vanhenry\manager\model\VRoute ? $route : \vanhenry\manager\model\VRoute::find($route->id ?? 0);
         $user = Auth::user();
-        $mainCourseId = \FCHelper::getSegment($request, 2);
-        $mainCourse = Course::act()->whereHas('exam')->with('exam')->find(str_replace('lam-bai-kiem-tra-','',$mainCourseId));
+        $mainCourseId = str_replace('lam-bai-kiem-tra-','',\FCHelper::getSegment($request, 2));
+        $mainCourse = Course::act()->whereHas('exam')->with('exam')->find($mainCourseId);
         if ($mainCourseId != '') {
             if (!isset($mainCourse) || !$mainCourse->isOwn($user)) {
                 return Support::redirectTo(\VRoute::get("my_exam"),100,'Không tìm thấy thông tin kỳ thi');
             }
             $examResult = $mainCourse->examResult()->where('user_id',$user->id)->first();
             if (isset($examResult)) {
-                return Support::redirectTo(\VRoute::get("my_exam"),200,'Bạn đã hoàn thành bài kiểm tra này rồi');
+                return Support::redirectTo(\VRoute::get("my_exam_result").'/ket-qua-bai-thi-'.$examResult->id,200,'Bạn đã hoàn thành bài kiểm tra này rồi');
             }
             $exam = $mainCourse->exam;
             $currentItem->vi_name = $currentItem->vi_name.' - '.$exam->name;
@@ -169,13 +169,34 @@ class ManageUserCourseController extends Controller
         $examResult->total_question = $totalQuestion;
         $examResult->exam_info = json_encode($dataExam);
         $examResult->question_info = json_encode($data);
-        // dd($examResult->toArray());
+        $examResult->save();
         return response()->json([
             'code' => 200,
-            'link_back' => \VRoute::get("my_exam_result"),
+            'message' => 'Bài thi đã hoàn thành',
+            'link_back' => \VRoute::get("my_exam"),
             'html' => view('auth.account.exams.exam_result_ajax', compact('user','examResult','mainCourse'))->render(),
-            'link_result' => \VRoute::get("my_exam_result").'/ket-qua-bai-thi-10'
+            'link_result' => \VRoute::get("my_exam_result").'/ket-qua-bai-thi-'.$examResult->id
         ]);
+    }
+    public function myExamResult (Request $request, $route)
+    {
+        $currentItem = $route instanceof \vanhenry\manager\model\VRoute ? $route : \vanhenry\manager\model\VRoute::find($route->id ?? 0);
+        $user = Auth::user();
+        $examResultId = str_replace('ket-qua-bai-thi-','',\FCHelper::getSegment($request, 2));
+        $examResult = ExamResult::whereHas('exam')->with('exam')->find($examResultId);
+        if ($examResultId != '') {
+            if (!isset($examResult)) {
+                return Support::redirectTo(\VRoute::get("my_exam_result"),100,'Không tìm thấy thông tin kết quả bài thi');
+            }
+            $exam = $examResult->exam;
+            $currentItem->vi_name = $currentItem->vi_name.' - '.$exam->name;
+            $currentItem->vi_seo_title = $currentItem->vi_seo_title.' - '.$exam->name;
+            $currentItem->vi_seo_key = $currentItem->vi_seo_key.' - '.$exam->name;
+            $currentItem->vi_seo_des = $currentItem->vi_seo_des.' - '.$exam->name;
+            return view('auth.account.exams.my_exam_result_detail', compact('user','currentItem','examResult','exam'));
+        }
+        $listItems = $user->examResult()->whereHas('exam')->with('course','exam')->paginate(6);
+        return view('auth.account.exams.my_exam_result', compact('user','currentItem','listItems'));
     }
     public function upgradeVip(Request $request, $route)
     {
