@@ -4,7 +4,7 @@
     <div class="container">
         <div class="grid grid-cols-1 lg:grid-cols-4 2xl:gap-8 gap-4">
             <div class="col-span-1">
-                @include('auth.account.sidebar')
+                @include('auth.teacher.sidebar')
             </div>
             <div class="col-span-1 lg:col-span-3">
                 <div class="box-content bg-white p-4 rounded 2xl:mb-6 mb-4 last:mb-0">
@@ -16,7 +16,7 @@
                         <p class="text-[#252525] text-[0.875rem] mb-1">Mật khẩu mới*</p>
                         <input type="password" name="password" placeholder="Nhập..." rules="required" class="form-control w-full py-2 px-4 border-[1px] border-solid border-[#ebebeb] rounded-lg outline-none mb-4">
                         <p class="text-[#252525] text-[0.875rem] mb-1">Nhập lại mật khẩu mới*</p>
-                        <input type="tepasswordxt" name="password_confirmation" placeholder="Nhập..." rules="required" class="form-control w-full py-2 px-4 border-[1px] border-solid border-[#ebebeb] rounded-lg outline-none mb-4">
+                        <input type="password" name="password_confirmation" placeholder="Nhập..." rules="required" class="form-control w-full py-2 px-4 border-[1px] border-solid border-[#ebebeb] rounded-lg outline-none mb-4">
                         <div class="flex gap-4">
                             <a href="javascript:history.back();" title="Quay lại" class="btn btn-border__red flex-1 inline-flex w-full items-center justify-center font-semibold text-[#F44336] py-2 px-4 rounded bg-white border-[1px] border-solid border-[#F44336] hover:bg-[#F44336] hover:text-white">
                                 Quay lại

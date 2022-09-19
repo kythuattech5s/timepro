@@ -19,6 +19,7 @@ trait UserWallet{
 		if(!Auth::check()){
 			$this->goLogin();
 		}
+		$user = Auth::user();
 		if(\Support::show($user,'user_type_id') != 1){
 			if(request()->ajax()){
 				return response()->json(['code'=>100,'message'=>'Tài khoản của bạn không có quyền truy cập']);

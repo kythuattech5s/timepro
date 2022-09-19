@@ -94,8 +94,9 @@ class RegisterController extends Controller
         }
         $user = $this->createUser($request->all());
         WalletHelper::create($user);
-
         $code = \Str::random(6);
+        $user->token = Hash::make($code);
+        $user->save();
         session()->put('EMAIL_CURRENT_REGISTER', $user->email);
         event('sendmail.static', [[
             'title' => 'Tạo tài khoàn thành công và mã xác nhận kích hoạt tài khoản',
@@ -129,7 +130,7 @@ class RegisterController extends Controller
     }
 
 
-    public function activeAccount(Request $request)
+    public function activeAccount($request)
     {
         if (!$request->input('token', false) || !$request->input('email', false)) {
             return redirect()->to('/')->with('messageNotify', 'Yêu cầu không hợp lệ')->with('typeNotify', 100);
