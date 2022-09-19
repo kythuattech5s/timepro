@@ -215,10 +215,22 @@ class MarketingController extends BaseAdminController
                 ]);
                 break;
             case 'flash_sales':
-               
+                if (($product_ids = $request->input('product_id')) !== null) {
+                    $dataProductId = collect($product_ids)->map(
+                        fn ($value) => [
+                            "id" => $value['id'],
+                        ]
+                    )->unique();
+                    session()->put(VoucherService::PREFIX_SESSION_PRODUCT, $dataProductId);
+                } else {
+                    session()->put(VoucherService::PREFIX_SESSION_PRODUCT, $item->products);
+                }
+                $products = Course::whereIn('id', $dataProductId->pluck('id'))->paginate(5);
+
                 return response([
                     'code' => 200,
-                    'message' => 'Thêm sản phẩm thành công'
+                    'message' => 'Thêm sản phẩm thành công',
+                    'html' => view('sp::flash_sales.path.itemShow', compact('listItems', 'promotion', 'action', 'listProducts'))->render(),
                 ]);
                 break;
         }

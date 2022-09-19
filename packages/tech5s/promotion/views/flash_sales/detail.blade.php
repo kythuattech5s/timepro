@@ -34,7 +34,7 @@
                     </div>
                 </div>
             </div>
-            <div class="fs-list-product">
+            <div class="fs-list-product" m-checkbox="">
                 <table class="table">
                     <thead>
                         <tr>
