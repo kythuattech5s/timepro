@@ -56,17 +56,12 @@
                             <ul>
                                 <li class="mr-4 inline-block text-[0.875rem] text-[#252525] last:mr-0">Chia sẻ: </li>
                                 <li class="mr-4 inline-block last:mr-0">
-                                    <a href="#" title="Facebook" class="flex h-6 w-6 items-center justify-center rounded-full bg-[#888] text-white hover:bg-[#F44336] hover:text-white" target="_blank">
+                                    <a href="http://www.facebook.com/sharer.php?u={{url(Support::show($currentItem,'slug'))}}" title="Facebook" class="flex h-6 w-6 items-center justify-center rounded-full bg-[#888] text-white hover:bg-[#F44336] hover:text-white" target="_blank">
                                         <i class="fa fa-facebook text-[0.75rem]" aria-hidden="true"></i>
                                     </a>
                                 </li>
                                 <li class="mr-4 inline-block last:mr-0">
-                                    <a href="#" title="Instagram" class="flex h-6 w-6 items-center justify-center rounded-full bg-[#888] text-white hover:bg-[#F44336] hover:text-white" target="_blank">
-                                        <i class="fa fa-instagram text-[0.75rem]" aria-hidden="true"></i>
-                                    </a>
-                                </li>
-                                <li class="mr-4 inline-block last:mr-0">
-                                    <a href="#" title="Gmail" class="flex h-6 w-6 items-center justify-center rounded-full bg-[#888] text-white hover:bg-[#F44336] hover:text-white" target="_blank">
+                                    <a href="mailto:?subject={{Support::show($currentItem,'name')}}&body={{Support::show($currentItem,'name')}} - {{url(Support::show($currentItem,'slug'))}}" title="Gmail" class="flex h-6 w-6 items-center justify-center rounded-full bg-[#888] text-white hover:bg-[#F44336] hover:text-white" target="_blank">
                                         <i class="fa fa-google text-[0.75rem]" aria-hidden="true"></i>
                                     </a>
                                 </li>

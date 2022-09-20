@@ -30,7 +30,7 @@
             @if ($user != null)
             <a href="/thong-bao-cua-toi" title="Thông báo" class="h-noti relative block">
                 <img src="theme/frontend/images/noti.svg" alt="icon">
-                <span class="count absolute top-0 right-0 font-bold text-[8px] text-white min-w-[12px] h-3 rounded-full bg-gradient-to-r from-[#F44336] to-[#C62828] z-[1] text-center leading-3" count-not-read>{{$countNotifiactionNoRead}}</span>
+                <span class="count absolute top-[-4px] right-0 font-bold text-[8px] text-white min-w-[12px] h-3 rounded-full bg-gradient-to-r from-[#F44336] to-[#C62828] z-[1] text-center leading-3" count-not-read>{{$countNotifiactionNoRead}}</span>
 
             </a>
             @endif

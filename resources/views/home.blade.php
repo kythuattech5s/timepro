@@ -3,33 +3,35 @@
 @if (count($listBanner) > 0)
 <div class="swiper-container slide-banner__index">
     <div class="swiper-wrapper">
-        @foreach ($listBanner as $itemBanner)
+        @foreach ($listBanner as $k => $itemBanner)
         <div class="swiper-slide">
-            <!-- <div href="{{$itemBanner->link != '' ? $itemBanner->link:'javascript:void(0)'}}" title="{{$itemBanner->link}}" class="link-banner img_full relative">
-                        @include('image_loader.all',['itemImage'=>$itemBanner,'key'=>'img'])
-                    </div> -->
             <div class="link-banner img_full relative">
-                <img src="theme/frontend/images/banner_index.jpg" alt="">
+                @if($k == 0)
+                    @include('image_loader.all',['itemImage'=>$itemBanner,'key'=>'img','noLazyLoad'=>1])
+                @else
+                    @include('image_loader.all',['itemImage'=>$itemBanner,'key'=>'img'])
+                @endif
                 <div class=" absolute top-0 container z-[1] left-1/2 -translate-x-1/2">
                     <div class="banner-content xl:max-w-[820px] md:max-w-[50%] ml-0 2xl:mt-20 xl:mt-10 sm:mt-6 mt-2">
                         <div class="s-content-title md:text-center uppercase font-bold 2xl:text-[4.5rem] xl:text-[3rem] lg:text-[2.5rem] sm:text-[1.25rem] text-[0.875rem] sm:mb-4 mb-2">
-                            <p style="color:#fff">Chân dung</p>
-                            <p style="color:#FF2D37">Một nhà môi giới</p>
-                            <p style="color:#fff">Chuyên nghiệp</p>
+                            <p style="color:#fff">{{Support::show($itemBanner,'title_one')}}</p>
+                            <p style="color:#FF2D37">{{Support::show($itemBanner,'title_true')}}</p>
+                            <p style="color:#fff">{{Support::show($itemBanner,'title_three')}}</p>
                         </div>
                         <div class="short_content hidden lg:block text-center mb-4 text-white">
-                            Times Pro Edu là bệ phóng cho sự nghiệp Bất động sản. Chúng tôi cung cấp đầy đủ các khóa học về kỹ năng cần có của một saler chuyên nghiệp để mang lại hiệu quả doanh thu cao nhất!
+                            {!! nl2br(Support::show($itemBanner,'content')) !!}
                         </div>
+                        <?php $list_button = Support::extractJson(Support::show($itemBanner,'list_button')); ?>
+                        @if(count($list_button) > 0)
                         <div class="flex items-center md:justify-center sm:gap-4 gap-2 flex-wrap">
-                            <a href="" title="Về chúng tôi" class="btn-banner inline-flex items-center justify-center sm:py-2 py-1 lg:px-5 px-4 rounded bg-transparent text-white border-[1px] border-solid border-white hover:bg-white hover:text-[#252525] sm:text-[0.875rem] text-[0.75rem]">
-                                Về chúng tôi
+                            @foreach($list_button as $button)
+                            <a href="{{$button['link'] ?? ''}}" title="{{$button['title'] ?? ''}}" class="btn-banner inline-flex items-center justify-center sm:py-2 py-1 lg:px-5 px-4 rounded bg-transparent text-white border-[1px] border-solid border-white hover:bg-white hover:text-[#252525] sm:text-[0.875rem] text-[0.75rem]">
+                                {{$button['title'] ?? ''}}
                             </a>
-                            <a href="" title="Xem khóa học" class="btn-banner inline-flex items-center justify-center sm:py-2 py-1 lg:px-5 px-4 rounded bg-transparent text-white border-[1px] border-solid border-white hover:bg-white hover:text-[#252525] sm:text-[0.875rem] text-[0.75rem]">
-                                Xem khóa học
-                            </a>
+                            @endforeach
                         </div>
+                        @endif
                     </div>
-
                 </div>
             </div>
         </div>
@@ -43,7 +45,7 @@
 <section class="section-cate__index">
     @foreach ($listCourseCategory as $itemCourseCategory)
     @php
-    $listCourseShow = $itemCourseCategory->course()->baseView()->limit(10)->get();
+        $listCourseShow = $itemCourseCategory->course()->baseView()->limit(10)->get();
     @endphp
     <div class="item group 2xl:py-14 py-6" style="background-image: url(theme/frontend/images/bg-category.jpg)">
         <div class="container">
@@ -96,7 +98,7 @@
 </section>
 <section class="2xl:py-14 py-6 section-lecturers bg-no-repeat bg-left" style="background-image: url(theme/frontend/images/bg-lec.png);">
     <div class="container">
-        <p class="subtitle__all w-fit mx-auto relative uppercase text-[0.75rem] font-bold mb-2"> OUR LECTURERS </p>
+        <p class="subtitle__all w-fit mx-auto relative uppercase text-[0.75rem] font-bold mb-2">{:our_lecturer:}</p>
         <h2 class="title-all font-bold text-[#252525] 2xl:text-[2rem] lg:text-[1.5rem] text-[1.125rem] text-center 2xl:mb-6 mb-4">ĐỘI NGŨ GIẢNG VIÊN</h2>
         <div class="box-slide relative">
             <div class="swiper-container slide-lecturers lg:py-5">

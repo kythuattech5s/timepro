@@ -3,9 +3,9 @@
     <button type="submit" class="btn-search absolute top-0 right-0 z-[1] h-full flex items-center justify-center p-4 bg-gradient-to-r from-[#F44336] to-[#C62828] text-white text-[1.25rem]"><i class="fa fa-search" aria-hidden="true"></i></button>
 </form>
 @if(isset($table) && $table == 'news_categories')
-	@if(isset($listNewsSale) && count($listNewsSale) > 0)
+	@if(isset($listNewsNew) && count($listNewsNew) > 0)
 	<div class="head-new__sidebar relative flex items-center justify-between pb-2 border-b-[1px] border-solid border-[#ebebeb] after:absolute after:h-[2px] after:w-[180px] after:bottom-0 after:left-0 after:bg-[#F44336] 2xl:mb-6 mb-4">
-	    <p class="title font-bold text-[#252525] 2xl:text-[1.6rem] lg:text-[1.3rem] text-[1rem]">Tin khuyến mãi</p>
+	    <p class="title font-bold text-[#252525] 2xl:text-[1.6rem] lg:text-[1.3rem] text-[1rem]">Tin mới</p>
 	</div>
 	<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 gap-4 mb-6">
 		@foreach($listNewsNew as $itemNewsNew)
