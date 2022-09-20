@@ -177,7 +177,7 @@
                                     @php
                                         $source = json_decode(Support::show($video, 'source'), true);
                                     @endphp
-                                    <div class="item-lesson active mb-2 flex cursor-pointer items-center justify-between gap-4 rounded-md p-2 transition-all duration-300 last:mb-0" @if ($video->isFree()) data-link="{{ $source['path'] . $source['file_name'] }}" data-id="{{ Support::show($video, 'id') }}" @endif>
+                                    <div class="item-lesson active mb-2 flex cursor-pointer items-center justify-between gap-4 rounded-md p-2 transition-all duration-300 last:mb-0" data-link="{{ $source['path'] . $source['file_name'] }}" data-id="{{ Support::show($video, 'id') }}">
                                         <span class="title relative pl-2 font-semibold text-[#252525] after:absolute after:top-1/2 after:left-0 after:h-1 after:w-1 after:-translate-y-1/2 after:rounded-full after:bg-[#252525]">{{ Support::show($video, 'name') }}</span>
                                         <span class="time">{{ RSCustom::getTimeOfVideo(Support::show($video, 'duration'), [
                                             'hour' => ' giờ ',
