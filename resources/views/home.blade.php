@@ -111,7 +111,7 @@
                                         <a href="mailto:{{Support::show($itemTeacher,'email')}}" title="Email" class="item-social lg:mr-6 mr-3">
                                             @include('icon_svgs.user_email')
                                         </a>
-                                        <a href="{{Support::show($itemTeacher,'facebook')}}" title="Facebook" class="item-social" rel="noindex,nofollow,noopener">
+                                        <a href="{{Support::show($itemTeacher,'facebook')}}" rel="noopener" target="_blank" title="Facebook" class="item-social" rel="noindex,nofollow,noopener">
                                             @include('icon_svgs.user_facebook')
                                         </a>
                                     </div>

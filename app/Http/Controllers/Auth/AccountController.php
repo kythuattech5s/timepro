@@ -95,8 +95,11 @@ class AccountController extends Controller
         if($request->input('teacher_job','') != ''){
             $user->teacher_job = $request->input('teacher_job','');
         }
-        if($request->input('teacher_description','') != ''){
-            $user->teacher_description = $request->input('teacher_description','');
+        if($request->input('teacher_short_content','') != ''){
+            $user->teacher_short_content = $request->input('teacher_short_content','');
+        }
+        if($request->input('facebook','') != ''){
+            $user->facebook = $request->input('facebook','');
         }
         if ($request->input('birthday')) {
             $date = new \Datetime($request->input('birthday'));

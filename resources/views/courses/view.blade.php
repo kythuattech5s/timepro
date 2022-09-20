@@ -19,7 +19,7 @@
             <div class="gap-3 lg:grid lg:grid-cols-4 lg:gap-4">
                 <div class="col-span-3">
                     <div class="box-video aspect relative z-10 mb-[1.5rem] aspect-[16/9] overflow-hidden rounded-[0.3125rem]">
-                        @include('image_loader.all', ['itemImage' => $currentItem, 'key' => 'img_video_trailer'])
+                        @include('image_loader.all', ['itemImage' => $currentItem, 'keyImage' => 'img_video_trailer'])
                         <svg class="z-1 absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]" xmlns="http://www.w3.org/2000/svg"
                              width="101" height="101" viewBox="0 0 101 101" fill="none">
                             <circle opacity="0.3" cx="50.604" cy="50.2674" r="50.106" fill="white" />

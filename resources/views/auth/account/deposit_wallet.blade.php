@@ -7,6 +7,7 @@
 </div>
 <section class="section-payment 2xl:py-14 py-6">
     <div class="container">
+        <img src="limg" alt="">
         <div class="grid grid-cols-1 lg:grid-cols-2 2xl:gap-6 gap-4">
             <div class="col-span-1">
                 <div class="box bg-white lg:p-4 p-2 rounded">
