@@ -12,9 +12,12 @@
 </div>
 <section class="section-new 2xl:py-14 py-6">
     <div class="container">
-        <div class="nav-link__new  border-b-[1px] border-solid border-[#ebebeb] text-center 2xl:mb-6 mb-4 mb-6">
+        <div class="nav-link__new border-b-[1px] border-solid border-[#ebebeb] text-center 2xl:mb-6 mb-4">
+            <a href="{{url('tin-tuc')}}" title="Tất cả" class="{{url()->current() == url('tin-tuc') ? 'active':''}}font-bold inline-block 2xl:text-[1.25rem] uppercase py-4 border-b-[2px] border-solid border-transparent 2xl:mr-16 lg:mr-8 mr-4 last:mr-0">
+                Tất cả
+            </a>
             @foreach($listAllNewsCategory as $itemNewsCategory)
-            <a href="{(itemNewsCategory.slug)}" title="{(itemNewsCategory.name)}" class="font-bold inline-block 2xl:text-[1.25rem] uppercase py-4 border-b-[2px] border-solid border-transparent 2xl:mr-16 lg:mr-8 mr-4 last:mr-0 active">
+            <a href="{(itemNewsCategory.slug)}" title="{(itemNewsCategory.name)}" class="{{url()->current() == url($itemNewsCategory->slug) ? 'active':''}} font-bold inline-block 2xl:text-[1.25rem] uppercase py-4 border-b-[2px] border-solid border-transparent 2xl:mr-16 lg:mr-8 mr-4 last:mr-0">
                 {(itemNewsCategory.name)}
             </a>
             @endforeach

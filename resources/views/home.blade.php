@@ -52,7 +52,7 @@
                     <h2 class="title font-bold text-[#252525] md:text-white 2xl:text-[1.6rem] lg:text-[1.3rem] text-[1rem] uppercase mb-2">{{Support::show($itemCourseCategory,'name')}}</h2>
                     <div class="short_content md:text-white">{{Support::show($itemCourseCategory,'short_content')}}</div>
                 </div>
-                <a href="{{Support::show($itemCourseCategory,'short_content')}}" title="Xem thêm" class="btn btn-orange shrink-0 hidden md:inline-flex items-center justify-center py-2 lg:px-5 px-4 rounded bg-white text-[#CD272F] hover:bg-[#FE8C00] hover:text-white"> Xem thêm </a>
+                <a href="{{Support::show($itemCourseCategory,'slug')}}" title="Xem thêm" class="btn btn-orange shrink-0 hidden md:inline-flex items-center justify-center py-2 lg:px-5 px-4 rounded bg-white text-[#CD272F] hover:bg-[#FE8C00] hover:text-white"> Xem thêm </a>
             </div>
             <div class="box-slide grid grid-cols-1 lg:grid-cols-2 gap-4 relative mb-4">
                 <div class="col-span-1 hidden lg:block">
@@ -111,10 +111,10 @@
                                 <img src="theme/frontend/images/banner-lec.jpg" alt="">
                             </span>
                             <div class="content relative lg:p-4 p-2 pt-0 text-center lg:mt-[-75px] -mt-10">
-                                <a href="{{$itemTeacher->buildHrefTeacher()}}" title="{{$itemTeacher->name}}" class="ava block img-ava mx-auto lg:w-[8rem] lg:h-[8rem] w-[5rem] h-[5rem] rounded-full overflow-hidden">
+                                <a href="{{$itemTeacher->buildHrefTeacher()}}" title="{{$itemTeacher->name}}" class="ava block img-ava mx-auto lg:w-[8rem] lg:h-[8rem] w-[5rem] h-[5rem] rounded-full overflow-hidden mb-3">
                                     @include('image_loader.big',['itemImage'=>$itemTeacher,'key'=>'img'])
                                 </a>
-                                <p class="name font-bold text-[#252525] 2lx:text-[1.25rem] text-[1rem] mb-1">
+                                <p class="name font-bold text-[#252525] 2xl:text-[1.25rem] text-[1rem] mb-1">
                                     <a href="{{$itemTeacher->buildHrefTeacher()}}" title="{{$itemTeacher->name}}">{{Support::show($itemTeacher,'name')}}</a>
                                 </p>
                                 <p class="role text-[#CD272F] mb-4">{{Support::show($itemTeacher,'teacher_job')}}</p>
@@ -140,7 +140,7 @@
                                     <a href="mailto:{{Support::show($itemTeacher,'email')}}" title="Email" class="item-social lg:mr-6 mr-3">
                                         @include('icon_svgs.user_email')
                                     </a>
-                                    <a href="{{Support::show($itemTeacher,'facebook')}}" title="Facebook" class="item-social" rel="noindex,nofollow,noopener">
+                                    <a href="{{Support::show($itemTeacher,'facebook')}}" title="Facebook" class="item-social" target="_blank" rel="noindex,nofollow,noopener">
                                         @include('icon_svgs.user_facebook')
                                     </a>
                                 </div>

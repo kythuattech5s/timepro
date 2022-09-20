@@ -25,6 +25,28 @@
         var redirect = "{{ Session::get('redirect', '') }}";
     </script>
     {[CMS_HEADER]}
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+        theme: {
+            extend: {
+            fontFamily: {
+                Averta: ['"Averta"'],
+            },
+            screens: {
+                sm: "576px",
+                md: "768px",
+                lg: "1024px",
+                xl: "1280px",
+                "2xl": "1408px",
+            },
+            container: {
+                center: true,
+            },
+            },
+        },
+        };
+    </script>
 </head>
 
 <body class="wrapper 2xl:text-[16px] mx-auto overflow-x-hidden text-[12px] leading-snug text-[#454545] sm:text-[14px]">

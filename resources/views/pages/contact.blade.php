@@ -113,7 +113,7 @@
                 </form>
             </div>
         </div>
-        <div class="2xl:h-[700px] lg:h-[550px] h-[250px]" id="map" data-map="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3723.969021700268!2d105.7602401152675!3d21.03392548599555!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x313454be90584183%3A0x75acde08f88f5d7c!2zU3BhIFRodSBIxrDGoW5n!5e0!3m2!1svi!2s!4v1639585480266!5m2!1svi!2s">
+        <div class="2xl:h-[700px] lg:h-[550px] h-[250px]" id="map" data-map="{[map]}">
         	
         </div>
     </div>

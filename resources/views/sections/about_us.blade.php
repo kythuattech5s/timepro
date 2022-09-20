@@ -2,7 +2,7 @@
     <div class="container">
         <p class="subtitle__all w-fit mx-auto relative uppercase text-[0.75rem] font-bold mb-2">{:about_us:}</p>
         <h2 class="title-all uppercase font-bold text-[#252525] 2xl:text-[2rem] lg:text-[1.5rem] text-[1.125rem] text-center mb-4">{[title_about_us]}</h2>
-        <div class="short_content text-center mb-6">{[content_about_us]}</div>
+        <div class="short_content text-center mb-6 s-content max-w-[62.5rem] mx-auto">{[content_about_us]}</div>
     </div>
     <?php
     $achievementAbouts = Support::extractJson(SettingHelper::getSetting('achievement_about'));
