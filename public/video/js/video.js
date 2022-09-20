@@ -782,6 +782,12 @@ window["VIDEO_CHAPTER"] = function () {
   return {
     callbackVideo: function callbackVideo(items, id) {
       var media = items[0];
+
+      if (media.file_name.indexOf(".mp4") < 0) {
+        alert("Không đúng định dạng video");
+        return false;
+      }
+
       var img = document.querySelector("[data-id=\"".concat(id, "\"] img"));
       var request = new XMLHttpRequest();
       var urlOrigin = window.location.origin + "/";

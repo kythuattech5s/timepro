@@ -2005,6 +2005,9 @@ video {
 .text-\[2rem\] {
   font-size: 2rem;
 }
+.text-\[0\.845rem\] {
+  font-size: 0.845rem;
+}
 .text-\[1\.875rem\] {
   font-size: 1.875rem;
 }
@@ -2291,6 +2294,11 @@ video {
 .like svg path {
     color: #008bd9;
     stroke: #008bd9;
+}
+
+.no-read {
+  --tw-bg-opacity: 1;
+  background-color: rgb(254 242 242 / var(--tw-bg-opacity));
 }
 
 .before\:absolute::before {

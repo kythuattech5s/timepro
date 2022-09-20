@@ -1,3 +1,10 @@
+@php
+    $user = Auth::user();
+    $countNotifiactionNoRead = $user !== null  ? $user->unreadNotifications()->whereHas('catalog', function ($q) {
+                                                        $q->where('act', 1);
+                                                    })->count()
+                                                : 0;
+@endphp
 <header class="header py-2 lg:py-0 bg-white shadow-[0_4px_48px_rgba(0,0,0,.08)]">
     <div class="container flex justify-between lg:flex-start items-center gap-4">
         <div class="flex items-center gap-2">
@@ -20,10 +27,10 @@
         </div>
         <div class="over-lay block lg:hidden fixed top-0 right-[-100%] w-full h-full bg-[rgba(0,0,0,.6)] z-[50] transition-all duration-300"></div>
         <div class="h-action items-center flex 2xl:-gap-8 gap-4">
-            @if (Auth::check())
-            <a href="#" title="Thông báo" class="h-noti relative block">
+            @if ($user != null)
+            <a href="/thong-bao-cua-toi" title="Thông báo" class="h-noti relative block">
                 <img src="theme/frontend/images/noti.svg" alt="icon">
-                <span class="count count-item-cart absolute top-0 right-0 font-bold text-[8px] text-white min-w-[12px] h-3 rounded-full bg-gradient-to-r from-[#F44336] to-[#C62828] z-[1] text-center leading-3">0</span>
+                <span class="count absolute top-0 right-0 font-bold text-[8px] text-white min-w-[12px] h-3 rounded-full bg-gradient-to-r from-[#F44336] to-[#C62828] z-[1] text-center leading-3" count-not-read>{{$countNotifiactionNoRead}}</span>
 
             </a>
             @endif
@@ -31,9 +38,10 @@
                 @include('icon_svgs.icon_cart')
                 <span class="count count-item-cart absolute top-[-5px] right-[-5px] font-bold text-[8px] text-white min-w-[12px] h-3 rounded-full bg-gradient-to-r from-[#F44336] to-[#C62828] z-[1] text-center leading-3">0</span>
             </a>
-            @if (Auth::check())
+            @if ($user != null)
             <div class="flex items-center gap-2 relative group cursor-pointer">
-                <?php $user = Auth::user(); ?>
+
+                
                 <a href="{{\VRoute::get('my_profile')}}" title="{{Support::show($user,'name')}}" class="ava img-ava block lg:w-12 lg:h-12 w-8 h-8 rounded-full overflow-hidden">
                     @if(Support::show($user,'img'))
                     @include('image_loader.tiny',['keyImage'=>'img','itemImage'=>$user])

@@ -94,13 +94,15 @@ class CommentController extends Controller
 
             $notifyCategory = NotificationCatalog::find(NotificationCatalog::COMMENT_COURSE);
             $typeCategory = NotificationType::find(NotificationType::COMMENT_COURSE);
-            $comment->course->teacher->sendNotify([
-                'title' => Auth::user()->name . ' đã bình luận khóa học của bạn!',
-                'link' => url($comment->course->slug),
-                'img' => null,
-                'icon' => null,
-                'body' => Auth::user()->name . ' đã bình luận khóa học của bạn!'
-            ], $notifyCategory, $typeCategory);
+            if ($comment->course->teacher != null) {
+                $comment->course->teacher->sendNotify([
+                    'title' => Auth::user()->name . ' đã bình luận khóa học của bạn!',
+                    'link' => url($comment->course->slug),
+                    'img' => null,
+                    'icon' => null,
+                    'body' => Auth::user()->name . ' đã bình luận khóa học của bạn!'
+                ], $notifyCategory, $typeCategory);
+            }
 
             if (is_array($comment)) {
                 return response($comment);

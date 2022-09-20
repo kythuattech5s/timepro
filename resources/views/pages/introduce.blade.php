@@ -163,5 +163,4 @@
 </section>
 @include('sections.testimonial')
 @include('sections.contact')
->>>>>>> e5104ae454aa1349ba004508088278030447364f
 @endsection
