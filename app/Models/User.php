@@ -80,6 +80,10 @@ class User extends Authenticatable
     {
         return $this->hasMany(Course::class, 'teacher_id');
     }
+    public function examResult()
+    {
+        return $this->hasMany(ExamResult::class);
+    }
     public function orders()
     {
         return $this->hasMany(Order::class);
