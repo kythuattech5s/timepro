@@ -6,6 +6,7 @@ use App\Notifications\ResetPasswordNotification;
 use App\Notifications\User as UserNotify;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use phpDocumentor\Reflection\Types\This;
 use Roniejisa\Comment\Traits\GetDataComment;
 use Tech5s\Notify\Traits\NotificationUserTrait;
 
@@ -25,11 +26,12 @@ class User extends Authenticatable
 
     public function totalDuration()
     {
-        return $this->teacherCourses->sum(function ($q) {
+        $second = $this->teacherCourses->sum(function ($q) {
             return $q->videos->sum(function ($q) {
                 return (int) $q->duration > 0 ? $q->duration : 0;
             });
         });
+        return (int)($second/3600);
     }
 
     public function getRatingScore()
@@ -76,10 +78,6 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Gender::class);
     }
-    public function course()
-    {
-        return $this->hasMany(Course::class, 'teacher_id');
-    }
     public function examResult()
     {
         return $this->hasMany(ExamResult::class);
@@ -108,7 +106,7 @@ class User extends Authenticatable
     {
         $user = $this;
         $listUserCourseId = $user->userAllCourseId();
-        $strIdCourseUser = implode(',', $listUserCourseId->toArray());
+        $strIdCourseUser = trim(implode(',', $listUserCourseId->toArray()).',-1',',');
         return Course::baseView()->whereIn('id', $listUserCourseId)
             ->whereRaw(vsprintf("id in (select id from (select id,case when count_video = 0 then 0 else (100*count_video_done/count_video) end as percent_done from (SELECT *,(SELECT count(*) from course_videos WHERE course_videos.course_id = courses.id) as count_video,(SELECT count(*) from course_video_user WHERE course_video_user.course_id = courses.id and course_video_user.user_id = %s) as count_video_done from courses where id in (%s)) as course_videos_statical having percent_done = 100) as base)", [$user->id, $strIdCourseUser]))
             ->whereHas('exam')
