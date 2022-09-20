@@ -187,7 +187,7 @@ return [
         Tech5sShoppingCart\Tech5sCart\Tech5sCartServiceProvider::class,
         Roniejisa\Comment\Providers\CommentServiceProvider::class,
         Tech5s\VideoChapter\Providers\VideoChapterServiceProvider::class,
-        Tech5s\Promotion\Providers\PromotionServiceProvider::class,
+        Tech5s\Voucher\Providers\VoucherServiceProvider::class,
         /*
          * Application Service Providers...
          */

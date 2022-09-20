@@ -93,6 +93,9 @@ class ListVideoChaptr {
     changeDataImageOld = () => {
         this.raw = [];
         this.listMain.querySelectorAll("[item] img").forEach((img) => {
+            if (img.hasAttribute("no-video")) {
+                return;
+            }
             const coponentImg = img.closest("[data-id]");
             const id = coponentImg.dataset.id;
             const media = JSON.parse(coponentImg.querySelector("input").value);

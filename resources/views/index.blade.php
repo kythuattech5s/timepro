@@ -12,19 +12,6 @@
     <link rel="stylesheet" href="{{ Support::asset('theme/frontend/css/lightbox.css') }}" />
     <link rel="stylesheet" href="{{ Support::asset('theme/frontend/css/main.css') }}" />
     <link rel="stylesheet" href="{{ Support::asset('theme/frontend/css/toastify.css') }}" />
-    @yield('cssl')
-    <link rel="stylesheet" href="{{ Support::asset('css/app.css') }}">
-    @yield('css')
-    <script type="text/javascript">
-        var showNotify = "";
-        var messageNotify = "{{ Session::get('messageNotify', '') }}";
-        var typeNotify = "{{ Session::get('typeNotify', '') }}";
-        var typePopup = "{{ Session::get('type', '') }}";
-        var emailSocial = "{{ Session::get('emailSocial', '') }}";
-        var auth = "{{ Session::get('auth', '') }}";
-        var redirect = "{{ Session::get('redirect', '') }}";
-    </script>
-    {[CMS_HEADER]}
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -47,6 +34,20 @@
         },
     };
     </script>
+    @yield('cssl')
+    <link rel="stylesheet" href="{{ Support::asset('css/app.css') }}">
+    @yield('css')
+    <script type="text/javascript">
+        var showNotify = "";
+        var messageNotify = "{{ Session::get('messageNotify', '') }}";
+        var typeNotify = "{{ Session::get('typeNotify', '') }}";
+        var typePopup = "{{ Session::get('type', '') }}";
+        var emailSocial = "{{ Session::get('emailSocial', '') }}";
+        var auth = "{{ Session::get('auth', '') }}";
+        var redirect = "{{ Session::get('redirect', '') }}";
+    </script>
+    {[CMS_HEADER]}
+    
 </head>
 
 <body class="wrapper 2xl:text-[16px] mx-auto overflow-x-hidden text-[12px] leading-snug text-[#454545] sm:text-[14px]">

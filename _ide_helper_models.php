@@ -64,6 +64,11 @@ namespace App\Models{
  * @property int|null $act Kích hoạt
  * @property int|null $nofollow Kích hoạt
  * @property int|null $group Nhóm
+ * @property string|null $title_one
+ * @property string|null $title_true
+ * @property string|null $title_three
+ * @property string|null $content Mô tả
+ * @property string|null $list_button
  * @property \Illuminate\Support\Carbon|null $created_at Ngày tạo
  * @property \Illuminate\Support\Carbon|null $updated_at Ngày sửa
  * @method static \Illuminate\Database\Eloquent\Builder|BaseModel act()
@@ -75,14 +80,19 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Banner query()
  * @method static \Illuminate\Database\Eloquent\Builder|BaseModel slug($slug, $table = null)
  * @method static \Illuminate\Database\Eloquent\Builder|Banner whereAct($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Banner whereContent($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Banner whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Banner whereGroup($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Banner whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Banner whereImg($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Banner whereLink($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Banner whereListButton($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Banner whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Banner whereNofollow($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Banner whereOrd($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Banner whereTitleOne($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Banner whereTitleThree($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Banner whereTitleTrue($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Banner whereUpdatedAt($value)
  */
 	class Banner extends \Eloquent {}
@@ -102,6 +112,38 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|BaseModel slug($slug, $table = null)
  */
 	class BaseModel extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * App\Models\Contact
+ *
+ * @property int $id Mã
+ * @property string|null $name Tên
+ * @property string|null $phone Số điện thoại
+ * @property string|null $email Email
+ * @property string|null $note Ghi chú
+ * @property int|null $readed Trang thái
+ * @property \Illuminate\Support\Carbon|null $created_at Thời gian tạo
+ * @property \Illuminate\Support\Carbon|null $updated_at Thời gian sửa
+ * @method static \Illuminate\Database\Eloquent\Builder|BaseModel act()
+ * @method static \Illuminate\Database\Eloquent\Builder|BaseModel fullTextSearch($columns, $term)
+ * @method static \Illuminate\Database\Eloquent\Builder|BaseModel fullTextSearchNoRelevance($columns, $term)
+ * @method static \Illuminate\Database\Eloquent\Builder|Contact newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Contact newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|BaseModel ord()
+ * @method static \Illuminate\Database\Eloquent\Builder|Contact query()
+ * @method static \Illuminate\Database\Eloquent\Builder|BaseModel slug($slug, $table = null)
+ * @method static \Illuminate\Database\Eloquent\Builder|Contact whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Contact whereEmail($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Contact whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Contact whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Contact whereNote($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Contact wherePhone($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Contact whereReaded($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Contact whereUpdatedAt($value)
+ */
+	class Contact extends \Eloquent {}
 }
 
 namespace App\Models{
@@ -1150,6 +1192,8 @@ namespace App\Models{
  * @property string|null $url Đường dẫn link đến file lưu data
  * @property string|null $name Tên trang
  * @property int|null $act Kích hoạt
+ * @property string|null $content Mô tả
+ * @property string|null $img Hình ảnh
  * @method static \Illuminate\Database\Eloquent\Builder|BaseModel act()
  * @method static \Illuminate\Database\Eloquent\Builder|BaseModel fullTextSearch($columns, $term)
  * @method static \Illuminate\Database\Eloquent\Builder|BaseModel fullTextSearchNoRelevance($columns, $term)
@@ -1159,9 +1203,11 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Page query()
  * @method static \Illuminate\Database\Eloquent\Builder|BaseModel slug($slug, $table = null)
  * @method static \Illuminate\Database\Eloquent\Builder|Page whereAct($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Page whereContent($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Page whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Page whereData($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Page whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Page whereImg($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Page whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Page whereSlug($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Page whereUpdatedAt($value)
@@ -1424,8 +1470,6 @@ namespace App\Models{
  * @property-read int|null $comment_teacher_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\Roniejisa\Comment\Models\Comment[] $comments
  * @property-read int|null $comments_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Course[] $course
- * @property-read int|null $course_count
  * @property-read \App\Models\District|null $district
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ExamResult[] $examResult
  * @property-read int|null $exam_result_count

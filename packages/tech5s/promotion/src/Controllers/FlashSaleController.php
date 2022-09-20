@@ -3,20 +3,14 @@
 namespace Tech5s\Promotion\Controllers;
 
 use App\Models\Course;
-use App\Models\Product;
 use App\Models\CourseCategory;
-use App\Models\Promotion\ShopFlashSaleProduct;
 use Cache;
 use DateTime;
 use Illuminate\Http\Request;
-use Shop\Promotion\Models\ShopFlashSale;
-use Tech5s\Promotion\Helpers\FlashSaleDetailHelper;
-use Tech5s\Promotion\Helpers\FlashSaleHelper;
 use Tech5s\Promotion\Models\FlashSale;
 use Tech5s\Promotion\Models\PromotionSlotTime;
 use Tech5s\Promotion\Models\PromotionType;
 use Tech5s\Promotion\Models\PromotionTypeComparison;
-use Tech5s\Promotion\Repository\FlashSaleRepository;
 use Tech5s\Promotion\Services\FlashSaleService;
 
 class FlashSaleController extends Controller
@@ -32,21 +26,10 @@ class FlashSaleController extends Controller
         $this->resetSession();
         $id = $request->input('id');
         $item = new FlashSaleService($id);
-        // $repository = new FlashSaleRepository($item->flash_sale);
-        // $listProduct = $repository->getListProduct();
-        // dd($listProduct);
-        // $listProducts = session()->get(FlashSaleDetailHelper::SESSION_PRODUCT_REAL);
         $item->saveSessionFlashSale();
         $currentItem = $item->flash_sale;
         $courses = Course::paginate(10);
         return view('tp::flash_sales.detail', compact('currentItem', 'promotion', 'courses'));
-    }
-
-    public function resetSession()
-    {
-        session()->forget(FlashSaleDetailHelper::SESSION_PRODUCT_CURRENT);
-        session()->forget(FlashSaleDetailHelper::SESSION_PRODUCT_REAL);
-        session()->forget(FlashSaleDetailHelper::SESSION_PRODUCT_REMOVE);
     }
 
     public function showFormAdd()
@@ -236,120 +219,5 @@ class FlashSaleController extends Controller
             'message' => 'Tạo chương trình Flash sale thành công',
             'redirect_url' => base64_decode($request->input('returnurl', base64_encode(url('tp/flash-sale/chinh-sua-chi-tiet-flash-sale?id=' . $item->flash_sale->id)))),
         ]);
-    }
-
-    public function showFormEdit($data)
-    {
-        $id = $data['id'];
-        $item = new FlashSaleService($id);
-        $item->saveSessionFlashSale();
-        $type_comparisons = Cache::rememberForever('promotion_comparation', function () {
-            return PromotionTypeComparison::select(['id', 'name'])->act()->ord()->get();
-        });
-
-        $types = Cache::rememberForever('promotion_types', function () {
-            return PromotionType::select(['id', 'name'])->act()->ord()->get();
-        });
-
-        $currentItem = $item->flash_sale;
-
-        $data = compact('currentItem', 'types', 'type_comparisons');
-        if ($currentItem->categories->count() > 0 || $currentItem->promotion_type_id == config('tpc_PromotionType.key.CATEGORY')) {
-            $limit = config('tpc_setting.paginate', 10);
-            $checkedData = $currentItem->categories->pluck('id');
-            $listProductOfPromotion = $currentItem->categories;
-
-            $listData = CourseCategory::act()->whereIn('id', $listProductOfPromotion->pluck('id'))->paginate($limit);
-            $data = compact('currentItem', 'listData', 'types', 'checkedData', 'listProductOfPromotion', 'type_comparisons');
-        }
-        return view('tp::flash_sales.edit', $data);
-    }
-
-    public function update(Request $request, $id)
-    {
-        $item = new FlashSaleService();
-        $item->setPromotionTypeComparison($request->input('promotion_type_comparison_id'));
-        $item->setPromotionType($request->input('promotion_type_id'));
-        $item->setName($request->input('name'));
-        $item->setDiscount($request->input('discount'));
-        $item->setAct($request->input('act') == 1 ? 1 : 0);
-        $item->setOrd($request->input('ord', 0));
-        if ($request->input('img') !== null) {
-            $item->setImage($request->input('img'));
-        }
-        $item->saveFlashSale();
-        return response([
-            'code' => 200,
-            'message' => 'Thay đổi chương trình Flash Sale thành công',
-            'redirect_url' => base64_decode($request->input('returnurl', base64_encode(url('esystem/view/flash_sales')))),
-        ]);
-    }
-
-    public function showFormCopy($data)
-    {
-        $id = $data['id'];
-        $item = new FlashSaleService($id);
-        $type_comparisons = Cache::rememberForever('promotion_comparation', function () {
-            return PromotionTypeComparison::select(['id', 'name'])->act()->ord()->get();
-        });
-
-        $types = Cache::rememberForever('promotion_types', function () {
-            return PromotionType::select(['id', 'name'])->act()->ord()->get();
-        });
-        $currentItem = $item->flash_sale;
-
-        $data = compact('currentItem', 'types', 'type_comparisons');
-        if ($currentItem->categories->count() > 0 || $currentItem->promotion_type_id == config('tpc_PromotionType.key.CATEGORY')) {
-            $limit = config('tpc_setting.paginate', 10);
-            $checkedData = $currentItem->categories->pluck('id');
-            $listProductOfPromotion = $currentItem->categories;
-            $listData = CourseCategory::act()->paginate($limit);
-            $data = compact('currentItem', 'listData', 'types', 'checkedData', 'listProductOfPromotion', 'type_comparisons');
-        }
-        return view('tp::flash_sales.copy', $data);
-    }
-
-    public function saveProduct(Request $request, $listItem = false)
-    {
-        $listItems = $listItem ? $listItem : $this->saveDataProduct();
-        $flashSale = FlashSale::find($request->input('flash_sale_id'));
-        $newData = [];
-        foreach ($listItems as $item) {
-            $newData[] = [
-                'course_id' => $item['id'],
-                'price' => $item['price'],
-                'percent' => $item['percent'],
-                'qty' => $item['qty'],
-                'limit' => $item['limit'] ?? null,
-                'act' => $item['act'],
-            ];
-        }
-        $flashSale->courses()->sync($newData);
-
-        return response([
-            'code' => 200,
-            'message' => 'Lưu sản phẩm thành công',
-            'redirect_url' => url('shop/chuong-trinh-flash-sale'),
-        ]);
-    }
-
-    private function saveDataProduct()
-    {
-        $request = request();
-        $listItems = session()->get(FlashSaleHelper::SESSION_PRODUCT_REAL, collect());
-        $data = json_decode($request->input('data'), true);
-        $data = collect(array_filter($data));
-        $newCollect = collect();
-        foreach ($listItems as $key => $item) {
-            $firstItem = $data->first(function ($q) use ($item) {
-                return $q['id'] == $item['id'];
-            });
-            if ($firstItem !== null) {
-                $newCollect[] = $firstItem;
-            } else {
-                $newCollect[] = $item;
-            }
-        }
-        return $newCollect;
     }
 }
