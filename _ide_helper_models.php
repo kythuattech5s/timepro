@@ -644,6 +644,7 @@ namespace App\Models{
  * @property string|null $percen_done Phần trăm hoàn thành
  * @property \Illuminate\Support\Carbon|null $created_at Ngày tạo
  * @property \Illuminate\Support\Carbon|null $updated_at Ngày cập nhật
+ * @property-read \App\Models\Course|null $course
  * @property-read \App\Models\Exam|null $exam
  * @method static \Illuminate\Database\Eloquent\Builder|BaseModel act()
  * @method static \Illuminate\Database\Eloquent\Builder|BaseModel fullTextSearch($columns, $term)
@@ -1420,6 +1421,8 @@ namespace App\Models{
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Course[] $course
  * @property-read int|null $course_count
  * @property-read \App\Models\District|null $district
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ExamResult[] $examResult
+ * @property-read int|null $exam_result_count
  * @property-read \App\Models\Gender|null $gender
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection|\Tech5s\Notify\Models\Notification[] $notifications
  * @property-read int|null $notifications_count

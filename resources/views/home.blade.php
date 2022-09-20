@@ -102,16 +102,21 @@
             <div class="swiper-container slide-lecturers lg:py-5">
                 <div class="swiper-wrapper">
                     @foreach ($listTeacher as $itemTeacher)
+                    @php
+                        $ratingInfo = $itemTeacher->getRating('main');
+                    @endphp
                     <div class="swiper-slide h-auto">
                         <div class="items-lecturers bg-white h-full rounded-lg overflow-hidden border-[1px] border-solid border-[#ebebeb] hover:border-transparent hover:shadow-[0_4px_10px_rgba(0,0,0,.3)] transition-all duration-300">
                             <span class="banner block c-img pt-[26%]">
                                 <img src="theme/frontend/images/banner-lec.jpg" alt="">
                             </span>
                             <div class="content relative lg:p-4 p-2 pt-0 text-center lg:mt-[-75px] -mt-10">
-                                <span class="ava block img-ava mx-auto lg:w-[8rem] lg:h-[8rem] w-[5rem] h-[5rem] rounded-full overflow-hidden">
+                                <a href="{{$itemTeacher->buildHrefTeacher()}}" title="{{$itemTeacher->name}}" class="ava block img-ava mx-auto lg:w-[8rem] lg:h-[8rem] w-[5rem] h-[5rem] rounded-full overflow-hidden">
                                     @include('image_loader.big',['itemImage'=>$itemTeacher,'key'=>'img'])
-                                </span>
-                                <p class="name font-bold text-[#252525] 2lx:text-[1.25rem] text-[1rem] mb-1">{{Support::show($itemTeacher,'name')}}</p>
+                                </a>
+                                <p class="name font-bold text-[#252525] 2lx:text-[1.25rem] text-[1rem] mb-1">
+                                    <a href="{{$itemTeacher->buildHrefTeacher()}}" title="{{$itemTeacher->name}}">{{Support::show($itemTeacher,'name')}}</a>
+                                </p>
                                 <p class="role text-[#CD272F] mb-4">{{Support::show($itemTeacher,'teacher_job')}}</p>
                                 <div class="short_content lg:text-[0.875rem] mb-4">{{Support::show($itemTeacher,'teacher_short_content')}}</div>
                                 <div class="grid grid-cols-3 gap-4 border-[1px] border-solid border-[#ebebeb] rounded lg:py-4 py-2 2xl:px-8 lg:px-6 px-4 mb-4 mt-auto">
@@ -123,22 +128,9 @@
                                         <p class="font-bold text-[#252525] text-[0.75rem] mb-2">Tổng giờ giảng</p>
                                         <span class="count inline-block font-semibold text-white px-2 py-1 rounded bg-[#E099C8]"> {{(int)($itemTeacher->course->sum('duration')/60)}} </span>
                                     </div>
-<<<<<<< HEAD
-                                    <div class="teacher-social flex justify-center items-center">
-                                        <a href="tel:{{Support::show($itemTeacher,'phone')}}" title="Điện thoại" class="item-social lg:mr-6 mr-3">
-                                            @include('icon_svgs.user_phone')
-                                        </a>
-                                        <a href="mailto:{{Support::show($itemTeacher,'email')}}" title="Email" class="item-social lg:mr-6 mr-3">
-                                            @include('icon_svgs.user_email')
-                                        </a>
-                                        <a href="{{Support::show($itemTeacher,'facebook')}}" rel="noopener" target="_blank" title="Facebook" class="item-social" rel="noindex,nofollow,noopener">
-                                            @include('icon_svgs.user_facebook')
-                                        </a>
-=======
                                     <div class="col-span-1 text-center">
-                                        <p class="font-bold text-[#252525] text-[0.75rem] mb-2">Lượt đánh giá</p>
-                                        <span class="count inline-block font-semibold text-white px-2 py-1 rounded bg-[#E099C8]"> 4.6/5 </span>
->>>>>>> 38213b2a1180c7b3bf9ed8ddb52b466c74263402
+                                        <p class="font-bold text-[#252525] text-[0.75rem] mb-2">Đánh giá</p>
+                                        <span class="count inline-block font-semibold text-white px-2 py-1 rounded bg-[#E099C8]"> {{$ratingInfo['scoreAll']}}/5</span>
                                     </div>
                                 </div>
                                 <div class="teacher-social flex justify-center items-center">

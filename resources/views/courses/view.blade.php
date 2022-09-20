@@ -93,7 +93,7 @@
                                         </div>
                                         <div class="pt-2 text-center">
                                             @if ($userTeacher->uslug != '')
-                                                <a href="thong-tin-giang-vien/{{ $userTeacher->uslug }}" title="Chi tiết giảng viên" class="btn btn-red-gradien block rounded-md bg-gradient-to-r from-[#F44336] to-[#C62828] py-2 px-5 text-center font-semibold text-white shadow-lg md:inline-block">Chi tiết giảng viên</a>
+                                                <a href="{{$userTeacher->buildHrefTeacher()}}" title="Chi tiết giảng viên" class="btn btn-red-gradien block rounded-md bg-gradient-to-r from-[#F44336] to-[#C62828] py-2 px-5 text-center font-semibold text-white shadow-lg md:inline-block">Chi tiết giảng viên</a>
                                             @endif
                                         </div>
                                     </div>
@@ -163,7 +163,7 @@
                             @php
                                 $fisrtPackage = $currentItem->timePackage->first();
                             @endphp
-                            <div class="overflow-hidden rounded-[0.4688rem] bg-[#fff] p-2 lg:sticky lg:top-[1rem]">
+                            <div class="overflow-hidden rounded-[0.4688rem] bg-[#fff] p-2 lg:sticky lg:top-[1rem] mb-[1.275rem] md:mb-0 2xl:mb-[1.875rem]">
                                 <div class="item-course buy-item-box">
                                     @include('image_loader.all', ['itemImage' => $currentItem, 'key' => 'img'])
                                     <div class="p-2">
@@ -178,16 +178,14 @@
                                                 <option value="{{ $itemTimePackage->id }}" data-price="{{ Currency::showMoney($itemTimePackage->price) }}" data-subprice="{{ $itemTimePackage->price_old > $itemTimePackage->price ? Currency::showMoney($itemTimePackage->price_old) : '' }}">{{ $itemTimePackage->name }}</option>
                                             @endforeach
                                         </select>
-
                                         <a href="javascript:void(0)" title="Đăng ký ngay" class="btn btn-red-gradien btn-buy-item mb-2 flex items-center justify-center overflow-hidden rounded border-[2px] border-[#fff] bg-gradient-to-r from-[#F44336] to-[#C62828] py-[0.725rem] px-[0.3125rem] font-semibold text-white hover:text-[#fff]" data-action="buy-now" data-type="course" data-id="{{ $currentItem->id }}" data-package="{{ $fisrtPackage->id }}">Đăng kí ngay</a>
                                         <a href="javascript:void(0)" title="Thêm vào giỏ hàng" class="btn-buy-item flex items-center justify-center overflow-hidden rounded border-[2px] border-[#CD272F] bg-[#fff] py-[0.725rem] px-[0.3125rem] font-semibold text-[#CD272F]" data-action="add-cart" data-type="course" data-id="{{ $currentItem->id }}" data-package="{{ $fisrtPackage->id }}"> @include('icon_svgs.add_cart') Thêm vào giỏ hàng </a>
-
                                     </div>
                                 </div>
                             </div>
                         @endif
 
-                        <div class="box mt-[1.275rem] overflow-hidden rounded bg-[#fff] md:mt-0 2xl:mt-[1.875rem]">
+                        <div class="box  overflow-hidden rounded bg-[#fff]">
                             <p class="bg-gradient-to-r from-[#F44336] to-[#C62828] p-[1rem] text-center text-[1.1rem] font-semibold text-white lg:text-[1.375rem]">Thông tin khóa học</p>
                             <div class="p-[0.75rem] md:p-[1.25rem]">
                                 <div class="mb-[0.75rem] flex items-center lg:mb-[1rem]">
