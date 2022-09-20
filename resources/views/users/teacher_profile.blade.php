@@ -66,11 +66,11 @@
                             <div class="grid grid-cols-3 gap-4 border-[1px] border-solid border-[#ebebeb] rounded 2xl:py-4 py-2 2xl:px-8 px-4">
                                 <div class="col-span-1 text-center">
                                     <p class="font-semibold text-[0.75rem] text-[#252525] mb-2">Số khóa học</p>
-                                    <span class="count inline-block py-1 px-2 rounded bg-['mix'] font-semibold text-white bg-gradient-to-r from-[#F44336] to-[#C62828]">{{count($userTeacher->course)}}</span>
+                                    <span class="count inline-block py-1 px-2 rounded bg-['mix'] font-semibold text-white bg-gradient-to-r from-[#F44336] to-[#C62828]">{{$userTeacher->teacherCourses->count()}}</span>
                                 </div>
                                 <div class="col-span-1 text-center">
                                     <p class="font-semibold text-[0.75rem] text-[#252525] mb-2">Tổng giờ giảng</p>
-                                    <span class="count inline-block py-1 px-2 rounded bg-['mix'] font-semibold text-white bg-gradient-to-r from-[#F44336] to-[#C62828]">{{(int)($userTeacher->course->sum('duration')/60)}}</span>
+                                    <span class="count inline-block py-1 px-2 rounded bg-['mix'] font-semibold text-white bg-gradient-to-r from-[#F44336] to-[#C62828]">{{$userTeacher->totalDuration()}}</span>
                                 </div>
                                 @php
                                     $ratingInfo = $userTeacher->getRating('main');
@@ -106,7 +106,7 @@
             </div>
             <div class="tabcontent" id="tab-lesson-2" data-target="tab-lesson">
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 2xl:gap-6 sm:gap-4 gap-2">
-                    @foreach ($userTeacher->course as $item)
+                    @foreach ($userTeacher->teacherCourses as $item)
                         <div class="col-span-1">
                             @include('courses.item')
                         </div>

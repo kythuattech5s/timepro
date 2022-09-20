@@ -163,7 +163,7 @@
                             @php
                                 $fisrtPackage = $currentItem->timePackage->first();
                             @endphp
-                            <div class="overflow-hidden rounded-[0.4688rem] bg-[#fff] p-2 lg:sticky lg:top-[1rem] mb-[1.275rem] md:mb-0 2xl:mb-[1.875rem]">
+                            <div class="overflow-hidden rounded-[0.4688rem] bg-[#fff] p-2 lg:sticky lg:top-[1rem] mb-3 mb-lg-4">
                                 <div class="item-course buy-item-box">
                                     @include('image_loader.all', ['itemImage' => $currentItem, 'key' => 'img'])
                                     <div class="p-2">

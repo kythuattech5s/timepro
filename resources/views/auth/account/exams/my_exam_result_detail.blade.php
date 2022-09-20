@@ -1,4 +1,7 @@
 @extends('index')
+@section('css')
+    <link rel="stylesheet" href="{{ Support::asset('managequestion/frontend/css/custom_question.css')}}"/>
+@endsection
 @section('main')
 <section class="2xl:py-8 py-6 bg-[#EEEAEA]">
     <div class="container">
@@ -47,6 +50,10 @@
                                 <div class="box-scrollstyle">
                                     @include('mtc::question.load_frontend_resutl',['question'=>$question,'answer'=>$listExamResult[$question->id]['answer'] ?? null])
                                 </div>
+                                <div class="border p-2 rounded">
+                                    <span class="mr-2 1">Đáp án đúng là:</span> 
+                                    <div class="s-content">{!!$question->getTrueAnswerFrontend()!!}</div>
+                                </div>
                                 @if ($question->explanation_guide != '')
                                     <span class="show-result inline-block cursor-pointer font-semibold text-[#12CA3B] text-[0.875rem] mb-2">
                                         Hiện lời giải <i class="fa fa-angle-down ml-1 text-[1.25rem]" aria-hidden="true"></i>
@@ -63,7 +70,4 @@
         </div>
     </div>
 </section>
-@endsection
-@section('js')
-    <script src="{{ Support::asset('theme/frontend/js/user_course_control.js') }}" defer></script>
 @endsection

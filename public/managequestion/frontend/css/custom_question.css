@@ -1,0 +1,12 @@
+.item-answer.basic_radio.checked.success::before{
+    border: 3px solid #12CA3B;
+}
+.item-answer.basic_radio.checked.success::after {
+    background: #12CA3B;
+}
+.item-answer.basic_radio.checked.false::before{
+    border: 3px solid #FFB800;
+}
+.item-answer.basic_radio.checked.false::after {
+    background: #FFB800;
+}

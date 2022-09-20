@@ -65,7 +65,7 @@
     <span class="title font-bold text-[#252525]">Thông tin cá nhân</span>
     <i class="fa fa-angle-right text-[1.875rem]" aria-hidden="true"></i>
 </a>
-<a href="{{\VRoute::get('my_notification')}}" class="sidebar-admin__item bg-white rounded flex items-center justify-between py-3 2xl:px-6 px-4 mb-2 transition-all duration-300 {{Str::contains(url()->current(),[\VRoute::get('my_notification')]) ? 'active':''}}">
+{{-- <a href="{{\VRoute::get('my_notification')}}" class="sidebar-admin__item bg-white rounded flex items-center justify-between py-3 2xl:px-6 px-4 mb-2 transition-all duration-300 {{Str::contains(url()->current(),[\VRoute::get('my_notification')]) ? 'active':''}}">
     <span class="title font-bold text-[#252525]">Thông báo</span>
     <div class="noti flex items-center">
         <span class="count mr-4 inline-block min-w-[1.25rem] h-5 rounded-full text-white font-semibold text-[0.875rem] leading-5 text-center bg-gradient-to-r from-[#F44336] to-[#C62828]">
@@ -73,15 +73,15 @@
         </span>
         <i class="fa fa-angle-right text-[1.875rem]" aria-hidden="true"></i>
     </div>
-</a>
+</a> --}}
 <a href="{{\VRoute::get('my_order')}}" class="sidebar-admin__item bg-white rounded flex items-center justify-between py-3 2xl:px-6 px-4 mb-2 transition-all duration-300 {{Str::contains(url()->current(),[\VRoute::get('my_order')]) ? 'active':''}}">
     <span class="title font-bold text-[#252525]">Theo dõi đơn hàng</span>
     <i class="fa fa-angle-right text-[1.875rem]" aria-hidden="true"></i>
 </a>
-<a href="{{\VRoute::get('my_question')}}" class="sidebar-admin__item bg-white rounded flex items-center justify-between py-3 2xl:px-6 px-4 mb-2 transition-all duration-300 {{Str::contains(url()->current(),[\VRoute::get('my_question')]) ? 'active':''}}">
+{{-- <a href="{{\VRoute::get('my_question')}}" class="sidebar-admin__item bg-white rounded flex items-center justify-between py-3 2xl:px-6 px-4 mb-2 transition-all duration-300 {{Str::contains(url()->current(),[\VRoute::get('my_question')]) ? 'active':''}}">
     <span class="title font-bold text-[#252525]">Câu hỏi thắc mắc</span>
     <i class="fa fa-angle-right text-[1.875rem]" aria-hidden="true"></i>
-</a>
+</a> --}}
 {{-- <a href="{{\VRoute::get('my_payment_history')}}" class="sidebar-admin__item bg-white rounded flex items-center justify-between py-3 2xl:px-6 px-4 mb-2 transition-all duration-300">
     <span class="title font-bold text-[#252525]">Lịch sử thanh toán</span>
     <i class="fa fa-angle-right text-[1.875rem]" aria-hidden="true"></i>

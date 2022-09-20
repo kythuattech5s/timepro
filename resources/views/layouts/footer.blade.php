@@ -39,7 +39,7 @@
             <div class="footer-nav 2xl:py-14 py-6 grid grid-cols-1 lg:grid-cols-3 gap-4 border-b-[1px] border-solid border-[rgba(255,255,255,.5)]">
                 <div class="col-span-1">
                     <a href="{{\VRoute::get("home")}}" title="Trang chủ" class="logo-footer-mobile block lg:hidden mb-4 max-w-[200px]">
-                        @include('image_loader.config.big',['config_key'=>'logo'])
+                        @include('image_loader.config.big',['config_key'=>'logo_footer'])
                     </a>
                     <h2 class="name-company w-fit ml-0 font-bold text-white lg:text-[1.125rem] uppercase relative after:block after:mt-2 after:w-full after:h-[1px] after:bg-[rgba(255,255,255,.5)] mb-4">{[company_name]}</h2>
                     @php
@@ -104,7 +104,7 @@
             </div>
             <div class="f-menu 2xl:py-8 py-4 flex items-center justify-center lg:justify-start">
                 <a href="{{\VRoute::get("home")}}" title="Trang chủ" class="logo-footer hidden lg:block shrink-0 max-w-[15rem] 2xl:mr-20 lg:mr-10 relative after:w-[1px] after:h-full after:bg-[rgba(255,255,255,.5)] after:absolute after:top-0 2xl:after:right-[-2.5rem] lg:after:right-[-1.25rem]">
-                    @include('image_loader.config.big',['config_key'=>'logo'])
+                    @include('image_loader.config.big',['config_key'=>'logo_footer'])
                 </a>
                 <div class="menu-footer hidden lg:block flex-1 text-white font-bold 2xl:text-[1.125rem]">
                     @php
