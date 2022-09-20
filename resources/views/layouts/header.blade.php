@@ -77,13 +77,13 @@
             <button type="submit" class="btn btn-orange absolute top-0 left-0 h-full inline-flex items-center justify-center p-2 px-3 rounded bg-gradient-to-r from-[#F44336] to-[#C62828] text-white">
                 <i class="fa fa-search" aria-hidden="true"></i>
             </button>
-            <input type="text" name="q" placeholder="Nhập từ khoá tìm kiếm ..." class="form-control w-full py-2 px-4 outline-none border-[1px] border-solid border-[#ebebeb] rounded-lg pl-12">
+            <input type="text" name="q" placeholder="Nhập từ khoá tìm kiếm ..." class="form-control w-full py-2 px-4 outline-none border-[1px] border-solid border-[#ebebeb] rounded-lg pl-12" value="{{$keySeach ?? ''}}">
         </form>
     </div>
     <div class="form-search transition-all duration-300 fixed top-[-100%] left-0 w-full h-full bg-[rgba(0,0,0,.7)] z-[100] hidden lg:flex items-center justify-center">
         <span class="close-form-search"></span>
         <form action="{{\VRoute::get("search")}}" method="get" class="form flex items-center" accept-charset="utf-8">
-            <input type="text" name="q" value="" id="input-search-header" placeholder="Nhập từ khóa tìm kiếm ..." class="form-control">
+            <input type="text" name="q" id="input-search-header" placeholder="Nhập từ khóa tìm kiếm ..." class="form-control" value="{{$keySeach ?? ''}}">
             <button class="btn-search text-[1.25rem] ml-1 text-white" type="submit">
                 <i class="fa fa-search" aria-hidden="true"></i>
             </button>
