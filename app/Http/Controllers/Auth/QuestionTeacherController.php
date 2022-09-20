@@ -12,7 +12,9 @@ class QuestionTeacherController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');
+        if (!Auth::check()) {
+            return redirect()->to('/')->with('typeNotify', 100)->with('messageNotify', 'Vui lòng đăng nhập để thực hiện chức năng này')->send();
+        }
     }
 
     public function index()
