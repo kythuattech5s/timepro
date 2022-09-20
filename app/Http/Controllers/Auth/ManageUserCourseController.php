@@ -10,7 +10,6 @@ use App\Models\OrderStatus;
 use App\Models\UserType;
 use Auth;
 use Illuminate\Http\Request;
-use multiplechoicequestions\managequestion\Models\Question;
 use Support;
 use Tech5sCart;
 
@@ -28,7 +27,8 @@ class ManageUserCourseController extends Controller
                 ]);
                 die();
             }else{
-                return redirect()->to(\VRoute::get("login"))->with('messageNotify', 'Vui lòng đăng nhập')->with('typeNotify', 100)->send();
+                redirect()->to(\VRoute::get("login"))->with('messageNotify', 'Vui lòng đăng nhập')->with('typeNotify', 100)->send();
+                throw new \Exception("Tài khoản của bạn không có chức năng này", 100);
             }
         }
         $user = Auth::user();
@@ -41,7 +41,8 @@ class ManageUserCourseController extends Controller
                 ]);
                 die();
             } else {
-                return redirect()->to(\VRoute::get("home"))->with('messageNotify', 'Tài khoản của bạn không có chức năng này')->with('typeNotify', 100)->send();
+                redirect()->to(\VRoute::get("home"))->with('messageNotify', 'Tài khoản của bạn không có chức năng này')->with('typeNotify', 100)->send();
+                throw new \Exception("Tài khoản của bạn không có chức năng này", 100);
             }
         }
     }

@@ -3664,13 +3664,11 @@ video {
     font-size: 1rem;
   }
 
-<<<<<<< HEAD
   .\32xl\:text-\[1\.3rem\] {
     font-size: 1.3rem;
-=======
+  }
   .\32xl\:text-\[4\.5rem\] {
     font-size: 4.5rem;
->>>>>>> 38213b2a1180c7b3bf9ed8ddb52b466c74263402
   }
 
   .\32xl\:after\:right-\[-2\.5rem\]::after {
