@@ -115,7 +115,7 @@
                 <ul class="social-footer">
                     <li class="inline-block mr-4 2xl:mr-8 last:mr-0">
                         <a href="{[facebook]}" title="Facebook" rel="noopener" target="_blank">
-                            <img src="theme/frontend/images /icon_fb.svg" class="w-6 h-6 object-contain" alt="Facebook">
+                            <img src="theme/frontend/images/icon_fb.svg" class="w-6 h-6 object-contain" alt="Facebook">
                         </a>
                     </li>
                     <li class="inline-block 2xl:mr-8 last:mr-0 mr-4">
