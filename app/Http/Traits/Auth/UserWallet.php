@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Traits\Auth;
 use App\Helpers\UserWallet\WalletExport;
+use App\Models\{PaymentMethod};
 use SettingHelper;
 use Excel;
 use Auth;
@@ -36,6 +37,7 @@ trait UserWallet{
 				return \Redirect::to(url('/'))->with('typeNotify','error')->with('messageNotify','Tài khoản của bạn không có quyền truy cập');
 			}
 		}
-		return view('auth.account.deposit_wallet');
+		$listPaymentMethod = PaymentMethod::act()->orderBy('ord','asc')->get();
+		return view('auth.account.deposit_wallet',compact('listPaymentMethod'));
 	}
 }

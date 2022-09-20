@@ -14,7 +14,8 @@ class NewsCategoryController extends Controller
         $newsHighViews = News::act()->orderBy('count','desc')->take(5)->get();
         $listNewsNew = News::act()->orderBy('created_at','desc')->take(5)->get();
         $listAllNewsCategory = NewsCategory::act()->where('parent',0)->ord()->get();
+        $listNewsSale = News::act()->where('sale',1)->ord()->take(4)->get();
         $table = 'news_categories';
-    	return view('news_categories.view', compact('currentItem', 'listItems','newsHighViews','listNewsNew','listAllNewsCategory','table'));
+    	return view('news_categories.view', compact('currentItem', 'listItems','newsHighViews','listNewsNew','listAllNewsCategory','table','listNewsSale'));
     }
 }

@@ -30,7 +30,7 @@
             @if ($user != null)
             <a href="/thong-bao-cua-toi" title="Thông báo" class="h-noti relative block">
                 <img src="theme/frontend/images/noti.svg" alt="icon">
-                <span class="count absolute top-0 right-0 font-bold text-[8px] text-white min-w-[12px] h-3 rounded-full bg-gradient-to-r from-[#F44336] to-[#C62828] z-[1] text-center leading-3" count-not-read>{{$countNotifiactionNoRead}}</span>
+                <span class="count absolute top-[-4px] right-0 font-bold text-[8px] text-white min-w-[12px] h-3 rounded-full bg-gradient-to-r from-[#F44336] to-[#C62828] z-[1] text-center leading-3" count-not-read>{{$countNotifiactionNoRead}}</span>
 
             </a>
             @endif
@@ -40,8 +40,6 @@
             </a>
             @if ($user != null)
             <div class="flex items-center gap-2 relative group cursor-pointer">
-
-                
                 <a href="{{\VRoute::get('my_profile')}}" title="{{Support::show($user,'name')}}" class="ava img-ava block lg:w-12 lg:h-12 w-8 h-8 rounded-full overflow-hidden">
                     @if(Support::show($user,'img'))
                     @include('image_loader.tiny',['keyImage'=>'img','itemImage'=>$user])
@@ -50,8 +48,13 @@
                     @endif
                 </a>
                 <div class="content hidden lg:block">
+                    @if(Support::show($user,'user_type_id') == 1)
                     <p class="text-[0.75rem] mb-1">Xin chào</p>
                     <a href="{{\VRoute::get('my_profile')}}" title="Thông tin cá nhân" class="name-user font-semibold text-[#252525]">{{Support::show($user,'name')}}</a>
+                    @else
+                    <a href="{{\VRoute::get('my_profile')}}" title="Thông tin cá nhân" class="name-user font-semibold text-[#252525]">{{Support::show($user,'name')}}</a>
+                    <p class="text-[0.75rem] mb-1 text-[#F44336]">Giảng Viên</p> 
+                    @endif
                 </div>
                 <div class="auth-content hidden lg:block rounded overflow-hidden opacity-0 invisible pointer-events-none whitespace-nowrap min-w-full absolute top-[100%] left-0 z-[1] bg-white shadow-[0_4px_10px_rgba(0,0,0,.3)] group-hover:opacity-100 group-hover:visible group-hover:pointer-events-auto transition-all duration-300">
                     <a href="{{\VRoute::get('my_profile')}}" title="Thông tin cá nhân" class="block py-2 px-4 text-[#252525] border-b-[1px] border-solid border-[#252525] last:border-none">

@@ -34,7 +34,7 @@
 </div>
 <footer class="footer">
     <div class="footer-top bg-no-repeat bg-cover relative after:absolute after:w-full after:h-full after:top-0 after:left-0 after:bg-[rgba(33,33,33,.95)]"
-        style="background-image: url(theme/frontend/images/bg-footer.jpg)">
+        style="background-image: url({Ibg_footer.imgI})">
         <div class="container relative z-[1]">
             <div class="footer-nav 2xl:py-14 py-6 grid grid-cols-1 lg:grid-cols-3 gap-4 border-b-[1px] border-solid border-[rgba(255,255,255,.5)]">
                 <div class="col-span-1">
@@ -42,14 +42,12 @@
                         @include('image_loader.config.big',['config_key'=>'logo_footer'])
                     </a>
                     <h2 class="name-company w-fit ml-0 font-bold text-white lg:text-[1.125rem] uppercase relative after:block after:mt-2 after:w-full after:h-[1px] after:bg-[rgba(255,255,255,.5)] mb-4">{[company_name]}</h2>
-                    @php
-                        $listAddress = Support::extractJson(SettingHelper::getSetting('addresses'),false);
-                    @endphp
+                    <?php $listAddress = Support::extractJson(SettingHelper::getSetting('addresses'),false); ?>
                     @foreach ($listAddress as $itemAddress)
-                        <p class="footer-contact relative text-white mb-4 last:mb-0 pl-8">
-                            <img src="theme/frontend/images/location.svg" class="w-6 h-6 object-contain absolute top-0 left-0" alt="Location">
-                            <span class="text">{{Support::show($itemAddress,'address')}}</span>
-                        </p>
+                    <p class="footer-contact relative text-white mb-4 last:mb-0 pl-8">
+                        <img src="theme/frontend/images/location.svg" class="w-6 h-6 object-contain absolute top-0 left-0" alt="Location">
+                        <span class="text">{{Support::show($itemAddress,'address')}}</span>
+                    </p>
                     @endforeach
                     <p class="footer-contact relative text-white mb-4 last:mb-0 pl-8">
                         <img src="theme/frontend/images/phone.svg" class="w-6 h-6 object-contain absolute top-0 left-0" alt="Phone">
@@ -65,18 +63,14 @@
                         <div class="col-span-1">
                             <p class="title-footer font-bold lg:text-[1.125rem] text-white uppercase lg:mb-6 mb-4">Hướng dẫn</p>
                             <div class="nav-footer text-white">
-                                @php
-                                    $menus = Support::getMenuRecursive(2);
-                                @endphp
+                                <?php $menus = Support::getMenuRecursive(2); ?>
                                 {{Support::showMenuRecursive($menus,0)}}
                             </div>
                         </div>
                         <div class="col-span-1">
                             <p class="title-footer font-bold lg:text-[1.125rem] text-white uppercase lg:mb-6 mb-4">Quy định</p>
                             <div class="nav-footer text-white">
-                                @php
-                                    $menus = Support::getMenuRecursive(3);
-                                @endphp
+                                <?php $menus = Support::getMenuRecursive(3); ?>
                                 {{Support::showMenuRecursive($menus,0)}}
                             </div>
                         </div>
@@ -91,12 +85,12 @@
                                 <a href="mailto:{[email_support]}" class="phone">{[email_support]}</a>
                             </p>
                             <div class="flex flex-wrap gap-2 items-center">
-                                <a href="{[dcma_link]}" title="DCMA" class="icon" target="_blank" rel="noopener">
-                                    <img src="theme/frontend/images/dmca.png" alt="" />
+                                <?php $list_certicate_footer = Support::extractJson(SettingHelper::getSetting('certicate_footer'),false); ?>
+                                @foreach($list_certicate_footer as $certicate)
+                                <a href="{{Support::show($certicate,'link')}}" title="DCMA" class="icon" target="_blank" rel="noopener">
+                                    @include('image_loader.tiny',['keyImage'=>'image','itemImage'=>$certicate])
                                 </a>
-                                <a href="{[bct_link]}" title="Đã đăng ký bộ công thương" class="icon" target="_blank" rel="noopener">
-                                    <img src="theme/frontend/images/bct.png" alt="" />
-                                </a>
+                                @endforeach
                             </div>
                         </div>
                     </div>

@@ -106,7 +106,7 @@ class AccountController extends Controller
             $date = new \Datetime($request->input('birthday'));
             $user->birthday = $date;
         }
-        $user->img = isset($request->avatar) ? \MediaHelper::uploadFile('avatar', 'avatar') : $user->img;
+        $user->img = isset($request->avatar) ? MediaHelper::uploadFile('avatar', 'avatar') : $user->img;
         $user->save();
         return response()->json([
             'code' => 200,
