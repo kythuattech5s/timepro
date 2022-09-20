@@ -72,9 +72,12 @@
                                     <p class="font-semibold text-[0.75rem] text-[#252525] mb-2">Tổng giờ giảng</p>
                                     <span class="count inline-block py-1 px-2 rounded bg-['mix'] font-semibold text-white bg-gradient-to-r from-[#F44336] to-[#C62828]">{{(int)($userTeacher->course->sum('duration')/60)}}</span>
                                 </div>
+                                @php
+                                    $ratingInfo = $userTeacher->getRating('main');
+                                @endphp
                                 <div class="col-span-1 text-center">
                                     <p class="font-semibold text-[0.75rem] text-[#252525] mb-2">Lượt đánh giá</p>
-                                    <span class="count inline-block py-1 px-2 rounded bg-['mix'] font-semibold text-white bg-gradient-to-r from-[#F44336] to-[#C62828]">4.6/5</span>
+                                    <span class="count inline-block py-1 px-2 rounded bg-['mix'] font-semibold text-white bg-gradient-to-r from-[#F44336] to-[#C62828]">{{$ratingInfo['scoreAll']}}/5</span>
                                 </div>
                             </div>
                         </div>

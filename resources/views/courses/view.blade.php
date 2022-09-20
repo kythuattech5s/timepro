@@ -27,10 +27,10 @@
                         </svg>
                     </div>
                     <div class="tabs md-[0.5rem] sticky top-0 z-10 mb-[1.5rem] flex snap-start justify-start gap-4 overflow-x-auto rounded-[0.3125rem] bg-[#fff] p-[0.5rem] pb-[1rem] text-center md:justify-around md:p-[1rem]">
-                        <a href="#gioi-thieu" title="Giới thiệu" class="flex-none text-[0.875rem] font-semibold text-[#454545] md:text-base">Giới thiệu</a>
-                        <a href="#noi-dung-khoa-hoc" title="Nội dung khóa học" class="flex-none text-[0.875rem] font-semibold text-[#454545] md:text-base">Nội dung khóa học</a>
-                        <a href="#thong-tin-giang-vien" title="Thông tin giảng viên" class="flex-none text-[0.875rem] font-semibold text-[#454545] md:text-base">Thông tin giảng viên</a>
-                        <a href="#danh-gia" title="Đánh giá" class="flex-none text-[0.875rem] font-semibold text-[#454545] md:text-base">Đánh giá</a>
+                        <a href="{{url()->to($currentItem->slug.'#gioi-thieu')}}" title="Giới thiệu" class="flex-none text-[0.875rem] font-semibold text-[#454545] md:text-base">Giới thiệu</a>
+                        <a href="{{url()->to($currentItem->slug.'#noi-dung-khoa-hoc')}}" title="Nội dung khóa học" class="flex-none text-[0.875rem] font-semibold text-[#454545] md:text-base">Nội dung khóa học</a>
+                        <a href="{{url()->to($currentItem->slug.'#thong-tin-giang-vien')}}" title="Thông tin giảng viên" class="flex-none text-[0.875rem] font-semibold text-[#454545] md:text-base">Thông tin giảng viên</a>
+                        <a href="{{url()->to($currentItem->slug.'#danh-gia')}}" title="Đánh giá" class="flex-none text-[0.875rem] font-semibold text-[#454545] md:text-base">Đánh giá</a>
                     </div>
                     <div class="box mb-[1.5rem] overflow-hidden rounded bg-[#fff] p-[0.5rem] md:p-[1.5rem]" id="gioi-thieu">
                         <p class="mb-[0.625rem] border-b-[1px] border-b-[#EBEBEB] pb-[0.625rem] text-[1.125rem] font-semibold text-[#252525]">
