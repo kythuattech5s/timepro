@@ -23,7 +23,7 @@
     </div>
     <div class="content flex-1 flex flex-col 2xl:p-4 lg:p-2 p-1">
         <h3>
-            <a href="{{Support::show($item,'slug')}}" title="{{Support::show($item,'name')}}" class="title font-bold 2xl:text-[1.125rem] text-[#252525] block line-clamp-2 mb-2">{{Support::show($item,'name')}}</a>
+            <a href="{{Support::show($item,'slug')}}" title="{{Support::show($item,'name')}}" class="title font-bold 2xl:text-[1.125rem] text-[#252525] block line-clamp-2 mb-2 min-h-[3.125rem]">{{Support::show($item,'name')}}</a>
         </h3>
         @if (isset($item->teacher))
             <div class="teacher flex items-center gap-2 mb-4">
