@@ -6,7 +6,6 @@ use App\Notifications\ResetPasswordNotification;
 use App\Notifications\User as UserNotify;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use phpDocumentor\Reflection\Types\This;
 use Roniejisa\Comment\Traits\GetDataComment;
 use Tech5s\Notify\Traits\NotificationUserTrait;
 
@@ -25,14 +24,19 @@ class User extends Authenticatable
         return $this->hasMany(Course::class, 'teacher_id', 'id');
     }
 
+    // public function totalDuration()
+    // {
+    //     $second = $this->teacherCourses->sum(function ($q) {
+    //         return $q->videos->sum(function ($q) {
+    //             return (int) $q->duration > 0 ? $q->duration : 0;
+    //         });
+    //     });
+    //     return (int)($second/3600);
+    // }
     public function totalDuration()
     {
-        $second = $this->teacherCourses->sum(function ($q) {
-            return $q->videos->sum(function ($q) {
-                return (int) $q->duration > 0 ? $q->duration : 0;
-            });
-        });
-        return (int)($second / 3600);
+        $minute = $this->teacherCourses->sum('duration');
+        return (int)($minute/60);
     }
 
     public function getRatingScore()
@@ -94,6 +98,34 @@ class User extends Authenticatable
     public function userCourse()
     {
         return $this->hasMany(UserCourse::class);
+    }
+    public function scopeStudent($q,$listTeacherCourseId)
+    {
+        return $q->where('act',1)->where('banned',0)->where('user_type_id',UserType::NORMAL_ACCOUNT)->where(function($q) use ($listTeacherCourseId){
+            $q->whereHas('userCourse',function($q) use ($listTeacherCourseId){
+                $q->whereIn('course_id',$listTeacherCourseId)->where(function($q){
+                    $q->where('expired_time', '>', now())->orWhere('is_forever', 1);
+                });
+            })
+            ->orWhereHas('userCourseCombo',function($q){
+                $q->whereHas('courseCombo', function ($q) {
+                    $q->where('all_course', 1);
+                })
+                ->where(function ($q) {
+                    $q->where('expired_time', '>', now())->orWhere('is_forever', 1);
+                });
+            })
+            ->orWhereHas('userCourseCombo',function($q) use ($listTeacherCourseId) {
+                $q->whereHas('courseCombo', function ($q) use ($listTeacherCourseId) {
+                    $q->where('all_course', 0)->whereHas('course',function($q) use ($listTeacherCourseId) {
+                        $q->whereIn('id',$listTeacherCourseId);
+                    });
+                })
+                ->where(function ($q) {
+                    $q->where('expired_time', '>', now())->orWhere('is_forever', 1);
+                });
+            });
+        });
     }
     public function userCourseCombo()
     {

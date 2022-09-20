@@ -62,9 +62,8 @@
     <span class="title font-bold text-[#252525]">Quản lý học viên</span>
     <i class="fa fa-angle-right text-[1.875rem]" aria-hidden="true"></i>
 </a>
-<a href=""
-    class="sidebar-admin__item bg-white rounded flex items-center justify-between py-3 2xl:px-6 px-4 mb-2 transition-all duration-300">
-    <span class="title font-bold text-[#252525]">Kì thi</span>
+<a href="{{\VRoute::get('examResult')}}" class="sidebar-admin__item bg-white rounded flex items-center justify-between py-3 2xl:px-6 px-4 mb-2 transition-all duration-300 {{Str::contains(url()->current(),[\VRoute::get('examResult')]) ? 'active':''}}">
+    <span class="title font-bold text-[#252525]">Kết quả kỳ thi</span>
     <i class="fa fa-angle-right text-[1.875rem]" aria-hidden="true"></i>
 </a>
 <a href="" class="sidebar-admin__item bg-white rounded flex items-center justify-between py-3 2xl:px-6 px-4 mb-2 transition-all duration-300">

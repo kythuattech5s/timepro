@@ -91,14 +91,14 @@ $wallet = $user->wallet()->first();
     <span class="title font-bold text-[#252525]">Theo dõi đơn hàng</span>
     <i class="fa fa-angle-right text-[1.875rem]" aria-hidden="true"></i>
 </a>
-{{-- <a href="{{\VRoute::get('my_question')}}" class="sidebar-admin__item bg-white rounded flex items-center justify-between py-3 2xl:px-6 px-4 mb-2 transition-all duration-300 {{Str::contains(url()->current(),[\VRoute::get('my_question')]) ? 'active':''}}">
+<a href="{{\VRoute::get('my_question')}}" class="sidebar-admin__item bg-white rounded flex items-center justify-between py-3 2xl:px-6 px-4 mb-2 transition-all duration-300 {{Str::contains(url()->current(),[\VRoute::get('my_question')]) ? 'active':''}}">
     <span class="title font-bold text-[#252525]">Câu hỏi thắc mắc</span>
     <i class="fa fa-angle-right text-[1.875rem]" aria-hidden="true"></i>
 </a>
-{{-- <a href="{{\VRoute::get('my_payment_history')}}" class="sidebar-admin__item bg-white rounded flex items-center justify-between py-3 2xl:px-6 px-4 mb-2 transition-all duration-300">
+<a href="{{\VRoute::get('my_payment_history')}}" class="sidebar-admin__item bg-white rounded flex items-center justify-between py-3 2xl:px-6 px-4 mb-2 transition-all duration-300 {{Str::contains(url()->current(),[\VRoute::get('my_payment_history')]) ? 'active':''}}">
     <span class="title font-bold text-[#252525]">Lịch sử thanh toán</span>
     <i class="fa fa-angle-right text-[1.875rem]" aria-hidden="true"></i>
-</a> --}}
+</a>
 <a href="{{ \VRoute::get('upgrade_account') }}" class="sidebar-admin__item {{ Str::contains(url()->current(), [\VRoute::get('upgrade_account')]) ? 'active' : '' }} mb-2 flex items-center justify-between rounded bg-white py-3 px-4 transition-all duration-300 2xl:px-6">
     <div class="vip">
         <img src="theme/frontend/images/vip.svg" class="mr-2 inline-block" alt="">
