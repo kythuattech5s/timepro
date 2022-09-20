@@ -1,8 +1,16 @@
 <?php
 namespace App\Http\Traits\Auth;
-use Auth;
+use App\Helpers\UserWallet\WalletExport;
 use SettingHelper;
+use Excel;
+use Auth;
 trait UserWallet{
+
+	public function exportWallet()
+    {
+        return Excel::download(new WalletExport, 'history_wallet_'.date('d-m-Y',strtotime(now())).'.xlsx');
+    }
+
 	public function wallet(){
 		if(!Auth::check()){
 			$this->goLogin();

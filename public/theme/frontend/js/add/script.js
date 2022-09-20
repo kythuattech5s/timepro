@@ -120,6 +120,11 @@ var MORE_FUNCTION = (function(){
 		}
 	}
 
+	var exportHistoryWallet = function(element){
+		var href = element.getAttribute('data-action');
+		window.location.href = href+'?range_time='+document.querySelector('input[name="range_time"]');
+	}
+
 	return{
 		init:function(){
 			closeModal();
@@ -134,6 +139,9 @@ var MORE_FUNCTION = (function(){
 		},
 		changeBirthDayProfile:function(element){
 			changeBirthDayProfile(element);
+		},
+		exportHistoryWallet:function(element){
+			exportHistoryWallet(element);
 		}
 	}
 })();

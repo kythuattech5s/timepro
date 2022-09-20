@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use App\Http\Traits\Auth\{UpgradeVip,UserWallet};
 use App\Models\{User,Province};
+use App\Helpers\MediaHelper;
 use Validator;
 use Support;
 class AccountController extends Controller
@@ -105,7 +106,7 @@ class AccountController extends Controller
             $date = new \Datetime($request->input('birthday'));
             $user->birthday = $date;
         }
-        $user->img = isset($request->avatar) ? \Support::uploadImg('avatar', 'avatar') : $user->img;
+        $user->img = isset($request->avatar) ? \MediaHelper::uploadFile('avatar', 'avatar') : $user->img;
         $user->save();
         return response()->json([
             'code' => 200,
