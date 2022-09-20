@@ -821,8 +821,14 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $updated_at Ngày cập nhật
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\NewsCategory[] $category
  * @property-read int|null $category_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Roniejisa\Comment\Models\Comment[] $commentTeacher
+ * @property-read int|null $comment_teacher_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Roniejisa\Comment\Models\Comment[] $comments
+ * @property-read int|null $comments_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\NewsNewsCategory[] $pivot
  * @property-read int|null $pivot_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Roniejisa\Comment\Models\Rating[] $ratings
+ * @property-read int|null $ratings_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\NewsTag[] $tags
  * @property-read int|null $tags_count
  * @method static \Illuminate\Database\Eloquent\Builder|BaseModel act()

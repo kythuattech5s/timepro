@@ -1,7 +1,11 @@
 <?php
 namespace App\Models;
+
+use Roniejisa\Comment\Traits\GetDataComment;
+
 class News extends BaseModel
 {
+    use GetDataComment;
 	protected $table = 'news';
     public function tags()
     {

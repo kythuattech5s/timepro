@@ -23,7 +23,7 @@ class rating {
                     },
                 };
                 const resposne = await XHR.send(options);
-                mySupport.showNotify(resposne.code, resposne.message);
+                NOTIFICATION.showNotify(resposne.code, resposne.message);
             };
         });
     };
