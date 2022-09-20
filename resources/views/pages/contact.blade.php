@@ -80,6 +80,7 @@
             </div>
             <div class="col-span-1">
                 <form action="{{\VRoute::get('send_contact')}}" method="POST" class="formValidation form-contact rounded-lg 2xl:p-10 lg:p-6 p-4 border-[1px] border-solid border-[#F44336]" absolute data-success="NOTIFICATION.toastrMessageRedirect" accept-charset="utf8">
+                    @csrf
                     <p class="title text-center font-bold text-[#252525] uppercase 2xl:text-[1.6rem] lg:text-[1.3rem] text-[1.125rem] mb-2">{:title_form_contact:}</p>
                     <p class="subtitle text-center mb-4">{:content_form_contact:}</p>
                     <div class="box-input relative mb-4 text-[#888]">

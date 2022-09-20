@@ -66,12 +66,6 @@ class StaticController extends Controller
     }
 
     public function sendContact($request){
-        if (cache()->get('contact_' . session()->getId()) == 1) {
-            return response([
-                'code' => 100,
-                'message' => 'Chúng tôi đã nhận được yêu cầu của bạn!',
-            ]);
-        }
         $contact = new Contact();
         if($request->input('email') != ''){
             $contact->email = $request->input('email');
@@ -86,9 +80,6 @@ class StaticController extends Controller
             $contact->note = $request->input('note');
         }
         $contact->save();
-        cache()->remember('contact_' . session()->getId(), 600, function () {
-            return 1;
-        });
         return response([
             'code' => 200,
             'message' => 'Đã gửi thông tin liên hệ thành công',
@@ -99,10 +90,11 @@ class StaticController extends Controller
         $keyword = $request->input('keyword');
         $listItems = News::act();
         if($keyword != ''){
-            $listItems = $listItems->where('name','like',$keyword);
+            $listItems = $listItems->where('name','like','%'.$keyword.'%');
         }
-        $listItems =  $newlistItemss->pagination(10);
-        return view('news.search',compact('listItems'));
+        $listNewsSale = News::act()->where('sale',1)->ord()->take(4)->get();
+        $listItems =  $listItems->paginate(10);
+        return view('news.search',compact('listItems','listNewsSale'));
     }
 
 }
