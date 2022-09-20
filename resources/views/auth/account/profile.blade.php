@@ -88,6 +88,8 @@
                         </div>
                         <div class="col-span-1 order-first lg:order-last">
                             <div class="avatar-group w-28 h-28 rounded-full overflow-hidden relative mx-auto mb-4">
+                            <input type="file" name="avatar" class="input-avatars opacity-0 absolute top-0 left-0 w-full h-full d-none" id="avatar" accept="image/*" onchange="document.getElementById('output').src = window.URL.createObjectURL(this.files[0])">
+
                                 @if(Support::show($user,'img'))
                                     <img src="{%IMGV2.user.img.150x0%}" id="output" alt="">
                                 @else
@@ -96,6 +98,8 @@
                             </div>
                             <div class="btn-update__avatars w-fit mx-auto relative text-center py-3 px-6 border-[1px] border-dashed border-[#F44336] rounded mb-6">
                                 <label for="avatar" class="text color-gradient font-semibold text-[0.875rem]">Thay đổi ảnh</label>
+                                <input type="file" name="avatar" class="input-avatars opacity-0 absolute top-0 left-0 w-full h-full d-none" id="avatar" accept="image/*" onchange="document.getElementById('output').src = window.URL.createObjectURL(this.files[0])">
+
                             </div>
                             <a href="{{\VRoute::get('change_password')}}" title="Đổi mật khẩu" class="link block w-fit mx-auto font-semibold text-[0.875rem] color-gradient mb-4">Đổi mật khẩu</a>
                             <a href="{{\VRoute::get('logout')}}" title="Đăng xuất" class="link block w-fit mx-auto font-semibold text-[0.875rem] color-gradient">Đăng xuất</a>

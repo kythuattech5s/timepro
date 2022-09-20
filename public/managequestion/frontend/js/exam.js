@@ -128,7 +128,7 @@ var MODULE_EXAM = (function () {
         }
     };
     var _submitExam = function (elm) {
-        // $(elm).remove();
+        $(elm).remove();
         if (typeof countDown != "undefined") {
             countDown.stop();
         }
@@ -152,7 +152,7 @@ var MODULE_EXAM = (function () {
                         closeIcon: true,
                         columnClass: "max-width-800",
                         typeAnimated: true,
-                        title: ` `,
+                        title: json.message,
                         content: json.html,
                         buttons: {
                             listExercise: {
@@ -163,7 +163,7 @@ var MODULE_EXAM = (function () {
                                 },
                             },
                             viewResult: {
-                                text: '<i class="fa fa-undo me-2" aria-hidden="true"></i> Xem lời giải',
+                                text: '<i class="fa fa-check-square-o me-2" aria-hidden="true"></i> Xem lời giải',
                                 btnClass: "btn btn-green text-white py-2",
                                 action: function () {
                                     window.location.href = json.link_result;

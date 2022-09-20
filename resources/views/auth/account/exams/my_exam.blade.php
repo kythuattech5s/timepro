@@ -21,7 +21,7 @@
                                 <div class="col-span-1">
                                     <p class="font-semibold text-[#252525] mb-1 last:mb-0">Khóa học: {{Support::show($item,'name')}}</p>
                                 </div>
-                                <div class="col-span-1 lg:pl-14">
+                                <div class="col-span-1 lg:pl-14 text-right">
                                     <a href="{{\VRoute::get("my_exam")}}/lam-bai-kiem-tra-{{$item->id}}" title="Làm bài ngay" class="md:mt-0 mt-3 ml-auto btn btn-orange inline-flex items-center justify-center py-2 lg:px-5 px-4 rounded bg-gradient-to-r from-[#FE8C00] to-[#F83600] text-white self-center hover:text-[#fff]">Làm bài ngay <i class="fa fa-angle-double-right ml-1" aria-hidden="true"></i>
                                     </a>
                                 </div>
@@ -31,7 +31,7 @@
                             {{$listItems->withQueryString()->links('bases.pagination')}}
                         </div>
                     @else
-                        <p class="text-[1.125rem]">Tạm thời chưa có kì thì cần hoàn thành nào.</p>
+                        <p class="text-[1.125rem] text-center">Tạm thời chưa có kì thì cần hoàn thành nào.</p>
                     @endif
                 </div>
             </div>

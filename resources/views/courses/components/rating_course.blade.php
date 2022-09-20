@@ -8,5 +8,5 @@
         <span class="font-bold">Bài học </span> @include('commentRS::rating', ['size' => 32, 'rating' => $rating->rating * 5 . '%'])
     </div>
     <div><span class="font-bold">Nội dung:</span>
-        <p>{{ $comment->content }}</p>
+        <p>{!! $comment->content !!}</p>
     </div>

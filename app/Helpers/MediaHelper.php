@@ -16,15 +16,31 @@ class MediaHelper
     public static function insertFileFromUrl($folder, $url, $checkFileExist = false)
     {
         try {
-            $fileContent = file_get_contents($url);
+            if (strpos($url, '//') === 0) {
+                $url = 'http:' . $url;
+            }
+            $fileContent = self::getContentFromUrl($url);
         } catch (\Exception $e) {
             $fileContent = null;
         }
-        if (is_null($fileContent)) {
+        if (!self::checkErrorGetImage($fileContent)) {
             return false;
         }
 
         return self::insertFileFromBase64($folder, $fileContent, $url, $checkFileExist);
+    }
+
+    private static function checkErrorGetImage($fileContent)
+    {
+        if (
+            empty($fileContent)
+            || strpos($fileContent, 'Not Found') !== false
+            || strpos($fileContent, 'Not Found') !== false
+            || strpos($fileContent, 'That’s an error.') !== false
+        ) {
+            return false;
+        }
+        return true;
     }
 
     public static function insertFileFromBase64($folder, $base64, $name, $checkFileExist = false)
@@ -33,19 +49,20 @@ class MediaHelper
         $info = pathinfo($name);
         $fileExtension = isset($info['extension']) ? explode('?', $info['extension'])[0] : 'png';
         $filename = $info['filename'];
+
         $filePathAbsolute = self::ROOT . $folder;
         $parent = self::getOrSetParent($filePathAbsolute);
         $folder = $parent->path . $parent->file_name . '/';
-        $media = self::findMedia($name, $parent->id);
-        if ($checkFileExist && file_exists(public_path($folder . $name)) && $media != null) {
-            return $media;
+        $media = self::findMedia($filename . '.' . $fileExtension, $parent->id);
+        if ($checkFileExist && file_exists(public_path($folder . $filename . '.' . $fileExtension)) && $media != null) {
+        } else {
+            $fileName = self::generatorFileName($filename, $folder, $fileExtension);
+            $fileFullName = $fileName . '.' . $fileExtension;
+            $fileFullPath = $filePathAbsolute . '/' . $fileFullName;
+            file_put_contents(public_path($fileFullPath), $base64);
+            $media = self::insertMedia($fileFullPath, $filePathAbsolute, $fileFullName, $parent->id);
+            self::createDataCron($media);
         }
-        $fileName = self::generatorFileName($filename, $folder, $fileExtension);
-        $fileFullName = $fileName . '.' . $fileExtension;
-        $fileFullPath = $filePathAbsolute . '/' . $fileFullName;
-        file_put_contents(public_path($fileFullPath), $base64);
-        $media = self::insertMedia($fileFullPath, $filePathAbsolute, $fileFullName, $parent->id);
-        self::createDataCron($media);
         return $media;
     }
     /**
@@ -56,18 +73,19 @@ class MediaHelper
      */
     public static function generatorFileName($name, $folder, $fileExtension)
     {
-        $fileName = \Str::slug($name);
-
-        $checkSeparator = explode('-', $fileName);
-        $checkHasNumberFile = is_numeric($checkSeparator[count($checkSeparator) - 1]) ? count($checkSeparator) - 1 : null;
-        if (is_numeric($checkHasNumberFile)) {
-            unset($checkSeparator[$checkHasNumberFile]);
-        }
-        $fileName = implode('-', $checkSeparator);
-        $fileNameNew = $fileName;
+        //Giữ nguyên tên file lúc đầu
+        $fileNameNew = $name;
         $fullName = $folder . $fileNameNew . '.' . $fileExtension;
         $number = 1;
         while (file_exists(public_path($fullName))) {
+            //Thay đổi khi trùng
+            $fileName = \Str::slug($fileNameNew);
+            $checkSeparator = explode('-', $fileName);
+            $checkHasNumberFile = is_numeric($checkSeparator[count($checkSeparator) - 1]) ? count($checkSeparator) - 1 : null;
+            if (is_numeric($checkHasNumberFile)) {
+                unset($checkSeparator[$checkHasNumberFile]);
+            }
+            $fileName = implode('-', $checkSeparator);
             $fileNameNew = $fileName . '-' . $number;
             $fullName = $folder . $fileNameNew . '.' . $fileExtension;
             $number++;
@@ -334,7 +352,9 @@ class MediaHelper
     public static function uploadMultiple($inputName, $saveFrom, $checkFileExist = false)
     {
         if (!request()->hasFile($inputName)) {
-            return null;
+            return [
+                'code' => 100
+            ];
         }
         $medias = [];
         $files = request()->file($inputName);
@@ -385,6 +405,7 @@ class MediaHelper
             'act' => 0,
         ]);
     }
+
     private static function createFolderServe($fullPath)
     {
         if (!file_exists(public_path($fullPath))) {
@@ -426,5 +447,42 @@ class MediaHelper
         $sz = 'BKMGTP';
         $factor = floor((strlen($bytes) - 1) / 3);
         return sprintf("%.{$decimals}f", $bytes / pow(1024, $factor)) . (" " . @$sz[$factor] . "B");
+    }
+
+    public static function removeBackground($path, $newPath)
+    {
+        $picture = imagecreatefromstring(file_get_contents($path));
+        $img_w = imagesx($picture);
+        $img_h = imagesy($picture);
+
+        $newPicture = imagecreatetruecolor($img_w, $img_h);
+        imagesavealpha($newPicture, true);
+        $rgb = imagecolorallocatealpha($newPicture, 0, 0, 0, 127);
+        imagefill($newPicture, 0, 0, $rgb);
+
+        $color = imagecolorat($picture, $img_w - 1, 1);
+
+        for ($x = 0; $x < $img_w; $x++) {
+            for ($y = 0; $y < $img_h; $y++) {
+                $c = imagecolorat($picture, $x, $y);
+                if ($color != $c) {
+                    imagesetpixel($newPicture, $x, $y, $c);
+                }
+            }
+        }
+        imagepng($newPicture, $newPath);
+        imagedestroy($newPicture);
+        imagedestroy($picture);
+    }
+
+    private static function getContentFromUrl($url)
+    {
+        $curl = curl_init($url);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($curl, CURLOPT_FOLLOWLOCATION, 1);
+        $output = curl_exec($curl);
+        return $output;
     }
 }

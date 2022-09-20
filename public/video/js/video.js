@@ -630,7 +630,11 @@ var ListVideoChaptr = /*#__PURE__*/function () {
           break;
 
         case "file":
-          html = "\n                    <div data-id=\"".concat(id, "\">\n                        <label htmlFor=\"\">").concat(field.label, "</label>\n                        <input type=\"hidden\" id=\"").concat(id, "\" data-name=\"").concat(field.name, "\" />\n                        <input type=\"hidden\" data-name=\"duration\"/>\n                        <a href=\"/esystem/media/view?istiny=").concat(id, "&callback=VIDEO_CHAPTER.callbackFile\" class=\"iframe-btn\">\n                            <img src=\"/admin/images/noimage.png\" alt=\"\" class=\"w-full h-auto\" />\n                        </a>\n                        <div class=\"mt-3 gap-2 grid grid-cols-2\">\n                            <a class=\"text-center text-white p-2 w-full bg-blue-600 col-span-1 iframe-btn\" href=\"/esystem/media/view?istiny=").concat(id, "&callback=VIDEO_CHAPTER.callbackFile\" type=\"button\">").concat(field.placeholder, "</a>\n                            <a class=\"text-center text-white p-2 w-full bg-red-600 col-span-1\" href=\"javascript:void(0)\" remove-file=\"").concat(id, "\" >X\xF3a</a>\n                        </div>\n                    </div>\n                ");
+          html = "\n                    <div data-id=\"".concat(id, "\">\n                        <label htmlFor=\"\">").concat(field.label, "</label>\n                        <input type=\"hidden\" id=\"").concat(id, "\" data-name=\"").concat(field.name, "\" />\n                        <a href=\"/esystem/media/view?istiny=").concat(id, "&callback=VIDEO_CHAPTER.callbackFile\" class=\"iframe-btn\">\n                            <p class=\"disabled\" file-name=\"").concat(id, "\"></p>\n                        </a>\n                        <div class=\"mt-3 gap-2 grid grid-cols-2\">\n                            <a class=\"text-center text-white p-2 w-full bg-blue-600 col-span-1 iframe-btn\" href=\"/esystem/media/view?istiny=").concat(id, "&callback=VIDEO_CHAPTER.callbackFile\" type=\"button\">").concat(field.placeholder, "</a>\n                            <a class=\"text-center text-white p-2 w-full bg-red-600 col-span-1\" href=\"javascript:void(0)\" remove-file=\"").concat(id, "\" >X\xF3a</a>\n                        </div>\n                    </div>\n                ");
+          break;
+
+        case "video":
+          html = "\n                    <div data-id=\"".concat(id, "\">\n                        <label htmlFor=\"\">").concat(field.label, "</label>\n                        <input type=\"hidden\" id=\"").concat(id, "\" data-name=\"").concat(field.name, "\" />\n                        <input type=\"hidden\" data-name=\"duration\"/>\n                        <a href=\"/esystem/media/view?istiny=").concat(id, "&callback=VIDEO_CHAPTER.callbackVideo\" class=\"iframe-btn\">\n                            <img src=\"/admin/images/noimage.png\" alt=\"\" class=\"w-full h-auto\" />\n                        </a>\n                        <div class=\"mt-3 gap-2 grid grid-cols-2\">\n                            <a class=\"text-center text-white p-2 w-full bg-blue-600 col-span-1 iframe-btn\" href=\"/esystem/media/view?istiny=").concat(id, "&callback=VIDEO_CHAPTER.callbackVideo\" type=\"button\">").concat(field.placeholder, "</a>\n                            <a class=\"text-center text-white p-2 w-full bg-red-600 col-span-1\" href=\"javascript:void(0)\" remove-file=\"").concat(id, "\" >X\xF3a</a>\n                        </div>\n                    </div>\n                ");
           break;
 
         case "select":
@@ -686,7 +690,7 @@ var ListVideoChaptr = /*#__PURE__*/function () {
           var item = button.closest("[item]");
           var img = item.querySelector("img");
 
-          if (img.hasAttribute("data-blob")) {
+          if (img && img.hasAttribute("data-blob")) {
             window.URL.revokeObjectURL(img.dataset.blob);
           }
 
@@ -720,7 +724,7 @@ window.addEventListener("DOMContentLoaded", function () {
 
 window["VIDEO_CHAPTER"] = function () {
   return {
-    callbackFile: function callbackFile(items, id) {
+    callbackVideo: function callbackVideo(items, id) {
       var media = items[0];
       var img = document.querySelector("[data-id=\"".concat(id, "\"] img"));
       var request = new XMLHttpRequest();
@@ -743,6 +747,15 @@ window["VIDEO_CHAPTER"] = function () {
       };
 
       request.send();
+    },
+    callbackFile: function callbackFile(items, id) {
+      var media = items[0];
+      var div = document.querySelector("[data-id=\"".concat(id, "\"]"));
+      var p = div.querySelector("p");
+      var input = div.querySelector("input[id=\"".concat(id, "\"]"));
+      p.innerHTML = media.file_name;
+      input.value = JSON.stringify(media);
+      input.dispatchEvent(new Event("change"));
     }
   };
 }();

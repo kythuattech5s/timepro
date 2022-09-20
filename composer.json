@@ -59,7 +59,8 @@
             "Roniejisa\\Comment\\": "packages/roniejisa/comment/src",
             "Roniejisa\\Helpers\\": "packages/roniejisa/helpers/src",
             "Tech5s\\VideoChapter\\": "packages/tech5s/video-chapter/src",
-            "Tech5s\\Promotion\\": "packages/tech5s/promotion/src"
+            "Tech5s\\Promotion\\": "packages/tech5s/promotion/src",
+            "Tech5s\\Notify\\": "packages/tech5s/notify/src"
         }
     },
     "repositories": [

@@ -1,0 +1,14 @@
+{
+    "name": "tech5s/notify",
+    "description": "Example Package Laravel",
+    "keywords": [
+        "laravel"
+    ],
+    "license": "MIT",
+    "authors": [],
+    "autoload": {
+        "psr-4": {
+            "Tech5s\\Notify\\": "packages/tech5s/notify/src"
+        }
+    }
+}

@@ -27,11 +27,13 @@
         </h3>
         @if (isset($item->teacher))
             <div class="teacher flex items-center gap-2 mb-4">
-                <span class="ava img-ava block lg:w-10 lg:h-10 w-8 h-8 rounded-full overflow-hidden shrink-0">
+                <a href="{{$item->teacher->buildHrefTeacher()}}" title="{{$item->teacher->name}}" class="ava img-ava block lg:w-10 lg:h-10 w-8 h-8 rounded-full overflow-hidden shrink-0">
                     @include('image_loader.tiny',['itemImage'=>$item->teacher,'key'=>'img'])
-                </span>
+                </a>
                 <div class="teacher-info">
-                    <p class="name font-semibold text-[0.875rem] text-[#252525]">{{Support::show($item->teacher,'name')}}</p>
+                    <p class="name font-semibold text-[0.875rem] text-[#252525]">
+                        <a href="{{$item->teacher->buildHrefTeacher()}}" title="{{$item->teacher->name}}">{{Support::show($item->teacher,'name')}}</a>
+                    </p>
                     <p class="desc text-[#888] text-[0.875rem]">{{Support::show($item->teacher,'teacher_job')}}</p>
                 </div>
             </div>
@@ -39,6 +41,9 @@
         <div class="flex gap-4 items-end justify-between button-action mt-auto">
             <a href="{{Support::show($item,'slug')}}" title="Tham gia" class="btn btn-orange lg:text-[0.875rem] whitespace-nowrap inline-flex items-center justify-center py-2 px-4 rounded bg-gradient-to-r from-[#FE8C00] to-[#F83600] text-white">Tham gia <i class="fa fa-angle-double-right ml-1" aria-hidden="true"></i></a>
             <div class="form-price">
+                @php
+                    $ratingInfo = $item->getRating('main');
+                @endphp
                 <div class="rating-item mb-1 justify-end">
                     <p class="rating">
                         <span class="rating-box mr-0">
@@ -47,7 +52,7 @@
                             <i class="fa fa-star-o" aria-hidden="true"></i>
                             <i class="fa fa-star-o" aria-hidden="true"></i>
                             <i class="fa fa-star-o" aria-hidden="true"></i>
-                            <span style="width:94%">
+                            <span style="width:{{$ratingInfo['percentAll']}}%">
                                 <i class="fa fa-star" aria-hidden="true"></i>
                                 <i class="fa fa-star" aria-hidden="true"></i>
                                 <i class="fa fa-star" aria-hidden="true"></i>
@@ -55,6 +60,7 @@
                                 <i class="fa fa-star" aria-hidden="true"></i>
                             </span>
                         </span>
+                        ({{$ratingInfo['totalRating']}})
                     </p>
                 </div>
                 <p class="text-right">

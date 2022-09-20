@@ -5,12 +5,13 @@ namespace Roniejisa\Comment\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\Course;
 use Roniejisa\Comment\Models\Order;
-use Roniejisa\Comment\Models\Product;
 use Auth;
+use DB;
 use Roniejisa\Comment\Helpers\Helper;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Response;
+use Tech5s\Notify\Models\NotificationCatalog;
+use Tech5s\Notify\Models\NotificationType;
 
 class CommentController extends Controller
 {
@@ -58,7 +59,7 @@ class CommentController extends Controller
         ]);
     }
 
-    public function commentNow(Request $request)
+    public function commentTeacher(Request $request)
     {
         if (!Auth::check() && config('cmrsc_comment.checkUser', false)) {
             return response([
@@ -69,38 +70,80 @@ class CommentController extends Controller
         }
 
         $comment = Helper::addComment($request);
+        return response([
+            'code' => 200,
+            'message' => 'Đánh giá khóa học thành công',
+            'html' => view('courses.components.rating_teacher', compact('comment'))->render()
+        ]);
+    }
 
-        if (is_array($comment)) {
-            return response($comment);
-        }
+    public function commentNow(Request $request)
+    {
+        try {
 
-        if ($comment->act == 0) {
-            return response([
+            \DB::beginTransaction();
+            if (!Auth::check() && config('cmrsc_comment.checkUser', false)) {
+                return response([
+                    'code' => 100,
+                    'message' => 'Vui lòng đăng nhập',
+                    'redirect_url' => url('dang-nhap'),
+                ]);
+            }
+
+            $comment = Helper::addComment($request);
+
+            $notifyCategory = NotificationCatalog::find(NotificationCatalog::COMMENT_COURSE);
+            $typeCategory = NotificationType::find(NotificationType::COMMENT_COURSE);
+            $comment->course->teacher->sendNotify([
+                'title' => Auth::user()->name . ' đã bình luận khóa học của bạn!',
+                'link' => url($comment->course->slug),
+                'img' => null,
+                'icon' => null,
+                'body' => Auth::user()->name . ' đã bình luận khóa học của bạn!'
+            ], $notifyCategory, $typeCategory);
+
+            if (is_array($comment)) {
+                return response($comment);
+            }
+
+            if ($comment->act == 0) {
+                return response([
+                    'code' => 200,
+                    'message' => 'Đã bình luận thành công',
+                ]);
+            }
+
+            $response = [
                 'code' => 200,
-                'message' => 'Đã bình luận thành công',
+                'plusCount' => true,
+                'html' => view('commentRS::item', compact('comment'))->render(),
+                'message' => 'Bình luận và dánh giá thành công',
+            ];
+
+            if (config('cmrsc_comment.hasShowTotal')) {
+                if ($request->input('map_table') == 'courses') {
+                    $ratings = Course::where('id', $request->input('map_id'))->first()->getRating();
+                }
+                $response['total_html'] = view('commentRS::box_percent', compact('ratings'))->render();
+            }
+
+            \DB::commit();
+            return response($response);
+        } catch (\Exception $err) {
+            \DB::rollback();
+            return response([
+                'code' => 100,
+                'message' => 'Bình luận không thành công'
             ]);
         }
-
-        $response = [
-            'code' => 200,
-            'plusCount' => true,
-            'html' => view('commentRS::item', compact('comment'))->render(),
-            'message' => 'Bình luận và dánh giá thành công',
-        ];
-
-        if (config('cmrsc_comment.hasShowTotal')) {
-            if ($request->input('map_table') == 'courses') {
-                $ratings = Course::where('id', $request->input('map_id'))->first()->getRating();
-            }
-            $response['total_html'] = view('commentRS::box_percent', compact('ratings'))->render();
-        }
-
-        return response($response);
     }
 
 
     public function repCommentNow(Request $request)
     {
+
+        // try {
+        DB::beginTransaction();
         if (!Auth::check() && config('cmrsc_comment.checkUser', false)) {
             return response([
                 'code' => 100,
@@ -110,6 +153,16 @@ class CommentController extends Controller
         }
 
         $commentChild = Helper::addComment($request, config('cmrsc_comment.checkShop'));
+
+        $notifyCategory = NotificationCatalog::find(NotificationCatalog::COMMENT_COURSE);
+        $typeCategory = NotificationType::find(NotificationType::REPLY_COURSE);
+        $commentChild->parent->user->sendNotify([
+            'title' => Auth::user()->name . ' đã trả lời bình luận của bạn!',
+            'link' => url($commentChild->course->slug),
+            'img' => null,
+            'icon' => null,
+            'body' => Auth::user()->name . ' đã bình luận của bạn!'
+        ], $notifyCategory, $typeCategory);
 
         if (is_array($commentChild)) {
             return response($commentChild);
@@ -121,12 +174,19 @@ class CommentController extends Controller
                 'message' => 'Đã trả lời bình luận thành công',
             ]);
         }
-
+        \DB::commit();
         return response()->json([
             'code' => 200,
             'message' => 'Trả lời bình luận thành công',
             'html' => view('commentRS::comment_child', compact('commentChild'))->render(),
         ]);
+        // } catch (\Exception $err) {
+        //     \DB::rollback();
+        //     return response([
+        //         'code' => 100,
+        //         'message' => 'Trả lời bình luận không thành công'
+        //     ]);
+        // }
     }
 
     public function ratingOrder(Request $request)
@@ -196,8 +256,8 @@ class CommentController extends Controller
     public function onlyRating(Request $request)
     {
         Helper::addRating($request);
-        event('comment.build.data', [$request->input('map_table'), $request->input('map_id')]);
-        session()->put('user_rating_' . $request->input('map_id'), $request->input('rate'));
+        // event('comment.build.data', [$request->input('map_table'), $request->input('map_id')]);
+        // session()->put('user_rating_' . $request->input('map_id'), $request->input('rate'));
         return response([
             'code' => 200,
             'message' => 'Đánh giá thành công',
