@@ -21,7 +21,7 @@
                                     <div class="swiper-slide h-auto">
                                         <div class="item-package__vip h-full rounded overflow-hidden border-[1px] border-solid border-[#ebebeb] buy-item-box">
                                             <div class="img c-img pt-[45%]">
-                                                <img src="theme/frontend/images/img-vip.jpg" alt="">
+                                                @include('image_loader.big',['itemImage'=>$item,'key'=>'img'])
                                             </div>
                                             <div class="content lg:p-4 p-2 -mt-12 relative">
                                                 <span class="icon block mx-auto w-16 h-16 rounded-full overflow-hidden mb-2">

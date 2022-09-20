@@ -6,7 +6,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="csrf-token" content="{{ csrf_token() }}">
     {!! SEOHelper::HEADER_SEO(@$currentItem ? $currentItem : null) !!}
-    <link rel="stylesheet" href="{{ Support::asset('theme/frontend/css/animate.min.css?v=1.1') }}" />
+    <link rel="stylesheet" href="{{ Support::asset('theme/frontend/css/animate.min.css') }}" />
     <link rel="stylesheet" href="{{ Support::asset('theme/frontend/css/font-awesome.min.css') }}" />
     <link rel="stylesheet" href="{{ Support::asset('theme/frontend/css/swiper-bundle.min.css') }}" />
     <link rel="stylesheet" href="{{ Support::asset('theme/frontend/css/lightbox.css') }}" />
@@ -45,7 +45,7 @@
             },
             },
         },
-        };
+    };
     </script>
 </head>
 

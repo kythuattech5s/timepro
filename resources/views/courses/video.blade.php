@@ -78,11 +78,11 @@
                                         <div class="statis ml-0 mr-auto mb-4 grid max-w-[25rem] grid-cols-3 gap-4 rounded border-[1px] border-solid border-[#ebebeb] py-4 px-4 lg:px-6 2xl:mb-6 2xl:px-9">
                                             <div class="col-span-1 text-center">
                                                 <p class="title mb-2 text-[0.75rem] font-semibold text-[#252525]">Số khóa học</p>
-                                                <span class="count inline-block rounded bg-[#E27B76] px-2 py-1 font-semibold text-white">{{ count($userTeacher->course) }}</span>
+                                                <span class="count inline-block rounded bg-[#E27B76] px-2 py-1 font-semibold text-white">{{ count($userTeacher->teacherCourses) }}</span>
                                             </div>
                                             <div class="col-span-1 text-center">
                                                 <p class="title mb-2 text-[0.75rem] font-semibold text-[#252525]">Tổng giờ giảng</p>
-                                                <span class="count inline-block rounded bg-[#E27B76] px-2 py-1 font-semibold text-white">{{ (int) ($userTeacher->course->sum('duration') / 60) }}</span>
+                                                <span class="count inline-block rounded bg-[#E27B76] px-2 py-1 font-semibold text-white">{{ $userTeacher->totalDuration() }}</span>
                                             </div>
                                             @php
                                                 $ratingInfo = $userTeacher->getRating('main');

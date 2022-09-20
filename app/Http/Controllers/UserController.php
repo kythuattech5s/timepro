@@ -11,7 +11,7 @@ class UserController extends Controller
     {
         $uSlug = \FCHelper::getSegment($request, 2);
         $userTeacher = User::with('gender','skills')
-                            ->with(['course'=>function($q){
+                            ->with(['teacherCourses'=>function($q){
                                 $q->baseView();
                             }])
                             ->teacher()

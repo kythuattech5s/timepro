@@ -20,3 +20,7 @@
     color: #008bd9;
     stroke: #008bd9;
 }
+
+.no-read{
+    @apply bg-red-50
+}

@@ -28,7 +28,8 @@ class NewsController extends Controller
         $listNewsNew = News::act()->orderBy('created_at','desc')->take(5)->get();
         $listAllNewsCategory = NewsCategory::act()->where('parent',0)->ord()->get();
         $table = 'news_categories';
-        return view('news.all',compact('listItems','newsHighViews','listNewsNew','listAllNewsCategory','table'));
+        $currentItem = $route;
+        return view('news.all',compact('listItems','newsHighViews','listNewsNew','listAllNewsCategory','table','currentItem'));
     } 
     public function updateCountViewed($currentItem) {
         $currentItem->count = $currentItem->count + 1;

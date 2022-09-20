@@ -122,11 +122,11 @@
                                 <div class="grid grid-cols-3 gap-4 border-[1px] border-solid border-[#ebebeb] rounded lg:py-4 py-2 2xl:px-8 lg:px-6 px-4 mb-4 mt-auto">
                                     <div class="col-span-1 text-center">
                                         <p class="font-bold text-[#252525] text-[0.75rem] mb-2">Số khóa học</p>
-                                        <span class="count inline-block font-semibold text-white px-2 py-1 rounded bg-[#E099C8]"> {{$itemTeacher->course->count()}} </span>
+                                        <span class="count inline-block font-semibold text-white px-2 py-1 rounded bg-[#E099C8]">{{$itemTeacher->teacherCourses->count()}}</span>
                                     </div>
                                     <div class="col-span-1 text-center">
                                         <p class="font-bold text-[#252525] text-[0.75rem] mb-2">Tổng giờ giảng</p>
-                                        <span class="count inline-block font-semibold text-white px-2 py-1 rounded bg-[#E099C8]"> {{(int)($itemTeacher->course->sum('duration')/60)}} </span>
+                                        <span class="count inline-block font-semibold text-white px-2 py-1 rounded bg-[#E099C8]">{{$itemTeacher->totalDuration()}}</span>
                                     </div>
                                     <div class="col-span-1 text-center">
                                         <p class="font-bold text-[#252525] text-[0.75rem] mb-2">Đánh giá</p>

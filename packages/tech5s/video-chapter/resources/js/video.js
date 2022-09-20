@@ -236,6 +236,10 @@ window["VIDEO_CHAPTER"] = (() => {
     return {
         callbackVideo: (items, id) => {
             const media = items[0];
+            if (media.file_name.indexOf(".mp4") < 0) {
+                alert("Không đúng định dạng video");
+                return false;
+            }
             const img = document.querySelector(`[data-id="${id}"] img`);
             var request = new XMLHttpRequest();
             const urlOrigin = window.location.origin + "/";

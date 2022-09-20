@@ -32,11 +32,11 @@
         <span class="count inline-block font-semibold text-white px-2 py-1 bg-gradient-to-r from-[#F44336] to-[#C62828] rounded">{{$user->getRatingScore()}}/5</span>
     </p>
 </div>
-<a href="{{\VRoute::get('my_course')}}" class="sidebar-admin__item bg-white rounded flex items-center justify-between py-3 2xl:px-6 px-4 mb-2 transition-all duration-300">
+<a href="{{\VRoute::get('my_profile')}}" class="sidebar-admin__item bg-white rounded flex items-center justify-between py-3 2xl:px-6 px-4 mb-2 transition-all duration-300">
     <span class="title font-bold text-[#252525]">Thông tin cá nhân</span>
     <i class="fa fa-angle-right text-[1.875rem]" aria-hidden="true"></i>
 </a>
-<a href="" class="sidebar-admin__item bg-white rounded flex items-center justify-between py-3 2xl:px-6 px-4 mb-2 transition-all duration-300">
+{{-- <a href="" class="sidebar-admin__item bg-white rounded flex items-center justify-between py-3 2xl:px-6 px-4 mb-2 transition-all duration-300">
     <span class="title font-bold text-[#252525]">Quản lý học viên</span>
     <i class="fa fa-angle-right text-[1.875rem]" aria-hidden="true"></i>
 </a>
@@ -53,4 +53,4 @@
 <a href="" class="sidebar-admin__item bg-white rounded flex items-center justify-between py-3 2xl:px-6 px-4 mb-2 transition-all duration-300">
     <span class="title font-bold text-[#252525]">Câu hỏi - thắc mắc</span>
     <i class="fa fa-angle-right text-[1.875rem]" aria-hidden="true"></i>
-</a>
+</a> --}}
