@@ -844,9 +844,6 @@ video {
 .mb-\[0\.75rem\] {
   margin-bottom: 0.75rem;
 }
-.mb-40 {
-  margin-bottom: 10rem;
-}
 .mb-8 {
   margin-bottom: 2rem;
 }
@@ -979,11 +976,11 @@ video {
 .h-14 {
   height: 3.5rem;
 }
-.h-24 {
-  height: 6rem;
-}
 .h-5 {
   height: 1.25rem;
+}
+.h-24 {
+  height: 6rem;
 }
 .h-\[9\.375rem\] {
   height: 9.375rem;
@@ -2734,10 +2731,6 @@ video {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
-  .sm\:grid-cols-4 {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-  }
-
   .sm\:flex-row {
     flex-direction: row;
   }
@@ -3585,14 +3578,14 @@ video {
     padding-right: 1.75rem;
   }
 
-  .\32xl\:py-6 {
-    padding-top: 1.5rem;
-    padding-bottom: 1.5rem;
-  }
-
   .\32xl\:px-14 {
     padding-left: 3.5rem;
     padding-right: 3.5rem;
+  }
+
+  .\32xl\:py-6 {
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
   }
 
   .\32xl\:py-8 {
@@ -3664,10 +3657,6 @@ video {
     font-size: 1.25rem;
   }
 
-  .\32xl\:text-\[1\.3rem\] {
-    font-size: 1.3rem;
-  }
-
   .\32xl\:text-\[1\.375rem\] {
     font-size: 1.375rem;
   }
@@ -3682,6 +3671,10 @@ video {
 
   .\32xl\:text-\[1rem\] {
     font-size: 1rem;
+  }
+
+  .\32xl\:text-\[1\.3rem\] {
+    font-size: 1.3rem;
   }
 
   .\32xl\:after\:right-\[-2\.5rem\]::after {

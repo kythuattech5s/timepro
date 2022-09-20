@@ -1,9 +1,10 @@
 const RATING_COURSE = (() => {
-    const commentNow = () => {};
-
     return {
         _: () => {},
         ratingDone: (res, data, form) => {
+            form.closest(".form-rating__teacher").innerHTML = res.html;
+        },
+        ratingTeacher: (res, data, form) => {
             form.closest(".form-rating__teacher").innerHTML = res.html;
         },
     };

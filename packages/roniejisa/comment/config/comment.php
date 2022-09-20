@@ -44,7 +44,7 @@ return [
     'hasFILE' => false,
 
     // 'Bạn cần phải mua hàng để đánh giá'
-    'checkOrderDone' => false,
+    'checkOrderDone' => true,
 
     // Comment hiển thị sau cùng
     'insertAfter' => false,

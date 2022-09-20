@@ -1,6 +1,7 @@
 <?php
 Route::post('danh-gia', 'CommentController@onlyRating');
 Route::post('danh-gia-khoa-hoc', 'CommentController@commentCourse');
+Route::post('danh-gia-giang-vien', 'CommentController@commentTeacher');
 Route::get('detail-comment', 'CommentAdminController@detailComment');
 Route::post('tra-loi-binh-luan', 'CommentAdminController@repComment');
 Route::get('fetch-comment/{id}', 'CommentAdminController@fetchComment');

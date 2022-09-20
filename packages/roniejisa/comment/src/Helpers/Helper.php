@@ -2,6 +2,7 @@
 
 namespace Roniejisa\Comment\Helpers;
 
+use App\Models\Course;
 use Roniejisa\Comment\Models\News;
 use Roniejisa\Comment\Models\Order;
 use Roniejisa\Comment\Models\OrderStatusHistory;
@@ -147,21 +148,22 @@ class Helper
 
     public static function checkOrderDone($product_id)
     {
-        $product = Product::with('variants')->where('id', $product_id)->first();
-        $check = Order::where('user_id', \Auth::id())->whereHas('orderProducts', function ($q) use ($product) {
-            if ($product->variants->count() > 0) {
-                $q->whereIn('order_products.product_id', $product->variants->pluck('id'));
-            } else {
-                $q->where('order_products.product_id', (int) $product->id);
-            }
-        })->whereHas('orderStatus', function ($q) {
-            //Status bằng 4 đã hoàn thành
-            $q->whereIn('order_statuses.id', [Order::STATUS_SUCCESS, Order::STATUS_RATING, Order::STATUS_EXPIRED_REFUND]);
-        })->count();
-        if ($check == 0) {
-            return false;
-        }
-        return true;
+        $course = Course::where('id', $product_id)->first();
+        return $course->isOwn(Auth::user());
+        // $check = Order::where('user_id', \Auth::id())->whereHas('orderProducts', function ($q) use ($product) {
+        //     if ($product->variants->count() > 0) {
+        //         $q->whereIn('order_products.product_id', $product->variants->pluck('id'));
+        //     } else {
+        //         $q->where('order_products.product_id', (int) $product->id);
+        //     }
+        // })->whereHas('orderStatus', function ($q) {
+        //     //Status bằng 4 đã hoàn thành
+        //     $q->whereIn('order_statuses.id', [Order::STATUS_SUCCESS, Order::STATUS_RATING, Order::STATUS_EXPIRED_REFUND]);
+        // })->count();
+        // if ($check == 0) {
+        //     return false;
+        // }
+        // return true;
     }
 
     // ADD RATING

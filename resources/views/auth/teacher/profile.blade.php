@@ -63,7 +63,7 @@
                                 <input type="text" name="teacher_job" placeholder="Cập nhật..." value="{{Support::show($user,'teacher_job')}}" class="form-control w-full py-2 px-4 border-[1px] border-solid border-[#ebebeb] rounded-lg outline-none mb-4">
                                 <p class="text-[#252525] text-[0.875rem] mb-1">Thông tin giảng viên</p>
                                 <textarea name="teacher_description" placeholder="Viết vài dòng về bản thân..." class="form-control w-full py-2 px-4 border-[1px] border-solid border-[#ebebeb] rounded-lg outline-none mb-6 h-32 resize-none">{{Support::show($user,'teacher_description')}}</textarea>
-                                <input type="file" class="input-avatars opacity-0 absolute top-0 left-0 w-full h-full d-none" id="avatar" name="avatar" accept="image/*" onchange="document.getElementById('output').src = window.URL.createObjectURL(this.files[0])">
+                                <input type="file" class="input-avatars opacity-0 absolute top-0 left-0 w-full h-full hidden" id="avatar" name="avatar" accept="image/*" onchange="document.getElementById('output').src = window.URL.createObjectURL(this.files[0])">
                                 <button type="submit" class="btn btn-red-gradien inline-flex w-full items-center justify-center font-semibold text-white py-2 px-4 rounded bg-gradient-to-r from-[#F44336] to-[#C62828] shadow-[0_6px_20px_rgba(178,30,37,.4)]">
                                     Cập nhật
                                 </button>

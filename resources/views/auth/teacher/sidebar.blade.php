@@ -15,21 +15,21 @@
             <img src="theme/frontend/images/hat.svg" class="mr-1 inline-block" alt="icon">
             <span>Số khóa học</span>
         </span>
-        <span class="count inline-block font-semibold text-white px-2 py-1 bg-gradient-to-r from-[#F44336] to-[#C62828] rounded">10</span>
+        <span class="count inline-block font-semibold text-white px-2 py-1 bg-gradient-to-r from-[#F44336] to-[#C62828] rounded">{{$user->teacherCourses->count()}}</span>
     </p>
     <p class="teacher-statis flex items-center justify-between gap-4 mb-4">
         <span class="title font-semibold inline-flex items-center text-[#252525] text-[0.75rem]">
             <img src="theme/frontend/images/user-profile-time-clock.svg" class="mr-1 inline-block" alt="icon">
             <span>Tổng giờ giảng</span>
         </span>
-        <span class="count inline-block font-semibold text-white px-2 py-1 bg-gradient-to-r from-[#F44336] to-[#C62828] rounded">699</span>
+        <span class="count inline-block font-semibold text-white px-2 py-1 bg-gradient-to-r from-[#F44336] to-[#C62828] rounded">{{$user->totalDuration()}}</span>
     </p>
     <p class="teacher-statis flex items-center justify-between gap-4 mb-4">
         <span class="title font-semibold inline-flex items-center text-[#252525] text-[0.75rem]">
             <img src="theme/frontend/images/star.svg" class="mr-1 inline-block" alt="icon">
             <span>Lượt đánh giá</span>
         </span>
-        <span class="count inline-block font-semibold text-white px-2 py-1 bg-gradient-to-r from-[#F44336] to-[#C62828] rounded">4.6/5</span>
+        <span class="count inline-block font-semibold text-white px-2 py-1 bg-gradient-to-r from-[#F44336] to-[#C62828] rounded">{{$user->getRatingScore()}}/5</span>
     </p>
 </div>
 <a href="{{\VRoute::get('my_course')}}" class="sidebar-admin__item bg-white rounded flex items-center justify-between py-3 2xl:px-6 px-4 mb-2 transition-all duration-300">

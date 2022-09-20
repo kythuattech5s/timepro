@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use phpDocumentor\Reflection\Types\This;
 use Roniejisa\Comment\Traits\GetDataComment;
+use RSCustom;
 use Tech5s\VideoChapter\Traits\VideoSouceTrait;
 
 class Course extends BaseModel
@@ -45,11 +46,17 @@ class Course extends BaseModel
     }
     public function getDurationView()
     {
-        return sprintf('%02d giờ %02d phút', ($this->duration / 60), $this->duration % 60);
+        return RSCustom::getTimeOfVideo($this->videos->sum(function ($q) {
+            return (int) $q->duration > 0 ? $q->duration : 0;
+        }), [
+            'hour' => ' giờ ',
+            'minute' => ' phút ',
+            'second' => ' giây'
+        ]);
     }
     public function getCountDocument()
     {
-        return 'Đợi code';
+        return ($documents = json_decode($this->documents, true))  != null ? count($documents) : 0;
     }
     public function timePackage()
     {

@@ -38,7 +38,8 @@ class FlashSaleController extends Controller
         // $listProducts = session()->get(FlashSaleDetailHelper::SESSION_PRODUCT_REAL);
         $item->saveSessionFlashSale();
         $currentItem = $item->flash_sale;
-        return view('tp::flash_sales.detail', compact('currentItem', 'promotion'));
+        $courses = Course::paginate(10);
+        return view('tp::flash_sales.detail', compact('currentItem', 'promotion', 'courses'));
     }
 
     public function resetSession()

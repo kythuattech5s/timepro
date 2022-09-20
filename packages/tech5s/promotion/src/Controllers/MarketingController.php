@@ -215,58 +215,23 @@ class MarketingController extends BaseAdminController
                 ]);
                 break;
             case 'flash_sales':
-                // dd($request->input('products'));
-                // $listProducts = session()->get(FlashSaleHelper::SESSION_PRODUCT_REAL, collect());
-                // $listProductRemove = session()->get(FlashSaleHelper::SESSION_PRODUCT_REMOVE);
-                // $listItems = Course::whereIn('id', $products)->with('variants', function ($q) use ($listProductRemove) {
-                //     if ($listProductRemove !== null) {
-                //         $q->whereNotIn('id', $listProductRemove->pluck('id'));
-                //     }
-                // })->get();
+                if (($product_ids = $request->input('product_id')) !== null) {
+                    $dataProductId = collect($product_ids)->map(
+                        fn ($value) => [
+                            "id" => $value['id'],
+                        ]
+                    )->unique();
+                    session()->put(VoucherService::PREFIX_SESSION_PRODUCT, $dataProductId);
+                } else {
+                    session()->put(VoucherService::PREFIX_SESSION_PRODUCT, $item->products);
+                }
+                $products = Course::whereIn('id', $dataProductId->pluck('id'))->paginate(5);
 
-                // $getProductHasQty = $listProducts != null ? $listProducts->filter(fn ($q) => $q['act'] == 1 && $q['qty'] > 0) : collect();
-                // $getProductHasQtyRemove = $getProductHasQty->filter(fn ($q) => !$products->contains('id', $q['id']));
-                // foreach ($getProductHasQtyRemove as $item) {
-                //     Product::plusOrMinusAvailable($item['id'], $item['qty'], false);
-                // }
-
-                // session()->put(FlashSaleHelper::SESSION_PRODUCT_CURRENT, $products->pluck('id'));
-                // $arrayProductReal = collect();
-
-                // foreach ($listItems as $item) {
-                //     $variants = $item->variants;
-                //     $count = $variants->count();
-                //     if ($count > 0) {
-                //         foreach ($variants as $product) {
-                //             $arrayProductReal[] = [
-                //                 "id" => $product->id,
-                //                 "price" => $product->price,
-                //                 "percent" => 0,
-                //                 "qty" => 0,
-                //                 "limit" => 0,
-                //                 'act' => 0,
-                //             ];
-                //         }
-                //     } else {
-                //         $arrayProductReal[] = [
-                //             "id" => $item->id,
-                //             "price" => $item->price,
-                //             "percent" => 0,
-                //             "qty" => 0,
-                //             "limit" => 0,
-                //             'act' => 0,
-                //         ];
-                //     }
-                // }
-
-                // $controller = new FlashSaleController();
-                // $controller->saveProduct(request(), $arrayProductReal);
-                // session()->put(FlashSaleHelper::SESSION_PRODUCT_REAL, $arrayProductReal);
-                // return response([
-                //     'code' => 200,
-                //     'message' => 'Thêm sản phẩm thành công',
-                //     'html' => view('sp::flash_sales.path.itemShow', compact('listItems', 'promotion', 'action', 'listProducts'))->render(),
-                // ]);
+                return response([
+                    'code' => 200,
+                    'message' => 'Thêm sản phẩm thành công',
+                    'html' => view('sp::flash_sales.path.itemShow', compact('listItems', 'promotion', 'action', 'listProducts'))->render(),
+                ]);
                 break;
         }
     }
