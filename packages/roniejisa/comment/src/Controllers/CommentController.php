@@ -256,8 +256,8 @@ class CommentController extends Controller
     public function onlyRating(Request $request)
     {
         Helper::addRating($request);
-        event('comment.build.data', [$request->input('map_table'), $request->input('map_id')]);
-        session()->put('user_rating_' . $request->input('map_id'), $request->input('rate'));
+        // event('comment.build.data', [$request->input('map_table'), $request->input('map_id')]);
+        // session()->put('user_rating_' . $request->input('map_id'), $request->input('rate'));
         return response([
             'code' => 200,
             'message' => 'Đánh giá thành công',

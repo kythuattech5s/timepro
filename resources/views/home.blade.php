@@ -123,22 +123,9 @@
                                         <p class="font-bold text-[#252525] text-[0.75rem] mb-2">Tổng giờ giảng</p>
                                         <span class="count inline-block font-semibold text-white px-2 py-1 rounded bg-[#E099C8]"> {{(int)($itemTeacher->course->sum('duration')/60)}} </span>
                                     </div>
-<<<<<<< HEAD
-                                    <div class="teacher-social flex justify-center items-center">
-                                        <a href="tel:{{Support::show($itemTeacher,'phone')}}" title="Điện thoại" class="item-social lg:mr-6 mr-3">
-                                            @include('icon_svgs.user_phone')
-                                        </a>
-                                        <a href="mailto:{{Support::show($itemTeacher,'email')}}" title="Email" class="item-social lg:mr-6 mr-3">
-                                            @include('icon_svgs.user_email')
-                                        </a>
-                                        <a href="{{Support::show($itemTeacher,'facebook')}}" rel="noopener" target="_blank" title="Facebook" class="item-social" rel="noindex,nofollow,noopener">
-                                            @include('icon_svgs.user_facebook')
-                                        </a>
-=======
                                     <div class="col-span-1 text-center">
                                         <p class="font-bold text-[#252525] text-[0.75rem] mb-2">Lượt đánh giá</p>
                                         <span class="count inline-block font-semibold text-white px-2 py-1 rounded bg-[#E099C8]"> 4.6/5 </span>
->>>>>>> 38213b2a1180c7b3bf9ed8ddb52b466c74263402
                                     </div>
                                 </div>
                                 <div class="teacher-social flex justify-center items-center">
