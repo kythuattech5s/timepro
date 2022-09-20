@@ -111,10 +111,10 @@
                                 <img src="theme/frontend/images/banner-lec.jpg" alt="">
                             </span>
                             <div class="content relative lg:p-4 p-2 pt-0 text-center lg:mt-[-75px] -mt-10">
-                                <a href="{{$itemTeacher->buildHrefTeacher()}}" title="{{$itemTeacher->name}}" class="ava block img-ava mx-auto lg:w-[8rem] lg:h-[8rem] w-[5rem] h-[5rem] rounded-full overflow-hidden">
+                                <a href="{{$itemTeacher->buildHrefTeacher()}}" title="{{$itemTeacher->name}}" class="ava block img-ava mx-auto lg:w-[8rem] lg:h-[8rem] w-[5rem] h-[5rem] rounded-full overflow-hidden mb-3">
                                     @include('image_loader.big',['itemImage'=>$itemTeacher,'key'=>'img'])
                                 </a>
-                                <p class="name font-bold text-[#252525] 2lx:text-[1.25rem] text-[1rem] mb-1">
+                                <p class="name font-bold text-[#252525] 2xl:text-[1.25rem] text-[1rem] mb-1">
                                     <a href="{{$itemTeacher->buildHrefTeacher()}}" title="{{$itemTeacher->name}}">{{Support::show($itemTeacher,'name')}}</a>
                                 </p>
                                 <p class="role text-[#CD272F] mb-4">{{Support::show($itemTeacher,'teacher_job')}}</p>
