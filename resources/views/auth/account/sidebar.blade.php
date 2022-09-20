@@ -65,7 +65,7 @@ $wallet = $user->wallet()->first();
     <span class="title font-bold text-[#252525]">Thông tin cá nhân</span>
     <i class="fa fa-angle-right text-[1.875rem]" aria-hidden="true"></i>
 </a>
-<a href="{{\VRoute::get('my_notification')}}" class="sidebar-admin__item bg-white rounded flex items-center justify-between py-3 2xl:px-6 px-4 mb-2 transition-all duration-300 {{Str::contains(url()->current(),[\VRoute::get('my_notification')]) ? 'active':''}}">
+<a href="{{ \VRoute::get('my_notification') }}" class="sidebar-admin__item {{ Str::contains(url()->current(), [\VRoute::get('my_notification')]) ? 'active' : '' }} mb-2 flex items-center justify-between rounded bg-white py-3 px-4 transition-all duration-300 2xl:px-6">
     <span class="title font-bold text-[#252525]">Thông báo</span>
     <div class="noti flex items-center">
         <span class="count mr-4 inline-block h-5 min-w-[1.25rem] rounded-full bg-gradient-to-r from-[#F44336] to-[#C62828] text-center text-[0.875rem] font-semibold leading-5 text-white" count-not-read>
@@ -87,11 +87,11 @@ $wallet = $user->wallet()->first();
         <i class="fa fa-angle-right text-[1.875rem]" aria-hidden="true"></i>
     </div>
 </a>
-<a href="{{ \VRoute::get('my_order') }}" class="sidebar-admin__item {{ Str::contains(url()->current(), [\VRoute::get('my_order')]) ? 'active' : '' }} mb-2 flex items-center justify-between rounded bg-white py-3 px-4 transition-all duration-300 2xl:px-6">
+<a href="{{\VRoute::get('my_order')}}" class="sidebar-admin__item bg-white rounded flex items-center justify-between py-3 2xl:px-6 px-4 mb-2 transition-all duration-300 {{Str::contains(url()->current(),[\VRoute::get('my_order')]) ? 'active':''}}">
     <span class="title font-bold text-[#252525]">Theo dõi đơn hàng</span>
     <i class="fa fa-angle-right text-[1.875rem]" aria-hidden="true"></i>
 </a>
-<a href="{{ \VRoute::get('my_question') }}" class="sidebar-admin__item {{ Str::contains(url()->current(), [\VRoute::get('my_question')]) ? 'active' : '' }} mb-2 flex items-center justify-between rounded bg-white py-3 px-4 transition-all duration-300 2xl:px-6">
+{{-- <a href="{{\VRoute::get('my_question')}}" class="sidebar-admin__item bg-white rounded flex items-center justify-between py-3 2xl:px-6 px-4 mb-2 transition-all duration-300 {{Str::contains(url()->current(),[\VRoute::get('my_question')]) ? 'active':''}}">
     <span class="title font-bold text-[#252525]">Câu hỏi thắc mắc</span>
     <i class="fa fa-angle-right text-[1.875rem]" aria-hidden="true"></i>
 </a>
