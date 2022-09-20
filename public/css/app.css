@@ -895,6 +895,9 @@ video {
 .mt-0 {
   margin-top: 0px;
 }
+.mb-\[1\.275rem\] {
+  margin-bottom: 1.275rem;
+}
 .box-content {
   box-sizing: content-box;
 }
@@ -3532,6 +3535,10 @@ video {
 
   .\32xl\:-mt-\[5\.6rem\] {
     margin-top: -5.6rem;
+  }
+
+  .\32xl\:mb-\[1\.875rem\] {
+    margin-bottom: 1.875rem;
   }
 
   .\32xl\:h-28 {

@@ -27,11 +27,13 @@
         <div class="flex items-center justify-between">
             @if (isset($item->teacher))
                 <div class="teacher flex items-center gap-2">
-                    <span class="ava img-ava block lg:w-10 lg:h-10 w-8 h-8 rounded-full overflow-hidden shrink-0">
+                    <a href="{{$item->teacher->buildHrefTeacher()}}" title="{{$item->teacher->name}}" class="ava img-ava block lg:w-10 lg:h-10 w-8 h-8 rounded-full overflow-hidden shrink-0">
                         @include('image_loader.tiny',['itemImage'=>$item->teacher,'key'=>'img'])
-                    </span>
+                    </a>
                     <div class="teacher-info">
-                        <p class="name font-semibold text-[0.875rem] text-white">{{Support::show($item->teacher,'name')}}</p>
+                        <p class="name font-semibold text-[0.875rem] text-white">
+                            <a href="{{$item->teacher->buildHrefTeacher()}}" title="{{$item->teacher->name}}">{{Support::show($item->teacher,'name')}}</a>
+                        </p>
                         <p class="desc text-[#ebebeb] text-[0.875rem]">{{Support::show($item->teacher,'teacher_job')}}</p>
                     </div>
                 </div>

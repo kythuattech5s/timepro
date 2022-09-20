@@ -100,6 +100,10 @@ class User extends Authenticatable
     {
         return $this->hasMany(UserCourseCombo::class);
     }
+    public function buildHrefTeacher()
+    {
+        return $this->uslug != '' ? 'thong-tin-giang-vien/'.$this->uslug:'javascript:void(0)';
+    }
     public function getCountNeedDoneExam()
     {
         $user = $this;
