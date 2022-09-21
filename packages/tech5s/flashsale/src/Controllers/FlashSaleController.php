@@ -294,10 +294,6 @@ class FlashSaleController extends BaseController
         return view('tpf::copy', $data);
     }
 
-
-
-
-
     public function loadProduct(Request $request)
     {
         $listItemOld = session()->get(FlashSaleService::PREFIX_SESSION_PRODUCT);
