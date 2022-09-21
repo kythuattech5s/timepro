@@ -688,6 +688,7 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $updated_at Ngày cập nhật
  * @property-read \App\Models\Course|null $course
  * @property-read \App\Models\Exam|null $exam
+ * @property-read \App\Models\User|null $user
  * @method static \Illuminate\Database\Eloquent\Builder|BaseModel act()
  * @method static \Illuminate\Database\Eloquent\Builder|BaseModel fullTextSearch($columns, $term)
  * @method static \Illuminate\Database\Eloquent\Builder|BaseModel fullTextSearchNoRelevance($columns, $term)
@@ -1497,6 +1498,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|User newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|User newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|User query()
+ * @method static \Illuminate\Database\Eloquent\Builder|User student($listTeacherCourseId)
  * @method static \Illuminate\Database\Eloquent\Builder|User teacher()
  * @method static \Illuminate\Database\Eloquent\Builder|User whereAct($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereAddress($value)

@@ -237,10 +237,6 @@ class CartController extends Controller
                     case 'course':
                         $realItem = Course::baseView()->with('category')->find($item->id);
                         $itemTimePackage = CourseTimePackage::find($item->options->id ?? 0);
-                        $foreverUserCourse = UserCourse::where('user_id',$user->id)
-                                    ->where('is_forever',1)
-                                    ->where('course_id',$realItem->id)
-                                    ->first();
                         if ($realItem->isOwnForever($user)) {
                             Tech5sCart::update($item->rowId,0);
                             return Support::redirectTo(\VRoute::get("viewCart"),200,vsprintf('Khóa học %s của bạn đã được kích hoạt vĩnh viễn. Giỏ hàng đã tự cập nhật lại',[$realItem->name]));

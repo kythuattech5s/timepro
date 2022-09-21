@@ -8,6 +8,8 @@ use App\Models\CourseTimePackage;
 use App\Models\Order;
 use App\Models\OrderDetail;
 use App\Models\OrderStatus;
+use App\Models\PaymentMethod;
+use App\Models\UserCourseCombo;
 use Auth;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -64,10 +66,22 @@ class OrderController extends Controller
                     case 'course':
                         $realItem = Course::baseView()->with('category')->find($item->id);
                         $itemTimePackage = CourseTimePackage::find($item->options->id ?? 0);
+                        if ($realItem->isOwnForever($user)) {
+                            Tech5sCart::update($item->rowId,0);
+                            return Support::redirectTo(\VRoute::get("viewCart"),200,vsprintf('Khóa học %s của bạn đã được kích hoạt vĩnh viễn. Giỏ hàng đã tự cập nhật lại',[$realItem->name]));
+                        }
                         break;
                     case 'vip':
                         $realItem = CourseCombo::baseView()->find($item->id);
                         $itemTimePackage = CourseComboTimePackage::find($item->options->id ?? 0);
+                        $foreverUserCourse = UserCourseCombo::where('user_id',$user->id)
+                                    ->where('is_forever',1)
+                                    ->where('course_combo_id',$realItem->id)
+                                    ->first();
+                        if ($foreverUserCourse) {
+                            Tech5sCart::update($item->rowId,0);
+                            return Support::redirectTo(\VRoute::get("viewCart"),200,vsprintf('Gói Vip %s của bạn đã được kích hoạt vĩnh viễn. Giỏ hàng đã tự cập nhật lại',[$realItem->name]));
+                        }
                         break;
                     default:
                         $realItem = null;
@@ -86,6 +100,12 @@ class OrderController extends Controller
             return response()->json([
                 'code' => 100,
                 'message' => 'Bạn tạm thời không có sản phẩm nào trong giỏ hàng'
+            ]);
+        }
+        if ($userOrerData['payment_method'] == PaymentMethod::PAY_WALLET) {
+            return response()->json([
+                'code' => 100,
+                'message' => 'Số dư ví của bạn không đủ'
             ]);
         }
         $order = $this->createOrder($listItems,$totalMoney,$userOrerData,$user);
