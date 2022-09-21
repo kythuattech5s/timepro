@@ -10,3 +10,7 @@ Route::get('show-list-category', 'VoucherController@showListCategory');
 Route::get('show-product', 'VoucherController@showProduct');
 Route::post('search-product', 'VoucherController@searchProduct');
 Route::post('choose-product-for-promotion', 'VoucherController@chooseProduct');
+
+
+Route::post('ap-dung-ma-giam-gia', 'VoucherController@applyVoucher');
+Route::post('huy-ap-dung-ma-giam-gia', 'VoucherController@removeVoucher');

@@ -34,7 +34,7 @@ class VoucherCheck
 
     public function getVoucher($codeOrId)
     {
-        return $codeOrId == null ? session()->get(static::SESSION_VOUCHER_ADD_CART) : Voucher::where('id', $codeOrId)->orWhere('code', $codeOrId)->act()->first();
+        return $codeOrId == null ? session()->get(static::SESSION_VOUCHER_ADD_CART, false) : Voucher::where('id', $codeOrId)->orWhere('code', $codeOrId)->where('act', 1)->first();
     }
 
     public function setItem($data)
@@ -62,14 +62,10 @@ class VoucherCheck
         $this->save();
     }
 
-    public function refreshData($cart, $discount)
+    public function refreshData($cart, $discount, $isUpdate = false)
     {
-        $voucher_id = $this->voucher->id;
-        $this->removeVoucher();
-        $voucher = new static($voucher_id);
-        $voucher->items = collect();
         foreach ($cart->content() as $rowId => $product) {
-            $voucher->setItem([
+            $this->setItem([
                 'id' => $product->id,
                 'product' => $product->model,
                 'qty' => $product->qty,
@@ -77,7 +73,7 @@ class VoucherCheck
                 'rowId' => $rowId,
             ]);
         };
-        $voucher->checkUpdateContent($cart->totalFloat() - $discount);
+        return $this->checkUpdateContent($cart->totalFloat() - $discount, $isUpdate);
     }
 
     public function setDiscount($discount)
@@ -263,9 +259,9 @@ class VoucherCheck
         return false;
     }
 
-    public function checkUpdateContent($price)
+    public function checkUpdateContent($price, $isUpdate = true)
     {
-        $isUpdate = true;
+        $isUpdate = $isUpdate;
         $countUpdate = 1;
         $this->setTotalPrice($price);
         if (($message = $this->checkContains())
@@ -288,12 +284,5 @@ class VoucherCheck
             return $message;
         }
         return false;
-    }
-
-    public function destroy()
-    {
-        if (session()->has(self::SESSION_VOUCHER_ADD_CART)) {
-            session()->forget(self::SESSION_VOUCHER_ADD_CART);
-        }
     }
 }

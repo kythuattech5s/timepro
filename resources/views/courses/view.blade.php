@@ -179,7 +179,7 @@
 
                                         <select class="select-time-package my-[1.125rem] w-full overflow-hidden rounded bg-[#F5F5F5] px-[1rem] py-[0.8125rem] font-semibold text-[#888888] lg:my-[1.5rem]">
                                             @foreach ($currentItem->timePackage as $key => $itemTimePackage)
-                                                <option value="{{ $itemTimePackage->id }}" data-price="{{ Currency::showMoney($itemTimePackage->price) }}" data-subprice="{{ $itemTimePackage->price_old > $itemTimePackage->price ? Currency::showMoney($itemTimePackage->price_old) : '' }}">{{ $itemTimePackage->name }}</option>
+                                                <option value="{{ $itemTimePackage->id }}" data-price="{{ Currency::showMoney($itemTimePackage->getPrice()) }}" data-subprice="{{ $itemTimePackage->price_old > $itemTimePackage->price ? Currency::showMoney($itemTimePackage->price_old) : '' }}">{{ $itemTimePackage->name }}</option>
                                             @endforeach
                                         </select>
                                         <a href="javascript:void(0)" title="Đăng ký ngay" class="btn btn-red-gradien btn-buy-item mb-2 flex items-center justify-center overflow-hidden rounded border-[2px] border-[#fff] bg-gradient-to-r from-[#F44336] to-[#C62828] py-[0.725rem] px-[0.3125rem] font-semibold text-white hover:text-[#fff]" data-action="buy-now" data-type="course" data-id="{{ $currentItem->id }}" data-package="{{ $fisrtPackage->id }}">Đăng kí ngay</a>

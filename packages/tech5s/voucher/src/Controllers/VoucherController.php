@@ -8,10 +8,12 @@ use DB;
 use Illuminate\Http\Request;
 use Tech5s\Notify\Models\NotificationCatalog;
 use Tech5s\Notify\Models\NotificationType;
+use Tech5s\Voucher\Helpers\VoucherCheck;
 use Tech5s\Voucher\Traits\FullText;
 use Tech5s\Voucher\Helpers\VoucherHelper;
 use Tech5s\Voucher\Models\Voucher;
 use Tech5s\Voucher\Services\VoucherService;
+use Tech5sCart;
 use vanhenry\helpers\helpers\FCHelper;
 
 class VoucherController extends BaseController
@@ -407,5 +409,50 @@ class VoucherController extends BaseController
             $listItems = $this->FullTextSearch($listItems, 'name', $request->input('q'));
         }
         return $listItems;
+    }
+
+    public function applyVoucher(Request $request)
+    {
+        $cartContent = Tech5sCart::instance();
+        $code = $request->input('code');
+        $voucherCheck = new VoucherCheck($code);
+        if ($voucherCheck->voucher == null) {
+            return response([
+                'code' => 100,
+                'message' => 'Mã giảm giá không tồn tại'
+            ]);
+        }
+        if (($message = $voucherCheck->refreshData($cartContent, 0))) {
+            return response([
+                'code' => 100,
+                'message' => $message,
+                'apply' => false
+            ]);
+        };
+        $listItems = $cartContent->content();
+        $totalMoney = $voucherCheck->totalPrice - $voucherCheck->discount;
+        return response([
+            'code' => 200,
+            'message' => 'Áp dụng mã giảm giá thành công',
+            'html' => view('carts.components.contentTotal', compact('totalMoney', 'listItems', 'voucherCheck'))->render(),
+            'apply' => true
+        ]);
+    }
+
+    public function removeVoucher(Request $request)
+    {
+        $cartContent = Tech5sCart::instance();
+        $voucherCheck = new VoucherCheck;
+        if ($voucherCheck->voucher != null) {
+            $voucherCheck->removeVoucher();
+        }
+        $listItems =  $cartContent->content();
+        $totalMoney = $cartContent->totalFloat();
+        return response([
+            'code' => 200,
+            'message' => 'Áp dụng mã giảm giá thành công',
+            'html' => view('carts.components.contentTotal', compact('totalMoney', 'listItems', 'voucherCheck'))->render(),
+            'apply' => true
+        ]);
     }
 }

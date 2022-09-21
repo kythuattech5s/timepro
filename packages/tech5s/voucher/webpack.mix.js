@@ -10,3 +10,4 @@ const mix = require("laravel-mix");
 // ]);
 
 // mix.js(__dirname + "/resources/js/voucher.js", dist + "voucher/js");
+mix.ts(__dirname + "/resources/js/client.js", dist + "voucher/js");
