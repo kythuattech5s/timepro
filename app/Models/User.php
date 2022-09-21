@@ -35,17 +35,8 @@ class User extends Authenticatable
     // }
     public function totalDuration()
     {
-<<<<<<< HEAD
-        $second = $this->teacherCourses->sum(function ($q) {
-            return $q->videos->sum(function ($q) {
-                return (int) $q->duration > 0 ? $q->duration : 0;
-            });
-        });
-        return (int)($second / 3600);
-=======
         $minute = $this->teacherCourses->sum('duration');
         return (int)($minute/60);
->>>>>>> df90223b48350921194dc356305ee99056bdf766
     }
 
     public function getRatingScore()
