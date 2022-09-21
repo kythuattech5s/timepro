@@ -197,4 +197,29 @@ class User extends Authenticatable
     {
         return $this->user_type_id == self::IS_TYPE_ACCOUT;
     }
+
+    public function getAmountAvailable(){
+        $wallet = $this->wallet()->first();
+        return \Support::show($wallet,'amount_available');
+    }
+
+    public function plusAmountAvailable($amount){
+        if((int)$amount == 0) return false;
+        $wallet = $this->wallet()->first();
+        $wallet->amount_available = (int)\Support::show($wallet,'amount_available') + (int)$amount;
+        $wallet->save();
+        return true;
+    }
+
+    public function minusAmountAvailable($amount){
+        if((int)$amount == 0) return false;
+        $wallet = $this->wallet()->first();
+        if((int)\Support::show($wallet,'amount_available') < (int)$amount){
+            return false;
+        }
+        $wallet->amount_available = (int)\Support::show($wallet,'amount_available') - (int)$amount;
+        $wallet->save();
+        return true;
+    }
+
 }
