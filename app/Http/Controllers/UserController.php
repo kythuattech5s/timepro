@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use stdClass;
+use Support;
 
 class UserController extends Controller
 {
@@ -20,7 +21,7 @@ class UserController extends Controller
                             ->where('banned',0)
                             ->first();
         if (!isset($userTeacher)) {
-            abort(404);
+            return Support::redirectTo(\VRoute::get("home"),100,'Không tìm thấy tin giảng viên');
         }
         $currentItem = new stdClass;
         $currentItem->name = 'Giảng viên '.$userTeacher->name;
