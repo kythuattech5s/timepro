@@ -883,9 +883,6 @@ video {
 .ml-2 {
   margin-left: 0.5rem;
 }
-.mb-0 {
-  margin-bottom: 0px;
-}
 .mr-20 {
   margin-right: 5rem;
 }
@@ -1351,9 +1348,6 @@ video {
 }
 .overflow-hidden {
   overflow: hidden;
-}
-.overflow-scroll {
-  overflow: scroll;
 }
 .overflow-x-auto {
   overflow-x: auto;
@@ -2588,6 +2582,10 @@ video {
 .focus\:outline-none:focus {
   outline: 2px solid transparent;
   outline-offset: 2px;
+}
+.disabled\:bg-gray-200:disabled {
+  --tw-bg-opacity: 1;
+  background-color: rgb(229 231 235 / var(--tw-bg-opacity));
 }
 .group:hover .group-hover\:pointer-events-auto {
   pointer-events: auto;
