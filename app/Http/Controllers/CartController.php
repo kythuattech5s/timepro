@@ -115,6 +115,13 @@ class CartController extends Controller
         $newItem = Tech5sCart::add($itemBuy->id, $itemBuy->name, 1, $itemTimePackage->getPrice(), 0, $itemTimePackage->toArray());
         $newItem->instance = $request->type;
         $this->_resetQtyItemCart($newItem);
+        // Check lại voucher có thỏa mãn hay không
+        $voucherCheck = new voucherCheck();
+        if ($voucherCheck->voucher != null) {
+            $voucherCheck->refreshData(Tech5sCart::instance($request->type), 0);
+        }
+
+
         switch ($request->action) {
             case 'buy-now':
                 return response()->json([
@@ -145,6 +152,11 @@ class CartController extends Controller
         try {
             Tech5sCart::remove($row);
             Tech5sCart::store();
+
+            $voucherCheck = new voucherCheck();
+            if ($voucherCheck->voucher != null) {
+                $voucherCheck->refreshData(Tech5sCart::instance($request->type), 0);
+            }
         } catch (\Throwable $th) {
             return response()->json([
                 'code' => 100,
@@ -286,6 +298,6 @@ class CartController extends Controller
             $totalMoney -= $voucherCheck->discount;
         }
         $listPaymentMethod = PaymentMethod::act()->orderBy('ord', 'asc')->get();
-        return view('carts.view_payment', compact('listItems', 'currentItem', 'totalMoney', 'user', 'listPaymentMethod','voucherCheck'));
+        return view('carts.view_payment', compact('listItems', 'currentItem', 'totalMoney', 'user', 'listPaymentMethod', 'voucherCheck'));
     }
 }

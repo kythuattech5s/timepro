@@ -64,6 +64,9 @@ class VoucherCheck
 
     public function refreshData($cart, $discount, $isUpdate = false)
     {
+        if ($cart->content()->count() == 0) {
+            return $this->removeVoucher();
+        }
         foreach ($cart->content() as $rowId => $product) {
             $this->setItem([
                 'id' => $product->id,
@@ -284,5 +287,12 @@ class VoucherCheck
             return $message;
         }
         return false;
+    }
+
+    public function destroy()
+    {
+        if (session()->has(self::SESSION_VOUCHER_ADD_CART)) {
+            session()->forget(self::SESSION_VOUCHER_ADD_CART);
+        }
     }
 }
