@@ -2048,6 +2048,9 @@ video {
   font-size: 1.5rem;
   line-height: 2rem;
 }
+.text-\[1\.15rem\] {
+  font-size: 1.15rem;
+}
 .font-semibold {
   font-weight: 600;
 }
