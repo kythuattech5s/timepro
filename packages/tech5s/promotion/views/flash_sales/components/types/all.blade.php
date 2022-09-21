@@ -1,1 +1,0 @@
-<p class="bg-green-400 p-3">Chọn tất cả sản phẩm</p>

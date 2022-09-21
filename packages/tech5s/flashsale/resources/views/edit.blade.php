@@ -16,7 +16,7 @@
                         @include('tpf::components.TimeSlot',['flash_sale' => $currentItem])
                     </div>
                 </div>
-                <div class="form-group">
+                {{-- <div class="form-group">
                     <label for="discount">Số tiền giảm giá</label>
                     <div class="flex gap-1">
                         <select name="promotion_type_comparison_id" class="select2 w-[100px]">
@@ -27,7 +27,7 @@
                         <input type="text" placeholder="Số tiền" id="discount" value="{{number_format($currentItem->discount,0,',','.')}}" rules="required" class="flex-1 border rounded-[5px] px-3" inf>
                         <input type="text" class="hidden" name="discount" placeholder="Số tiền" value="{{$currentItem->discount}}">
                     </div>
-                </div>
+                </div> --}}
                 <div class="form-group">
                     <label for="promotion_type_id">Áp dụng cho</label>
                     <select name="promotion_type_id" id="promotion_type_id" rules="required" class="w-full border p-3">

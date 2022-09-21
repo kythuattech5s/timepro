@@ -4,6 +4,7 @@ namespace Tech5s\FlashSale\Controllers;
 
 use App\Http\Controllers\Controller;
 use DB;
+use FlashSaleHelper;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Tech5s\FlashSale\Models\FlashSale;
@@ -21,10 +22,18 @@ class BaseController extends BaseAdminController
 
     public function showProduct(Request $request)
     {
+        $service = new FlashSaleService;
+        $categories = DB::table(config('tpfc_setting.category_table'))->where('act', 1);
+        $pivotMethodCategories = config('tpfc_setting.pivot_method_categories');
+
+        if (($listCategories = $service->flash_sale->$pivotMethodCategories)->count() > 0) {
+            $categories->whereIn('id', $listCategories->pluck('id'));
+        }
+
+        $categories = $categories->get();
         $action = $request->input('action', '');
         $type = $request->input('type', '');
         $promotion = $request->input('promotion', '');
-        $categories = DB::table(config('tpfc_setting.category_table'))->where('act', 1)->paginate(30);
         $listItems = $this->queryFilterProduct()->paginate(config('tpfc_setting.paginate', 10));
         $promotion = $request->input('promotion');
         $item_checked_old = session()->get(FlashSaleService::PREFIX_SESSION_PRODUCT, collect());
@@ -96,7 +105,6 @@ class BaseController extends BaseAdminController
     public function queryFilterProduct()
     {
         $request = request();
-        $promotion = $request->input('promotion');
 
         $products = DB::table(config('tpvc_setting.table'))->where('act', 1);
 
@@ -107,9 +115,14 @@ class BaseController extends BaseAdminController
         if (isset($request->category_id) && config('tpvc_setting.has_pivot')) {
             $itemIds = DB::table(config('tpvc_setting.pivot_table'))->where(config('tpvc_setting.pivot_field_category_table'), $request->category_id)->pluck(config('tpvc_setting.pivot_field_table'));
             $products->whereIn('id', $itemIds);
+        } else {
+            $service = new FlashSaleService;
+            $pivotMethodCategories = config('tpfc_setting.pivot_method_categories');
+            if (($listCategories = $service->flash_sale->$pivotMethodCategories)->count() > 0) {
+                $itemIds = DB::table(config('tpvc_setting.pivot_table'))->whereIn(config('tpvc_setting.pivot_field_category_table'), $listCategories->pluck('id'))->pluck(config('tpvc_setting.pivot_field_table'));
+                $products->whereIn('id', $itemIds);
+            }
         }
-
-        $product_selected = [];
 
         return $products;
     }

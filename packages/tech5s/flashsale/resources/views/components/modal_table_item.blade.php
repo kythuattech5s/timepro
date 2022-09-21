@@ -7,7 +7,7 @@
             </label>
             <textarea style="display:none" name="product_choose" id="" cols="30" rows="10" c-data>{{ json_encode(json_decode($item_chooses, true), JSON_UNESCAPED_UNICODE) }}</textarea>
         </th>
-        <th>Sản phẩm</th>
+        <th>{{config('tpfc_setting.table_name')}}</th>
         <th>Giá</th>
     </tr>
 </thead>

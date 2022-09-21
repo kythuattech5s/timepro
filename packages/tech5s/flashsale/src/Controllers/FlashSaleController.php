@@ -201,10 +201,10 @@ class FlashSaleController extends BaseController
     public function store(Request $request)
     {
         $item = new FlashSaleService();
-        $item->setPromotionTypeComparison($request->input('promotion_type_comparison_id'));
+        // $item->setPromotionTypeComparison($request->input('promotion_type_comparison_id'));
         $item->setPromotionType($request->input('promotion_type_id'));
         $item->setName($request->input('name'));
-        $item->setDiscount($request->input('discount'));
+        // $item->setDiscount($request->input('discount'));
         $item->setAct($request->input('act', 1));
         $item->setOrd($request->input('ord', 0));
         if ($request->input('img') !== null) {
@@ -249,10 +249,10 @@ class FlashSaleController extends BaseController
     public function update(Request $request, $id)
     {
         $item = new FlashSaleService();
-        $item->setPromotionTypeComparison($request->input('promotion_type_comparison_id'));
+        // $item->setPromotionTypeComparison($request->input('promotion_type_comparison_id'));
         $item->setPromotionType($request->input('promotion_type_id'));
         $item->setName($request->input('name'));
-        $item->setDiscount($request->input('discount'));
+        // $item->setDiscount($request->input('discount'));
         $item->setAct($request->input('act') == 1 ? 1 : 0);
         $item->setOrd($request->input('ord', 0));
         if ($request->input('img') !== null) {
@@ -268,9 +268,9 @@ class FlashSaleController extends BaseController
 
     public function copyForm($data)
     {
+        $this->resetSession();
         $id = $data['id'];
         $item = new FlashSaleService($id);
-        $item->saveSessionFlashSale();
         $type_comparisons = Cache::rememberForever('promotion_comparation', function () {
             return PromotionTypeComparison::select(['id', 'name'])->act()->ord()->get();
         });
@@ -294,6 +294,15 @@ class FlashSaleController extends BaseController
         return view('tpf::copy', $data);
     }
 
+    public function resetSession()
+    {
+        if (session()->has(FlashSaleService::PREFIX_SESSION_FLASH_SALE)) {
+            session()->forget(FlashSaleService::PREFIX_SESSION_FLASH_SALE);
+        }
+        if (session()->has(FlashSaleService::PREFIX_SESSION_PRODUCT)) {
+            session()->forget(FlashSaleService::PREFIX_SESSION_FLASH_SALE);
+        }
+    }
     public function loadProduct(Request $request)
     {
         $listItemOld = session()->get(FlashSaleService::PREFIX_SESSION_PRODUCT);

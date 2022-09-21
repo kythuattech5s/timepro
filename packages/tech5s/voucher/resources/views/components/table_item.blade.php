@@ -18,17 +18,15 @@
                         {-item.name-}
                     </a>
                 </td>
-                {{-- @php
-                    $listPrice = collect($item->getFirstPrice());
-                @endphp --}}
-                <td data-label="Giá">
-                    {{-- @if ($listPrice->count() > 1)
-                        {{ Currency::showMoney($listPrice->min()) }}
-                        <p>~</p>
-                        {{ Currency::showMoney($listPrice->max()) }}
+                @php
+                    $listPrice = FlashSaleHelper::getPriceOfItem($item);
+                @endphp
+                <td>
+                    @if ($listPrice['max'] > 0 && $listPrice['min'] < $listPrice['max'])
+                        {{ $listPrice['min'] }} ~ {{ $listPrice['max'] }}
                     @else
-                        {{ Currency::showMoney($listPrice->first()) }}
-                    @endif --}}
+                        {{ $listPrice['min'] }}
+                    @endif
                 </td>
                 @if (!isset($lock) || !$lock)
                     <td data-label="Thao tác">

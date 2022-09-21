@@ -1,6 +1,6 @@
 @if ($listItems->count() > 0)
     <div class="header d-flex justify-content-between mb-3">
-        <p>Đã chọn <span class="count-product-chooses">{{ $listItems->total() }}</span> sản phẩm</p>
+        <p>Đã chọn <span class="count-product-chooses">{{ $listItems->total() }}</span> {{config('tpfc_setting.table_name')}}</p>
         @if (!isset($lock) || !$lock)
             <button type="button" class="btn bg-green-400 text-white" data-toggle="modal" data-target="#modalProduct" data-type="flashsale">
                 Thêm sản phẩm
@@ -29,6 +29,6 @@
     </div>
 @else
     <button type="button" class="btn bg-green-400 text-white" data-toggle="modal" data-target="#modalProduct" data-type="flashsale">
-        Thêm sản phẩm
+        Thêm {{config('tpfc_setting.table_name')}}
     </button>
 @endif

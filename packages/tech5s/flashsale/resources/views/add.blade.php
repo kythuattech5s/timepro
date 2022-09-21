@@ -17,7 +17,7 @@
                             </button>
                         </div>
                     </div>
-                    <div class="form-group">
+                    {{-- <div class="form-group">
                         <label for="discount">Số tiền giảm giá</label>
                         <div class="flex gap-1">
                             <select name="promotion_type_comparison_id" class="select2 w-[100px]">
@@ -28,7 +28,7 @@
                             <input type="text" placeholder="Số tiền" id="discount" rules="required" class="flex-1 rounded-[5px] border px-3" inf>
                             <input type="text" class="hidden" name="discount" placeholder="Số tiền">
                         </div>
-                    </div>
+                    </div> --}}
                     <div class="form-group">
                         <label for="promotion_type_id">Áp dụng cho</label>
                         <select name="promotion_type_id" id="promotion_type_id" rules="required" class="w-full border p-3">
@@ -48,7 +48,7 @@
                     <div class="form-group">
                         <label for="switch-1" class="w-full">Kích hoạt</label>
                         <label for="switch-1" class="switch ml-2">
-                            <input type="checkbox" name="act" id="switch-1" onchange="this.value = this.checked ? 1 : 0">
+                            <input type="checkbox" name="act" id="switch-1" value="1"  checked onchange="this.value = this.checked ? 1 : 0">
                             <span class="slider"></span>
                         </label>
                     </div>
