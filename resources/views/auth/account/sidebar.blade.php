@@ -1,7 +1,4 @@
-<?php
-$user = Auth::user();
-$wallet = $user->wallet()->first();
-?>
+<?php $user = Auth::user(); ?>
 <div class="box-info-student mb-2 rounded bg-white p-4">
     @if (Support::show($user, 'img'))
         <span class="ava img-ava mx-auto mb-4 block h-20 w-20 overflow-hidden rounded-full lg:h-24 lg:w-24 2xl:h-40 2xl:w-40">
@@ -32,7 +29,7 @@ $wallet = $user->wallet()->first();
     <div class="box-wallet flex items-center justify-between gap-4">
         <div class="wallet-balance">
             <p class="title mb-1 text-[0.75rem] font-semibold">Số dư ví: </p>
-            <p class="price color-gradient text-[1rem] font-bold lg:text-[1.125rem]">{{ Currency::showMoney(Support::show($wallet, 'amount_available')) }}</p>
+            <p class="price color-gradient text-[1rem] font-bold lg:text-[1.125rem]">{{ Currency::showMoney($user->getAmountAvailable()) }}</p>
         </div>
         <a href="{{ \VRoute::get('deposit_wallet') }}" title="Nạp tiền" class="btn btn-red-gradien inline-flex items-center justify-center rounded-[1.25rem] bg-gradient-to-r from-[#F44336] to-[#C62828] py-2 px-4 font-semibold text-white shadow-[0_6px_20px_rgba(178,30,37,.4)]">
             <svg width="25" height="24" class="mr-2 inline-block" viewBox="0 0 25 24" fill="none"
@@ -46,7 +43,6 @@ $wallet = $user->wallet()->first();
 </div>
 
 <a href="{{ \VRoute::get('my_course') }}" class="sidebar-admin__item {{ Str::contains(url()->current(), [\VRoute::get('my_course')]) ? 'active' : '' }} mb-2 flex items-center justify-between rounded bg-white py-3 px-4 transition-all duration-300 2xl:px-6">
-
     <span class="title font-bold text-[#252525]">Khóa học của tôi</span>
     <i class="fa fa-angle-right text-[1.875rem]" aria-hidden="true"></i>
 </a>
