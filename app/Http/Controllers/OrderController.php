@@ -10,6 +10,7 @@ use App\Models\OrderDetail;
 use App\Models\OrderStatus;
 use App\Models\PaymentMethod;
 use App\Models\UserCourseCombo;
+use App\Models\UserWalletTransactionType;
 use Auth;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -109,13 +110,13 @@ class OrderController extends Controller
                     'message' => 'Số dư ví của bạn không đủ'
                 ]);
             }
-            
         }
         $order = $this->createOrder($listItems,$totalMoney,$userOrerData,$user);
-        // if ($userOrerData['payment_method'] == PaymentMethod::PAY_WALLET) {
-        //     $user->minusAmountAvailable($totalMoney);
-        //     $order->orderSuccess();
-        // }
+        if ($userOrerData['payment_method'] == PaymentMethod::PAY_WALLET) {
+            $reason = vsprintf('Thanh toán đơn hàng %s',[$order->code]);
+            $user->minusAmountAvailable($totalMoney,UserWalletTransactionType::PAYMENT_ORDER,$reason);
+            $order->orderSuccess();
+        }
         foreach ($this->cartInstance as $itemCartInstance) {
             Tech5sCart::instance($itemCartInstance);
             Tech5sCart::destroy();
