@@ -111,11 +111,34 @@ var CART = (function () {
             });
         });
     };
+    var showPaymentMethodContent = function () {
+        var listPaymentMethodItem = document.querySelectorAll(
+            ".payment-method__item"
+        );
+        var listMethodDes = document.querySelectorAll(
+            ".payment-method__item .method-des"
+        );
+        listPaymentMethodItem.forEach((itemPaymentMethodItem) => {
+            var inputValue = itemPaymentMethodItem.querySelector("input");
+            var methodDes = itemPaymentMethodItem.querySelector(".method-des");
+            if (inputValue) {
+                inputValue.addEventListener("change", function () {
+                    listMethodDes.forEach((itemMethodDes) => {
+                        itemMethodDes.classList.remove("show");
+                    });
+                    if (methodDes) {
+                        methodDes.classList.add("show");
+                    }
+                });
+            }
+        });
+    };
     return {
         _: function () {
             setUpBuyItemBox();
             initCartCount();
             initDeleteItemCart();
+            showPaymentMethodContent();
         },
     };
 })();

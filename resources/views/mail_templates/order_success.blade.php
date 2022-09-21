@@ -59,7 +59,11 @@
                 <td style="border:solid 1px #999999;padding: 5px;width:40px;text-align: center;"><strong>{{$key + 1}}</strong></td>
                 <td style="border:solid 1px #999999;padding: 5px">{{$itemOrderDetail->getTypeName()}}</td>
                 <td style="border:solid 1px #999999;padding: 5px">
-                    <a href="{{url()->to(Support::show($itemOrderDetail,'slug'))}}" title="{{Support::show($itemOrderDetail,'name')}}" target="_blank">{{Support::show($itemOrderDetail,'name')}}</a>
+					@if (isset($itemOrderDetail->slug) && $itemOrderDetail->slug != '')
+                    	<a href="{{url()->to(Support::show($itemOrderDetail,'slug'))}}" title="{{Support::show($itemOrderDetail,'name')}}" target="_blank">{{Support::show($itemOrderDetail,'name')}}</a>
+					@else
+						{{Support::show($itemOrderDetail,'name')}}
+					@endif
                 </td>
                 <td style="border:solid 1px #999999;padding: 5px">{{Support::show($itemOrderDetail,'name_time_package')}}</td>
                 <td style="border:solid 1px #999999;padding: 5px"><strong>{{Currency::showMoney($itemOrderDetail->price)}}</strong></td>

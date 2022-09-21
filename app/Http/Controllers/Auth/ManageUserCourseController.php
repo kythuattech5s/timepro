@@ -63,7 +63,7 @@ class ManageUserCourseController extends Controller
         $listItems = Course::baseView()->whereIn('id', $listUserCourseId)
                                         ->when($activeCategoryId,function($q) use ($activeCategoryId){
                                             $q->whereHas('category',function($q) use ($activeCategoryId){
-                                                $q->where('id',$activeCategoryId);
+                                                $q->where('course_categories.id',$activeCategoryId);
                                             });
                                         })
                                         ->when($type != 1,function($q) use($type,$user,$strIdCourseUser) {

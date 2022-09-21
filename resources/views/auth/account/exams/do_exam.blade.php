@@ -25,7 +25,7 @@
                 <div class="box-content bg-white p-4 rounded 2xl:mb-6 mb-4 last:mb-0">
                     <h1 class="title font-bold text-[#252525] 2xl:text-[1.6rem] lg:text-[1.25rem] text-[1rem] mb-4 text-center">Làm bài thi</h1>
                     <div class="item-exam grid grid-cols-1 sm:grid-cols-3 gap-2 items-center 2xl:p-4 p-2 rounded border-[1px] border-solid border-[#ebebeb] mb-4">
-                        <div class="col-span-1">
+                        <div class="col-span-1 sm:col-span-2">
                             <p class="cate text-[#252525] text-[0.875rem] mb-1">Khóa học</p>
                             <h3>
                                 <a href="{{Support::show($mainCourse,'slug')}}" title="{{Support::show($mainCourse,'name')}}" class="title font-bold text-[#252525] lg:text-[1.25rem]">{{Support::show($mainCourse,'name')}}</a>

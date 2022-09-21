@@ -12,13 +12,11 @@
             <div class="col-span-1 lg:col-span-3">
                 <div class="box-content bg-white p-4 rounded 2xl:mb-6 mb-4 last:mb-0">
                     <div class="item-exam grid grid-cols-1 sm:grid-cols-3 gap-2 items-center 2xl:p-4 p-2 rounded border-[1px] border-solid border-[#ebebeb] mb-4">
-                        <div class="col-span-1">
+                        <div class="col-span-1 sm:col-span-2">
                             <p class="cate text-[#252525] text-[0.875rem] mb-1">Khóa học</p>
                             <h3>
                                 <a href="{{Support::show($examResult->course,'slug')}}" title="{{Support::show($examResult->course,'name')}}" class="title font-bold text-[#252525] lg:text-[1.25rem]">{{Support::show($examResult->course,'name')}}</a>
                             </h3>
-                        </div>
-                        <div class="col-span-1">
                         </div>
                         <div class="col-span-1 lg:pl-14">
                             <p class="cate text-[#252525] text-[0.875rem] mb-1">Ngày thi</p>
@@ -51,7 +49,7 @@
                                     @include('mtc::question.load_frontend_resutl',['question'=>$question,'answer'=>$listExamResult[$question->id]['answer'] ?? null])
                                 </div>
                                 <div class="border p-2 rounded">
-                                    <span class="mr-2 1">Đáp án đúng là:</span> 
+                                    <span class="mr-2 font-bold">Đáp án đúng là:</span> 
                                     <div class="s-content">{!!$question->getTrueAnswerFrontend()!!}</div>
                                 </div>
                                 @if ($question->explanation_guide != '')

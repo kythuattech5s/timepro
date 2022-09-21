@@ -154,36 +154,36 @@ class User extends Authenticatable
             return $this->listUserCourseId;
         }
         $userCourseComboAllCount = $this->userCourseCombo()->whereHas('courseCombo', function ($q) {
-            $q->where('all_course', 1);
-        })
-            ->where(function ($q) {
-                $q->where('expired_time', '>', now())->orWhere('is_forever', 1);
-            })
-            ->first();
+                                                                $q->where('all_course', 1);
+                                                            })
+                                                            ->where(function ($q) {
+                                                                $q->where('expired_time', '>', now())->orWhere('is_forever', 1);
+                                                            })
+                                                            ->first();
         if (isset($userCourseComboAllCount)) {
             return Course::act()->get()->pluck('id');
         }
         $userCourseComboSpecialCourse = $this->userCourseCombo()->whereHas('courseCombo', function ($q) {
-            $q->act()->where('all_course', '!=', 1);
-        })
-            ->with(['courseCombo' => function ($q) {
-                $q->act()->where('all_course', '!=', 1)->with('course');
-            }])
-            ->where(function ($q) {
-                $q->where('expired_time', '>', now())->orWhere('is_forever', 1);
-            })
-            ->get();
+                                                                    $q->act()->where('all_course', '!=', 1);
+                                                                })
+                                                                ->with(['courseCombo' => function ($q) {
+                                                                    $q->act()->where('all_course', '!=', 1)->with('course');
+                                                                }])
+                                                                ->where(function ($q) {
+                                                                    $q->where('expired_time', '>', now())->orWhere('is_forever', 1);
+                                                                })
+                                                                ->get();
         $listCourseId = collect();
         foreach ($userCourseComboSpecialCourse as $item) {
             $listCourseId = $listCourseId->merge($item->courseCombo->course->pluck('id'));
         }
         $listUserCourseId = $this->userCourse()->whereHas('course', function ($q) {
-            $q->act();
-        })
-            ->where(function ($q) {
-                $q->where('expired_time', '>', now())->orWhere('is_forever', 1);
-            })
-            ->pluck('course_id');
+                                                    $q->act();
+                                                })
+                                                ->where(function ($q) {
+                                                    $q->where('expired_time', '>', now())->orWhere('is_forever', 1);
+                                                })
+                                                ->pluck('course_id');
         $listCourseId = $listCourseId->merge($listUserCourseId)->unique();
         $this->listUserCourseId = $listCourseId;
         return $listCourseId;
@@ -197,4 +197,29 @@ class User extends Authenticatable
     {
         return $this->user_type_id == self::IS_TYPE_ACCOUT;
     }
+
+    public function getAmountAvailable(){
+        $wallet = $this->wallet()->first();
+        return \Support::show($wallet,'amount_available');
+    }
+
+    public function plusAmountAvailable($amount,$type,$reson){
+        if((int)$amount == 0) return false;
+        $wallet = $this->wallet()->first();
+        $wallet->amount_available = (int)\Support::show($wallet,'amount_available') + (int)$amount;
+        $wallet->save();
+        return true;
+    }
+
+    public function minusAmountAvailable($amount,$type,$reson){
+        if((int)$amount == 0) return false;
+        $wallet = $this->wallet()->first();
+        if((int)\Support::show($wallet,'amount_available') < (int)$amount){
+            return false;
+        }
+        $wallet->amount_available = (int)\Support::show($wallet,'amount_available') - (int)$amount;
+        $wallet->save();
+        return true;
+    }
+
 }
