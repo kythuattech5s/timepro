@@ -354,9 +354,364 @@ var Helper = {
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _roniejisa_scripts_assets_js_Helper__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../roniejisa/scripts/assets/js/Helper */ "./packages/roniejisa/scripts/assets/js/Helper.js");
+/* harmony import */ var _roniejisa_scripts_assets_js_Helper_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../roniejisa/scripts/assets/js/Helper.js */ "./packages/roniejisa/scripts/assets/js/Helper.js");
+function _typeof(obj) {
+  "@babel/helpers - typeof";
 
+  return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) {
+    return typeof obj;
+  } : function (obj) {
+    return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+  }, _typeof(obj);
+}
 
+function _defineProperty(obj, key, value) {
+  if (key in obj) {
+    Object.defineProperty(obj, key, {
+      value: value,
+      enumerable: true,
+      configurable: true,
+      writable: true
+    });
+  } else {
+    obj[key] = value;
+  }
+
+  return obj;
+}
+
+function _regeneratorRuntime() {
+  "use strict";
+  /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */
+
+  _regeneratorRuntime = function _regeneratorRuntime() {
+    return exports;
+  };
+
+  var exports = {},
+      Op = Object.prototype,
+      hasOwn = Op.hasOwnProperty,
+      $Symbol = "function" == typeof Symbol ? Symbol : {},
+      iteratorSymbol = $Symbol.iterator || "@@iterator",
+      asyncIteratorSymbol = $Symbol.asyncIterator || "@@asyncIterator",
+      toStringTagSymbol = $Symbol.toStringTag || "@@toStringTag";
+
+  function define(obj, key, value) {
+    return Object.defineProperty(obj, key, {
+      value: value,
+      enumerable: !0,
+      configurable: !0,
+      writable: !0
+    }), obj[key];
+  }
+
+  try {
+    define({}, "");
+  } catch (err) {
+    define = function define(obj, key, value) {
+      return obj[key] = value;
+    };
+  }
+
+  function wrap(innerFn, outerFn, self, tryLocsList) {
+    var protoGenerator = outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator,
+        generator = Object.create(protoGenerator.prototype),
+        context = new Context(tryLocsList || []);
+    return generator._invoke = function (innerFn, self, context) {
+      var state = "suspendedStart";
+      return function (method, arg) {
+        if ("executing" === state) throw new Error("Generator is already running");
+
+        if ("completed" === state) {
+          if ("throw" === method) throw arg;
+          return doneResult();
+        }
+
+        for (context.method = method, context.arg = arg;;) {
+          var delegate = context.delegate;
+
+          if (delegate) {
+            var delegateResult = maybeInvokeDelegate(delegate, context);
+
+            if (delegateResult) {
+              if (delegateResult === ContinueSentinel) continue;
+              return delegateResult;
+            }
+          }
+
+          if ("next" === context.method) context.sent = context._sent = context.arg;else if ("throw" === context.method) {
+            if ("suspendedStart" === state) throw state = "completed", context.arg;
+            context.dispatchException(context.arg);
+          } else "return" === context.method && context.abrupt("return", context.arg);
+          state = "executing";
+          var record = tryCatch(innerFn, self, context);
+
+          if ("normal" === record.type) {
+            if (state = context.done ? "completed" : "suspendedYield", record.arg === ContinueSentinel) continue;
+            return {
+              value: record.arg,
+              done: context.done
+            };
+          }
+
+          "throw" === record.type && (state = "completed", context.method = "throw", context.arg = record.arg);
+        }
+      };
+    }(innerFn, self, context), generator;
+  }
+
+  function tryCatch(fn, obj, arg) {
+    try {
+      return {
+        type: "normal",
+        arg: fn.call(obj, arg)
+      };
+    } catch (err) {
+      return {
+        type: "throw",
+        arg: err
+      };
+    }
+  }
+
+  exports.wrap = wrap;
+  var ContinueSentinel = {};
+
+  function Generator() {}
+
+  function GeneratorFunction() {}
+
+  function GeneratorFunctionPrototype() {}
+
+  var IteratorPrototype = {};
+  define(IteratorPrototype, iteratorSymbol, function () {
+    return this;
+  });
+  var getProto = Object.getPrototypeOf,
+      NativeIteratorPrototype = getProto && getProto(getProto(values([])));
+  NativeIteratorPrototype && NativeIteratorPrototype !== Op && hasOwn.call(NativeIteratorPrototype, iteratorSymbol) && (IteratorPrototype = NativeIteratorPrototype);
+  var Gp = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(IteratorPrototype);
+
+  function defineIteratorMethods(prototype) {
+    ["next", "throw", "return"].forEach(function (method) {
+      define(prototype, method, function (arg) {
+        return this._invoke(method, arg);
+      });
+    });
+  }
+
+  function AsyncIterator(generator, PromiseImpl) {
+    function invoke(method, arg, resolve, reject) {
+      var record = tryCatch(generator[method], generator, arg);
+
+      if ("throw" !== record.type) {
+        var result = record.arg,
+            value = result.value;
+        return value && "object" == _typeof(value) && hasOwn.call(value, "__await") ? PromiseImpl.resolve(value.__await).then(function (value) {
+          invoke("next", value, resolve, reject);
+        }, function (err) {
+          invoke("throw", err, resolve, reject);
+        }) : PromiseImpl.resolve(value).then(function (unwrapped) {
+          result.value = unwrapped, resolve(result);
+        }, function (error) {
+          return invoke("throw", error, resolve, reject);
+        });
+      }
+
+      reject(record.arg);
+    }
+
+    var previousPromise;
+
+    this._invoke = function (method, arg) {
+      function callInvokeWithMethodAndArg() {
+        return new PromiseImpl(function (resolve, reject) {
+          invoke(method, arg, resolve, reject);
+        });
+      }
+
+      return previousPromise = previousPromise ? previousPromise.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg();
+    };
+  }
+
+  function maybeInvokeDelegate(delegate, context) {
+    var method = delegate.iterator[context.method];
+
+    if (undefined === method) {
+      if (context.delegate = null, "throw" === context.method) {
+        if (delegate.iterator["return"] && (context.method = "return", context.arg = undefined, maybeInvokeDelegate(delegate, context), "throw" === context.method)) return ContinueSentinel;
+        context.method = "throw", context.arg = new TypeError("The iterator does not provide a 'throw' method");
+      }
+
+      return ContinueSentinel;
+    }
+
+    var record = tryCatch(method, delegate.iterator, context.arg);
+    if ("throw" === record.type) return context.method = "throw", context.arg = record.arg, context.delegate = null, ContinueSentinel;
+    var info = record.arg;
+    return info ? info.done ? (context[delegate.resultName] = info.value, context.next = delegate.nextLoc, "return" !== context.method && (context.method = "next", context.arg = undefined), context.delegate = null, ContinueSentinel) : info : (context.method = "throw", context.arg = new TypeError("iterator result is not an object"), context.delegate = null, ContinueSentinel);
+  }
+
+  function pushTryEntry(locs) {
+    var entry = {
+      tryLoc: locs[0]
+    };
+    1 in locs && (entry.catchLoc = locs[1]), 2 in locs && (entry.finallyLoc = locs[2], entry.afterLoc = locs[3]), this.tryEntries.push(entry);
+  }
+
+  function resetTryEntry(entry) {
+    var record = entry.completion || {};
+    record.type = "normal", delete record.arg, entry.completion = record;
+  }
+
+  function Context(tryLocsList) {
+    this.tryEntries = [{
+      tryLoc: "root"
+    }], tryLocsList.forEach(pushTryEntry, this), this.reset(!0);
+  }
+
+  function values(iterable) {
+    if (iterable) {
+      var iteratorMethod = iterable[iteratorSymbol];
+      if (iteratorMethod) return iteratorMethod.call(iterable);
+      if ("function" == typeof iterable.next) return iterable;
+
+      if (!isNaN(iterable.length)) {
+        var i = -1,
+            next = function next() {
+          for (; ++i < iterable.length;) {
+            if (hasOwn.call(iterable, i)) return next.value = iterable[i], next.done = !1, next;
+          }
+
+          return next.value = undefined, next.done = !0, next;
+        };
+
+        return next.next = next;
+      }
+    }
+
+    return {
+      next: doneResult
+    };
+  }
+
+  function doneResult() {
+    return {
+      value: undefined,
+      done: !0
+    };
+  }
+
+  return GeneratorFunction.prototype = GeneratorFunctionPrototype, define(Gp, "constructor", GeneratorFunctionPrototype), define(GeneratorFunctionPrototype, "constructor", GeneratorFunction), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, toStringTagSymbol, "GeneratorFunction"), exports.isGeneratorFunction = function (genFun) {
+    var ctor = "function" == typeof genFun && genFun.constructor;
+    return !!ctor && (ctor === GeneratorFunction || "GeneratorFunction" === (ctor.displayName || ctor.name));
+  }, exports.mark = function (genFun) {
+    return Object.setPrototypeOf ? Object.setPrototypeOf(genFun, GeneratorFunctionPrototype) : (genFun.__proto__ = GeneratorFunctionPrototype, define(genFun, toStringTagSymbol, "GeneratorFunction")), genFun.prototype = Object.create(Gp), genFun;
+  }, exports.awrap = function (arg) {
+    return {
+      __await: arg
+    };
+  }, defineIteratorMethods(AsyncIterator.prototype), define(AsyncIterator.prototype, asyncIteratorSymbol, function () {
+    return this;
+  }), exports.AsyncIterator = AsyncIterator, exports.async = function (innerFn, outerFn, self, tryLocsList, PromiseImpl) {
+    void 0 === PromiseImpl && (PromiseImpl = Promise);
+    var iter = new AsyncIterator(wrap(innerFn, outerFn, self, tryLocsList), PromiseImpl);
+    return exports.isGeneratorFunction(outerFn) ? iter : iter.next().then(function (result) {
+      return result.done ? result.value : iter.next();
+    });
+  }, defineIteratorMethods(Gp), define(Gp, toStringTagSymbol, "Generator"), define(Gp, iteratorSymbol, function () {
+    return this;
+  }), define(Gp, "toString", function () {
+    return "[object Generator]";
+  }), exports.keys = function (object) {
+    var keys = [];
+
+    for (var key in object) {
+      keys.push(key);
+    }
+
+    return keys.reverse(), function next() {
+      for (; keys.length;) {
+        var key = keys.pop();
+        if (key in object) return next.value = key, next.done = !1, next;
+      }
+
+      return next.done = !0, next;
+    };
+  }, exports.values = values, Context.prototype = {
+    constructor: Context,
+    reset: function reset(skipTempReset) {
+      if (this.prev = 0, this.next = 0, this.sent = this._sent = undefined, this.done = !1, this.delegate = null, this.method = "next", this.arg = undefined, this.tryEntries.forEach(resetTryEntry), !skipTempReset) for (var name in this) {
+        "t" === name.charAt(0) && hasOwn.call(this, name) && !isNaN(+name.slice(1)) && (this[name] = undefined);
+      }
+    },
+    stop: function stop() {
+      this.done = !0;
+      var rootRecord = this.tryEntries[0].completion;
+      if ("throw" === rootRecord.type) throw rootRecord.arg;
+      return this.rval;
+    },
+    dispatchException: function dispatchException(exception) {
+      if (this.done) throw exception;
+      var context = this;
+
+      function handle(loc, caught) {
+        return record.type = "throw", record.arg = exception, context.next = loc, caught && (context.method = "next", context.arg = undefined), !!caught;
+      }
+
+      for (var i = this.tryEntries.length - 1; i >= 0; --i) {
+        var entry = this.tryEntries[i],
+            record = entry.completion;
+        if ("root" === entry.tryLoc) return handle("end");
+
+        if (entry.tryLoc <= this.prev) {
+          var hasCatch = hasOwn.call(entry, "catchLoc"),
+              hasFinally = hasOwn.call(entry, "finallyLoc");
+
+          if (hasCatch && hasFinally) {
+            if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0);
+            if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc);
+          } else if (hasCatch) {
+            if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0);
+          } else {
+            if (!hasFinally) throw new Error("try statement without catch or finally");
+            if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc);
+          }
+        }
+      }
+    },
+    abrupt: function abrupt(type, arg) {
+      for (var i = this.tryEntries.length - 1; i >= 0; --i) {
+        var entry = this.tryEntries[i];
+
+        if (entry.tryLoc <= this.prev && hasOwn.call(entry, "finallyLoc") && this.prev < entry.finallyLoc) {
+          var finallyEntry = entry;
+          break;
+        }
+      }
+
+      finallyEntry && ("break" === type || "continue" === type) && finallyEntry.tryLoc <= arg && arg <= finallyEntry.finallyLoc && (finallyEntry = null);
+      var record = finallyEntry ? finallyEntry.completion : {};
+      return record.type = type, record.arg = arg, finallyEntry ? (this.method = "next", this.next = finallyEntry.finallyLoc, ContinueSentinel) : this.complete(record);
+    },
+    complete: function complete(record, afterLoc) {
+      if ("throw" === record.type) throw record.arg;
+      return "break" === record.type || "continue" === record.type ? this.next = record.arg : "return" === record.type ? (this.rval = this.arg = record.arg, this.method = "return", this.next = "end") : "normal" === record.type && afterLoc && (this.next = afterLoc), ContinueSentinel;
+    },
+    finish: function finish(finallyLoc) {
+      for (var i = this.tryEntries.length - 1; i >= 0; --i) {
+        var entry = this.tryEntries[i];
+        if (entry.finallyLoc === finallyLoc) return this.complete(entry.completion, entry.afterLoc), resetTryEntry(entry), ContinueSentinel;
+      }
+    },
+    "catch": function _catch(tryLoc) {
+      for (var i = this.tryEntries.length - 1; i >= 0; --i) {
+        var entry = this.tryEntries[i];
+
+        if (entry.tryLoc === tryLoc) {
+          var record = entry.completion;
+
+<<<<<<< HEAD
 function _typeof(obj) {
   "@babel/helpers - typeof";
 
@@ -728,6 +1083,38 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
     return;
   }
 
+=======
+          if ("throw" === record.type) {
+            var thrown = record.arg;
+            resetTryEntry(entry);
+          }
+
+          return thrown;
+        }
+      }
+
+      throw new Error("illegal catch attempt");
+    },
+    delegateYield: function delegateYield(iterable, resultName, nextLoc) {
+      return this.delegate = {
+        iterator: values(iterable),
+        resultName: resultName,
+        nextLoc: nextLoc
+      }, "next" === this.method && (this.arg = undefined), ContinueSentinel;
+    }
+  }, exports;
+}
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
+  try {
+    var info = gen[key](arg);
+    var value = info.value;
+  } catch (error) {
+    reject(error);
+    return;
+  }
+
+>>>>>>> 501f6290a7a498d739290e9216f45aa2e834ca9f
   if (info.done) {
     resolve(value);
   } else {
@@ -789,7 +1176,7 @@ var BASE_VOUCHER = function () {
                   val = valueInput === "" ? "" : parseFloat(valueInput);
                   inputCurrent = inputEl.nextElementSibling;
                   _context.next = 5;
-                  return _roniejisa_scripts_assets_js_Helper__WEBPACK_IMPORTED_MODULE_0__["default"].number_format(val);
+                  return _roniejisa_scripts_assets_js_Helper_js__WEBPACK_IMPORTED_MODULE_0__["default"].number_format(val);
 
                 case 5:
                   inputEl.value = _context.sent;
@@ -821,47 +1208,65 @@ var BASE_VOUCHER = function () {
 
 var MODALPRODUCT = function () {
   function showModal() {
-    $("#modalProduct").on("shown.bs.modal", function (e) {
-      var _this = $(this);
+    $("#modalProduct").on("shown.bs.modal", /*#__PURE__*/function () {
+      var _ref2 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2(e) {
+        var _this, dataConfig, shop_id;
 
-      if (e.relatedTarget.dataset.typeProduct == "sub") {
-        saveDataCurrent();
-      }
+        return _regeneratorRuntime().wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _this = $(this);
+                _context2.next = 3;
+                return FLASH_SALE.saveProductCurrent();
 
-      var dataConfig = {
-        promotion: e.relatedTarget.dataset.type,
-        action: e.relatedTarget.dataset.action,
-        type: e.relatedTarget.dataset.typeProduct
+              case 3:
+                dataConfig = {
+                  promotion: e.relatedTarget.dataset.type,
+                  action: e.relatedTarget.dataset.action,
+                  type: e.relatedTarget.dataset.typeProduct
+                };
+                shop_id = document.querySelector('[name="shop_id"]');
+
+                if (shop_id) {
+                  dataConfig["shop_id"] = shop_id.value;
+                }
+
+                if (document.querySelector('[name="start_at"]')) {
+                  dataConfig["start_at"] = document.querySelector('[name="start_at"]').value;
+                }
+
+                if (document.querySelector('[name="expired_at"]')) {
+                  dataConfig["expired_at"] = document.querySelector('[name="expired_at"]').value;
+                }
+
+                $.ajax({
+                  url: "tpf/flashsale/show-product",
+                  data: dataConfig
+                }).done(function (res) {
+                  _this.find(".modal-content").html(res.html);
+
+                  M_CHECKBOX.clear();
+                  M_CHECKBOX.refresh();
+                  VALIDATE_FORM.refresh();
+                  applyProductForPromotion();
+                  paginateCategory();
+                  showAndHideProductSelected();
+                  formSearch();
+                });
+
+              case 9:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2, this);
+      }));
+
+      return function (_x2) {
+        return _ref2.apply(this, arguments);
       };
-      var shop_id = document.querySelector('[name="shop_id"]');
-
-      if (shop_id) {
-        dataConfig["shop_id"] = shop_id.value;
-      }
-
-      if (document.querySelector('[name="start_at"]')) {
-        dataConfig["start_at"] = document.querySelector('[name="start_at"]').value;
-      }
-
-      if (document.querySelector('[name="expired_at"]')) {
-        dataConfig["expired_at"] = document.querySelector('[name="expired_at"]').value;
-      }
-
-      $.ajax({
-        url: "tpv/voucher/show-product",
-        data: dataConfig
-      }).done(function (res) {
-        _this.find(".modal-content").html(res.html);
-
-        M_CHECKBOX.clear();
-        M_CHECKBOX.refresh();
-        VALIDATE_FORM.refresh();
-        applyProductForPromotion();
-        paginateCategory();
-        showAndHideProductSelected();
-        formSearch();
-      });
-    });
+    }());
   }
 
   function paginateCategory() {
@@ -907,87 +1312,51 @@ var MODALPRODUCT = function () {
     };
   }
 
-  function saveDataCurrent(type) {
-    var itemProductSub = document.querySelector(".item-product-sub");
-    var data = [];
-    var items = itemProductSub.querySelectorAll("[c-check-item]");
-    if (items.length == 0) return;
-    items.forEach(function (item, key) {
-      var itemChildChecked = item.querySelectorAll("[c-single]");
-      itemChildChecked.forEach(function (itemChild) {
-        itemChild = itemChild.closest(".item-child");
-        var inputs = itemChild.querySelectorAll("[name]");
-        var dataItem = XHR.buildData(inputs, true);
-        data.push(dataItem);
-      });
-    });
-    return $.ajax({
-      url: "sys-promotion/deals/save-product-sub",
-      method: "POST",
-      data: {
-        data: JSON.stringify(data)
-      }
-    }).done(function (res) {
-      if (res.code == 200) {
-        return true;
-      }
-
-      return false;
-    });
-  }
-
   function applyProductForPromotion() {
     var buttonChooseProduct = document.querySelector(".choose-product-button");
 
     if (buttonChooseProduct) {
-      buttonChooseProduct.onclick = /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
+      buttonChooseProduct.onclick = /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3() {
         var promotion, action, type, isPass;
-        return _regeneratorRuntime().wrap(function _callee2$(_context2) {
+        return _regeneratorRuntime().wrap(function _callee3$(_context3) {
           while (1) {
-            switch (_context2.prev = _context2.next) {
+            switch (_context3.prev = _context3.next) {
               case 0:
                 promotion = buttonChooseProduct.dataset.type;
                 action = buttonChooseProduct.dataset.action;
                 type = buttonChooseProduct.dataset.typeProduct;
-                isPass = true;
-                _context2.t0 = promotion;
-                _context2.next = _context2.t0 === "vouchers" ? 7 : 11;
-                break;
+                _context3.next = 5;
+                return applyProductForFlashSale(promotion, action);
 
-              case 7:
-                _context2.next = 9;
-                return applyProductForVoucher(promotion, action);
+              case 5:
+                isPass = _context3.sent;
 
-              case 9:
-                isPass = _context2.sent;
-                return _context2.abrupt("break", 11);
-
-              case 11:
+              case 6:
               case "end":
-                return _context2.stop();
+                return _context3.stop();
             }
           }
-        }, _callee2);
+        }, _callee3);
       }));
     }
   }
 
-  function applyProductForVoucher(_x2) {
-    return _applyProductForVoucher.apply(this, arguments);
+  function applyProductForFlashSale(_x3) {
+    return _applyProductForFlashSale.apply(this, arguments);
   }
 
-  function _applyProductForVoucher() {
-    _applyProductForVoucher = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4(promotion) {
+  function _applyProductForFlashSale() {
+    _applyProductForFlashSale = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee5(promotion) {
       var productChoose;
-      return _regeneratorRuntime().wrap(function _callee4$(_context4) {
+      return _regeneratorRuntime().wrap(function _callee5$(_context5) {
         while (1) {
-          switch (_context4.prev = _context4.next) {
+          switch (_context5.prev = _context5.next) {
             case 0:
               productChoose = document.querySelector('textarea[name="product_choose"]');
 
               if (productChoose !== null) {
                 $.ajax({
-                  url: "tpv/voucher/choose-product-for-promotion",
+                  url: "tpf/flashsale/choose-product-for-promotion",
                   method: "POST",
                   data: {
                     item_id: JSON.parse(productChoose.value),
@@ -995,8 +1364,9 @@ var MODALPRODUCT = function () {
                   }
                 }).done(function (res) {
                   document.querySelector(".item-product").innerHTML = res.html;
-                  VOUCHER.paginationList();
-                  VOUCHER.removeProductOfVoucher();
+                  FLASH_SALE.paginationList();
+                  FLASH_SALE.removeProductOfFlashSale();
+                  FLASH_SALE.updateForAll();
                   $("#modalProduct").modal("hide");
                   $("#modalProduct .modal-content").html("");
                 });
@@ -1006,23 +1376,23 @@ var MODALPRODUCT = function () {
 
             case 3:
             case "end":
-              return _context4.stop();
+              return _context5.stop();
           }
         }
-      }, _callee4);
+      }, _callee5);
     }));
-    return _applyProductForVoucher.apply(this, arguments);
+    return _applyProductForFlashSale.apply(this, arguments);
   }
 
   function showAndHideProductSelected() {
     var timeout;
     var inputChecked = document.querySelector("#product_has_promotion");
     if (!inputChecked) return;
-    inputChecked.onchange = /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3() {
+    inputChecked.onchange = /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4() {
       var data;
-      return _regeneratorRuntime().wrap(function _callee3$(_context3) {
+      return _regeneratorRuntime().wrap(function _callee4$(_context4) {
         while (1) {
-          switch (_context3.prev = _context3.next) {
+          switch (_context4.prev = _context4.next) {
             case 0:
               clearTimeout(timeout);
               data = new FormDataRS("filter", false);
@@ -1034,16 +1404,16 @@ var MODALPRODUCT = function () {
 
             case 5:
             case "end":
-              return _context3.stop();
+              return _context4.stop();
           }
         }
-      }, _callee3);
+      }, _callee4);
     }));
   }
 
   function searchProduct(data) {
     $.ajax({
-      url: "tpv/voucher/search-product",
+      url: "tpf/flashsale/search-product",
       type: "POST",
       data: data
     }).done(function (res) {
@@ -1061,605 +1431,508 @@ var MODALPRODUCT = function () {
   };
 }();
 
-window["AJAX_PROMOTION"] = function () {
-  function _createSuccess(json) {
-    if (json.code == 200) {
-      $.simplyToast(json.message, "success");
+var FLASH_SALE = function () {
+  var BASE_URL = "tpf/flashsale/";
 
-      if (json.redirect_url) {
-        return window.location.href = json.redirect_url;
-      }
-    } else {
-      $.simplyToast(json.message, "danger");
-    }
+  function createUrl(url) {
+    return BASE_URL + url;
   }
 
-  function _alert(json) {
-    if (json.code == 200 && json.message) {
-      $.simplyToast(json.message, "success");
-    } else if (json.code == 100 && json.message) {
-      $.simplyToast(json.message, "danger");
-    }
-  }
-
-  return {
-    createSuccess: function createSuccess(json) {
-      _createSuccess(json);
-    },
-    alert: function alert(json) {
-      _alert(json);
-    }
-  };
-}();
-
-var VOUCHER = function () {
-  var typeDiscountOld;
-  var typeSaleOld;
-  var typeLimitOld;
-  var typeUsedOld;
-  var numberSatifyOld;
-  var typeSaleCurrent;
-  var typeDiscountCurrent;
-  var VOUCHER_FOR_SHOP = 1;
-  var VOUCHER_FOR_PRODUCT = 2;
-  var VOUCHER_DISCOUNT_BY_MONEY = 1;
-  var VOUCHER_DISCOUNT_BY_PERCENT = 2;
-  var DICOUNT_PROMOTION = 1;
-  var DICOUNT_REFUND_COIN = 2;
-  var REFUND_LIMIT = 1;
-  var REFUND_NO_LIMIT = 2;
-  var TYPE_USED_NULL = 0;
-  var TYPE_USED_MONEY = 1;
-  var TYPE_USED_FOR_BUY_ORDER = 1;
-  var voucherStorage = new Storage();
-
-  function changeInputMax() {
-    var refundLimitGroup = document.getElementById("refund-limit-group");
-    if (!refundLimitGroup) return;
-    var inputs = refundLimitGroup.querySelectorAll("input");
-    var divChooseFooter = refundLimitGroup.querySelector(".choose-coin__footer");
-    inputs.forEach(function (input) {
-      if (input.name == "max_discount") {
-        input.addEventListener("input", changeTotalCoin, false);
-      } else {
-        var ipMaxDiscount = divChooseFooter.querySelector("input");
-        input.onchange = /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee5() {
-          return _regeneratorRuntime().wrap(function _callee5$(_context5) {
-            while (1) {
-              switch (_context5.prev = _context5.next) {
-                case 0:
-                  setMaxDiscount(refundLimitGroup);
-                  _context5.next = 3;
-                  return ipMaxDiscount.addEventListener("input", changeTotalCoin);
-
-                case 3:
-                  VALIDATE_FORM.refresh();
-
-                case 4:
-                case "end":
-                  return _context5.stop();
-              }
-            }
-          }, _callee5);
-        }));
-      } // Lấy loại giảm giá
-
-
-      var inputRadios = Array.from(inputs).filter(function (input) {
-        return input.type === "radio";
-      });
-      inputRadios.forEach(function (input, indexCurrent) {
-        input.addEventListener("change", function () {
-          var inputMaxFake = divChooseFooter.querySelector("input");
-          var inputMax = divChooseFooter.querySelector("input[name='max_discount']");
-          voucherStorage.set("type_limit-".concat(typeSaleCurrent, "-").concat(typeDiscountCurrent), input.value);
-          typeLimitOld = input.value;
-          voucherStorage.set("max_discount-".concat(typeSaleOld, "-").concat(typeDiscountOld), inputMax.value);
-          var inputMaxIsLimit = input.checked && input.value == REFUND_NO_LIMIT;
-          inputMaxIsLimit ? divChooseFooter.setAttribute("style", "display:none") : divChooseFooter.removeAttribute("style");
-          inputMax.setAttribute("disabled", inputMaxIsLimit);
-          inputMaxFake.setAttribute("disabled", inputMaxIsLimit);
-          VALIDATE_FORM.refresh();
-          setMaxDiscount(refundLimitGroup);
-          getDataMaxDiscount(inputMax);
-        });
-      });
+  function showModalFlashSaleSlot() {
+    $("#flashSaleSlot").on("shown.bs.modal", function (e) {
+      calendar();
     });
   }
 
-  function onInputShowVoucherCode() {
-    var inputVoucher = document.getElementById("voucher_code");
+  var calendar = function calendar() {
+    var _$$pignoseCalendar;
 
-    if (inputVoucher) {
-      inputVoucher.addEventListener("input", /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee6() {
-        var valueInput;
-        return _regeneratorRuntime().wrap(function _callee6$(_context6) {
-          while (1) {
-            switch (_context6.prev = _context6.next) {
-              case 0:
-                _context6.next = 2;
-                return _roniejisa_scripts_assets_js_Helper__WEBPACK_IMPORTED_MODULE_0__["default"].nonAccentVietnamese(inputVoucher.value);
+    if ($(".calendar").length == 0) return;
+    var dateCurrent = document.querySelector("[name=datetime]").value;
+    getSlotTime(dateCurrent);
+    $(".calendar").pignoseCalendar((_$$pignoseCalendar = {
+      lang: "en",
+      theme: "light",
+      date: dateCurrent,
+      format: "DD-MM-YYYY",
+      classOnDays: [],
+      enabledDates: [],
+      disabledDates: [],
+      disabledWeekdays: [],
+      disabledRanges: [],
+      schedules: [],
+      scheduleOptions: {
+        colors: {}
+      },
+      week: 1,
+      monthsLong: ["Tháng 1", "Tháng 2", "Tháng 3", "Tháng 4", "Tháng 5", "Tháng 6", "Tháng 7", "Tháng 8", "Tháng 9", "Tháng 10", "Tháng 11", "Tháng 12"],
+      weeks: ["CN", "T2", "T3", "T4", "T5", "T6", "T7"],
+      pickWeeks: false,
+      initialize: true,
+      multiple: false,
+      toggle: false,
+      buttons: false,
+      reverse: false,
+      modal: false
+    }, _defineProperty(_$$pignoseCalendar, "buttons", false), _defineProperty(_$$pignoseCalendar, "minDate", null), _defineProperty(_$$pignoseCalendar, "maxDate", null), _defineProperty(_$$pignoseCalendar, "select", function select(a) {
+      var _a$;
 
-              case 2:
-                valueInput = _context6.sent;
-                valueInput = valueInput.toUpperCase();
-                inputVoucher.value = valueInput;
-                document.querySelector(".input_code").innerHTML = valueInput;
-                document.querySelector(".voucher-code__suffix").innerHTML = valueInput.length + " ký tự";
-
-              case 7:
-              case "end":
-                return _context6.stop();
-            }
-          }
-        }, _callee6);
-      })));
-    }
-  }
-
-  function changeTypeVoucher() {
-    var typeVoucher = document.querySelectorAll(".voucher-type__item input");
-    typeVoucher.forEach(function (inputType) {
-      inputType.onchange = function () {
-        var applyProduct = document.querySelector(".apply-product");
-        var allCategory = document.querySelector(".voucher-category-all");
-        var applyCategory = document.querySelector(".apply-category");
-
-        if (inputType.checked && inputType.value == VOUCHER_FOR_SHOP) {
-          applyCategory.classList.add("d-none");
-          applyCategory.innerHTML = "";
-          allCategory.classList.remove("d-none");
-          applyProduct.querySelector(".voucher-for").classList.remove("d-none");
-          applyProduct.querySelector("button").classList.add("d-none");
-          applyProduct.querySelector(".item-product").classList.add("d-none");
-        } else if (inputType.value == VOUCHER_FOR_PRODUCT) {
-          applyProduct.querySelector(".voucher-for").classList.add("d-none");
-          applyProduct.querySelector("button").classList.remove("d-none");
-          applyProduct.querySelector(".item-product").classList.remove("d-none");
-          applyCategory.classList.remove("d-none");
-          allCategory.classList.add("d-none");
-          var data = localStorage.getItem(applyCategory.getAttribute("m-checkbox").toUpperCase());
-          $.ajax({
-            url: "tpv/voucher/show-list-category",
-            method: "GET",
-            data: {
-              promotion: "vouchers",
-              data: data
-            }
-          }).done(function (res) {
-            applyCategory.innerHTML = res.html;
-            M_CHECKBOX.refresh();
-            paginateCategoryList();
-            searchCategory();
-            checkedShowCategory();
-          });
-        }
-      };
-    });
-  }
-
-  var paginateCategoryList = function paginateCategoryList() {
-    var paginationEl = document.querySelectorAll("[pagination-category-list] a");
-    paginationEl.forEach(function (el) {
-      el.onclick = function (e) {
-        e.preventDefault();
-        var promotion = el.dataset.promotion;
-        var page = el.dataset.page;
-        var data = localStorage.getItem(el.closest("[m-checkbox]").getAttribute("m-checkbox").toUpperCase());
-        var formData = {
-          page: page,
-          promotion: promotion,
-          data: data,
-          isShow: document.querySelector("#show-category-selected").checked ? 1 : 0
-        };
-        searchCategoryAjax(formData);
-      };
-    });
+      if (!((_a$ = a[0]) !== null && _a$ !== void 0 && _a$._d)) return;
+      var date = _roniejisa_scripts_assets_js_Helper_js__WEBPACK_IMPORTED_MODULE_0__["default"].convertDate(a[0]._d);
+      $(this).closest("td").find('input[name="datetime"]').remove();
+      $(this).closest("tr").find("td:first").prepend('<input name="datetime" type="date" hidden value="' + date + '">');
+      getSlotTime(date);
+    }), _defineProperty(_$$pignoseCalendar, "selectOver", false), _defineProperty(_$$pignoseCalendar, "apply", function apply(a) {}), _defineProperty(_$$pignoseCalendar, "click", null), _$$pignoseCalendar));
   };
 
-  var searchCategoryAjax = function searchCategoryAjax(data) {
+  var getSlotTime = function getSlotTime(date) {
     $.ajax({
-      url: "tpv/voucher/search-category",
-      method: "POST",
-      data: data
-    }).then(function (res) {
-      document.querySelector(".list-table").innerHTML = res.html;
-      paginateCategoryList();
-      M_CHECKBOX.refresh();
+      url: createUrl("find-slot-time"),
+      type: "POST",
+      data: {
+        date: date
+      }
+    }).done(function (json) {
+      var listSlotTime = document.querySelector(".list-hour-prd-flash-check");
+      listSlotTime.innerHTML = json.html;
+
+      if (json.slot_time_id) {
+        listSlotTime.querySelector("input[value=\"".concat(json.slot_time_id, "\"]")).checked = true;
+      }
     });
   };
 
-  var searchCategory = function searchCategory() {
-    var buttonSubmit = document.querySelector(".search-voucher-category");
-    var timeout;
-    if (!buttonSubmit) return;
+  var saveSlotTime = function saveSlotTime() {
+    var btnSubmit = document.querySelector(".btn-create-slot-time");
+    if (!btnSubmit) return;
 
-    buttonSubmit.onclick = function () {
-      clearTimeout(timeout);
-      var q = buttonSubmit.previousElementSibling;
-      var formData = {
-        promotion: "vouchers",
-        data: localStorage.getItem(buttonSubmit.closest("[m-checkbox]").getAttribute("m-checkbox").toUpperCase()),
-        isShow: document.querySelector("#show-category-selected").checked ? 1 : 0,
-        q: q.value
-      };
+    btnSubmit.onclick = function (e) {
+      e.preventDefault();
+      var date = document.querySelector("[type=date]");
+      var time = document.querySelector('[name="slot_time"]:checked');
+
+      if (!date || !time) {
+        return $.simplyToast("Vui lòng chọn ngày và khung giờ", "danger");
+      }
+
+      $.ajax({
+        url: createUrl("create-time-slot"),
+        type: "POST",
+        data: {
+          date: date.value,
+          time_slot: time.value
+        }
+      }).done(function (res) {
+        if (res.code == 100) {
+          return $.simplyToast(res.message, "danger");
+        }
+
+        document.querySelector(".flash-sale-datetime").innerHTML = res.html;
+        editTimeSlot();
+        $("#flashSaleSlot").modal("hide");
+
+        if (document.querySelector(".modal-backdrop")) {
+          document.querySelector(".modal-backdrop").remove();
+          document.body.classList.remove("modal-open");
+        }
+
+        VALIDATE_FORM.refresh();
+
+        FLASH_SALE._();
+      });
+    };
+  };
+
+  var editTimeSlot = function editTimeSlot() {
+    var spanEdit = document.querySelector(".flash-sale-editable");
+    if (!spanEdit) return;
+
+    spanEdit.ondblclick = function () {
+      XHR.send({
+        url: createUrl("edit-time-slot"),
+        method: "POST"
+      }).then(function (res) {
+        if (res.code == 100) {
+          AJAX_PROMOTION.alert(res);
+        } else {
+          document.querySelector(".flash-sale-datetime").innerHTML = res.html;
+
+          FLASH_SALE._();
+        }
+      });
+    };
+  };
+
+  var chooseType = function chooseType() {
+    var type = document.querySelector("[name=promotion_type_id]");
+    if (!type) return;
+    var customList = document.querySelector(".list-result-custom");
+    var searchEl = document.querySelector(".custom-search");
+
+    type.onchange = function () {
+      customList.innerHTML = "";
+
+      if (type.value === "") {
+        customList.classList.add("hidden");
+        return;
+      }
+
+      $.ajax({
+        url: createUrl("choose-promotion-type"),
+        type: "POST",
+        data: {
+          type: type.value
+        }
+      }).done(function (res) {
+        customList.innerHTML = res.html;
+        customList.classList.remove("hidden");
+        searchEl.innerHTML = res.search_html;
+        searchEl.classList.remove("hidden");
+        search();
+        M_CHECKBOX.refresh();
+        paginateCategory();
+      });
+    };
+  };
+
+  function search() {
+    var timeout;
+    var filterSubmit = document.querySelector(".submit-search");
+    if (!filterSubmit) return;
+
+    filterSubmit.onclick = function () {
+      var input = filterSubmit.previousElementSibling;
+      if (input.value == "") clearTimeout(timeout);
       timeout = setTimeout(function () {
-        searchCategoryAjax(formData);
+        var customList = document.querySelector(".list-result-custom");
+        $.ajax({
+          url: createUrl("search"),
+          type: "POST",
+          data: {
+            q: input.value,
+            isShow: document.querySelector("#selected-category").checked ? "on" : 0,
+            listChecked: localStorage.getItem(input.closest(".custom-search").nextElementSibling.querySelector("[m-checkbox]").getAttribute("m-checkbox").toUpperCase())
+          }
+        }).done(function (res) {
+          customList.innerHTML = res.html;
+          paginateCategory();
+          M_CHECKBOX.refresh();
+        });
       }, 300);
     };
-  };
+  }
 
-  function getLimitType(refundLimitGroup) {
-    var inputOfMaxDiscountEl = refundLimitGroup.querySelectorAll("input");
-    var limitCurrent = Array.from(inputOfMaxDiscountEl).find(function (input) {
-      return input.checked;
-    }) ? Array.from(inputOfMaxDiscountEl).find(function (input) {
-      return input.checked;
-    }).value : 1;
-    return {
-      inputOfMaxDiscountEl: inputOfMaxDiscountEl,
-      limitCurrent: limitCurrent
+  function paginateCategory() {
+    var paginate = document.querySelectorAll("[pagination-filter]");
+    paginate.forEach(function (pagination) {
+      var paginateList = pagination.getElementsByTagName("a");
+      Array.from(paginateList).forEach(function (anchorEl) {
+        anchorEl.onclick = function (e) {
+          e.preventDefault();
+          var getAttribute = new FormDataRS("data-category");
+          var data = getAttribute.getObjectData();
+          data["page"] = anchorEl.dataset.page;
+          data["listChecked"] = localStorage.getItem(anchorEl.closest("[m-checkbox]").getAttribute("m-checkbox").toUpperCase());
+          $.ajax({
+            url: createUrl("search"),
+            type: "POST",
+            data: data
+          }).done(function (res) {
+            var customList = document.querySelector(".list-result-custom");
+            customList.innerHTML = res.html;
+            paginateCategory();
+            M_CHECKBOX.refresh();
+          });
+        };
+      });
+    });
+  }
+
+  function changeInputSelected() {
+    var buttonSelected = document.querySelector("#selected-category");
+    if (!buttonSelected) return;
+    var timeout;
+
+    buttonSelected.onchange = function () {
+      timeout = setTimeout(function () {
+        var getAttribute = new FormDataRS("data-category");
+        var data = getAttribute.getObjectData();
+        data["listChecked"] = localStorage.getItem(document.querySelector(".list-result-custom [m-checkbox]").getAttribute("m-checkbox").toUpperCase());
+        ajaxSearch(data);
+      }, 300);
     };
   }
 
-  function changeTypeDiscount() {
-    var refundLimitGroup = document.getElementById("refund-limit-group");
-    if (!refundLimitGroup) return;
-
-    var _getLimitType = getLimitType(refundLimitGroup),
-        limitCurrent = _getLimitType.limitCurrent;
-
-    typeLimitOld = limitCurrent;
-    var inputMaxDiscount = refundLimitGroup.querySelector('input[name="max_discount"]');
-    var typeDiscount = document.getElementById("type-discount");
-    if (!typeDiscount) return;
-
-    typeDiscount.onchange = function (e) {
-      var divType = this.closest(".voucher-discount");
-      var inputDiscount = divType.querySelector('input[name="discount"]');
-      voucherStorage.set("discount-".concat(typeSaleOld, "-").concat(typeDiscountOld), inputDiscount.value !== "" ? parseFloat(inputDiscount.value) : "");
-      voucherStorage.set("max_discount-".concat(typeSaleOld, "-").concat(typeDiscountCurrent), inputMaxDiscount.value !== "" ? parseFloat(inputMaxDiscount.value) : "");
-      voucherStorage.set("type_limit-".concat(typeSaleOld, "-").concat(typeDiscountOld), typeLimitOld);
-      typeDiscountCurrent = typeDiscount.value;
-      typeDiscountOld = typeDiscountCurrent;
-      voucherStorage.set("type_discount-".concat(typeSaleOld), typeDiscountCurrent);
-      setMaxDiscount(refundLimitGroup, typeSaleOld == DICOUNT_PROMOTION ? true : false);
-      setInputDiscount(inputDiscount, typeSaleOld == DICOUNT_PROMOTION ? true : false);
-      getDataDiscount(inputDiscount);
-      VALIDATE_FORM.refresh();
-      changeTypeDiscount();
-    };
+  function ajaxSearch(data) {
+    $.ajax({
+      url: createUrl("search"),
+      type: "POST",
+      data: data
+    }).done(function (res) {
+      var customList = document.querySelector(".list-result-custom");
+      customList.innerHTML = res.html;
+      paginateCategory();
+      M_CHECKBOX.refresh();
+    });
   }
 
-  function changeTypeSale() {
-    var typeSales = document.querySelectorAll(".voucher-saleBy__item input");
-    typeSales.forEach(function (typeSale) {
-      var refundLimitGroup = document.getElementById("refund-limit-group");
-      if (!refundLimitGroup) return;
-      var typeDiscount = document.getElementById("type-discount");
-      var inputDiscount = document.querySelector('input[name="discount"]');
-      var inputMaxDiscount = refundLimitGroup.querySelector('input[name="max_discount"]');
+  function totalDataCurrent() {
+    var items = document.querySelectorAll(".list-product tbody tr");
+    var listData = [];
+    items.forEach(function (item) {
+      listData.push({
+        id: item.dataset.id,
+        discount: item.querySelector("[name='discount']").value,
+        act: item.querySelector("[name='act']").value
+      });
+    });
+    return listData;
+  }
 
-      var _getLimitType2 = getLimitType(refundLimitGroup),
-          limitCurrent = _getLimitType2.limitCurrent;
+  var _saveProductCurrent = /*#__PURE__*/function () {
+    var _ref5 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee6() {
+      var listData;
+      return _regeneratorRuntime().wrap(function _callee6$(_context6) {
+        while (1) {
+          switch (_context6.prev = _context6.next) {
+            case 0:
+              listData = totalDataCurrent();
+              _context6.next = 3;
+              return XHR.send({
+                url: "tpf/flashsale/save-product-current",
+                method: "POST",
+                data: {
+                  listItems: JSON.stringify(listData)
+                }
+              }).then(function (res) {
+                return true;
+              });
 
-      typeLimitOld = limitCurrent; // lưu lại giá trị của loại lúc bắt đầu
+            case 3:
+              return _context6.abrupt("return", _context6.sent);
 
-      typeDiscountOld = typeDiscount.value; // Lưu dữ liệu cũ của typeVoucher
-
-      buildOldData(typeSale, inputDiscount, inputMaxDiscount); //Thay đổi loại mã giảm giá
-
-      typeSale.onchange = function () {
-        typeSaleCurrent = typeSale.value; // Lưu lại giá trị trước khi thay đổi loại mã giảm giá
-
-        saveDataTypeChange(inputDiscount, inputMaxDiscount); // Lấy lại loại giảm giá từ trong storage
-
-        typeDiscountOld = voucherStorage.has("type_discount-".concat(typeSale.value)) ? voucherStorage.get("type_discount-".concat(typeSale.value)) : document.getElementById("type-discount").value;
-        var isPromotion = true;
-
-        if (this.value == DICOUNT_PROMOTION) {
-          isPromotion = true;
-        } else if (this.value == DICOUNT_REFUND_COIN) {
-          isPromotion = false;
+            case 4:
+            case "end":
+              return _context6.stop();
+          }
         }
+      }, _callee6);
+    }));
 
-        setTypeDiscount(typeDiscount, isPromotion);
-        typeDiscountCurrent = document.getElementById("type-discount").value;
-        typeLimitOld = voucherStorage.has("type_limit-".concat(typeSale.value, "-").concat(typeDiscountCurrent)) ? voucherStorage.get("type_limit-".concat(typeSale.value, "-").concat(typeDiscountCurrent)) : 1;
-        setMaxDiscount(refundLimitGroup, isPromotion);
-        setInputDiscount(inputDiscount, isPromotion);
-        typeSaleOld = typeSale.value; // Xử lý data inputDiscount
+    return function saveProductCurrent() {
+      return _ref5.apply(this, arguments);
+    };
+  }();
 
-        getDataDiscount(inputDiscount); // Xử lý data inputMaxDiscount
+  function _saveProductFlashSale() {
+    var buttonSaveProduct = document.querySelector(".save-product-flashsale");
+    if (!buttonSaveProduct) return;
+    buttonSaveProduct.onclick = /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee7() {
+      return _regeneratorRuntime().wrap(function _callee7$(_context7) {
+        while (1) {
+          switch (_context7.prev = _context7.next) {
+            case 0:
+              _context7.next = 2;
+              return _saveProductCurrent();
 
-        getDataMaxDiscount(inputMaxDiscount);
-        VALIDATE_FORM.refresh();
-        changeTypeDiscount();
-      };
-    });
-  }
+            case 2:
+              XHR.send({
+                url: "tpf/flashsale/save-product",
+                method: "POST"
+              }).then(function (res) {
+                $.simplyToast(res.message, "success");
+                window.location.href = res.redirect_url;
+              });
 
-  function buildOldData(typeSale, inputDiscount, ipMaxDiscount) {
-    typeDiscountCurrent == VOUCHER_DISCOUNT_BY_PERCENT ? voucherStorage.set("type_limit-".concat(typeSale.value, "-").concat(VOUCHER_DISCOUNT_BY_PERCENT), typeLimitOld) : voucherStorage.set("type_limit-".concat(typeSale.value, "-").concat(VOUCHER_DISCOUNT_BY_PERCENT), typeLimitOld);
-    if (!typeSale.checked) return;
-    typeSaleOld = typeSale.value;
-    typeSaleCurrent = typeSaleOld;
-    voucherStorage.set("discount-".concat(typeSaleOld, "-").concat(typeDiscountOld), inputDiscount.value !== "" ? parseFloat(inputDiscount.value) : "");
-    voucherStorage.set("max_discount-".concat(typeSaleOld, "-").concat(typeDiscountOld), ipMaxDiscount.value !== "" ? parseFloat(ipMaxDiscount.value) : "");
-    voucherStorage.set("type_discount-".concat(typeSaleOld), typeDiscountCurrent);
-  }
-
-  function getDataMaxDiscount(ipMaxDiscount) {
-    var fakeInputMaxDiscount = ipMaxDiscount.previousElementSibling;
-    var totalCoinAndMoney = ipMaxDiscount.closest(".choose-coin__footer").querySelector(".total-coin");
-    fakeInputMaxDiscount.value = "";
-    ipMaxDiscount.value = "";
-    totalCoinAndMoney.innerHTML = "";
-    if (!voucherStorage.has("max_discount-".concat(typeSaleOld, "-").concat(typeDiscountOld))) return;
-    var valueMaxDiscount = voucherStorage.get("max_discount-".concat(typeSaleOld, "-").concat(typeDiscountOld));
-    var money = _roniejisa_scripts_assets_js_Helper__WEBPACK_IMPORTED_MODULE_0__["default"].number_format(valueMaxDiscount);
-    fakeInputMaxDiscount.value = valueMaxDiscount != undefined ? money : "";
-    ipMaxDiscount.value = valueMaxDiscount != undefined ? valueMaxDiscount : "";
-    totalCoinAndMoney.innerHTML = money;
-  }
-
-  function getDataDiscount(inputDiscount) {
-    var valueOld = voucherStorage.get("discount-".concat(typeSaleOld, "-").concat(typeDiscountOld));
-    inputDiscount.previousElementSibling.value = valueOld != undefined ? _roniejisa_scripts_assets_js_Helper__WEBPACK_IMPORTED_MODULE_0__["default"].number_format(valueOld) : "";
-    inputDiscount.value = valueOld != undefined ? valueOld : "";
-  }
-
-  function setMaxDiscount(refundLimitGroup) {
-    var isPromotion = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
-    var divChooseFooter = refundLimitGroup.querySelector(".choose-coin__footer");
-    var prefixMoneyMaxValue = divChooseFooter.querySelector(".prefix-money");
-    var divInputLimit = refundLimitGroup.querySelector(".input-refund-limit");
-    var ipMaxDiscount = divInputLimit.querySelector('[name="max_discount"]');
-    var prefixMaxDiscount = divInputLimit.querySelector(".limit-prefix");
-
-    var _getLimitType3 = getLimitType(refundLimitGroup),
-        inputOfMaxDiscountEl = _getLimitType3.inputOfMaxDiscountEl;
-
-    ipMaxDiscount.placeholder = typeDiscountCurrent == VOUCHER_DISCOUNT_BY_MONEY ? "Nhập số tiền tối đa" : "Nhập số COIN tối đa";
-    prefixMaxDiscount.innerHTML = isPromotion ? "VND" : "COIN";
-    prefixMoneyMaxValue.innerHTML = isPromotion ? "VND" : "COIN";
-    var isLimit = voucherStorage.get("type_limit-".concat(typeSaleCurrent, "-").concat(typeDiscountCurrent)); // Kiểm tra không giới hạn hoặc loại voucher bằng tiền thì ẩn ô nhập giới hạn
-
-    typeDiscountCurrent == VOUCHER_DISCOUNT_BY_MONEY || isLimit == REFUND_NO_LIMIT ? divChooseFooter.style.display = "none" : divChooseFooter.removeAttribute("style"); // Kiểm tra nếu loại voucher bằng tiền thì ẩn phần chọn giới hạn
-
-    typeDiscountCurrent == VOUCHER_DISCOUNT_BY_MONEY ? refundLimitGroup.style.display = "none" : refundLimitGroup.removeAttribute("style"); // Kiểm tra nếu loại voucher là phần trăm thì mở chọn giới hạn
-
-    Array.from(inputOfMaxDiscountEl).filter(function (input) {
-      return input.type == "radio";
-    }).forEach(function (input) {
-      input.disabled = typeDiscountCurrent != VOUCHER_DISCOUNT_BY_PERCENT;
-      input.checked = input.value == isLimit;
-    });
-    Array.from(inputOfMaxDiscountEl).filter(function (input) {
-      return input.type != "radio";
-    }).forEach(function (input) {
-      input.disabled = typeDiscountCurrent != VOUCHER_DISCOUNT_BY_PERCENT && isLimit == REFUND_NO_LIMIT;
-    });
-  }
-
-  function setInputDiscount(inputDiscount) {
-    var isPromotion = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
-    var prefixIpDiscount = inputDiscount.parentElement.querySelector(".voucher-discount__prefix");
-    var inputDiscountFake = inputDiscount.previousElementSibling;
-    isPromotion ? prefixIpDiscount.innerHTML = typeDiscountOld == VOUCHER_DISCOUNT_BY_MONEY ? "VND" : "% Giảm" : prefixIpDiscount.innerHTML = "% Hoàn coin";
-    inputDiscountFake.placeholder = typeDiscountOld == VOUCHER_DISCOUNT_BY_MONEY ? "Số tiền giảm" : "Nhập % giảm giá lớn hơn 1";
-    inputDiscountFake.setAttribute("rules", typeDiscountOld == VOUCHER_DISCOUNT_BY_MONEY ? "required" : "required||min:5||max:90");
-    return true;
-  }
-
-  function setTypeDiscount(typeDiscount) {
-    var isPromotion = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
-    typeDiscount.innerHTML = isPromotion ? " <option value=\"".concat(VOUCHER_DISCOUNT_BY_MONEY, "\"\n                    ").concat(typeDiscountOld == VOUCHER_DISCOUNT_BY_MONEY ? "selected" : "", ">\n                        Theo s\u1ED1 ti\u1EC1n\n                </option>\n                <option value=\"").concat(VOUCHER_DISCOUNT_BY_PERCENT, "\"\n                    ").concat(typeDiscountOld == VOUCHER_DISCOUNT_BY_PERCENT ? "selected" : "", ">\n                        Theo ph\u1EA7n tr\u0103m\n                </option>") : "<option value=\"".concat(VOUCHER_DISCOUNT_BY_PERCENT, "\">Theo ph\u1EA7n tr\u0103m</option>");
-  }
-
-  function saveDataTypeChange(inputDiscount, inputMaxDiscount) {
-    voucherStorage.set("discount-".concat(typeSaleOld, "-").concat(typeDiscountOld), inputDiscount.value !== "" ? parseFloat(inputDiscount.value) : "");
-    voucherStorage.set("max_discount-".concat(typeSaleOld, "-").concat(typeDiscountOld), inputMaxDiscount.value !== "" ? parseFloat(inputMaxDiscount.value) : "");
-    voucherStorage.set("type_discount-".concat(typeSaleOld), typeDiscountOld);
-  }
-
-  function changeTotalCoin() {
-    document.querySelector(".total-coin").innerHTML = _roniejisa_scripts_assets_js_Helper__WEBPACK_IMPORTED_MODULE_0__["default"].number_format(this.value.replaceAll(".", "").replaceAll(",", ""));
-  }
-
-  function changeTypeUsed() {
-    var inputRadios = document.querySelectorAll("[name='type_used']");
-    var inputSatisfy = document.querySelector("[name='number_satisfy']");
-    if (!inputSatisfy) return;
-    typeUsedOld = Array.from(inputRadios).find(function (input) {
-      return input.checked;
-    }).value;
-    setDataOldSatisfy(typeUsedOld, inputSatisfy.value);
-    inputRadios.forEach(function (item) {
-      item.onclick = function () {
-        setDataOldSatisfy(typeUsedOld, inputSatisfy.value);
-        typeUsedOld = item.value;
-        inputSatisfy.disabled = item.value == TYPE_USED_NULL;
-        inputSatisfy.value = item.value == TYPE_USED_NULL ? "" : getDataOldSatisfy(typeUsedOld);
-      };
-    });
-  }
-
-  function getDataOldSatisfy(valueInput) {
-    var value = voucherStorage.get("type_used-".concat(valueInput));
-    return !value ? "" : value;
-  }
-
-  function setDataOldSatisfy(typeUsedOld, valueNumberSatisfy) {
-    voucherStorage.set("type_used-".concat(typeUsedOld), valueNumberSatisfy);
-  }
-
-  function sendVoucher() {
-    var button = document.querySelector(".send-voucher-for-user.all");
-    if (!button) return;
-    var timeout;
-
-    button.onclick = function (e) {
-      e.preventDefault();
-      clearTimeout(timeout);
-      timeout = setTimeout(function () {
-        XHR.send({
-          url: "tpv/voucher/send",
-          method: "POST",
-          data: {
-            voucher_id: button.dataset.id
+            case 3:
+            case "end":
+              return _context7.stop();
           }
-        }).then(function (res) {
-          AJAX_PROMOTION.createSuccess(res);
-        });
-      }, 400);
+        }
+      }, _callee7);
+    }));
+  }
+
+  function _updateForAll() {
+    var buttonUpdateForAll = document.querySelector(".update-for-all");
+    if (!buttonUpdateForAll) return;
+
+    buttonUpdateForAll.onclick = function () {
+      XHR.send({
+        url: "tpf/flashsale/update-for-all",
+        method: "POST",
+        data: {
+          act: document.querySelector("[name='act_all']").value,
+          discount: document.querySelector("[name='discount_all']").value
+        }
+      }).then(function (res) {
+        var listProduct = document.querySelector(".list-product");
+        listProduct.innerHTML = res.html;
+        FLASH_SALE.paginationList();
+        FLASH_SALE.removeProductOfFlashSale();
+      });
     };
   }
 
-  function sendVoucherSelect() {
-    var button = document.querySelector(".send-voucher-for-user.select");
-    if (!button) return;
-
-    if (localStorage.getItem("SET_NOTIFICAITON_VOUCHER_".concat(button.dataset.id))) {
-      localStorage.removeItem("SET_NOTIFICAITON_VOUCHER_".concat(button.dataset.id));
-    }
-
-    var timeout;
-
-    button.onclick = function (e) {
-      e.preventDefault();
-      clearTimeout(timeout);
-      timeout = setTimeout(function () {
-        XHR.send({
-          url: "tpv/voucher/send",
-          method: "POST",
-          data: {
-            voucher_id: button.dataset.id,
-            id: JSON.parse(localStorage.getItem("SET_NOTIFICAITON_VOUCHER_".concat(button.dataset.id)))
-          }
-        }).then(function (res) {
-          AJAX_PROMOTION.createSuccess(res);
-        });
-      }, 400);
-    };
-  }
-
-  var _paginationList = function paginationList() {
-    var paginationEl = document.querySelectorAll("[pagination-voucher-list] a");
+  var paginateLoad = function paginateLoad() {
+    var paginationEl = document.querySelectorAll("[pagination-flashsale-list] a");
     paginationEl.forEach(function (el) {
-      el.onclick = function (e) {
-        e.preventDefault();
-        var promotion = el.dataset.promotion;
-        var page = el.dataset.page;
-        $.ajax({
-          url: "tpv/voucher/load-product",
-          method: "POST",
-          data: {
-            page: page,
-            promotion: promotion
-          }
-        }).then(function (res) {
-          el.closest(".list-product").innerHTML = res.html;
+      el.onclick = /*#__PURE__*/function () {
+        var _ref7 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee8(e) {
+          var promotion, page;
+          return _regeneratorRuntime().wrap(function _callee8$(_context8) {
+            while (1) {
+              switch (_context8.prev = _context8.next) {
+                case 0:
+                  e.preventDefault();
+                  _context8.next = 3;
+                  return _saveProductCurrent();
 
-          _paginationList();
+                case 3:
+                  promotion = el.dataset.promotion;
+                  page = el.dataset.page;
+                  $.ajax({
+                    url: "tpf/flashsale/load-product",
+                    method: "POST",
+                    data: {
+                      page: page,
+                      promotion: promotion
+                    }
+                  }).then(function (res) {
+                    el.closest(".list-product").innerHTML = res.html;
+                    FLASH_SALE.paginationList();
+                    FLASH_SALE.removeProductOfFlashSale();
+                  });
 
-          _removeProductOfVoucher();
-        });
-      };
+                case 6:
+                case "end":
+                  return _context8.stop();
+              }
+            }
+          }, _callee8);
+        }));
+
+        return function (_x4) {
+          return _ref7.apply(this, arguments);
+        };
+      }();
     });
   };
 
-  function _removeProductOfVoucher() {
+  var removeProduct = function removeProduct() {
     var buttonRemove = document.querySelectorAll(".item-product .action button");
     buttonRemove.forEach(function (button) {
       button.onclick = function () {
         bootbox.confirm("Bạn có muốn xóa sản phẩm này!", function (result) {
           if (result) {
             $.ajax({
-              url: "tpv/voucher/remove-product",
+              url: "tpf/flashsale/remove-product",
               method: "POST",
               data: {
                 id: button.closest("tr").dataset.id
               }
             }).done(function (res) {
               if (res.count == 0) {
-                document.querySelector(".item-product").innerHTML = "<button type=\"button\" class=\"btn bg-green-400 text-white\" data-toggle=\"modal\" data-target=\"#modalProduct\" data-type=\"vouchers\">\n                        Th\xEAm s\u1EA3n ph\u1EA9m\n                    </button>";
+                document.querySelector(".item-product").innerHTML = "<button type=\"button\" class=\"btn bg-green-400 text-white\" data-toggle=\"modal\" data-target=\"#modalProduct\" data-type=\"flashsale\">\n                        Th\xEAm s\u1EA3n ph\u1EA9m\n                    </button>";
               } else {
                 button.closest(".list-product").innerHTML = res.html;
                 document.querySelector(".count-product-chooses").innerHTML = res.count;
-
-                _paginationList();
-
-                _removeProductOfVoucher();
+                FLASH_SALE.paginationList();
+                FLASH_SALE.removeProductOfFlashSale();
               }
             });
           }
         });
       };
     });
-  }
-
-  var checkedShowCategory = function checkedShowCategory() {
-    var inputChecked = document.querySelector("#show-category-selected");
-    if (!inputChecked) return;
-    var timeout;
-
-    inputChecked.onchange = function () {
-      clearTimeout(timeout);
-      timeout = setTimeout(function () {
-        var data = {
-          promotion: "vouchers",
-          data: document.querySelector('[name="list_category"]').value,
-          isShow: inputChecked.checked ? 1 : 0,
-          q: document.querySelector(".category-filter input").value
-        };
-        searchCategoryAjax(data);
-      }, timeout);
-      paginateCategoryList();
-    };
   };
 
   return {
     _: function _() {
-      onInputShowVoucherCode();
-      changeTypeVoucher();
-      changeTypeDiscount();
-      changeTypeSale();
-      sendVoucher();
-      changeInputMax();
-      sendVoucherSelect();
-      changeTypeUsed();
+      showModalFlashSaleSlot();
+      saveSlotTime();
+      editTimeSlot();
+      chooseType();
+      search();
+      paginateCategory();
 
-      _paginationList();
+      _saveProductFlashSale();
 
-      checkedShowCategory();
+      changeInputSelected();
 
-      _removeProductOfVoucher();
+      _updateForAll();
 
-      searchCategory();
-      localStorage.setItem("CATEGORY_CHOOSE_VOUCHER", "");
-
-      if (typeof M_CHECKBOX !== "undefined") {
-        M_CHECKBOX.refresh();
-      }
-
-      paginateCategoryList();
+      paginateLoad();
+      M_CHECKBOX.refresh();
+    },
+    saveProductFlashSale: function saveProductFlashSale() {
+      _saveProductFlashSale();
+    },
+    updateForAll: function updateForAll() {
+      _updateForAll();
     },
     paginationList: function paginationList() {
-      _paginationList();
+      paginateLoad();
     },
-    removeProductOfVoucher: function removeProductOfVoucher() {
-      _removeProductOfVoucher();
+    saveProductCurrent: function () {
+      var _saveProductCurrent2 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee9() {
+        return _regeneratorRuntime().wrap(function _callee9$(_context9) {
+          while (1) {
+            switch (_context9.prev = _context9.next) {
+              case 0:
+                _context9.next = 2;
+                return _saveProductCurrent();
+
+              case 2:
+              case "end":
+                return _context9.stop();
+            }
+          }
+        }, _callee9);
+      }));
+
+      function saveProductCurrent() {
+        return _saveProductCurrent2.apply(this, arguments);
+      }
+
+      return saveProductCurrent;
+    }(),
+    removeProductOfFlashSale: function removeProductOfFlashSale() {
+      removeProduct();
+    }
+  };
+}();
+
+window["FLASH_SALE"] = function () {
+  return {
+    createSuccess: function createSuccess(json) {
+      if (json.code == 200) {
+        $.simplyToast(json.message, "success");
+
+        if (json.redirect_url) {
+          window.location.href = json.redirect_url;
+        }
+      } else {
+        $.simplyToast(json.message, "danger");
+      }
+    },
+    checkTime: function checkTime() {
+      if (document.querySelector('button[data-target="#flashSaleSlot"]')) {
+        $.simplyToast("Vui lòng chọn khung giờ", "danger");
+        return false;
+      }
+
+      return true;
     }
   };
 }();
 
 window.addEventListener("DOMContentLoaded", function () {
-  VOUCHER._();
-
-  MODALPRODUCT._();
+  FLASH_SALE._();
 
   BASE_VOUCHER._();
+
+  MODALPRODUCT._();
 });
 
 /***/ }),

@@ -290,5 +290,6 @@
     "/admin/promotion/assets/_rs/plugins/tinymce/tinymce.min.js": "/admin/promotion/assets/_rs/plugins/tinymce/tinymce.min.js",
     "/admin/promotion/assets/_rs/plugins/tom-select/tom-select.complete.min.js": "/admin/promotion/assets/_rs/plugins/tom-select/tom-select.complete.min.js",
     "/admin/promotion/assets/_rs/plugins/tom-select/tom-select.css": "/admin/promotion/assets/_rs/plugins/tom-select/tom-select.css",
-    "/admin/promotion/assets/_rs/works/js/address.js": "/admin/promotion/assets/_rs/works/js/address.js"
+    "/admin/promotion/assets/_rs/works/js/address.js": "/admin/promotion/assets/_rs/works/js/address.js",
+    "/assets/promotion/voucher/js/client.js~merged": "/assets/promotion/voucher/js/client.js~merged"
 }

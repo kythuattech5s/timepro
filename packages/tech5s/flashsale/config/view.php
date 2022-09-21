@@ -3,16 +3,16 @@ return [
     'flash_sales' => [
         'view' => [
             'add' => [
-                'class' => '\Tech5s\Voucher\Controllers\VoucherController',
-                'method' => 'showFormAddVoucher',
+                'class' => '\Tech5s\FlashSale\Controllers\FlashSaleController',
+                'method' => 'showFormAdd',
             ],
             'edit' => [
-                'class' => '\Tech5s\Voucher\Controllers\VoucherController',
-                'method' => 'editFormVoucher',
+                'class' => '\Tech5s\FlashSale\Controllers\FlashSaleController',
+                'method' => 'editForm',
             ],
             'copy' => [
-                'class' => '\Tech5s\Voucher\Controllers\VoucherController',
-                'method' => 'copyFormVoucher',
+                'class' => '\Tech5s\FlashSale\Controllers\FlashSaleController',
+                'method' => 'copyForm',
             ],
         ],
     ],
