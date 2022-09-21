@@ -1,5 +1,5 @@
-"use strict";
-import Helper from "../../../../roniejisa/scripts/assets/js/Helper";
+import Helper from "../../../../roniejisa/scripts/assets/js/Helper.js";
+
 var BASE_VOUCHER = (() => {
     var scroll = () => {
         const element = document.querySelector(".frag-footer");
@@ -44,11 +44,9 @@ var BASE_VOUCHER = (() => {
 
 var MODALPRODUCT = (() => {
     function showModal() {
-        $("#modalProduct").on("shown.bs.modal", function (e) {
+        $("#modalProduct").on("shown.bs.modal", async function (e) {
             const _this = $(this);
-            if (e.relatedTarget.dataset.typeProduct == "sub") {
-                saveDataCurrent();
-            }
+            await FLASH_SALE.saveProductCurrent();
 
             var dataConfig = {
                 promotion: e.relatedTarget.dataset.type,
@@ -72,7 +70,7 @@ var MODALPRODUCT = (() => {
                 ).value;
             }
             $.ajax({
-                url: "tpv/voucher/show-product",
+                url: "tpf/flashsale/show-product",
                 data: dataConfig,
             }).done(function (res) {
                 _this.find(".modal-content").html(res.html);
@@ -144,35 +142,6 @@ var MODALPRODUCT = (() => {
         };
     }
 
-    function saveDataCurrent(type) {
-        const itemProductSub = document.querySelector(".item-product-sub");
-        const data = [];
-        const items = itemProductSub.querySelectorAll("[c-check-item]");
-        if (items.length == 0) return;
-        items.forEach((item, key) => {
-            const itemChildChecked = item.querySelectorAll("[c-single]");
-            itemChildChecked.forEach((itemChild) => {
-                itemChild = itemChild.closest(".item-child");
-                const inputs = itemChild.querySelectorAll("[name]");
-                const dataItem = XHR.buildData(inputs, true);
-                data.push(dataItem);
-            });
-        });
-
-        return $.ajax({
-            url: "sys-promotion/deals/save-product-sub",
-            method: "POST",
-            data: {
-                data: JSON.stringify(data),
-            },
-        }).done(function (res) {
-            if (res.code == 200) {
-                return true;
-            }
-            return false;
-        });
-    }
-
     function applyProductForPromotion() {
         const buttonChooseProduct = document.querySelector(
             ".choose-product-button"
@@ -182,26 +151,21 @@ var MODALPRODUCT = (() => {
                 const promotion = buttonChooseProduct.dataset.type;
                 const action = buttonChooseProduct.dataset.action;
                 const type = buttonChooseProduct.dataset.typeProduct;
-                var isPass = true;
-                switch (promotion) {
-                    case "vouchers":
-                        isPass = await applyProductForVoucher(
-                            promotion,
-                            action
-                        );
-                        break;
-                }
+                const isPass = await applyProductForFlashSale(
+                    promotion,
+                    action
+                );
             };
         }
     }
 
-    async function applyProductForVoucher(promotion) {
+    async function applyProductForFlashSale(promotion) {
         const productChoose = document.querySelector(
             'textarea[name="product_choose"]'
         );
         if (productChoose !== null) {
             $.ajax({
-                url: "tpv/voucher/choose-product-for-promotion",
+                url: "tpf/flashsale/choose-product-for-promotion",
                 method: "POST",
                 data: {
                     item_id: JSON.parse(productChoose.value),
@@ -209,8 +173,9 @@ var MODALPRODUCT = (() => {
                 },
             }).done((res) => {
                 document.querySelector(".item-product").innerHTML = res.html;
-                VOUCHER.paginationList();
-                VOUCHER.removeProductOfVoucher();
+                FLASH_SALE.paginationList();
+                FLASH_SALE.removeProductOfFlashSale();
+                FLASH_SALE.updateForAll();
                 $("#modalProduct").modal("hide");
                 $("#modalProduct .modal-content").html("");
             });
@@ -240,7 +205,7 @@ var MODALPRODUCT = (() => {
 
     function searchProduct(data) {
         $.ajax({
-            url: "tpv/voucher/search-product",
+            url: "tpf/flashsale/search-product",
             type: "POST",
             data: data,
         }).done((res) => {
@@ -257,676 +222,372 @@ var MODALPRODUCT = (() => {
     };
 })();
 
-window["AJAX_PROMOTION"] = (function () {
-    function createSuccess(json) {
-        if (json.code == 200) {
-            $.simplyToast(json.message, "success");
-            if (json.redirect_url) {
-                return (window.location.href = json.redirect_url);
-            }
-        } else {
-            $.simplyToast(json.message, "danger");
-        }
+var FLASH_SALE = (() => {
+    const BASE_URL = "tpf/flashsale/";
+
+    function createUrl(url) {
+        return BASE_URL + url;
     }
 
-    function alert(json) {
-        if (json.code == 200 && json.message) {
-            $.simplyToast(json.message, "success");
-        } else if (json.code == 100 && json.message) {
-            $.simplyToast(json.message, "danger");
-        }
-    }
-    return {
-        createSuccess: function (json) {
-            createSuccess(json);
-        },
-        alert: function (json) {
-            alert(json);
-        },
-    };
-})();
-
-var VOUCHER = (() => {
-    let typeDiscountOld;
-    let typeSaleOld;
-    let typeLimitOld;
-    let typeUsedOld;
-    let numberSatifyOld;
-    let typeSaleCurrent;
-    let typeDiscountCurrent;
-    const VOUCHER_FOR_SHOP = 1;
-    const VOUCHER_FOR_PRODUCT = 2;
-
-    const VOUCHER_DISCOUNT_BY_MONEY = 1;
-    const VOUCHER_DISCOUNT_BY_PERCENT = 2;
-
-    const DICOUNT_PROMOTION = 1;
-    const DICOUNT_REFUND_COIN = 2;
-
-    const REFUND_LIMIT = 1;
-    const REFUND_NO_LIMIT = 2;
-
-    const TYPE_USED_NULL = 0;
-    const TYPE_USED_MONEY = 1;
-    const TYPE_USED_FOR_BUY_ORDER = 1;
-
-    const voucherStorage = new Storage();
-
-    function changeInputMax() {
-        const refundLimitGroup = document.getElementById("refund-limit-group");
-        if (!refundLimitGroup) return;
-        const inputs = refundLimitGroup.querySelectorAll("input");
-        const divChooseFooter = refundLimitGroup.querySelector(
-            ".choose-coin__footer"
-        );
-        inputs.forEach(function (input) {
-            if (input.name == "max_discount") {
-                input.addEventListener("input", changeTotalCoin, false);
-            } else {
-                const ipMaxDiscount = divChooseFooter.querySelector("input");
-                input.onchange = async function () {
-                    setMaxDiscount(refundLimitGroup);
-                    await ipMaxDiscount.addEventListener(
-                        "input",
-                        changeTotalCoin
-                    );
-                    VALIDATE_FORM.refresh();
-                };
-            }
-
-            // Lấy loại giảm giá
-            const inputRadios = Array.from(inputs).filter(
-                (input) => input.type === "radio"
-            );
-
-            inputRadios.forEach(function (input, indexCurrent) {
-                input.addEventListener("change", function () {
-                    const inputMaxFake = divChooseFooter.querySelector("input");
-                    const inputMax = divChooseFooter.querySelector(
-                        "input[name='max_discount']"
-                    );
-
-                    voucherStorage.set(
-                        `type_limit-${typeSaleCurrent}-${typeDiscountCurrent}`,
-                        input.value
-                    );
-                    typeLimitOld = input.value;
-                    voucherStorage.set(
-                        `max_discount-${typeSaleOld}-${typeDiscountOld}`,
-                        inputMax.value
-                    );
-
-                    const inputMaxIsLimit =
-                        input.checked && input.value == REFUND_NO_LIMIT;
-                    inputMaxIsLimit
-                        ? divChooseFooter.setAttribute("style", "display:none")
-                        : divChooseFooter.removeAttribute("style");
-                    inputMax.setAttribute("disabled", inputMaxIsLimit);
-                    inputMaxFake.setAttribute("disabled", inputMaxIsLimit);
-                    VALIDATE_FORM.refresh();
-                    setMaxDiscount(refundLimitGroup);
-                    getDataMaxDiscount(inputMax);
-                });
-            });
+    function showModalFlashSaleSlot() {
+        $("#flashSaleSlot").on("shown.bs.modal", function (e) {
+            calendar();
         });
     }
 
-    function onInputShowVoucherCode() {
-        const inputVoucher = document.getElementById("voucher_code");
-        if (inputVoucher) {
-            inputVoucher.addEventListener("input", async () => {
-                var valueInput = await Helper.nonAccentVietnamese(
-                    inputVoucher.value
-                );
-                valueInput = valueInput.toUpperCase();
-                inputVoucher.value = valueInput;
-                document.querySelector(".input_code").innerHTML = valueInput;
-                document.querySelector(".voucher-code__suffix").innerHTML =
-                    valueInput.length + " ký tự";
-            });
-        }
-    }
-
-    function changeTypeVoucher() {
-        const typeVoucher = document.querySelectorAll(
-            ".voucher-type__item input"
-        );
-        typeVoucher.forEach(function (inputType) {
-            inputType.onchange = function () {
-                const applyProduct = document.querySelector(".apply-product");
-                const allCategory = document.querySelector(
-                    ".voucher-category-all"
-                );
-                const applyCategory = document.querySelector(".apply-category");
-                if (inputType.checked && inputType.value == VOUCHER_FOR_SHOP) {
-                    applyCategory.classList.add("d-none");
-                    applyCategory.innerHTML = "";
-                    allCategory.classList.remove("d-none");
-                    applyProduct
-                        .querySelector(".voucher-for")
-                        .classList.remove("d-none");
-                    applyProduct
-                        .querySelector("button")
-                        .classList.add("d-none");
-                    applyProduct
-                        .querySelector(".item-product")
-                        .classList.add("d-none");
-                } else if (inputType.value == VOUCHER_FOR_PRODUCT) {
-                    applyProduct
-                        .querySelector(".voucher-for")
-                        .classList.add("d-none");
-                    applyProduct
-                        .querySelector("button")
-                        .classList.remove("d-none");
-                    applyProduct
-                        .querySelector(".item-product")
-                        .classList.remove("d-none");
-
-                    applyCategory.classList.remove("d-none");
-                    allCategory.classList.add("d-none");
-                    const data = localStorage.getItem(
-                        applyCategory.getAttribute("m-checkbox").toUpperCase()
+    var calendar = function () {
+        if ($(".calendar").length == 0) return;
+        const dateCurrent = document.querySelector("[name=datetime]").value;
+        getSlotTime(dateCurrent);
+        $(".calendar").pignoseCalendar({
+            lang: "en",
+            theme: "light",
+            date: dateCurrent,
+            format: "DD-MM-YYYY",
+            classOnDays: [],
+            enabledDates: [],
+            disabledDates: [],
+            disabledWeekdays: [],
+            disabledRanges: [],
+            schedules: [],
+            scheduleOptions: {
+                colors: {},
+            },
+            week: 1,
+            monthsLong: [
+                "Tháng 1",
+                "Tháng 2",
+                "Tháng 3",
+                "Tháng 4",
+                "Tháng 5",
+                "Tháng 6",
+                "Tháng 7",
+                "Tháng 8",
+                "Tháng 9",
+                "Tháng 10",
+                "Tháng 11",
+                "Tháng 12",
+            ],
+            weeks: ["CN", "T2", "T3", "T4", "T5", "T6", "T7"],
+            pickWeeks: false,
+            initialize: true,
+            multiple: false,
+            toggle: false,
+            buttons: false,
+            reverse: false,
+            modal: false,
+            buttons: false,
+            minDate: null,
+            maxDate: null,
+            select: function (a) {
+                if (!a[0]?._d) return;
+                var date = Helper.convertDate(a[0]._d);
+                $(this).closest("td").find('input[name="datetime"]').remove();
+                $(this)
+                    .closest("tr")
+                    .find("td:first")
+                    .prepend(
+                        '<input name="datetime" type="date" hidden value="' +
+                            date +
+                            '">'
                     );
-                    $.ajax({
-                        url: "tpv/voucher/show-list-category",
-                        method: "GET",
-                        data: {
-                            promotion: "vouchers",
-                            data: data,
-                        },
-                    }).done((res) => {
-                        applyCategory.innerHTML = res.html;
-                        M_CHECKBOX.refresh();
-                        paginateCategoryList();
-                        searchCategory();
-                        checkedShowCategory();
-                    });
-                }
-            };
-        });
-    }
-
-    const paginateCategoryList = () => {
-        const paginationEl = document.querySelectorAll(
-            "[pagination-category-list] a"
-        );
-        paginationEl.forEach((el) => {
-            el.onclick = (e) => {
-                e.preventDefault();
-                const promotion = el.dataset.promotion;
-                const page = el.dataset.page;
-                const data = localStorage.getItem(
-                    el
-                        .closest("[m-checkbox]")
-                        .getAttribute("m-checkbox")
-                        .toUpperCase()
-                );
-
-                const formData = {
-                    page,
-                    promotion,
-                    data: data,
-                    isShow: document.querySelector("#show-category-selected")
-                        .checked
-                        ? 1
-                        : 0,
-                };
-                searchCategoryAjax(formData);
-            };
+                getSlotTime(date);
+            },
+            selectOver: false,
+            apply: function (a) {},
+            click: null,
         });
     };
 
-    const searchCategoryAjax = (data) => {
+    var getSlotTime = function (date) {
         $.ajax({
-            url: "tpv/voucher/search-category",
-            method: "POST",
-            data: data,
-        }).then((res) => {
-            document.querySelector(".list-table").innerHTML = res.html;
-            paginateCategoryList();
-            M_CHECKBOX.refresh();
+            url: createUrl("find-slot-time"),
+            type: "POST",
+            data: {
+                date,
+            },
+        }).done(function (json) {
+            const listSlotTime = document.querySelector(
+                ".list-hour-prd-flash-check"
+            );
+            listSlotTime.innerHTML = json.html;
+            if (json.slot_time_id) {
+                listSlotTime.querySelector(
+                    `input[value="${json.slot_time_id}"]`
+                ).checked = true;
+            }
         });
     };
 
-    const searchCategory = () => {
-        const buttonSubmit = document.querySelector(".search-voucher-category");
-        let timeout;
-        if (!buttonSubmit) return;
-        buttonSubmit.onclick = () => {
-            clearTimeout(timeout);
-            const q = buttonSubmit.previousElementSibling;
-            const formData = {
-                promotion: "vouchers",
-                data: localStorage.getItem(
-                    buttonSubmit
-                        .closest("[m-checkbox]")
-                        .getAttribute("m-checkbox")
-                        .toUpperCase()
-                ),
-                isShow: document.querySelector("#show-category-selected")
-                    .checked
-                    ? 1
-                    : 0,
-                q: q.value,
-            };
-            timeout = setTimeout(() => {
-                searchCategoryAjax(formData);
-            }, 300);
-        };
-    };
-
-    function getLimitType(refundLimitGroup) {
-        const inputOfMaxDiscountEl = refundLimitGroup.querySelectorAll("input");
-        const limitCurrent = Array.from(inputOfMaxDiscountEl).find(
-            (input) => input.checked
-        )
-            ? Array.from(inputOfMaxDiscountEl).find((input) => input.checked)
-                  .value
-            : 1;
-        return { inputOfMaxDiscountEl, limitCurrent };
-    }
-
-    function changeTypeDiscount() {
-        const refundLimitGroup = document.getElementById("refund-limit-group");
-        if (!refundLimitGroup) return;
-
-        const { limitCurrent } = getLimitType(refundLimitGroup);
-        typeLimitOld = limitCurrent;
-        const inputMaxDiscount = refundLimitGroup.querySelector(
-            'input[name="max_discount"]'
-        );
-        const typeDiscount = document.getElementById("type-discount");
-        if (!typeDiscount) return;
-        typeDiscount.onchange = function (e) {
-            const divType = this.closest(".voucher-discount");
-            const inputDiscount = divType.querySelector(
-                'input[name="discount"]'
-            );
-            voucherStorage.set(
-                `discount-${typeSaleOld}-${typeDiscountOld}`,
-                inputDiscount.value !== ""
-                    ? parseFloat(inputDiscount.value)
-                    : ""
-            );
-
-            voucherStorage.set(
-                `max_discount-${typeSaleOld}-${typeDiscountCurrent}`,
-                inputMaxDiscount.value !== ""
-                    ? parseFloat(inputMaxDiscount.value)
-                    : ""
-            );
-            voucherStorage.set(
-                `type_limit-${typeSaleOld}-${typeDiscountOld}`,
-                typeLimitOld
-            );
-            typeDiscountCurrent = typeDiscount.value;
-            typeDiscountOld = typeDiscountCurrent;
-            voucherStorage.set(
-                `type_discount-${typeSaleOld}`,
-                typeDiscountCurrent
-            );
-
-            setMaxDiscount(
-                refundLimitGroup,
-                typeSaleOld == DICOUNT_PROMOTION ? true : false
-            );
-            setInputDiscount(
-                inputDiscount,
-                typeSaleOld == DICOUNT_PROMOTION ? true : false
-            );
-
-            getDataDiscount(inputDiscount);
-            VALIDATE_FORM.refresh();
-            changeTypeDiscount();
-        };
-    }
-
-    function changeTypeSale() {
-        const typeSales = document.querySelectorAll(
-            ".voucher-saleBy__item input"
-        );
-
-        typeSales.forEach(function (typeSale) {
-            const refundLimitGroup =
-                document.getElementById("refund-limit-group");
-            if (!refundLimitGroup) return;
-            let typeDiscount = document.getElementById("type-discount");
-            const inputDiscount = document.querySelector(
-                'input[name="discount"]'
-            );
-            const inputMaxDiscount = refundLimitGroup.querySelector(
-                'input[name="max_discount"]'
-            );
-            let { limitCurrent } = getLimitType(refundLimitGroup);
-            typeLimitOld = limitCurrent;
-            // lưu lại giá trị của loại lúc bắt đầu
-            typeDiscountOld = typeDiscount.value;
-            // Lưu dữ liệu cũ của typeVoucher
-            buildOldData(typeSale, inputDiscount, inputMaxDiscount);
-
-            //Thay đổi loại mã giảm giá
-            typeSale.onchange = function () {
-                typeSaleCurrent = typeSale.value;
-                // Lưu lại giá trị trước khi thay đổi loại mã giảm giá
-                saveDataTypeChange(inputDiscount, inputMaxDiscount);
-                // Lấy lại loại giảm giá từ trong storage
-                typeDiscountOld = voucherStorage.has(
-                    `type_discount-${typeSale.value}`
-                )
-                    ? voucherStorage.get(`type_discount-${typeSale.value}`)
-                    : document.getElementById("type-discount").value;
-
-                let isPromotion = true;
-                if (this.value == DICOUNT_PROMOTION) {
-                    isPromotion = true;
-                } else if (this.value == DICOUNT_REFUND_COIN) {
-                    isPromotion = false;
+    var saveSlotTime = function () {
+        const btnSubmit = document.querySelector(".btn-create-slot-time");
+        if (!btnSubmit) return;
+        btnSubmit.onclick = function (e) {
+            e.preventDefault();
+            const date = document.querySelector("[type=date]");
+            const time = document.querySelector('[name="slot_time"]:checked');
+            if (!date || !time) {
+                return $.simplyToast(
+                    "Vui lòng chọn ngày và khung giờ",
+                    "danger"
+                );
+            }
+            $.ajax({
+                url: createUrl("create-time-slot"),
+                type: "POST",
+                data: {
+                    date: date.value,
+                    time_slot: time.value,
+                },
+            }).done((res) => {
+                if (res.code == 100) {
+                    return $.simplyToast(res.message, "danger");
                 }
+                document.querySelector(".flash-sale-datetime").innerHTML =
+                    res.html;
+                editTimeSlot();
 
-                setTypeDiscount(typeDiscount, isPromotion);
-
-                typeDiscountCurrent =
-                    document.getElementById("type-discount").value;
-                typeLimitOld = voucherStorage.has(
-                    `type_limit-${typeSale.value}-${typeDiscountCurrent}`
-                )
-                    ? voucherStorage.get(
-                          `type_limit-${typeSale.value}-${typeDiscountCurrent}`
-                      )
-                    : 1;
-
-                setMaxDiscount(refundLimitGroup, isPromotion);
-                setInputDiscount(inputDiscount, isPromotion);
-
-                typeSaleOld = typeSale.value;
-                // Xử lý data inputDiscount
-
-                getDataDiscount(inputDiscount);
-                // Xử lý data inputMaxDiscount
-                getDataMaxDiscount(inputMaxDiscount);
+                $("#flashSaleSlot").modal("hide");
+                if (document.querySelector(".modal-backdrop")) {
+                    document.querySelector(".modal-backdrop").remove();
+                    document.body.classList.remove("modal-open");
+                }
                 VALIDATE_FORM.refresh();
-                changeTypeDiscount();
-            };
-        });
-    }
-
-    function buildOldData(typeSale, inputDiscount, ipMaxDiscount) {
-        typeDiscountCurrent == VOUCHER_DISCOUNT_BY_PERCENT
-            ? voucherStorage.set(
-                  `type_limit-${typeSale.value}-${VOUCHER_DISCOUNT_BY_PERCENT}`,
-                  typeLimitOld
-              )
-            : voucherStorage.set(
-                  `type_limit-${typeSale.value}-${VOUCHER_DISCOUNT_BY_PERCENT}`,
-                  typeLimitOld
-              );
-
-        if (!typeSale.checked) return;
-        typeSaleOld = typeSale.value;
-        typeSaleCurrent = typeSaleOld;
-        voucherStorage.set(
-            `discount-${typeSaleOld}-${typeDiscountOld}`,
-            inputDiscount.value !== "" ? parseFloat(inputDiscount.value) : ""
-        );
-        voucherStorage.set(
-            `max_discount-${typeSaleOld}-${typeDiscountOld}`,
-            ipMaxDiscount.value !== "" ? parseFloat(ipMaxDiscount.value) : ""
-        );
-        voucherStorage.set(`type_discount-${typeSaleOld}`, typeDiscountCurrent);
-    }
-
-    function getDataMaxDiscount(ipMaxDiscount) {
-        const fakeInputMaxDiscount = ipMaxDiscount.previousElementSibling;
-        const totalCoinAndMoney = ipMaxDiscount
-            .closest(".choose-coin__footer")
-            .querySelector(".total-coin");
-        fakeInputMaxDiscount.value = "";
-        ipMaxDiscount.value = "";
-        totalCoinAndMoney.innerHTML = "";
-
-        if (
-            !voucherStorage.has(
-                `max_discount-${typeSaleOld}-${typeDiscountOld}`
-            )
-        )
-            return;
-
-        const valueMaxDiscount = voucherStorage.get(
-            `max_discount-${typeSaleOld}-${typeDiscountOld}`
-        );
-        const money = Helper.number_format(valueMaxDiscount);
-
-        fakeInputMaxDiscount.value = valueMaxDiscount != undefined ? money : "";
-        ipMaxDiscount.value =
-            valueMaxDiscount != undefined ? valueMaxDiscount : "";
-        totalCoinAndMoney.innerHTML = money;
-    }
-
-    function getDataDiscount(inputDiscount) {
-        const valueOld = voucherStorage.get(
-            `discount-${typeSaleOld}-${typeDiscountOld}`
-        );
-        inputDiscount.previousElementSibling.value =
-            valueOld != undefined ? Helper.number_format(valueOld) : "";
-        inputDiscount.value = valueOld != undefined ? valueOld : "";
-    }
-
-    function setMaxDiscount(refundLimitGroup, isPromotion = true) {
-        const divChooseFooter = refundLimitGroup.querySelector(
-            ".choose-coin__footer"
-        );
-        const prefixMoneyMaxValue =
-            divChooseFooter.querySelector(".prefix-money");
-
-        const divInputLimit = refundLimitGroup.querySelector(
-            ".input-refund-limit"
-        );
-        const ipMaxDiscount = divInputLimit.querySelector(
-            '[name="max_discount"]'
-        );
-        const prefixMaxDiscount = divInputLimit.querySelector(".limit-prefix");
-
-        let { inputOfMaxDiscountEl } = getLimitType(refundLimitGroup);
-
-        ipMaxDiscount.placeholder =
-            typeDiscountCurrent == VOUCHER_DISCOUNT_BY_MONEY
-                ? "Nhập số tiền tối đa"
-                : "Nhập số COIN tối đa";
-        prefixMaxDiscount.innerHTML = isPromotion ? "VND" : "COIN";
-        prefixMoneyMaxValue.innerHTML = isPromotion ? "VND" : "COIN";
-
-        const isLimit = voucherStorage.get(
-            `type_limit-${typeSaleCurrent}-${typeDiscountCurrent}`
-        );
-        // Kiểm tra không giới hạn hoặc loại voucher bằng tiền thì ẩn ô nhập giới hạn
-
-        typeDiscountCurrent == VOUCHER_DISCOUNT_BY_MONEY ||
-        isLimit == REFUND_NO_LIMIT
-            ? (divChooseFooter.style.display = "none")
-            : divChooseFooter.removeAttribute("style");
-
-        // Kiểm tra nếu loại voucher bằng tiền thì ẩn phần chọn giới hạn
-        typeDiscountCurrent == VOUCHER_DISCOUNT_BY_MONEY
-            ? (refundLimitGroup.style.display = "none")
-            : refundLimitGroup.removeAttribute("style");
-
-        // Kiểm tra nếu loại voucher là phần trăm thì mở chọn giới hạn
-        Array.from(inputOfMaxDiscountEl)
-            .filter((input) => input.type == "radio")
-            .forEach((input) => {
-                input.disabled =
-                    typeDiscountCurrent != VOUCHER_DISCOUNT_BY_PERCENT;
-                input.checked = input.value == isLimit;
+                FLASH_SALE._();
             });
-
-        Array.from(inputOfMaxDiscountEl)
-            .filter((input) => input.type != "radio")
-            .forEach((input) => {
-                input.disabled =
-                    typeDiscountCurrent != VOUCHER_DISCOUNT_BY_PERCENT &&
-                    isLimit == REFUND_NO_LIMIT;
-            });
-    }
-
-    function setInputDiscount(inputDiscount, isPromotion = true) {
-        const prefixIpDiscount = inputDiscount.parentElement.querySelector(
-            ".voucher-discount__prefix"
-        );
-        const inputDiscountFake = inputDiscount.previousElementSibling;
-        isPromotion
-            ? (prefixIpDiscount.innerHTML =
-                  typeDiscountOld == VOUCHER_DISCOUNT_BY_MONEY
-                      ? "VND"
-                      : "% Giảm")
-            : (prefixIpDiscount.innerHTML = "% Hoàn coin");
-        inputDiscountFake.placeholder =
-            typeDiscountOld == VOUCHER_DISCOUNT_BY_MONEY
-                ? "Số tiền giảm"
-                : "Nhập % giảm giá lớn hơn 1";
-        inputDiscountFake.setAttribute(
-            "rules",
-            typeDiscountOld == VOUCHER_DISCOUNT_BY_MONEY
-                ? "required"
-                : "required||min:5||max:90"
-        );
-        return true;
-    }
-
-    function setTypeDiscount(typeDiscount, isPromotion = true) {
-        typeDiscount.innerHTML = isPromotion
-            ? ` <option value="${VOUCHER_DISCOUNT_BY_MONEY}"
-                    ${
-                        typeDiscountOld == VOUCHER_DISCOUNT_BY_MONEY
-                            ? "selected"
-                            : ""
-                    }>
-                        Theo số tiền
-                </option>
-                <option value="${VOUCHER_DISCOUNT_BY_PERCENT}"
-                    ${
-                        typeDiscountOld == VOUCHER_DISCOUNT_BY_PERCENT
-                            ? "selected"
-                            : ""
-                    }>
-                        Theo phần trăm
-                </option>`
-            : `<option value="${VOUCHER_DISCOUNT_BY_PERCENT}">Theo phần trăm</option>`;
-    }
-
-    function saveDataTypeChange(inputDiscount, inputMaxDiscount) {
-        voucherStorage.set(
-            `discount-${typeSaleOld}-${typeDiscountOld}`,
-            inputDiscount.value !== "" ? parseFloat(inputDiscount.value) : ""
-        );
-        voucherStorage.set(
-            `max_discount-${typeSaleOld}-${typeDiscountOld}`,
-            inputMaxDiscount.value !== ""
-                ? parseFloat(inputMaxDiscount.value)
-                : ""
-        );
-        voucherStorage.set(`type_discount-${typeSaleOld}`, typeDiscountOld);
-    }
-
-    function changeTotalCoin() {
-        document.querySelector(".total-coin").innerHTML = Helper.number_format(
-            this.value.replaceAll(".", "").replaceAll(",", "")
-        );
-    }
-
-    function changeTypeUsed() {
-        const inputRadios = document.querySelectorAll("[name='type_used']");
-        const inputSatisfy = document.querySelector("[name='number_satisfy']");
-        if (!inputSatisfy) return;
-        typeUsedOld = Array.from(inputRadios).find(
-            (input) => input.checked
-        ).value;
-        setDataOldSatisfy(typeUsedOld, inputSatisfy.value);
-        inputRadios.forEach((item) => {
-            item.onclick = function () {
-                setDataOldSatisfy(typeUsedOld, inputSatisfy.value);
-                typeUsedOld = item.value;
-                inputSatisfy.disabled = item.value == TYPE_USED_NULL;
-                inputSatisfy.value =
-                    item.value == TYPE_USED_NULL
-                        ? ""
-                        : getDataOldSatisfy(typeUsedOld);
-            };
-        });
-    }
-    function getDataOldSatisfy(valueInput) {
-        const value = voucherStorage.get(`type_used-${valueInput}`);
-        return !value ? "" : value;
-    }
-    function setDataOldSatisfy(typeUsedOld, valueNumberSatisfy) {
-        voucherStorage.set(`type_used-${typeUsedOld}`, valueNumberSatisfy);
-    }
-    function sendVoucher() {
-        const button = document.querySelector(".send-voucher-for-user.all");
-        if (!button) return;
-        let timeout;
-        button.onclick = function (e) {
-            e.preventDefault();
-            clearTimeout(timeout);
-            timeout = setTimeout(() => {
-                XHR.send({
-                    url: "tpv/voucher/send",
-                    method: "POST",
-                    data: {
-                        voucher_id: button.dataset.id,
-                    },
-                }).then((res) => {
-                    AJAX_PROMOTION.createSuccess(res);
-                });
-            }, 400);
         };
-    }
+    };
 
-    function sendVoucherSelect() {
-        const button = document.querySelector(".send-voucher-for-user.select");
-        if (!button) return;
-        if (
-            localStorage.getItem(
-                `SET_NOTIFICAITON_VOUCHER_${button.dataset.id}`
-            )
-        ) {
-            localStorage.removeItem(
-                `SET_NOTIFICAITON_VOUCHER_${button.dataset.id}`
-            );
-        }
+    var editTimeSlot = () => {
+        const spanEdit = document.querySelector(".flash-sale-editable");
+        if (!spanEdit) return;
+        spanEdit.ondblclick = function () {
+            XHR.send({
+                url: createUrl("edit-time-slot"),
+                method: "POST",
+            }).then((res) => {
+                if (res.code == 100) {
+                    AJAX_PROMOTION.alert(res);
+                } else {
+                    document.querySelector(".flash-sale-datetime").innerHTML =
+                        res.html;
+                    FLASH_SALE._();
+                }
+            });
+        };
+    };
+
+    var chooseType = () => {
+        const type = document.querySelector("[name=promotion_type_id]");
+        if (!type) return;
+        const customList = document.querySelector(".list-result-custom");
+        const searchEl = document.querySelector(".custom-search");
+        type.onchange = function () {
+            customList.innerHTML = "";
+            if (type.value === "") {
+                customList.classList.add("hidden");
+                return;
+            }
+            $.ajax({
+                url: createUrl("choose-promotion-type"),
+                type: "POST",
+                data: {
+                    type: type.value,
+                },
+            }).done((res) => {
+                customList.innerHTML = res.html;
+                customList.classList.remove("hidden");
+                searchEl.innerHTML = res.search_html;
+                searchEl.classList.remove("hidden");
+                search();
+                M_CHECKBOX.refresh();
+                paginateCategory();
+            });
+        };
+    };
+
+    function search() {
         let timeout;
-        button.onclick = function (e) {
-            e.preventDefault();
-            clearTimeout(timeout);
+        const filterSubmit = document.querySelector(".submit-search");
+        if (!filterSubmit) return;
+
+        filterSubmit.onclick = function () {
+            const input = filterSubmit.previousElementSibling;
+            if (input.value == "") clearTimeout(timeout);
             timeout = setTimeout(() => {
-                XHR.send({
-                    url: "tpv/voucher/send",
-                    method: "POST",
+                const customList = document.querySelector(
+                    ".list-result-custom"
+                );
+                $.ajax({
+                    url: createUrl("search"),
+                    type: "POST",
                     data: {
-                        voucher_id: button.dataset.id,
-                        id: JSON.parse(
-                            localStorage.getItem(
-                                `SET_NOTIFICAITON_VOUCHER_${button.dataset.id}`
-                            )
+                        q: input.value,
+                        isShow: document.querySelector("#selected-category")
+                            .checked
+                            ? "on"
+                            : 0,
+                        listChecked: localStorage.getItem(
+                            input
+                                .closest(".custom-search")
+                                .nextElementSibling.querySelector(
+                                    "[m-checkbox]"
+                                )
+                                .getAttribute("m-checkbox")
+                                .toUpperCase()
                         ),
                     },
-                }).then((res) => {
-                    AJAX_PROMOTION.createSuccess(res);
+                }).done((res) => {
+                    customList.innerHTML = res.html;
+                    paginateCategory();
+                    M_CHECKBOX.refresh();
                 });
-            }, 400);
+            }, 300);
         };
     }
 
-    const paginationList = () => {
+    function paginateCategory() {
+        const paginate = document.querySelectorAll("[pagination-filter]");
+        paginate.forEach((pagination) => {
+            const paginateList = pagination.getElementsByTagName("a");
+            Array.from(paginateList).forEach((anchorEl) => {
+                anchorEl.onclick = function (e) {
+                    e.preventDefault();
+                    const getAttribute = new FormDataRS("data-category");
+                    const data = getAttribute.getObjectData();
+                    data["page"] = anchorEl.dataset.page;
+                    data["listChecked"] = localStorage.getItem(
+                        anchorEl
+                            .closest("[m-checkbox]")
+                            .getAttribute("m-checkbox")
+                            .toUpperCase()
+                    );
+                    $.ajax({
+                        url: createUrl("search"),
+                        type: "POST",
+                        data: data,
+                    }).done((res) => {
+                        const customList = document.querySelector(
+                            ".list-result-custom"
+                        );
+                        customList.innerHTML = res.html;
+                        paginateCategory();
+                        M_CHECKBOX.refresh();
+                    });
+                };
+            });
+        });
+    }
+
+    function changeInputSelected() {
+        const buttonSelected = document.querySelector("#selected-category");
+        if (!buttonSelected) return;
+        let timeout;
+        buttonSelected.onchange = function () {
+            timeout = setTimeout(() => {
+                const getAttribute = new FormDataRS("data-category");
+                const data = getAttribute.getObjectData();
+                data["listChecked"] = localStorage.getItem(
+                    document
+                        .querySelector(".list-result-custom [m-checkbox]")
+                        .getAttribute("m-checkbox")
+                        .toUpperCase()
+                );
+                ajaxSearch(data);
+            }, 300);
+        };
+    }
+
+    function ajaxSearch(data) {
+        $.ajax({
+            url: createUrl("search"),
+            type: "POST",
+            data: data,
+        }).done((res) => {
+            const customList = document.querySelector(".list-result-custom");
+            customList.innerHTML = res.html;
+            paginateCategory();
+            M_CHECKBOX.refresh();
+        });
+    }
+
+    function totalDataCurrent() {
+        const items = document.querySelectorAll(".list-product tbody tr");
+        const listData = [];
+        items.forEach((item) => {
+            listData.push({
+                id: item.dataset.id,
+                discount: item.querySelector("[name='discount']").value,
+                act: item.querySelector("[name='act']").value,
+            });
+        });
+
+        return listData;
+    }
+
+    const saveProductCurrent = async () => {
+        const listData = totalDataCurrent();
+        return await XHR.send({
+            url: "tpf/flashsale/save-product-current",
+            method: "POST",
+            data: {
+                listItems: JSON.stringify(listData),
+            },
+        }).then((res) => {
+            return true;
+        });
+    };
+
+    function saveProductFlashSale() {
+        const buttonSaveProduct = document.querySelector(
+            ".save-product-flashsale"
+        );
+        if (!buttonSaveProduct) return;
+        buttonSaveProduct.onclick = async () => {
+            await saveProductCurrent();
+            XHR.send({
+                url: "tpf/flashsale/save-product",
+                method: "POST",
+            }).then((res) => {
+                $.simplyToast(res.message, "success");
+                window.location.href = res.redirect_url;
+            });
+        };
+    }
+
+    function updateForAll() {
+        const buttonUpdateForAll = document.querySelector(".update-for-all");
+        if (!buttonUpdateForAll) return;
+        buttonUpdateForAll.onclick = () => {
+            XHR.send({
+                url: "tpf/flashsale/update-for-all",
+                method: "POST",
+                data: {
+                    act: document.querySelector("[name='act_all']").value,
+                    discount: document.querySelector("[name='discount_all']")
+                        .value,
+                },
+            }).then((res) => {
+                const listProduct = document.querySelector(".list-product");
+                listProduct.innerHTML = res.html;
+                FLASH_SALE.paginationList();
+                FLASH_SALE.removeProductOfFlashSale();
+            });
+        };
+    }
+
+    const paginateLoad = () => {
         const paginationEl = document.querySelectorAll(
-            "[pagination-voucher-list] a"
+            "[pagination-flashsale-list] a"
         );
         paginationEl.forEach((el) => {
-            el.onclick = (e) => {
+            el.onclick = async (e) => {
                 e.preventDefault();
+                await saveProductCurrent();
                 const promotion = el.dataset.promotion;
                 const page = el.dataset.page;
                 $.ajax({
-                    url: "tpv/voucher/load-product",
+                    url: "tpf/flashsale/load-product",
                     method: "POST",
                     data: {
                         page,
@@ -934,14 +595,14 @@ var VOUCHER = (() => {
                     },
                 }).then((res) => {
                     el.closest(".list-product").innerHTML = res.html;
-                    paginationList();
-                    removeProductOfVoucher();
+                    FLASH_SALE.paginationList();
+                    FLASH_SALE.removeProductOfFlashSale();
                 });
             };
         });
     };
 
-    function removeProductOfVoucher() {
+    const removeProduct = () => {
         const buttonRemove = document.querySelectorAll(
             ".item-product .action button"
         );
@@ -952,7 +613,7 @@ var VOUCHER = (() => {
                     function (result) {
                         if (result) {
                             $.ajax({
-                                url: "tpv/voucher/remove-product",
+                                url: "tpf/flashsale/remove-product",
                                 method: "POST",
                                 data: {
                                     id: button.closest("tr").dataset.id,
@@ -961,7 +622,7 @@ var VOUCHER = (() => {
                                 if (res.count == 0) {
                                     document.querySelector(
                                         ".item-product"
-                                    ).innerHTML = `<button type="button" class="btn bg-green-400 text-white" data-toggle="modal" data-target="#modalProduct" data-type="vouchers">
+                                    ).innerHTML = `<button type="button" class="btn bg-green-400 text-white" data-toggle="modal" data-target="#modalProduct" data-type="flashsale">
                         Thêm sản phẩm
                     </button>`;
                                 } else {
@@ -970,8 +631,8 @@ var VOUCHER = (() => {
                                     document.querySelector(
                                         ".count-product-chooses"
                                     ).innerHTML = res.count;
-                                    paginationList();
-                                    removeProductOfVoucher();
+                                    FLASH_SALE.paginationList();
+                                    FLASH_SALE.removeProductOfFlashSale();
                                 }
                             });
                         }
@@ -979,59 +640,65 @@ var VOUCHER = (() => {
                 );
             };
         });
-    }
-
-    const checkedShowCategory = () => {
-        const inputChecked = document.querySelector("#show-category-selected");
-        if (!inputChecked) return;
-        let timeout;
-        inputChecked.onchange = () => {
-            clearTimeout(timeout);
-            timeout = setTimeout(() => {
-                const data = {
-                    promotion: "vouchers",
-                    data: document.querySelector('[name="list_category"]')
-                        .value,
-                    isShow: inputChecked.checked ? 1 : 0,
-                    q: document.querySelector(".category-filter input").value,
-                };
-                searchCategoryAjax(data);
-            }, timeout);
-            paginateCategoryList();
-        };
     };
-
     return {
         _: () => {
-            onInputShowVoucherCode();
-            changeTypeVoucher();
-            changeTypeDiscount();
-            changeTypeSale();
-            sendVoucher();
-            changeInputMax();
-            sendVoucherSelect();
-            changeTypeUsed();
-            paginationList();
-            checkedShowCategory();
-            removeProductOfVoucher();
-            searchCategory();
-            localStorage.setItem("CATEGORY_CHOOSE_VOUCHER", "");
-            if (typeof M_CHECKBOX !== "undefined") {
-                M_CHECKBOX.refresh();
-            }
-            paginateCategoryList();
+            showModalFlashSaleSlot();
+            saveSlotTime();
+            editTimeSlot();
+            chooseType();
+            search();
+            paginateCategory();
+            saveProductFlashSale();
+            changeInputSelected();
+            updateForAll();
+            paginateLoad();
+            M_CHECKBOX.refresh();
+        },
+        saveProductFlashSale: () => {
+            saveProductFlashSale();
+        },
+        updateForAll: () => {
+            updateForAll();
         },
         paginationList: () => {
-            paginationList();
+            paginateLoad();
         },
-        removeProductOfVoucher: () => {
-            removeProductOfVoucher();
+        saveProductCurrent: async () => {
+            await saveProductCurrent();
+        },
+        removeProductOfFlashSale: () => {
+            removeProduct();
+        },
+    };
+})();
+
+window["FLASH_SALE"] = (() => {
+    return {
+        createSuccess: (json) => {
+            if (json.code == 200) {
+                $.simplyToast(json.message, "success");
+                if (json.redirect_url) {
+                    window.location.href = json.redirect_url;
+                }
+            } else {
+                $.simplyToast(json.message, "danger");
+            }
+        },
+        checkTime: () => {
+            if (
+                document.querySelector('button[data-target="#flashSaleSlot"]')
+            ) {
+                $.simplyToast("Vui lòng chọn khung giờ", "danger");
+                return false;
+            }
+            return true;
         },
     };
 })();
 
 window.addEventListener("DOMContentLoaded", function () {
-    VOUCHER._();
-    MODALPRODUCT._();
+    FLASH_SALE._();
     BASE_VOUCHER._();
+    MODALPRODUCT._();
 });

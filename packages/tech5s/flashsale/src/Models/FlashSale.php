@@ -1,15 +1,16 @@
 <?php
 
-namespace Tech5s\Promotion\Models;
+namespace Tech5s\FlashSale\Models;
 
+use App\Models\BaseModel;
 use App\Models\Course;
 use App\Models\CourseCategory;
 use Currency;
 use DateTime;
-use FlashSaleHelper;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Tech5s\Promotion\Traits\FlashSaleTrait;
-use Tech5s\Promotion\Traits\ScopeStatus;
+use Tech5s\FlashSale\Helpers\FlashSaleHelper;
+use Tech5s\FlashSale\Traits\FlashSaleTrait;
+use Tech5s\FlashSale\Traits\ScopeStatus;
 
 class FlashSale extends BaseModel
 {
@@ -22,7 +23,7 @@ class FlashSale extends BaseModel
 
     public function courses()
     {
-        return $this->belongsToMany(Course::class, 'flash_sale_course', 'flash_sale_id', 'course_id');
+        return $this->belongsToMany(Course::class, 'flash_sale_course', 'flash_sale_id', 'course_id')->withPivot(['act', 'discount']);
     }
 
     public function course_categories()

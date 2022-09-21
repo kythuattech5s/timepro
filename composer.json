@@ -60,6 +60,7 @@
             "Roniejisa\\Helpers\\": "packages/roniejisa/helpers/src",
             "Tech5s\\VideoChapter\\": "packages/tech5s/video-chapter/src",
             "Tech5s\\Voucher\\": "packages/tech5s/voucher/src",
+            "Tech5s\\FlashSale\\": "packages/tech5s/flashsale/src",
             "Tech5s\\Notify\\": "packages/tech5s/notify/src"
         }
     },

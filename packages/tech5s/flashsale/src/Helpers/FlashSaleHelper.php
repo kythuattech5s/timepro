@@ -1,8 +1,6 @@
 <?php
 
-namespace Tech5s\Promotion\Helpers;
-
-use App\Models\Product;
+namespace Tech5s\FlashSale\Helpers;
 
 class FlashSaleHelper
 {
@@ -13,7 +11,7 @@ class FlashSaleHelper
     const SESSION_PRODUCT_CURRENT = 'SESSION_PRODUCT_FLASHSALE_SHOP';
     const SESSION_PRODUCT_REAL = 'SESSION_PRODUCT_FLASHSALE_REAL';
     const SESSION_PRODUCT_REMOVE = 'SESSION_PRODUCT_FLASHSALE_DELETE';
-    
+
     public static function checkPriceCondition($flash_sale, $item)
     {
         if ($flash_sale->promotion_type_comparison_id == FlashSaleHelper::COMPARE_BIGGER && $item['price'] < $flash_sale->discount) {
@@ -24,5 +22,23 @@ class FlashSaleHelper
             return 'Giá trị sau giảm giá bằng ' . $flash_sale->discount;
         }
         return false;
+    }
+
+    public static function getPriceOfItem($item)
+    {
+        $ret = [];
+        $ret['min'] = 0;
+        $ret['max'] = 0;
+        $ret['sale_percent'] = 0;
+        $listData = \DB::table('course_time_packages')->where('course_id', $item->id)->get();
+        foreach ($listData as $data) {
+            if ($ret['min'] >= 0 && ($data->price < $ret['min'] || $ret['min'] == 0)) {
+                $ret['min'] = $data->price;
+            }
+            if ($ret['max'] != 0 && $data->price_old > $ret['max']) {
+                $ret['max'] = $data->price_old;
+            }
+        }
+        return $ret;
     }
 }

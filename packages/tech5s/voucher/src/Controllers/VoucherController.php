@@ -362,22 +362,12 @@ class VoucherController extends BaseController
 
     public function loadProduct(Request $request)
     {
-        $promotion = $request->input('promotion');
-        switch ($promotion) {
-            case 'vouchers':
-                $listItemId = session()->get(VoucherService::PREFIX_SESSION_PRODUCT);
-                $listItems = DB::table(config('tpvc_setting.table'))->whereIn('id', $listItemId->pluck('id'))->paginate(5);
-                return response([
-                    'code' => 200,
-                    'html' => view('tpv::components.table_item', compact('listItems'))->render(),
-                ]);
-                break;
-            case '':
-
-                break;
-            default:
-                break;
-        }
+        $listItemId = session()->get(VoucherService::PREFIX_SESSION_PRODUCT);
+        $listItems = DB::table(config('tpvc_setting.table'))->whereIn('id', $listItemId->pluck('id'))->paginate(5);
+        return response([
+            'code' => 200,
+            'html' => view('tpv::components.table_item', compact('listItems'))->render(),
+        ]);
     }
 
     public function showListCategory(Request $request)
@@ -417,26 +407,5 @@ class VoucherController extends BaseController
             $listItems = $this->FullTextSearch($listItems, 'name', $request->input('q'));
         }
         return $listItems;
-    }
-
-    public function queryFilterProduct()
-    {
-        $request = request();
-        $promotion = $request->input('promotion');
-
-        $products = DB::table(config('tpvc_setting.table'))->where('act', 1);
-
-        if (isset($request->q)) {
-            $products = $this->fullTextSearch($products, $request->input('by', 'name'), $request->input('q'));
-        }
-
-        if (isset($request->category_id) && config('tpvc_setting.has_pivot')) {
-            $itemIds = DB::table(config('tpvc_setting.pivot_table'))->where(config('tpvc_setting.pivot_field_category_table'), $request->category_id)->pluck(config('tpvc_setting.pivot_field_table'));
-            $products->whereIn('id', $itemIds);
-        }
-
-        $product_selected = [];
-
-        return $products;
     }
 }

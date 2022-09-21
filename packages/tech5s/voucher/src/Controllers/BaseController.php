@@ -75,4 +75,24 @@ class BaseController extends Controller
             'html' => view('tpv::components.ItemShow', \compact('listItems', 'action', 'promotion'))->render(),
         ]);
     }
+
+     public function queryFilterProduct()
+    {
+        $request = request();
+
+        $products = DB::table(config('tpvc_setting.table'))->where('act', 1);
+
+        if (isset($request->q)) {
+            $products = $this->fullTextSearch($products, $request->input('by', 'name'), $request->input('q'));
+        }
+
+        if (isset($request->category_id) && config('tpvc_setting.has_pivot')) {
+            $itemIds = DB::table(config('tpvc_setting.pivot_table'))->where(config('tpvc_setting.pivot_field_category_table'), $request->category_id)->pluck(config('tpvc_setting.pivot_field_table'));
+            $products->whereIn('id', $itemIds);
+        }
+
+        $product_selected = [];
+
+        return $products;
+    }
 }

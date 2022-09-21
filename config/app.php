@@ -188,6 +188,7 @@ return [
         Roniejisa\Comment\Providers\CommentServiceProvider::class,
         Tech5s\VideoChapter\Providers\VideoChapterServiceProvider::class,
         Tech5s\Voucher\Providers\VoucherServiceProvider::class,
+        Tech5s\FlashSale\Providers\FlashSaleServiceProvider::class,
         /*
          * Application Service Providers...
          */
