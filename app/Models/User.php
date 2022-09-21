@@ -203,7 +203,7 @@ class User extends Authenticatable
         return \Support::show($wallet,'amount_available');
     }
 
-    public function plusAmountAvailable($amount){
+    public function plusAmountAvailable($amount,$type,$reson){
         if((int)$amount == 0) return false;
         $wallet = $this->wallet()->first();
         $wallet->amount_available = (int)\Support::show($wallet,'amount_available') + (int)$amount;
@@ -211,7 +211,7 @@ class User extends Authenticatable
         return true;
     }
 
-    public function minusAmountAvailable($amount){
+    public function minusAmountAvailable($amount,$type,$reson){
         if((int)$amount == 0) return false;
         $wallet = $this->wallet()->first();
         if((int)\Support::show($wallet,'amount_available') < (int)$amount){
