@@ -103,12 +103,19 @@ class OrderController extends Controller
             ]);
         }
         if ($userOrerData['payment_method'] == PaymentMethod::PAY_WALLET) {
-            return response()->json([
-                'code' => 100,
-                'message' => 'Số dư ví của bạn không đủ'
-            ]);
+            if ($user->getAmountAvailable() < $totalMoney) {
+                return response()->json([
+                    'code' => 100,
+                    'message' => 'Số dư ví của bạn không đủ'
+                ]);
+            }
+            
         }
         $order = $this->createOrder($listItems,$totalMoney,$userOrerData,$user);
+        // if ($userOrerData['payment_method'] == PaymentMethod::PAY_WALLET) {
+        //     $user->minusAmountAvailable($totalMoney);
+        //     $order->orderSuccess();
+        // }
         foreach ($this->cartInstance as $itemCartInstance) {
             Tech5sCart::instance($itemCartInstance);
             Tech5sCart::destroy();

@@ -49,7 +49,7 @@
                                     @include('mtc::question.load_frontend_resutl',['question'=>$question,'answer'=>$listExamResult[$question->id]['answer'] ?? null])
                                 </div>
                                 <div class="border p-2 rounded">
-                                    <span class="mr-2 1">Đáp án đúng là:</span> 
+                                    <span class="mr-2 font-bold">Đáp án đúng là:</span> 
                                     <div class="s-content">{!!$question->getTrueAnswerFrontend()!!}</div>
                                 </div>
                                 @if ($question->explanation_guide != '')
