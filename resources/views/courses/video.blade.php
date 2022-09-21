@@ -155,7 +155,7 @@
                             @endif
                         @endforeach
                     </div>
-                    <div class="tabcontent px-4 2xl:px-10" id="tab-lesson-4" data-target="tab-lesson">
+                    <div class="tabcontent px-4 2xl:px-10" id="tab-lesson-4" data-target="tab-lesson" question-teacher-main>
                         @include('components.question_teacher', ['listItems' => $listQuestions])
                     </div>
                 </div>

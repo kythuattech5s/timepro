@@ -1,5 +1,5 @@
 @php
-$id = $name . '-' . (isset($item['id']) ? $item['id'] : $keyItem);
+$id = $name . '-' . (isset($item['id']) ? $item['id'] : $keyItem.'_file');
 $media = json_decode($value);
 @endphp
 <div data-id="{{ $id }}">

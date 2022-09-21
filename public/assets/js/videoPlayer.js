@@ -38,7 +38,7 @@
                 });
                 player.src({
                     src: res.src,
-                    type: "video/mp4" /*video type*/,
+                    type: "video/mp4",
                 });
 
                 player.play();
@@ -48,6 +48,7 @@
                 button.onclick = () => {
                     player.dispose();
                     modal.remove();
+                    document.body.style.overflow = null;
                 };
                 modal.append(button);
             });

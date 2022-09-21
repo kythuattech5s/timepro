@@ -36,7 +36,6 @@
                         <input type="checkbox" checked id="accept_policy" name="accept_policy" value="1"/>
                         <span>Đồng ý các điều khoản chính sách và dịch vụ của chúng tôi.</span>
                     </label>
-                    <a href="javascript:void(0)" onclick="MORE_FUNCTION.showModal(this);" data-modal="forgotPassword" title="Quên mật khẩu?" class="inline-block text-[#17B06B] text-sm">Quên mật khẩu?</a>
                 </div>
 
                 <button type="submit" class="rounded rounded-[0.3125rem] overflow-hidden px-[0.625rem] py-[0.825rem] bg-gradient-to-r from-[#F44336] to-[#C62828] text-white w-full">Đăng ký</button>

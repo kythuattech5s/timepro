@@ -11,7 +11,7 @@ return [
                 'default' => true,
                 'where' => [
                     [
-                        'field' => 'parent',
+                        'field' => 'comment_id',
                         'operator', '=',
                         'value' => null,
                     ],

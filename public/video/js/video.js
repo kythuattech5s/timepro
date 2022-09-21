@@ -646,6 +646,10 @@ var ListVideoChaptr = /*#__PURE__*/function () {
       _this.raw = [];
 
       _this.listMain.querySelectorAll("[item] img").forEach(function (img) {
+        if (img.hasAttribute("no-video")) {
+          return;
+        }
+
         var coponentImg = img.closest("[data-id]");
         var id = coponentImg.dataset.id;
         var media = JSON.parse(coponentImg.querySelector("input").value);

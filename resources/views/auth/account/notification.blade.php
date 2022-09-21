@@ -4,7 +4,14 @@
         <div class="container">
             <div class="grid grid-cols-1 gap-4 lg:grid-cols-4 2xl:gap-8">
                 <div class="col-span-1">
-                    @include('auth.account.sidebar')
+                    @php
+                        $user = Auth::user();
+                    @endphp
+                    @if ($user->isAccount())
+                        @include('auth.account.sidebar')
+                    @else
+                        @include('auth.teacher.sidebar')
+                    @endif
                 </div>
                 <div class="col-span-1 lg:col-span-3">
                     <div class="mb-4 box-content rounded bg-white p-4 last:mb-0 2xl:mb-6">

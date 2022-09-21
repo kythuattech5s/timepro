@@ -93,8 +93,8 @@ class ManageUserCourseController extends Controller
         $currentItem = $route instanceof \vanhenry\manager\model\VRoute ? $route : \vanhenry\manager\model\VRoute::find($route->id ?? 0);
         $user = Auth::user();
         $mainCourseId = str_replace('lam-bai-kiem-tra-','',\FCHelper::getSegment($request, 2));
-        $mainCourse = Course::act()->whereHas('exam')->with('exam')->find($mainCourseId);
         if ($mainCourseId != '') {
+            $mainCourse = Course::act()->whereHas('exam')->with('exam')->find($mainCourseId);
             if (!isset($mainCourse) || !$mainCourse->isOwn($user)) {
                 return Support::redirectTo(\VRoute::get("my_exam"),100,'Không tìm thấy thông tin kỳ thi');
             }
@@ -111,8 +111,8 @@ class ManageUserCourseController extends Controller
         }
         $listUserCourseId = $user->userAllCourseId();
         $strIdCourseUser = trim(implode(',', $listUserCourseId->toArray()).',-1',',');
-        $listItems = Course::baseView()->whereIn('id', $listUserCourseId)
-                                        ->whereRaw(vsprintf("id in (select id from (select id,case when count_video = 0 then 0 else (100*count_video_done/count_video) end as percent_done from (SELECT *,(SELECT count(*) from course_videos WHERE course_videos.course_id = courses.id) as count_video,(SELECT count(*) from course_video_user WHERE course_video_user.course_id = courses.id and course_video_user.user_id = %s) as count_video_done from courses where id in (%s)) as course_videos_statical having percent_done = 100) as base)",[$user->id,$strIdCourseUser]))
+        $listItems = Course::act()->whereIn('id', $listUserCourseId)
+                                        ->whereRaw(vsprintf("id in (select id from (select id,case when count_video = 0 then 0 else (100*count_video_done/count_video) end as percent_done from (SELECT *,(SELECT count(*) from course_videos WHERE course_videos.course_id = courses.id) as count_video,(SELECT count(*) from course_video_user WHERE course_video_user.course_id = courses.id and course_video_user.user_id = %s) as count_video_done from courses where courses.id in (%s)) as course_videos_statical having percent_done = 100) as base)",[$user->id,$strIdCourseUser]))
                                         ->whereHas('exam')
                                         ->whereDoesntHave('examResult',function($q) use ($user){
                                             $q->where('user_id',$user->id);
@@ -184,8 +184,8 @@ class ManageUserCourseController extends Controller
         $currentItem = $route instanceof \vanhenry\manager\model\VRoute ? $route : \vanhenry\manager\model\VRoute::find($route->id ?? 0);
         $user = Auth::user();
         $examResultId = str_replace('ket-qua-bai-thi-','',\FCHelper::getSegment($request, 2));
-        $examResult = ExamResult::whereHas('exam')->with('exam')->find($examResultId);
         if ($examResultId != '') {
+            $examResult = ExamResult::whereHas('exam')->with('exam')->find($examResultId);
             if (!isset($examResult)) {
                 return Support::redirectTo(\VRoute::get("my_exam_result"),100,'Không tìm thấy thông tin kết quả bài thi');
             }
@@ -268,5 +268,12 @@ class ManageUserCourseController extends Controller
         return response()->json([
             'code' => 200,
         ]);
+    }
+    public function paymentHistory (Request $request,$route)
+    {
+        $currentItem = $route instanceof \vanhenry\manager\model\VRoute ? $route:\vanhenry\manager\model\VRoute::find($route->id ?? 0);
+        $user = Auth::user();
+        $listItems = $user->orders()->orderBy('id','desc')->with('orderDetail','paymentMethod','orderStatus')->whereIn('order_status_id',[OrderStatus::PAID,OrderStatus::CANCEL])->paginate(6);
+		return view('auth.account.payment_history',compact('user','currentItem','listItems'));
     }
 }

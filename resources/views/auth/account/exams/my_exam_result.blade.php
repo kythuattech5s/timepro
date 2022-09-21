@@ -31,7 +31,7 @@
                             {{$listItems->withQueryString()->links('bases.pagination')}}
                         </div>
                     @else
-                        <p class="text-[1.125rem]">Tạm thời chưa có kì thì cần hoàn thành nào.</p>
+                        <p class="text-[1.125rem]">Tạm thời chưa có kỳ thì cần hoàn thành nào.</p>
                     @endif
                 </div>
             </div>
