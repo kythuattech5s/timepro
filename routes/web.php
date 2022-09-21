@@ -34,6 +34,7 @@ Route::group([
 
     Route::post('cart/{action}', 'CartController@action');
     Route::get('thong-tin-giang-vien/{uslug}', 'UserController@view');
+  
 
     Route::post('get-last-dat-of-month', 'StaticController@getLastDateOfMonth');
     Route::get('get-district-by-province', 'StaticController@getDistrictByProvince');
