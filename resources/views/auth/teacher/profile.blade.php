@@ -27,7 +27,7 @@
                                     <div class="col-span-1">
                                         <select class="form-control w-full py-2 px-4 border-[1px] border-solid border-[#ebebeb] rounded-lg outline-none" onchange="MORE_FUNCTION.changeBirthDayProfile(this)" data-type="year">
                                             <option value="0">Năm</option>
-                                            @for($i = $year; $i >= 1960; $i--)
+                                            @for($i = $year; $i >= 1930; $i--)
                                             <option value="{{$i}}" {{isset( $birhday )?($birhday->format('Y') == $i?'selected':''):''}}>Năm {{$i}}</option>
                                             @endfor
                                         </select>
