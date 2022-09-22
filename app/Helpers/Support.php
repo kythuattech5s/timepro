@@ -271,82 +271,41 @@ class Support
             return 0;
         }
     }
-    public static function uploadImg($inputName, $saveFrom, $checkFileExist = false, $getExtra = false)
+    public static function exeCurl($url, $type = 'GET', $data = null, $headers = [])
     {
-        if (!request()->hasFile($inputName)) {
-            return '';
+        $curl = curl_init();
+        $params = array(
+            CURLOPT_URL => $url,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => "",
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 100,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => $type,
+            CURLOPT_FOLLOWLOCATION => 0, // 0 cho phép redirect theo nếu link curl đích bị redirect
+            CURLOPT_SSL_VERIFYHOST => 0,
+            CURLOPT_SSL_VERIFYPEER => 0,
+        );
+        if ($type == 'POST' && is_string($data)) {
+            $params[CURLOPT_POSTFIELDS] = $data;
         }
-        $images = request()->file($inputName);
-        if ($images == null) {
-            return '';
+        if ($type == 'POST' && is_array($data)) {
+            $params[CURLOPT_POSTFIELDS] = http_build_query($data);
         }
-        if (is_array($images)) {
-            $image = $images[0];
-        } else {
-            $image = $images;
+        if ($type == 'GET' && is_array($data)) {
+            $params[CURLOPT_URL] = $url . '?' . http_build_query($data);
         }
-        $uploadRootDir = 'public/uploads';
-        $uploadDir = $saveFrom;
-        $pathRelative = $uploadRootDir . '/' . $uploadDir . '/';
-        $pathAbsolute = base_path($pathRelative);
-        $dirs = explode('/', $uploadDir);
-        $parentId = 0;
-        foreach ($dirs as $item) {
-            $parentId = Media::createDir($uploadRootDir, $item, $pathRelative, $pathAbsolute, $parentId);
+        if ($headers) {
+            $params[CURLOPT_HTTPHEADER] = $headers;
         }
-        if (is_bool($parentId)) {
-            return '';
+        curl_setopt_array($curl, $params);
+        $res = curl_exec($curl);
+        $status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+        $err = curl_error($curl);
+        curl_close($curl);
+        if (!empty($err)) {
+            return $err;
         }
-        $ext = $image->getClientOriginalExtension();
-        $fileName = strtolower(\Str::random(5)) . '-' . time() . '.' . $ext;
-        if (($checkFileExist && !file_exists($pathAbsolute . "/" . $image->getClientOriginalName())) || !$checkFileExist) {
-            $image->move($pathAbsolute, $fileName);
-            $img_id = Media::insertImageMedia($uploadRootDir, $pathAbsolute, $pathRelative, $fileName, $parentId);
-            event('vanhenry.manager.media.convert.img.via.cron', ['path' => $pathRelative . $fileName, 'id' => $img_id]);
-        } else {
-            $fileName = $image->getClientOriginalName();
-            $img_id = Media::findImageByName($fileName, $parentId);
-        }
-
-        return Media::img($img_id);
-    }
-
-    public static function uploadImgs($inputName, $saveFrom, $checkFileExist = false, $getExtra = false)
-    {
-        if (!request()->hasFile($inputName)) {
-            return null;
-        }
-        $imgs = [];
-        $images = request()->file($inputName);
-        $uploadRootDir = 'public/uploads';
-        $uploadDir = $saveFrom;
-        $pathRelative = $uploadRootDir . '/' . $uploadDir . '/';
-        $pathAbsolute = base_path($pathRelative);
-        $dirs = explode('/', $uploadDir);
-        $parentId = 0;
-        foreach ($dirs as $item) {
-            $parentId = Media::createDir($uploadRootDir, $item, $pathRelative, $pathAbsolute, $parentId);
-        }
-        if (is_bool($parentId)) {
-            return '';
-        }
-        foreach ($images as $key => $image) {
-            if ($image == null) {
-                continue;
-            }
-            $ext = $image->getClientOriginalExtension();
-            $fileName = strtolower(\Str::random(5)) . '-' . time() . '.' . $ext;
-            if (($checkFileExist && !file_exists($pathAbsolute . "/" . $image->getClientOriginalName())) || !$checkFileExist) {
-                $image->move($pathAbsolute, $fileName);
-                $img_id = Media::insertImageMedia($uploadRootDir, $pathAbsolute, $pathRelative, $fileName, $parentId);
-                event('vanhenry.manager.media.convert.img.via.cron', ['path' => $pathRelative . $fileName, 'id' => $img_id]);
-            } else {
-                $fileName = $image->getClientOriginalName();
-                $img_id = Media::findImageByName($fileName, $parentId);
-            }
-            // Thêm vào bảng cron
-            $imgs[] = $img_id;
-        }
-        return Media::libImg($imgs);
+        return $res;
     }
 }
