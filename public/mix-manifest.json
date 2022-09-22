@@ -1,12 +1,18 @@
 {
     "/assets/promotion/flashsale/js/flashsale.js": "/assets/promotion/flashsale/js/flashsale.js",
     "/assets/plugins/notification/notification.js": "/assets/plugins/notification/notification.js",
+    "/video/js/video.js": "/video/js/video.js",
+    "/video/js/app.js": "/video/js/app.js",
+    "/assets/promotion/voucher/js/voucher.js": "/assets/promotion/voucher/js/voucher.js",
     "/assets/js/question.js": "/assets/js/question.js",
     "/assets/promotion/voucher/js/client.js": "/assets/promotion/voucher/js/client.js",
     "/admin/promotion/css/app.css": "/admin/promotion/css/app.css",
     "/assets/promotion/flashsale/css/style.css": "/assets/promotion/flashsale/css/style.css",
     "/assets/promotion/flashsale/css/base.css": "/assets/promotion/flashsale/css/base.css",
     "/css/app.css": "/css/app.css",
+    "/assets/promotion/voucher/css/style.css": "/assets/promotion/voucher/css/style.css",
+    "/assets/promotion/voucher/css/base.css": "/assets/promotion/voucher/css/base.css",
+    "/video/css/video.css": "/video/css/video.css",
     "/assets/css/all.min.css": "/assets/css/all.min.css",
     "/assets/css/Checkbox.css": "/assets/css/Checkbox.css",
     "/assets/css/FileUpload.css": "/assets/css/FileUpload.css",
@@ -143,9 +149,7 @@
     "/assets/plugins/tom-select/tom-select.css": "/assets/plugins/tom-select/tom-select.css",
     "/assets/plugins/videojs/video.css": "/assets/plugins/videojs/video.css",
     "/assets/plugins/videojs/video.min.js": "/assets/plugins/videojs/video.min.js",
-    "/assets/promotion/voucher/css/base.css": "/assets/promotion/voucher/css/base.css",
-    "/assets/promotion/voucher/css/style.css": "/assets/promotion/voucher/css/style.css",
-    "/assets/promotion/voucher/js/voucher.js": "/assets/promotion/voucher/js/voucher.js",
+    "/assets/promotion/voucher/js/client.js~merged": "/assets/promotion/voucher/js/client.js~merged",
     "/assets/webfonts/fa-brands-400.woff2": "/assets/webfonts/fa-brands-400.woff2",
     "/assets/webfonts/fa-regular-400.ttf": "/assets/webfonts/fa-regular-400.ttf",
     "/assets/webfonts/fa-regular-400.woff2": "/assets/webfonts/fa-regular-400.woff2",
@@ -290,6 +294,5 @@
     "/admin/promotion/assets/_rs/plugins/tinymce/tinymce.min.js": "/admin/promotion/assets/_rs/plugins/tinymce/tinymce.min.js",
     "/admin/promotion/assets/_rs/plugins/tom-select/tom-select.complete.min.js": "/admin/promotion/assets/_rs/plugins/tom-select/tom-select.complete.min.js",
     "/admin/promotion/assets/_rs/plugins/tom-select/tom-select.css": "/admin/promotion/assets/_rs/plugins/tom-select/tom-select.css",
-    "/admin/promotion/assets/_rs/works/js/address.js": "/admin/promotion/assets/_rs/works/js/address.js",
-    "/assets/promotion/voucher/js/client.js~merged": "/assets/promotion/voucher/js/client.js~merged"
+    "/admin/promotion/assets/_rs/works/js/address.js": "/admin/promotion/assets/_rs/works/js/address.js"
 }
