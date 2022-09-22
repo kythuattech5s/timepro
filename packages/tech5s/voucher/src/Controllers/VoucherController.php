@@ -413,13 +413,19 @@ class VoucherController extends BaseController
 
     public function applyVoucher(Request $request)
     {
-        $cartContent = Tech5sCart::instance();
+        $cartContent = Tech5sCart::instance('course');
         $code = $request->input('code');
         $voucherCheck = new VoucherCheck($code);
         if ($voucherCheck->voucher == null) {
             return response([
                 'code' => 100,
                 'message' => 'Mã giảm giá không tồn tại'
+            ]);
+        }
+        if ($cartContent->count() == 0) {
+            return response([
+                'code' => 100,
+                'message' => 'Không có sản phẩm nào trong giỏ hàng phù hợp với mã giảm giá'
             ]);
         }
         if (($message = $voucherCheck->refreshData($cartContent, 0))) {
@@ -429,30 +435,30 @@ class VoucherController extends BaseController
                 'apply' => false
             ]);
         };
-        $listItems = $cartContent->content();
-        $totalMoney = $voucherCheck->totalPrice - $voucherCheck->discount;
+        // $listItems = $cartContent->content();
+        // $totalMoney = $voucherCheck->totalPrice - $voucherCheck->discount;
         return response([
             'code' => 200,
             'message' => 'Áp dụng mã giảm giá thành công',
-            'html' => view('carts.components.contentTotal', compact('totalMoney', 'listItems', 'voucherCheck'))->render(),
-            'apply' => true
+            // 'html' => view('carts.components.contentTotal', compact('totalMoney', 'listItems', 'voucherCheck'))->render(),
+            // 'apply' => true
         ]);
     }
 
     public function removeVoucher(Request $request)
     {
-        $cartContent = Tech5sCart::instance();
+        // $cartContent = Tech5sCart::instance();
         $voucherCheck = new VoucherCheck;
         if ($voucherCheck->voucher != null) {
             $voucherCheck->removeVoucher();
         }
-        $listItems =  $cartContent->content();
-        $totalMoney = $cartContent->totalFloat();
+        // $listItems =  $cartContent->content();
+        // $totalMoney = $cartContent->totalFloat();
         return response([
             'code' => 200,
-            'message' => 'Áp dụng mã giảm giá thành công',
-            'html' => view('carts.components.contentTotal', compact('totalMoney', 'listItems', 'voucherCheck'))->render(),
-            'apply' => true
+            'message' => 'Cập nhật mã giảm giá thành công',
+            // 'html' => view('carts.components.contentTotal', compact('totalMoney', 'listItems', 'voucherCheck'))->render(),
+            // 'apply' => true
         ]);
     }
 }

@@ -23,6 +23,41 @@ use Tech5sCart;
 class OrderController extends Controller
 {
     protected $cartInstance = ['course','vip'];
+    protected function _resetCartInfo()
+    {
+        $hasChangePrice = false;
+        foreach ($this->cartInstance as $itemCartInstance) {
+            Tech5sCart::instance($itemCartInstance);
+            foreach (Tech5sCart::content() as $item) {
+                if (isset($newItem) && $item->id == $newItem->id && $item->rowId != $newItem->rowId && $newItem->instance == $itemCartInstance) {
+                    Tech5sCart::update($item->rowId, 0, false);
+                } else {
+                    Tech5sCart::update($item->rowId, 1, false);
+                    if ($itemCartInstance == 'course') {
+                        $itemTimePackage = CourseTimePackage::find($item->options->id ?? 0);
+                        if (isset($itemTimePackage)) {
+                            $itemTimePackagePriceInfo = $itemTimePackage->getPriceInfo();
+                            if ($itemTimePackagePriceInfo->price != $item->price) {
+                                $hasChangePrice = true;
+                                Tech5sCart::update($item->rowId, 0, false);
+                                $dataTimePackage = [];
+                                $dataTimePackage['id'] = $itemTimePackage->id;
+                                $dataTimePackage['course_id'] = $itemTimePackage->course_id;
+                                $dataTimePackage['name'] = $itemTimePackage->name;
+                                $dataTimePackage['number_day'] = $itemTimePackage->number_day;
+                                $dataTimePackage['is_forever'] = $itemTimePackage->is_forever;
+                                $dataTimePackage['price'] = $itemTimePackagePriceInfo->price;
+                                $dataTimePackage['price_old'] = $itemTimePackagePriceInfo->price_old;
+                                Tech5sCart::add($item->id, $item->name, 1, $itemTimePackagePriceInfo->price, 0, $dataTimePackage);
+                            }
+                        }
+                    }
+                }
+            }
+            Tech5sCart::store();
+        }
+        return $hasChangePrice;
+    }
     protected function validatorSendPayment(array $data)
     {
         return Validator::make($data, [
@@ -47,6 +82,7 @@ class OrderController extends Controller
             session()->flash('typeNotify',200);
             session()->flash('messageNotify','Vui lòng đăng nhập để xác nhận thanh toán đơn hàng');
             return response()->json([
+                'code' => 200,
                 'redirect_url' => \VRoute::get("login")
             ]);
         }
@@ -57,6 +93,15 @@ class OrderController extends Controller
             return response()->json([
                 'code' => 100,
                 'message' => $validator->errors()->first()
+            ]);
+        }
+        $changePriceStatus = $this->_resetCartInfo();
+        if ($changePriceStatus) {
+            session()->flash('typeNotify',200);
+            session()->flash('messageNotify','Một số sản phẩm trong giỏ hàng đã cập nhật lại giá. Vui lòng kiểm tra lại trước khi thanh toán.');
+            return response()->json([
+                'code' => 200,
+                'redirect_url' => \VRoute::get("viewCart")
             ]);
         }
         $listItems = [];
@@ -99,10 +144,10 @@ class OrderController extends Controller
                 }
             }
         }
-
         $voucherCheck = new VoucherCheck();
+        $totalFinal = $totalMoney;
         if($voucherCheck->voucher != null){
-            $totalMoney -= $voucherCheck->discount;
+            $totalFinal -= $voucherCheck->discount;
         }
         if (count($listItems) == 0) {
             return response()->json([
@@ -111,17 +156,17 @@ class OrderController extends Controller
             ]);
         }
         if ($userOrerData['payment_method'] == PaymentMethod::PAY_WALLET) {
-            if ($user->getAmountAvailable() < $totalMoney) {
+            if ($user->getAmountAvailable() < $totalFinal) {
                 return response()->json([
                     'code' => 100,
                     'message' => 'Số dư ví của bạn không đủ'
                 ]);
             }
         }
-        $order = $this->createOrder($listItems,$totalMoney,$userOrerData,$user);
+        $order = $this->createOrder($listItems,$totalMoney,$totalFinal,$userOrerData,$user,$voucherCheck);
         if ($userOrerData['payment_method'] == PaymentMethod::PAY_WALLET) {
             $reason = vsprintf('Thanh toán đơn hàng %s',[$order->code]);
-            $user->minusAmountAvailable($totalMoney,UserWalletTransactionType::PAYMENT_ORDER,$reason,$order->id);
+            $user->minusAmountAvailable($totalFinal,UserWalletTransactionType::PAYMENT_ORDER,$reason,$order->id);
             $order->orderSuccess();
         }
         foreach ($this->cartInstance as $itemCartInstance) {
@@ -136,10 +181,13 @@ class OrderController extends Controller
             'redirect_url' => \VRoute::get("paymentSucess").'?order='.$order->code
         ]);
     }
-    public function createOrder($listItems,$totalMoney,$userOrerData,$user)
+    public function createOrder($listItems,$totalMoney,$totalFinal,$userOrerData,$user,$voucherCheck)
     {
         $order = new Order;
         $order->user_id = $user->id;
+        if($voucherCheck->voucher != null){
+            $order->voucher_info = $voucherCheck->voucher->toJson();
+        }
         $order->name = $userOrerData['name'] ?? '';
         $order->phone = $userOrerData['phone'] ?? '';
         $order->email = $userOrerData['email'] ?? '';

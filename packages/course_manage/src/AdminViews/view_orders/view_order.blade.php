@@ -1,6 +1,7 @@
 @php
     use App\Models\OrderStatus;
     use App\Models\OrderType;
+	use Tech5s\Voucher\Helpers\VoucherHelper;
 @endphp
 @extends('vh::master')
 @section('content')
@@ -103,7 +104,21 @@
                 </table>
 				@endif
 	    		<div class="total-info text-right">
-		    		<p class="item-total">Tổng tiền: <span>{{Currency::showMoney($order->total)}}</span></p>
+		    		<p class="item-total">Tạm tính: <span>{{Currency::showMoney($order->total)}}</span></p>
+					@php
+						$voucherInfo = Support::extractJson($order->voucher_info);
+					@endphp
+					@if (count($voucherInfo) > 0)
+						<div class="d-flex justify-content-end">
+							<p class="item-total me-3">Mã giảm giá: <span class="btn btn-info px-5 py-1">{{Support::show($voucherInfo,'code')}}</span></p>
+							@if ($voucherInfo['type_discount'] == VoucherHelper::DISCOUNT_MONEY)
+								<p class="item-total"><span>-{{Currency::showMoney($voucherInfo['discount'])}}</span></p>
+							@endif
+							@if ($voucherInfo['type_discount'] == VoucherHelper::DISCOUNT_PERCENT)
+								<p class="item-total"><span>-{{$voucherInfo['discount']}}% ({{Currency::showMoney($order->total*Support::show($voucherInfo,'discount')/100)}})</span></p>
+							@endif
+						</div>
+					@endif
 		    		<p class="item-total item-total-final">Tổng tiền cuối cùng: <span>{{Currency::showMoney($order->total_final)}}</span></p>
 	    		</div>
 	    	</div>

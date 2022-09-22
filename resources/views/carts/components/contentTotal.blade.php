@@ -8,7 +8,7 @@
 @if ($voucherCheck && $voucherCheck->voucher != null)
     <p class="mt-2 flex items-center justify-between font-semibold">
         <span class="title">Mã giảm giá:</span>
-        <span class="total-price">{{ Currency::showMoney($voucherCheck->discount) }}</span>
+        <span class="total-price">-{{ Currency::showMoney($voucherCheck->discount) }}</span>
     </p>
 @endif
 <p class="mt-2 flex items-center justify-between font-semibold">

@@ -25,10 +25,15 @@
                                                 <a href="{{Support::show($item->realItem,'slug')}}" title="{{Support::show($item,'name')}}" class="title block font-bold 2xl:text-[1.125rem] mb-3">{{Support::show($item,'name')}}</a>
                                             </h3>
                                             @if (isset($item->realItem->teacher))
-                                                <p class="text-[#888] text-[0.875rem] mb-1">{{Support::show($item->realItem->teacher,'name')}}</p>
+                                                <p class="font-semibold text-[0.875rem] text-[#252525] mb-1">{{Support::show($item->realItem->teacher,'name')}}</p>
                                             @endif
                                             <p class="text-[#888] text-[0.875rem] mb-1">Gói: {{Support::show($item->itemTimePackage,'name')}}</p>
-                                            <p class="price font-semibold color-gradient">{{Currency::showMoney($item->price)}}</p>
+                                            <div class="flex flex-wrap">
+                                                <span class="price font-semibold color-gradient text-[1.125rem]">{{Currency::showMoney($item->price)}} </span>
+                                                @if (isset($item->options['price_old']) && $item->options['price_old'] > $item->price)
+                                                    <span class="price-old item-price-sub ml-3 text-[#888888] line-through">{{Currency::showMoney($item->options['price_old'])}}</span>
+                                                @endif
+                                            </div>
                                         </div>
                                     </div>
                                     <a href="javascript:void(0)" title="Xóa" class="btn-delete flex w-[1.875rem] h-[1.875rem] rounded-full items-center justify-center sm:w-auto sm:h-auto bg-[#d9d9d9] sm:bg-transparent mx-auto sm:mr-0 mt-2 lg:text-[1.875rem] text-[1.25rem] btn-delete-item-cart" data-row="{{$item->rowId}}" data-instance="{{$item->instance}}"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
