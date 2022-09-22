@@ -34,7 +34,11 @@ Route::group([
 
     Route::post('cart/{action}', 'CartController@action');
     Route::get('thong-tin-giang-vien/{uslug}', 'UserController@view');
-  
+    Route::get('test', function(){
+        $results = App\Helpers\SmsHelper::send('0336307382','Cam on quy khach da su dung dich vu cua chung toi. Chuc quy khach mot ngay tot lanh!');
+        var_dump($results);die();
+    });
+    
 
     Route::post('get-last-dat-of-month', 'StaticController@getLastDateOfMonth');
     Route::get('get-district-by-province', 'StaticController@getDistrictByProvince');
