@@ -43,7 +43,7 @@
     <span class="frag-footer"></span>
     <div class="form-footer mt-5">
 
-        <button type="submit" class="btn save-product-flashsale bg-green-400 text-white">Lưu sản phẩm</button>
+        <button type="submit" class="btn save-product-flashsale bg-green-400 text-white">Lưu {{config('tpfc_setting.table_name')}}</button>
 
     </div>
 
