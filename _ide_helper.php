@@ -18603,6 +18603,17 @@
      
 }
 
+    namespace Tech5s\FlashSale\Helpers { 
+            /**
+     * 
+     *
+     */ 
+        class FlashSaleHelper {
+         
+    }
+     
+}
+
     namespace Roniejisa\Helpers { 
             /**
      * 
@@ -22219,6 +22230,7 @@ namespace  {
             class SEOHelper extends \vanhenry\helpers\helpers\SEOHelper {}
             class CommentHelper extends \Roniejisa\Comment\Helpers\Helper {}
             class VoucherHelper extends \Tech5s\Voucher\Helpers\VoucherHelper {}
+            class FlashSaleHelper extends \Tech5s\FlashSale\Helpers\FlashSaleHelper {}
             class RSCustom extends \Roniejisa\Helpers\RSCustom {}
      
 }

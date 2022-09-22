@@ -49,7 +49,7 @@ class VoucherServiceProvider extends ServiceProvider
 
     private function pushConfig()
     {
-        $arrayConfigAdminNeedEdit = ['tab', 'view', 'action'];
+        $arrayConfigAdminNeedEdit = ['tab', 'view', 'action','orther_table'];
         foreach ($arrayConfigAdminNeedEdit as $config_table) {
             $configPath = __DIR__ . '/../../config/' . $config_table . '.php';
             $this->mergeConfigFrom($configPath, static::CONFIG_ADMIN_KEY . $config_table);

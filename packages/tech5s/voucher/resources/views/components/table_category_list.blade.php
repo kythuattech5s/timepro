@@ -9,7 +9,7 @@
                 <textarea name="list_category" class="d-none" id="" cols="30" rows="10" c-data>{{ json_encode($listProducts->toArray(), JSON_UNESCAPED_UNICODE) }}</textarea>
             </th>
             <th>Tên</th>
-            <th>Số lượng {{ config('tpvc_setting.table_name') }}</th>
+            {{-- <th>Số lượng {{ config('tpvc_setting.table_name') }}</th> --}}
         </tr>
     </thead>
     <tbody>
@@ -25,7 +25,7 @@
                     </label>
                 </td>
                 <td>{-item.name-}</td>
-                <td></td>
+                {{-- <td></td> --}}
             </tr>
         @empty
             <tr>

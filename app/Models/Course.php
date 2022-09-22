@@ -6,11 +6,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use phpDocumentor\Reflection\Types\This;
 use Roniejisa\Comment\Traits\GetDataComment;
 use RSCustom;
+use Tech5s\FlashSale\Traits\UseFlashSale;
 use Tech5s\VideoChapter\Traits\VideoSouceTrait;
 
 class Course extends BaseModel
 {
-    use HasFactory, VideoSouceTrait, GetDataComment;
+    use HasFactory, VideoSouceTrait, GetDataComment, UseFlashSale;
     public function teacher()
     {
         return $this->belongsTo(User::class, 'teacher_id', 'id');
@@ -250,5 +251,10 @@ class Course extends BaseModel
     public function isDone()
     {
         return $this->percentStudy() == 100;
+    }
+
+    public function questions()
+    {
+        return $this->hasMany(QuestionTeacher::class, 'map_id', 'id');
     }
 }

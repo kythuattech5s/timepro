@@ -20,7 +20,13 @@ class QuestionTeacherController extends Controller
     public function index()
     {
         $user = Auth::user();
-        $cources = Course::where('teacher_id', Auth::id())->get();
-        return view('auth.teacher.question', compact('cources','user'));
+        if ($user->isAccount()) {
+            $cources = Course::whereHas('questions',  function ($q) {
+                $q->where('user_id', Auth::id());
+            })->get();
+        } else {
+            $cources = Course::where('teacher_id', Auth::id())->get();
+        }
+        return view('auth.teacher.question', compact('cources', 'user'));
     }
 }

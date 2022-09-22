@@ -16,6 +16,7 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Validator;
 use Support;
+use Tech5s\Voucher\Helpers\VoucherCheck;
 use Tech5sCart;
 
 class OrderController extends Controller
@@ -97,6 +98,11 @@ class OrderController extends Controller
                 }
             }
         }
+
+        $voucherCheck = new VoucherCheck();
+        if($voucherCheck->voucher != null){
+            $totalMoney -= $voucherCheck->discount;
+        }
         if (count($listItems) == 0) {
             return response()->json([
                 'code' => 100,
@@ -121,6 +127,8 @@ class OrderController extends Controller
             Tech5sCart::instance($itemCartInstance);
             Tech5sCart::destroy();
         }
+        // Xóa voucher
+        $voucherCheck->destroy();
         return response()->json([
             'code' => 200,
             'message' => 'Đặt hàng thành công',

@@ -4,7 +4,8 @@ const dist = publicPath + "/" + folder;
 const mix = require("laravel-mix");
 
 const tailwindcss = require("tailwindcss");
-mix.postCss(__dirname + "/resources/css/base.css",dist + "flashsale/css");
+mix.css(__dirname + "/resources/css/base.css", dist + "flashsale/css");
+
 mix.postCss(__dirname + "/resources/css/style.css", dist + "flashsale/css", [
     tailwindcss("./tailwind.config.js"),
 ]);

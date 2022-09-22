@@ -4,22 +4,39 @@ namespace Tech5s\FlashSale\Controllers;
 
 use App\Http\Controllers\Controller;
 use DB;
+use FlashSaleHelper;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
+use Tech5s\FlashSale\Models\FlashSale;
+use Tech5s\FlashSale\Services\FlashSaleService;
 use Tech5s\Voucher\Services\VoucherService;
+use vanhenry\manager\controller\BaseAdminController;
 
-class BaseController extends Controller
+class BaseController extends BaseAdminController
 {
+
+    public function __construct()
+    {
+        parent::__construct();
+    }
 
     public function showProduct(Request $request)
     {
+        $service = new FlashSaleService;
+        $categories = DB::table(config('tpfc_setting.category_table'))->where('act', 1);
+        $pivotMethodCategories = config('tpfc_setting.pivot_method_categories');
+
+        if (($listCategories = $service->flash_sale->$pivotMethodCategories)->count() > 0) {
+            $categories->whereIn('id', $listCategories->pluck('id'));
+        }
+
+        $categories = $categories->get();
         $action = $request->input('action', '');
         $type = $request->input('type', '');
         $promotion = $request->input('promotion', '');
-        $categories = DB::table(config('tpvc_setting.category_table'))->where('act', 1)->paginate(30);
-        $listItems = $this->queryFilterProduct()->paginate(config('tpvc_setting.paginate', 10));
+        $listItems = $this->queryFilterProduct()->paginate(config('tpfc_setting.paginate', 10));
         $promotion = $request->input('promotion');
-        $item_checked_old = session()->get(VoucherService::PREFIX_SESSION_PRODUCT, collect());
+        $item_checked_old = session()->get(FlashSaleService::PREFIX_SESSION_PRODUCT, collect());
         $item_chooses = collect();
         $shop_id = $request->input('shop_id', false);
 
@@ -30,7 +47,7 @@ class BaseController extends Controller
             ];
         }
         return response([
-            'html' => view('tpv::components.modal_product', compact('item_checked_old', 'categories', 'listItems', 'promotion', 'item_chooses', 'action', 'type', 'shop_id'))->render(),
+            'html' => view('tpf::components.modal_product', compact('item_checked_old', 'categories', 'listItems', 'promotion', 'item_chooses', 'action', 'type', 'shop_id'))->render(),
         ]);
     }
 
@@ -48,7 +65,7 @@ class BaseController extends Controller
         $listItems = $listItems->paginate(config('tpvc_setting.paginate', 10));
 
         return response([
-            'html' => view('tpv::components.modal_table_item', compact('listItems', 'item_chooses', 'item_checked_old'))->render(),
+            'html' => view('tpf::components.modal_table_item', compact('listItems', 'item_chooses', 'item_checked_old'))->render(),
             'lastPage' => $listItems instanceof Collection ? 'null' : $listItems->onLastPage(),
             'count' => $listItems->count(),
         ]);
@@ -59,20 +76,54 @@ class BaseController extends Controller
         $action = $request->input('action');
         $type = $request->input('type', '');
         $promotion = $request->input('promotion');
-        $item = new VoucherService();
-        if (($itemIds = $request->input('item_id')) !== null) {
-            $dataItemId = collect($itemIds)->map(
-                fn ($value) => [
-                    "id" => $value['id'],
-                ]
-            )->unique();
-            session()->put(VoucherService::PREFIX_SESSION_PRODUCT, $dataItemId);
-        } else {
-            session()->put(VoucherService::PREFIX_SESSION_PRODUCT, $item->products);
-        }
-        $listItems = DB::table(config('tpvc_setting.table'))->whereIn('id', $dataItemId->pluck('id'))->paginate(5);
+        $item = new FlashSaleService();
+        $listItemOld = session()->get(FlashSaleService::PREFIX_SESSION_PRODUCT);
+
+        $dataItemId = collect($request->input('item_id'))->map(
+            function ($value) use ($listItemOld) {
+                $itemContain = collect($listItemOld)->first(fn ($q) => (int)$q['id'] == (int)$value['id']);
+                if ($itemContain !== null) {
+                    return $itemContain;
+                } else {
+                    return [
+                        "id" => $value['id'],
+                        'act' => 1,
+                        'discount' => 0
+                    ];
+                }
+            }
+        )->unique();
+
+        session()->put(FlashSaleService::PREFIX_SESSION_PRODUCT, $dataItemId);
+        $listItems = DB::table(config('tpfc_setting.table'))->whereIn('id', $dataItemId->pluck('id'))->paginate(5);
+
         return response([
-            'html' => view('tpv::components.ItemShow', \compact('listItems', 'action', 'promotion'))->render(),
+            'html' => view('tpf::components.ItemShow', \compact('listItems', 'action', 'promotion', 'dataItemId', 'listItemOld'))->render(),
         ]);
+    }
+
+    public function queryFilterProduct()
+    {
+        $request = request();
+
+        $products = DB::table(config('tpvc_setting.table'))->where('act', 1);
+
+        if (isset($request->q)) {
+            $products = $this->fullTextSearch($products, $request->input('by', 'name'), $request->input('q'));
+        }
+
+        if (isset($request->category_id) && config('tpvc_setting.has_pivot')) {
+            $itemIds = DB::table(config('tpvc_setting.pivot_table'))->where(config('tpvc_setting.pivot_field_category_table'), $request->category_id)->pluck(config('tpvc_setting.pivot_field_table'));
+            $products->whereIn('id', $itemIds);
+        } else {
+            $service = new FlashSaleService;
+            $pivotMethodCategories = config('tpfc_setting.pivot_method_categories');
+            if (($listCategories = $service->flash_sale->$pivotMethodCategories)->count() > 0) {
+                $itemIds = DB::table(config('tpvc_setting.pivot_table'))->whereIn(config('tpvc_setting.pivot_field_category_table'), $listCategories->pluck('id'))->pluck(config('tpvc_setting.pivot_field_table'));
+                $products->whereIn('id', $itemIds);
+            }
+        }
+
+        return $products;
     }
 }

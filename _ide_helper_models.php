@@ -180,8 +180,12 @@ namespace App\Models{
  * @property-read \App\Models\Exam|null $exam
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ExamResult[] $examResult
  * @property-read int|null $exam_result_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Tech5s\FlashSale\Models\FlashSale[] $flashSale
+ * @property-read int|null $flash_sale_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\CourseCourseCategory[] $pivot
  * @property-read int|null $pivot_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\QuestionTeacher[] $questions
+ * @property-read int|null $questions_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\Roniejisa\Comment\Models\Rating[] $ratings
  * @property-read int|null $ratings_count
  * @property-read \App\Models\User|null $teacher
@@ -422,6 +426,7 @@ namespace App\Models{
  * @property int|null $price_old Giá cũ
  * @property \Illuminate\Support\Carbon|null $created_at Ngày tạo
  * @property \Illuminate\Support\Carbon|null $updated_at Ngày cập nhật
+ * @property-read \App\Models\Course|null $course
  * @method static \Illuminate\Database\Eloquent\Builder|BaseModel act()
  * @method static \Illuminate\Database\Eloquent\Builder|BaseModel fullTextSearch($columns, $term)
  * @method static \Illuminate\Database\Eloquent\Builder|BaseModel fullTextSearchNoRelevance($columns, $term)
@@ -1649,7 +1654,7 @@ namespace App\Models{
  * @property string|null $password Mật khẩu
  * @property int|null $user_id Đại lý
  * @property int|null $amount Số tiền
- * @property string|null $amount_available
+ * @property int|null $amount_available
  * @property int|null $amount_spent Số tiền đã tiêu
  * @property int|null $amount_frozen Số tiền đóng băng
  * @property string|null $token Token
@@ -1736,6 +1741,30 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|UserWalletTransaction whereWalletId($value)
  */
 	class UserWalletTransaction extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * App\Models\UserWalletTransactionType
+ *
+ * @property int $id
+ * @property string|null $name Tên
+ * @property \Illuminate\Support\Carbon|null $created_at Ngày tạo
+ * @property \Illuminate\Support\Carbon|null $updated_at Ngày cập nhật
+ * @method static \Illuminate\Database\Eloquent\Builder|BaseModel act()
+ * @method static \Illuminate\Database\Eloquent\Builder|BaseModel fullTextSearch($columns, $term)
+ * @method static \Illuminate\Database\Eloquent\Builder|BaseModel fullTextSearchNoRelevance($columns, $term)
+ * @method static \Illuminate\Database\Eloquent\Builder|UserWalletTransactionType newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|UserWalletTransactionType newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|BaseModel ord()
+ * @method static \Illuminate\Database\Eloquent\Builder|UserWalletTransactionType query()
+ * @method static \Illuminate\Database\Eloquent\Builder|BaseModel slug($slug, $table = null)
+ * @method static \Illuminate\Database\Eloquent\Builder|UserWalletTransactionType whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|UserWalletTransactionType whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|UserWalletTransactionType whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|UserWalletTransactionType whereUpdatedAt($value)
+ */
+	class UserWalletTransactionType extends \Eloquent {}
 }
 
 namespace App\Models{

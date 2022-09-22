@@ -10,3 +10,4 @@ mix.postCss(__dirname + "/resources/css/style.css", dist + "voucher/css", [
 ]);
 
 mix.js(__dirname + "/resources/js/voucher.js", dist + "voucher/js");
+mix.ts(__dirname + "/resources/js/client.js", dist + "voucher/js");
