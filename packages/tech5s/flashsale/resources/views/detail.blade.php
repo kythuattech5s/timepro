@@ -13,6 +13,12 @@
                     </div>
                     <div class="col-lg-7">
                         <div class="detail-fs-right">
+                            <div class="flex items-center">
+                                <p class="mb-3 flex-1 text-4xl font-bold text-orange-500">{{ $currentItem->name }}</p>
+                                @if (!$currentItem->isRunning())
+                                    <a href="/esystem/edit/flash_sales/{{ $currentItem->id }}" class="flex items-center gap-3 bg-green-500 p-2 text-white"><i class="fa fa-edit"></i>Chỉnh sửa FlashSale</a>
+                                @endif
+                            </div>
                             <p class="text-2xl font-bold"><span>Khung giờ khuyến mãi</span></p>
                             <div class="flash-sale-time">
                                 <input type="hidden" name="start_at" value="{{ $currentItem->start_at }}">
@@ -43,7 +49,7 @@
     <span class="frag-footer"></span>
     <div class="form-footer mt-5">
 
-        <button type="submit" class="btn save-product-flashsale bg-green-400 text-white">Lưu {{config('tpfc_setting.table_name')}}</button>
+        <button type="submit" class="btn save-product-flashsale bg-green-400 text-white">Lưu {{ config('tpfc_setting.table_name') }}</button>
 
     </div>
 
