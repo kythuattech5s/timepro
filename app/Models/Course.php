@@ -76,7 +76,7 @@ class Course extends BaseModel
         return $q->act()->with('ratings')->with(['teacher' => function ($q) {
             $q->teacher()->where('act', 1)->where('banned', 0);
         }, 'timePackage' => function ($q) {
-            $q->orderBy('price', 'asc');
+            $q->with('course')->orderBy('price', 'asc');
         }]);
     }
     public function getFirstPrice()

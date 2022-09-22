@@ -20,15 +20,16 @@
             },
             button: buttonApply,
         }).then((res) => {
-            if (res.code == 200) {
-                buttonApply.setAttribute("apply-voucher", isApply ? true : "");
-                buttonApply.innerHTML = isApply ? "Bỏ áp dụng" : "Áp dụng";
-                code.disabled = isApply;
-                document.querySelector("[content-total]") &&
-                    (document.querySelector("[content-total]").innerHTML =
-                        res.html);
-            }
             NOTIFICATION.showNotify(res.code, res.message);
+            if (res.code == 200) {
+                // buttonApply.setAttribute("apply-voucher", isApply ? true : "");
+                // buttonApply.innerHTML = isApply ? "Bỏ áp dụng" : "Áp dụng";
+                // code.disabled = isApply;
+                // document.querySelector("[content-total]") &&
+                //     (document.querySelector("[content-total]").innerHTML =
+                //         res.html);
+                window.location.reload();
+            }
         });
     };
 })();

@@ -30,7 +30,7 @@
                     <h1 class="title font-bold text-[#252525] 2xl:text-[1.125rem]">Mã giảm giá</h1>
                     <div class="flex-1 flex items-center relative border rounded-sm">
                         <input type="text" placeholder="Mã giảm giá..." class="w-full outline-none border-none p-3 pr-25 disabled:bg-gray-200" value="@if($voucherCheck && $voucherCheck->voucher != null) {{$voucherCheck->voucher->code}} @endif" code-voucher @if($voucherCheck && $voucherCheck->voucher != null) disabled @endif> 
-                        <button class="absolute btn-red-gradien bg-gradient-to-r from-[#F44336] to-[#C62828] shadow-[0_6px_20px_rgba(178,30,37,.4)] right-[5px] rounded px-3 text-white outline-none whitespace-nowrap" type="button" apply-voucher="{{$voucherCheck && $voucherCheck->voucher != null? "true" : ''}}">@if($voucherCheck && $voucherCheck->voucher != null) Bỏ áp dụng @else Áp dụng @endif</button>
+                        <button class="absolute btn btn-red-gradien bg-gradient-to-r from-[#F44336] to-[#C62828] shadow-[0_6px_20px_rgba(178,30,37,.4)] right-[5px] rounded px-3 text-white outline-none whitespace-nowrap py-2" type="button" apply-voucher="{{$voucherCheck && $voucherCheck->voucher != null? "true" : ''}}">@if($voucherCheck && $voucherCheck->voucher != null) Bỏ áp dụng @else Áp dụng @endif</button>
                     </div>
                 </div>
                 <div class="box lg:p-4 p-2 bg-white rounded">

@@ -99,7 +99,14 @@
                     </tbody>
                 </table>
 	    		<div class="total-info text-right">
-		    		<p class="item-total">Tổng tiền: <span>{{Currency::showMoney($order->total)}}</span></p>
+		    		<p class="item-total">Tạm tính: <span>{{Currency::showMoney($order->total)}}</span></p>
+					@php
+						$voucherInfo = Support::extractJson($order->voucher_info);
+						dd($voucherInfo);
+					@endphp
+					@if (count($voucherInfo) > 0)
+					<p class="item-total">Mã giảm giá: <span>{{Currency::showMoney($order->total)}}</span></p>
+					@endif
 		    		<p class="item-total item-total-final">Tổng tiền cuối cùng: <span>{{Currency::showMoney($order->total_final)}}</span></p>
 	    		</div>
 	    	</div>

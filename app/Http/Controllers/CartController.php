@@ -7,7 +7,6 @@ use App\Models\CourseCombo;
 use App\Models\CourseComboTimePackage;
 use App\Models\CourseTimePackage;
 use App\Models\PaymentMethod;
-use App\Models\UserCourse;
 use App\Models\UserCourseCombo;
 use Auth;
 use Illuminate\Http\Request;
@@ -22,7 +21,7 @@ class CartController extends Controller
     public function __construct()
     {
         parent::__construct();
-        $this->_resetQtyItemCart();
+        $this->_resetCartInfo();
     }
     public function action(Request $request, $action)
     {
@@ -44,7 +43,7 @@ class CartController extends Controller
                 break;
         }
     }
-    protected function _resetQtyItemCart($newItem = null)
+    protected function _resetCartInfo($newItem = null)
     {
         foreach ($this->cartInstance as $itemCartInstance) {
             Tech5sCart::instance($itemCartInstance);
@@ -53,6 +52,24 @@ class CartController extends Controller
                     Tech5sCart::update($item->rowId, 0, false);
                 } else {
                     Tech5sCart::update($item->rowId, 1, false);
+                    if ($itemCartInstance == 'course') {
+                        $itemTimePackage = CourseTimePackage::find($item->options->id ?? 0);
+                        if (isset($itemTimePackage)) {
+                            $itemTimePackagePriceInfo = $itemTimePackage->getPriceInfo();
+                            if ($itemTimePackagePriceInfo->price != $item->price) {
+                                Tech5sCart::update($item->rowId, 0, false);
+                                $dataTimePackage = [];
+                                $dataTimePackage['id'] = $itemTimePackage->id;
+                                $dataTimePackage['course_id'] = $itemTimePackage->course_id;
+                                $dataTimePackage['name'] = $itemTimePackage->name;
+                                $dataTimePackage['number_day'] = $itemTimePackage->number_day;
+                                $dataTimePackage['is_forever'] = $itemTimePackage->is_forever;
+                                $dataTimePackage['price'] = $itemTimePackagePriceInfo->price;
+                                $dataTimePackage['price_old'] = $itemTimePackagePriceInfo->price_old;
+                                Tech5sCart::add($item->id, $item->name, 1, $itemTimePackagePriceInfo->price, 0, $dataTimePackage);
+                            }
+                        }
+                    }
                 }
             }
             Tech5sCart::store();
@@ -112,9 +129,18 @@ class CartController extends Controller
             ]);
         }
         Tech5sCart::instance($request->type);
-        $newItem = Tech5sCart::add($itemBuy->id, $itemBuy->name, 1, $itemTimePackage->getPrice(), 0, $itemTimePackage->toArray());
+        $itemTimePackagePriceInfo = $itemTimePackage->getPriceInfo();
+        $dataTimePackage = [];
+        $dataTimePackage['id'] = $itemTimePackage->id;
+        $dataTimePackage['course_id'] = $itemTimePackage->course_id;
+        $dataTimePackage['name'] = $itemTimePackage->name;
+        $dataTimePackage['number_day'] = $itemTimePackage->number_day;
+        $dataTimePackage['is_forever'] = $itemTimePackage->is_forever;
+        $dataTimePackage['price'] = $itemTimePackagePriceInfo->price;
+        $dataTimePackage['price_old'] = $itemTimePackagePriceInfo->price_old;
+        $newItem = Tech5sCart::add($itemBuy->id, $itemBuy->name, 1, $itemTimePackagePriceInfo->price, 0, $dataTimePackage);
         $newItem->instance = $request->type;
-        $this->_resetQtyItemCart($newItem);
+        $this->_resetCartInfo($newItem);
         // Check lại voucher có thỏa mãn hay không
         $voucherCheck = new voucherCheck();
         if ($voucherCheck->voucher != null) {
@@ -293,7 +319,6 @@ class CartController extends Controller
 
         // Check có mã giảm giá
         $voucherCheck = new VoucherCheck();
-        // dd($checkVoucher);
         if ($voucherCheck) {
             $totalMoney -= $voucherCheck->discount;
         }
