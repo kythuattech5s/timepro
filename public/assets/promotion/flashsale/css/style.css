@@ -895,6 +895,12 @@ video {
 .ml-\[5px\] {
   margin-left: 5px;
 }
+<<<<<<< HEAD
+.mb-0 {
+  margin-bottom: 0px;
+}
+=======
+>>>>>>> 501f6290a7a498d739290e9216f45aa2e834ca9f
 .box-content {
   box-sizing: content-box;
 }
@@ -1349,6 +1355,12 @@ video {
 .overflow-hidden {
   overflow: hidden;
 }
+<<<<<<< HEAD
+.overflow-scroll {
+  overflow: scroll;
+}
+=======
+>>>>>>> 501f6290a7a498d739290e9216f45aa2e834ca9f
 .overflow-x-auto {
   overflow-x: auto;
 }
