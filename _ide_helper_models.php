@@ -1072,6 +1072,7 @@ namespace App\Models{
  * @property int|null $user_cancel_id Id user hủy đơn hàng
  * @property int|null $admin_confirm_id Id admin xác nhận đơn hàng
  * @property string|null $voucher_info Thông tin voucher
+ * @property int|null $order_type_id Loại đơn hàng
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\OrderDetail[] $orderDetail
  * @property-read int|null $order_detail_count
  * @property-read \App\Models\OrderStatus|null $orderStatus
@@ -1094,6 +1095,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Order whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Order whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Order whereOrderStatusId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Order whereOrderTypeId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Order wherePaymentMethodId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Order wherePhone($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Order whereTotal($value)
@@ -1699,21 +1701,18 @@ namespace App\Models{
  * @property string|null $code Mã giao dịch ví
  * @property int|null $wallet_id Ví
  * @property int|null $user_id Người dùng
+ * @property int|null $order_id Order ID
  * @property int|null $amount Số tiền giao dịch
  * @property int|null $type Loại giao dịch
+ * @property int|null $status Trạng thái
  * @property string|null $reason Tên loại giao dịch
  * @property string|null $content Mô tả
  * @property int|null $before_amount Tổng số tiền trước giao dịch
- * @property int $before_amount_frozen Tổng số tiền bị đóng băng trước giao dịch
- * @property int|null $before_amount_available Tổng số tiền khả dụng trước giao dịch
  * @property int|null $after_amount Tổng số tiền sau giao dịch
- * @property int|null $after_amount_frozen Tổng số tiền bị đóng băng sau giao dịch
+ * @property int|null $before_amount_available Tổng số tiền khả dụng trước giao dịch
  * @property int|null $after_amount_available Tổng số tiền khả dụng sau giao dịch
- * @property int|null $before_amount_spent Tổng số tiền đã tiêu trước giao dịch
- * @property int|null $after_amount_spent Tổng số tiền đã tiêu sau giao dịch
  * @property \Illuminate\Support\Carbon|null $created_at Ngày giao dịch
  * @property \Illuminate\Support\Carbon|null $updated_at Ngày sửa
- * @property int|null $status
  * @method static \Illuminate\Database\Eloquent\Builder|BaseModel act()
  * @method static \Illuminate\Database\Eloquent\Builder|BaseModel fullTextSearch($columns, $term)
  * @method static \Illuminate\Database\Eloquent\Builder|BaseModel fullTextSearchNoRelevance($columns, $term)
@@ -1724,17 +1723,14 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|BaseModel slug($slug, $table = null)
  * @method static \Illuminate\Database\Eloquent\Builder|UserWalletTransaction whereAfterAmount($value)
  * @method static \Illuminate\Database\Eloquent\Builder|UserWalletTransaction whereAfterAmountAvailable($value)
- * @method static \Illuminate\Database\Eloquent\Builder|UserWalletTransaction whereAfterAmountFrozen($value)
- * @method static \Illuminate\Database\Eloquent\Builder|UserWalletTransaction whereAfterAmountSpent($value)
  * @method static \Illuminate\Database\Eloquent\Builder|UserWalletTransaction whereAmount($value)
  * @method static \Illuminate\Database\Eloquent\Builder|UserWalletTransaction whereBeforeAmount($value)
  * @method static \Illuminate\Database\Eloquent\Builder|UserWalletTransaction whereBeforeAmountAvailable($value)
- * @method static \Illuminate\Database\Eloquent\Builder|UserWalletTransaction whereBeforeAmountFrozen($value)
- * @method static \Illuminate\Database\Eloquent\Builder|UserWalletTransaction whereBeforeAmountSpent($value)
  * @method static \Illuminate\Database\Eloquent\Builder|UserWalletTransaction whereCode($value)
  * @method static \Illuminate\Database\Eloquent\Builder|UserWalletTransaction whereContent($value)
  * @method static \Illuminate\Database\Eloquent\Builder|UserWalletTransaction whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|UserWalletTransaction whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|UserWalletTransaction whereOrderId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|UserWalletTransaction whereReason($value)
  * @method static \Illuminate\Database\Eloquent\Builder|UserWalletTransaction whereStatus($value)
  * @method static \Illuminate\Database\Eloquent\Builder|UserWalletTransaction whereType($value)

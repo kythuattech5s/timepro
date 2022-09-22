@@ -18,7 +18,7 @@
         <div class="container mx-auto">
             <div class="gap-3 lg:grid lg:grid-cols-4 lg:gap-4">
                 <div class="col-span-3">
-                    @if($currentItem->video_trailer !== null)
+                    @if($currentItem->video_trailer != '')
                         <div class="box-video aspect relative z-10 mb-[1.5rem] aspect-[16/9] overflow-hidden rounded-[0.3125rem]">
                             <video id="video-trailer" class="video-js vjs-theme-city" controls poster="{%IMGV2.currentItem.img_video_trailer.-1%}">
                                 <source src="{%IMGV2.currentItem.video_trailer.-1%}" type="video/mp4" >
