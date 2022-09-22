@@ -17,16 +17,22 @@ class QuestionTeacherController extends Controller
         }
     }
 
-    public function index()
+    public function index(Request $request)
     {
         $user = Auth::user();
         if ($user->isAccount()) {
-            $cources = Course::whereHas('questions',  function ($q) {
+            $courses = Course::whereHas('questions',  function ($q) {
                 $q->where('user_id', Auth::id());
-            })->get();
+            });
         } else {
-            $cources = Course::where('teacher_id', Auth::id())->get();
+            $courses = Course::where('teacher_id', Auth::id());
         }
-        return view('auth.teacher.question', compact('cources', 'user'));
+
+        $courses->when($request->input('q'), function ($q, $keyword) {
+            $q->where('content', 'LIKE', '%' . $keyword . '%');
+        });
+
+        $cources = $courses->get();
+        return view('auth.teacher.question', compact('courses', 'user'));
     }
 }
