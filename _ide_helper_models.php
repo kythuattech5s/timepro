@@ -1071,6 +1071,7 @@ namespace App\Models{
  * @property string|null $cancel_user_type Loại user hủy
  * @property int|null $user_cancel_id Id user hủy đơn hàng
  * @property int|null $admin_confirm_id Id admin xác nhận đơn hàng
+ * @property string|null $voucher_info Thông tin voucher
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\OrderDetail[] $orderDetail
  * @property-read int|null $order_detail_count
  * @property-read \App\Models\OrderStatus|null $orderStatus
@@ -1100,6 +1101,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Order whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Order whereUserCancelId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Order whereUserId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Order whereVoucherInfo($value)
  */
 	class Order extends \Eloquent {}
 }

@@ -2,7 +2,7 @@
 @section('tp_main')
     <div class="row">
         <div class="col-lg-12">
-            <form action="tpv   /voucher/create" class="form-validate" method="POST"
+            <form action="tpv/voucher/create" class="form-validate" method="POST"
                   data-success="AJAX_PROMOTION.createSuccess" absolute>
                 <input type="hidden" name="type" value="create">
                 <input type="hidden" name="returnurl" value="{{ request()->input('returnurl') }}">
