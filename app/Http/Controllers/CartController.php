@@ -144,7 +144,7 @@ class CartController extends Controller
         // Check lại voucher có thỏa mãn hay không
         $voucherCheck = new voucherCheck();
         if ($voucherCheck->voucher != null) {
-            $voucherCheck->refreshData(Tech5sCart::instance($request->type), 0);
+            $voucherCheck->refreshData(Tech5sCart::instance($request->type), 0, true);
         }
 
 
@@ -181,7 +181,7 @@ class CartController extends Controller
 
             $voucherCheck = new voucherCheck();
             if ($voucherCheck->voucher != null) {
-                $voucherCheck->refreshData(Tech5sCart::instance($request->type), 0);
+                $voucherCheck->refreshData(Tech5sCart::instance($request->type), 0, true);
             }
         } catch (\Throwable $th) {
             return response()->json([

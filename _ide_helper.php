@@ -18581,6 +18581,43 @@
      
 }
 
+    namespace ProtoneMedia\LaravelFFMpeg\Support { 
+            /**
+     * 
+     *
+     * @method static \ProtoneMedia\LaravelFFMpeg\MediaOpener fromDisk($disk)
+     * @method static \ProtoneMedia\LaravelFFMpeg\MediaOpener fromFilesystem(\Illuminate\Contracts\Filesystem\Filesystem $filesystem)
+     * @method static \ProtoneMedia\LaravelFFMpeg\MediaOpener open($path)
+     * @method static \ProtoneMedia\LaravelFFMpeg\MediaOpener openUrl($path, array $headers)
+     * @method static \ProtoneMedia\LaravelFFMpeg\MediaOpener cleanupTemporaryFiles()
+     * @see \ProtoneMedia\LaravelFFMpeg\MediaOpener
+     */ 
+        class FFMpeg {
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function new()
+        {
+                        /** @var \ProtoneMedia\LaravelFFMpeg\Support\MediaOpenerFactory $instance */
+                        return $instance->new();
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function dynamicHLSPlaylist()
+        {
+                        /** @var \ProtoneMedia\LaravelFFMpeg\Support\MediaOpenerFactory $instance */
+                        return $instance->dynamicHLSPlaylist();
+        }
+         
+    }
+     
+}
+
     namespace Roniejisa\Comment\Helpers { 
             /**
      * 
@@ -22225,6 +22262,7 @@ namespace  {
             class Image extends \Intervention\Image\Facades\Image {}
             class Socialite extends \Laravel\Socialite\Facades\Socialite {}
             class LaravelLocalization extends \Mcamara\LaravelLocalization\Facades\LaravelLocalization {}
+            class FFMpeg extends \ProtoneMedia\LaravelFFMpeg\Support\FFMpeg {}
             class FCHelper extends \vanhenry\helpers\helpers\FCHelper {}
             class StringHelper extends \vanhenry\helpers\helpers\StringHelper {}
             class SEOHelper extends \vanhenry\helpers\helpers\SEOHelper {}
