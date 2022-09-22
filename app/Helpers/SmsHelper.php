@@ -24,5 +24,4 @@ class SmsHelper{
 		];
         return \Support::exeCurl(self::API_SEND_SMS,'GET',$body,$headers);
     }
-    
 }

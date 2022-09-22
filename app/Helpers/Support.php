@@ -190,7 +190,8 @@ class Support
                 'message'       => $message,
                 'redirect_url'  => $url
             ]);
-        }else{
+        }
+        else{
             return static::redirectTo($url,$code,$message);
         }
     }

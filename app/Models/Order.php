@@ -29,13 +29,14 @@ class Order extends BaseModel
         }
         $user = $this->user;
         $listItemOrderDetail = $this->orderDetail()->get();
+        $orderTypeId = $this->order_type_id;
         $emaiOrderSuccessContent = view('mail_templates.order_success',[
             'order' => $this,
             'listItemOrderDetail' => $listItemOrderDetail,
             'mainName'=> $user->name
-            ])->render();
+        ])->render();
         $queueEmail = new QueueEmail;
-        $queueEmail->title = request()->getHttpHost().' Đặt hàng thành công';
+        $queueEmail->title = request()->getHttpHost().($orderTypeId==OrderType::ORDER_DEPOSIT_WALLET?' Đặt hàng thành công':' Nạp tiền thành công');
         $queueEmail->content = $emaiOrderSuccessContent;
         $queueEmail->to = $this->email;
         $queueEmail->status = 0;
@@ -51,6 +52,10 @@ class Order extends BaseModel
                 default:
                     break;
             }
+        }
+        if($orderTypeId == OrderType::ORDER_DEPOSIT_WALLET){
+            $amount = $this->total_final;
+            $user->plusAmountAvailable($amount,UserWalletTransactionType::DEPOSIT_MONEY_INTO_WALLET,'Nạp tiền vào ví',$this->id);
         }
     }
     private function activeItemCourse($itemOrderCourseDetail,$user){

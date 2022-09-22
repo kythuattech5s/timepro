@@ -52,7 +52,7 @@
                                 Nạp {{Support::show($itemWalletTransaction,'amount')}}đ
                             </div>
                             <div class="col-span-1 text-[#454545] py-[0.5rem] px-2 text-center border-b-[1px] border-[#EBEBEB]">
-                                @switch(Support::show($itemTran,'status'))
+                                @switch(Support::show($itemWalletTransaction,'status'))
 	                                @case(0)
 	                                    <p class="text-[#AEAEB0]">{{'Đang chờ xử lý'}}</p>
 	                                    @break

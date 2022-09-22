@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Roniejisa\Comment\Traits\GetDataComment;
 use Tech5s\Notify\Traits\NotificationUserTrait;
-
+use App\Helpers\UserWallet\WalletHelper;
 class User extends Authenticatable
 {
     use HasFactory, NotificationUserTrait, GetDataComment;
@@ -198,25 +198,39 @@ class User extends Authenticatable
 
     public function getAmountAvailable(){
         $wallet = $this->wallet()->first();
+        if(!isset($wallet)){
+            $user = \Auth::user();
+            $wallet = \App\Helpers\UserWallet::create($user);
+        }
         return \Support::show($wallet,'amount_available');
     }
 
-    public function plusAmountAvailable($amount,$type,$reson){
+    public function plusAmountAvailable($amount,$type,$reson,$orderId = 0){
         if((int)$amount == 0) return false;
         $wallet = $this->wallet()->first();
+        if(!isset($wallet)){
+            $user = \Auth::user();
+            $wallet = \App\Helpers\UserWallet::create($user);
+        }
         $wallet->amount_available = (int)\Support::show($wallet,'amount_available') + (int)$amount;
+        $wallet->amount = (int)\Support::show($wallet,'amount') + (int)$amount;
         $wallet->save();
+        WalletHelper::insertTransaction($wallet,$type,$amount,$reson,WalletHelper::TRANSACTION_CALCULATION_PLUS,WalletHelper::TRANSACTION_STATUS_SUCCESS,$orderId);
         return true;
     }
 
-    public function minusAmountAvailable($amount,$type,$reson){
+    public function minusAmountAvailable($amount,$type,$reson,$orderId = 0){
         if((int)$amount == 0) return false;
         $wallet = $this->wallet()->first();
-        if((int)\Support::show($wallet,'amount_available') < (int)$amount){
-            return false;
+        if(!isset($wallet)){
+            $user = \Auth::user();
+            $wallet = \App\Helpers\UserWallet::create($user);
         }
+        if((int)\Support::show($wallet,'amount_available') < (int)$amount) return false;
         $wallet->amount_available = (int)\Support::show($wallet,'amount_available') - (int)$amount;
+        $wallet->amount = (int)\Support::show($wallet,'amount') - (int)$amount;
         $wallet->save();
+        WalletHelper::insertTransaction($wallet,$type,$amount,$reson,WalletHelper::TRANSACTION_CALCULATION_PLUS,WalletHelper::TRANSACTION_STATUS_SUCCESS,$orderId);
         return true;
     }
 

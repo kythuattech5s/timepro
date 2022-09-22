@@ -8,6 +8,7 @@ use App\Models\CourseTimePackage;
 use App\Models\Order;
 use App\Models\OrderDetail;
 use App\Models\OrderStatus;
+use App\Models\OrderType;
 use App\Models\PaymentMethod;
 use App\Models\UserCourseCombo;
 use App\Models\UserWalletTransactionType;
@@ -147,6 +148,7 @@ class OrderController extends Controller
         $order->payment_method_id = $userOrerData['payment_method'];
         $order->total = $totalMoney;
         $order->total_final = $totalMoney;
+        $order->order_type_id = OrderType::ORDER_COURSE;
         $order->save();
         $order->code = 'TPORD_'.$order->id;
         $order->save();
