@@ -12,7 +12,7 @@ class CourseTimePackage extends BaseModel
     {
         $course = $this->course;
         $price = $this->price;
-        $flashSale = $course->flashSale->first(fn ($q) => $q->start_at < now() && $q->expired_at > now());
+        $flashSale = $course->flashSale->first(fn ($q) => $q->start_at < now() && $q->expired_at > now() );
         if ($flashSale != null) {
             $currentCourse = $flashSale->courses->first(fn ($q) => $q->id == $course->id && $q->pivot->act == 1);
             if ($currentCourse != null) {
