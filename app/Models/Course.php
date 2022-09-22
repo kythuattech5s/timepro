@@ -252,4 +252,9 @@ class Course extends BaseModel
     {
         return $this->percentStudy() == 100;
     }
+
+    public function questions()
+    {
+        return $this->hasMany(QuestionTeacher::class, 'map_id', 'id');
+    }
 }

@@ -2,7 +2,6 @@
     <thead>
         <tr>
             <th>Khung giờ</th>
-            <th>Số lượng sản phẩm</th>
         </tr>
     </thead>
     <tbody>
@@ -14,9 +13,6 @@
                 <label for="slotTime-{{$key}}">
                     {{$time->from}} - {{$time->to}}
                 </label>
-            </td>
-            <td>
-                Số sản phẩm tham gia {{$time->qty}}
             </td>
         </tr>
         @empty

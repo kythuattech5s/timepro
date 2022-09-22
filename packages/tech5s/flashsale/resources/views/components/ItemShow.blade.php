@@ -18,7 +18,7 @@
                 <label for="">Kích hoạt</label>
                 <select name="act_all" id="" class="rounded-sm border">
                     <option value="1">Kích hoạt</option>
-                    <option value="0">Tắt kích hạot</option>
+                    <option value="0">Tắt kích hoạt</option>
                 </select>
             </div>
         </div>
