@@ -114,7 +114,7 @@ class OrderController extends Controller
         $order = $this->createOrder($listItems,$totalMoney,$userOrerData,$user);
         if ($userOrerData['payment_method'] == PaymentMethod::PAY_WALLET) {
             $reason = vsprintf('Thanh toán đơn hàng %s',[$order->code]);
-            $user->minusAmountAvailable($totalMoney,UserWalletTransactionType::PAYMENT_ORDER,$reason);
+            $user->minusAmountAvailable($totalMoney,UserWalletTransactionType::PAYMENT_ORDER,$reason,$order->id);
             $order->orderSuccess();
         }
         foreach ($this->cartInstance as $itemCartInstance) {
