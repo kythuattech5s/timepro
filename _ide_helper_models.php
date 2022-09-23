@@ -1192,6 +1192,30 @@ namespace App\Models{
 
 namespace App\Models{
 /**
+ * App\Models\OrderType
+ *
+ * @property int $id Mã
+ * @property string|null $name Tên
+ * @property \Illuminate\Support\Carbon|null $created_at Thời gian tạo
+ * @property \Illuminate\Support\Carbon|null $updated_at Thời gian sửa
+ * @method static \Illuminate\Database\Eloquent\Builder|BaseModel act()
+ * @method static \Illuminate\Database\Eloquent\Builder|BaseModel fullTextSearch($columns, $term)
+ * @method static \Illuminate\Database\Eloquent\Builder|BaseModel fullTextSearchNoRelevance($columns, $term)
+ * @method static \Illuminate\Database\Eloquent\Builder|OrderType newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|OrderType newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|BaseModel ord()
+ * @method static \Illuminate\Database\Eloquent\Builder|OrderType query()
+ * @method static \Illuminate\Database\Eloquent\Builder|BaseModel slug($slug, $table = null)
+ * @method static \Illuminate\Database\Eloquent\Builder|OrderType whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|OrderType whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|OrderType whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|OrderType whereUpdatedAt($value)
+ */
+	class OrderType extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
  * App\Models\Page
  *
  * @property int $id

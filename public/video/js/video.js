@@ -1620,44 +1620,45 @@ var ListVideoChaptr = /*#__PURE__*/function () {
       _this.inputRaw.innerHTML = JSON.stringify(_this.raw);
     });
 
-    _defineProperty(this, "changeDataImageOld", function () {
-      _this.raw = [];
+    _defineProperty(this, "changeDataImageOld", /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
+      var listVideo, index;
+      return _regeneratorRuntime().wrap(function _callee2$(_context2) {
+        while (1) {
+          switch (_context2.prev = _context2.next) {
+            case 0:
+              _this.raw = [];
+              listVideo = _this.listMain.querySelectorAll("[item] [video-content]");
 
-      _this.listMain.querySelectorAll("[item] img").forEach(function (img) {
-        if (img.hasAttribute("no-video")) {
-          return;
+              for (index = 0; index < listVideo.length; index++) {
+                if (listVideo[index].hasAttribute("data-path") && listVideo[index].getAttribute("data-path") != "") {
+                  (function () {
+                    var coponentImg = listVideo[index].closest("[data-id]");
+                    var input = coponentImg.querySelector("input");
+                    var video = document.createElement("video");
+                    video.innerHTML = "<source src=\"".concat(listVideo[index].getAttribute("data-path"), "\" type='video/mp4' />");
+
+                    video.onloadedmetadata = function () {
+                      input.nextElementSibling.value = video.duration;
+                    };
+
+                    input.dispatchEvent(new Event("change"));
+                  })();
+                }
+              }
+
+              _this.removeItem();
+
+              _this.removeFile();
+
+              _this.addEventChange();
+
+            case 6:
+            case "end":
+              return _context2.stop();
+          }
         }
-
-        var coponentImg = img.closest("[data-id]");
-        var id = coponentImg.dataset.id;
-        var media = JSON.parse(coponentImg.querySelector("input").value);
-        var request = new XMLHttpRequest();
-        request.open("GET", img.src, true);
-        request.responseType = "blob";
-
-        request.onload = function () {
-          var reader = new FileReader();
-          reader.readAsDataURL(request.response);
-
-          reader.onload = function (e) {
-            var base64 = e.target.result;
-            var mimeType = base64.match(/[^:/]\w+(?=;|,)/)[0];
-            var path = _roniejisa_scripts_assets_js_Helper_js__WEBPACK_IMPORTED_MODULE_1__["default"].dataURLtoFile(base64, mimeType);
-            var blob = window.URL.createObjectURL(path);
-            img.setAttribute("data-blob", blob);
-            new _ImageVideo_js__WEBPACK_IMPORTED_MODULE_0__["default"](blob, 1, videoUpload, [id, media]).init();
-          };
-        };
-
-        request.send();
-      });
-
-      _this.removeItem();
-
-      _this.removeFile();
-
-      _this.addEventChange();
-    });
+      }, _callee2);
+    })));
 
     _defineProperty(this, "getHTMLType", function (field, id) {
       var html;
@@ -1672,13 +1673,17 @@ var ListVideoChaptr = /*#__PURE__*/function () {
           break;
 
         case "video":
-          html = "\n                    <div data-id=\"".concat(id, "\">\n                        <label htmlFor=\"\">").concat(field.label, "</label>\n                        <input type=\"hidden\" id=\"").concat(id, "\" data-name=\"").concat(field.name, "\" />\n                        <input type=\"hidden\" data-name=\"duration\"/>\n                        <a href=\"/esystem/media/view?istiny=").concat(id, "&callback=VIDEO_CHAPTER.callbackVideo\" class=\"iframe-btn\">\n                            <img src=\"/admin/images/noimage.png\" alt=\"\" class=\"w-full h-auto\" />\n                        </a>\n                        <div class=\"mt-3 gap-2 grid grid-cols-2\">\n                            <a class=\"text-center text-white p-2 w-full bg-blue-600 col-span-1 iframe-btn\" href=\"/esystem/media/view?istiny=").concat(id, "&callback=VIDEO_CHAPTER.callbackVideo\" type=\"button\">").concat(field.placeholder, "</a>\n                            <a class=\"text-center text-white p-2 w-full bg-red-600 col-span-1\" href=\"javascript:void(0)\" remove-file=\"").concat(id, "\" >X\xF3a</a>\n                        </div>\n                    </div>\n                ");
+          html = "\n                    <div data-id=\"".concat(id, "\">\n                        <label htmlFor=\"\">").concat(field.label, "</label>\n                        <input type=\"hidden\" id=\"").concat(id, "\" data-name=\"").concat(field.name, "\" />\n                        <input type=\"hidden\" data-name=\"duration\"/>\n                        <a href=\"/esystem/media/view?istiny=").concat(id, "&callback=VIDEO_CHAPTER.callbackVideo\" class=\"iframe-btn\">\n                            <p class=\"pointer-events-none\">Vui l\xF2ng ch\u1ECDn video</p>\n                        </a>\n                        <div class=\"mt-3 gap-2 grid grid-cols-2\">\n                            <a class=\"text-center text-white p-2 w-full bg-blue-600 col-span-1 iframe-btn\" href=\"/esystem/media/view?istiny=").concat(id, "&callback=VIDEO_CHAPTER.callbackVideo\" type=\"button\">").concat(field.placeholder, "</a>\n                            <a class=\"text-center text-white p-2 w-full bg-red-600 col-span-1\" href=\"javascript:void(0)\" remove-file=\"").concat(id, "\" >X\xF3a</a>\n                        </div>\n                    </div>\n                ");
           break;
 
         case "select":
           html = "\n                <label htmlFor=\"\">".concat(field.label, "</label>\n                <select data-name=\"").concat(field.name, "\" class=\"").concat(_this.styleInput, "\">\n                    ").concat(field.options.map(function (option) {
             return "<option value=\"".concat(option.value, "\">").concat(option.name, "</option>");
           }).join(""), "\n                </select>\n                ");
+          break;
+
+        case "image":
+          html = "\n                    <div data-id=\"".concat(id, "\">\n                        <label htmlFor=\"\">").concat(field.label, "</label>\n                        <input type=\"hidden\" id=\"").concat(id, "\" data-name=\"").concat(field.name, "\" />\n                        <a href=\"/esystem/media/view?istiny=").concat(id, "&callback=VIDEO_CHAPTER.callbackImage\" class=\"iframe-btn\">\n                            <img src=\"/admin/images/noimage.png\" alt=\"\" class=\"w-full max-h-[120px] object-cover\"/>\n                        </a>\n                        <div class=\"mt-3 gap-2 grid grid-cols-2\">\n                            <a class=\"text-center text-white p-2 w-full bg-blue-600 col-span-1 iframe-btn\" href=\"/esystem/media/view?istiny=").concat(id, "&callback=VIDEO_CHAPTER.callbackImage\" type=\"button\">").concat(field.placeholder, "</a>\n                            <a class=\"text-center text-white p-2 w-full bg-red-600 col-span-1\" href=\"javascript:void(0)\" remove-file=\"").concat(id, "\" >X\xF3a</a>\n                        </div>\n                    </div>\n                ");
           break;
 
         case "hidden":
@@ -1770,27 +1775,29 @@ window["VIDEO_CHAPTER"] = function () {
         return false;
       }
 
-      var img = document.querySelector("[data-id=\"".concat(id, "\"] img"));
-      var request = new XMLHttpRequest();
       var urlOrigin = window.location.origin + "/";
-      request.open("GET", urlOrigin + media.path + media.file_name, true);
-      request.responseType = "blob";
+      var video = document.createElement("video");
+      video.innerHTML = "<source src=\"".concat(urlOrigin + media.path + media.file_name, "\" type='video/mp4' />");
 
-      request.onload = function () {
-        var reader = new FileReader();
-        reader.readAsDataURL(request.response);
-
-        reader.onload = function (e) {
-          var base64 = e.target.result;
-          var mimeType = base64.match(/[^:/]\w+(?=;|,)/)[0];
-          var path = _roniejisa_scripts_assets_js_Helper_js__WEBPACK_IMPORTED_MODULE_1__["default"].dataURLtoFile(base64, mimeType);
-          var blob = window.URL.createObjectURL(path);
-          img.setAttribute("data-blob", blob);
-          new _ImageVideo_js__WEBPACK_IMPORTED_MODULE_0__["default"](blob, 1, videoUpload, [id, media]).init();
-        };
+      video.onloadedmetadata = function () {
+        var div = document.querySelector("[data-id=\"".concat(id, "\"]"));
+        div.querySelector("p").innerHTML = media.file_name;
+        var input = div.querySelector("input[id=\"".concat(id, "\"]"));
+        input.nextElementSibling.value = video.duration;
+        input.value = JSON.stringify(media);
+        input.dispatchEvent(new Event("change"));
       };
-
-      request.send();
+    },
+    callbackImage: function callbackImage(items, id) {
+      var media = items[0];
+      var div = document.querySelector("[data-id=\"".concat(id, "\"]"));
+      var urlOrigin = window.location.origin + "/";
+      var img = div.querySelector("img");
+      console.log(img);
+      var input = div.querySelector("input[id=\"".concat(id, "\"]"));
+      img.src = urlOrigin + media.path + media.file_name;
+      input.value = JSON.stringify(media);
+      input.dispatchEvent(new Event("change"));
     },
     callbackFile: function callbackFile(items, id) {
       var media = items[0];
@@ -1803,16 +1810,6 @@ window["VIDEO_CHAPTER"] = function () {
     }
   };
 }();
-
-var videoUpload = function videoUpload(base64img, id, jsonFile, duration) {
-  var div = document.querySelector("[data-id=\"".concat(id, "\"]"));
-  var image = div.querySelector("img");
-  var input = div.querySelector("input[id=\"".concat(id, "\"]"));
-  input.nextElementSibling.value = duration;
-  input.value = JSON.stringify(jsonFile);
-  image.src = base64img;
-  input.dispatchEvent(new Event("change"));
-};
 })();
 
 /******/ })()
