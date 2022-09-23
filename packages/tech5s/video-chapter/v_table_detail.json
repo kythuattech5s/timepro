@@ -1,63 +1,69 @@
 {
-    "table": "course_videos",
-    "table_main": "course",
-    "note" : "Mẫu json",
-    "fields": [
-        {
-            "name": "name",
-            "type": "text",
-            "label": "Tên video",
-            "placeholder": "Nhập tên..."
-        },
-        {
-            "name": "course_id",
-            "type": "hidden",
-            "label": "Tên video",
-            "placeholder": "Khóa học"
-        },
-        {
-            "name": "source",
-            "type": "video",
-            "label": "Đường dẫn",
-            "placeholder": "Chọn Video"
-        },
-        {
-            "name": "act",
-            "type": "select",
-            "label": "Kích hoạt",
-            "placeholder": "Kích hoạt",
-            "options": [
-                {
-                    "value": "1",
-                    "name": "Kích hoạt"
-                },
-                {
-                    "value": "0",
-                    "name": "Không kích hoạt"
-                }
-            ]
-        },
-        {
-            "name": "type",
-            "type": "select",
-            "label": "Loại",
-            "placeholder": "Chọn loại",
-            "options": [
-                {
-                    "value": "1",
-                    "name": "Trả phí"
-                },
-                {
-                    "value": "0",
-                    "name": "Miễn phí"
-                }
-            ]
-        },
-        {
-            "name": "ord",
-            "type": "text",
-            "label": "Thứ tự",
-            "placeholder": "Nhập thứ tự.."
-        }
-    ]
+	"table": "course_videos",
+	"table_main": "course",
+	"field_main": "course_id",
+	"fields": [
+		{
+			"name": "name",
+			"type": "text",
+			"label": "Tên video",
+			"placeholder": "Nhập tên..."
+		},
+		{
+			"name": "course_id",
+			"type": "hidden",
+			"label": "Tên video",
+			"placeholder": "Khóa học"
+		},
+		{
+			"name": "source",
+			"type": "video",
+			"label": "Đường dẫn",
+			"placeholder": "Chọn video"
+		},
+		{
+			"name": "img",
+			"type": "image",
+			"label": "Ảnh video",
+			"placeholder": "Chọn hình ảnh"
+		},
+		{
+			"name": "act",
+			"type": "select",
+			"label": "Kích hoạt",
+			"placeholder": "Kích hoạt",
+			"options": [
+				{
+					"value": "1",
+					"name": "Kích hoạt"
+				},
+				{
+					"value": "0",
+					"name": "Không kích hoạt"
+				}
+			]
+		},
+		{
+			"name": "type",
+			"type": "select",
+			"label": "Loại",
+			"placeholder": "Chọn loại",
+			"options": [
+				{
+					"value": "1",
+					"name": "Trả phí"
+				},
+				{
+					"value": "0",
+					"name": "Miễn phí"
+				}
+			]
+		},
+		{
+			"name": "ord",
+			"type": "text",
+			"label": "Thứ tự",
+			"placeholder": "Nhập thứ tự.."
+		}
+	]
 }

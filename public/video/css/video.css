@@ -1039,6 +1039,9 @@ video {
 .max-h-\[250px\] {
   max-height: 250px;
 }
+.max-h-\[120px\] {
+  max-height: 120px;
+}
 .min-h-\[3\.125rem\] {
   min-height: 3.125rem;
 }
@@ -1708,6 +1711,10 @@ video {
 .object-contain {
   -o-object-fit: contain;
      object-fit: contain;
+}
+.object-cover {
+  -o-object-fit: cover;
+     object-fit: cover;
 }
 .p-3 {
   padding: 0.75rem;

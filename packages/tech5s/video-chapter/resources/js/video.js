@@ -90,35 +90,30 @@ class ListVideoChaptr {
         this.inputRaw.innerHTML = JSON.stringify(this.raw);
     };
 
-    changeDataImageOld = () => {
+    changeDataImageOld = async () => {
         this.raw = [];
-        this.listMain.querySelectorAll("[item] img").forEach((img) => {
-            if (img.hasAttribute("no-video")) {
-                return;
-            }
-            const coponentImg = img.closest("[data-id]");
-            const id = coponentImg.dataset.id;
-            const media = JSON.parse(coponentImg.querySelector("input").value);
-            var request = new XMLHttpRequest();
-            request.open("GET", img.src, true);
-            request.responseType = "blob";
-            request.onload = function () {
-                var reader = new FileReader();
-                reader.readAsDataURL(request.response);
-                reader.onload = function (e) {
-                    const base64 = e.target.result;
-                    let mimeType = base64.match(/[^:/]\w+(?=;|,)/)[0];
-                    const path = Helper.dataURLtoFile(base64, mimeType);
-                    const blob = window.URL.createObjectURL(path);
-                    img.setAttribute("data-blob", blob);
-                    new getImageOfVideo(blob, 1, videoUpload, [
-                        id,
-                        media,
-                    ]).init();
+
+        const listVideo = this.listMain.querySelectorAll(
+            "[item] [video-content]"
+        );
+        for (let index = 0; index < listVideo.length; index++) {
+            if (
+                listVideo[index].hasAttribute("data-path") &&
+                listVideo[index].getAttribute("data-path") != ""
+            ) {
+                const coponentImg = listVideo[index].closest("[data-id]");
+                const input = coponentImg.querySelector("input");
+                const video = document.createElement("video");
+                video.innerHTML = `<source src="${listVideo[index].getAttribute(
+                    "data-path"
+                )}" type='video/mp4' />`;
+                video.onloadedmetadata = function () {
+                    input.nextElementSibling.value = video.duration;
                 };
-            };
-            request.send();
-        });
+                input.dispatchEvent(new Event("change"));
+            }
+        }
+
         this.removeItem();
         this.removeFile();
         this.addEventChange();
@@ -172,7 +167,7 @@ class ListVideoChaptr {
                         <input type="hidden" id="${id}" data-name="${field.name}" />
                         <input type="hidden" data-name="duration"/>
                         <a href="/esystem/media/view?istiny=${id}&callback=VIDEO_CHAPTER.callbackVideo" class="iframe-btn">
-                            <img src="/admin/images/noimage.png" alt="" class="w-full h-auto" />
+                            <p class="pointer-events-none">Vui lòng chọn video</p>
                         </a>
                         <div class="mt-3 gap-2 grid grid-cols-2">
                             <a class="text-center text-white p-2 w-full bg-blue-600 col-span-1 iframe-btn" href="/esystem/media/view?istiny=${id}&callback=VIDEO_CHAPTER.callbackVideo" type="button">${field.placeholder}</a>
@@ -191,6 +186,21 @@ class ListVideoChaptr {
                         })
                         .join("")}
                 </select>
+                `;
+                break;
+            case "image":
+                html = `
+                    <div data-id="${id}">
+                        <label htmlFor="">${field.label}</label>
+                        <input type="hidden" id="${id}" data-name="${field.name}" />
+                        <a href="/esystem/media/view?istiny=${id}&callback=VIDEO_CHAPTER.callbackImage" class="iframe-btn">
+                            <img src="/admin/images/noimage.png" alt="" class="w-full max-h-[120px] object-cover"/>
+                        </a>
+                        <div class="mt-3 gap-2 grid grid-cols-2">
+                            <a class="text-center text-white p-2 w-full bg-blue-600 col-span-1 iframe-btn" href="/esystem/media/view?istiny=${id}&callback=VIDEO_CHAPTER.callbackImage" type="button">${field.placeholder}</a>
+                            <a class="text-center text-white p-2 w-full bg-red-600 col-span-1" href="javascript:void(0)" remove-file="${id}" >Xóa</a>
+                        </div>
+                    </div>
                 `;
                 break;
             case "hidden":
@@ -243,28 +253,31 @@ window["VIDEO_CHAPTER"] = (() => {
                 alert("Không đúng định dạng video");
                 return false;
             }
-            const img = document.querySelector(`[data-id="${id}"] img`);
-            var request = new XMLHttpRequest();
             const urlOrigin = window.location.origin + "/";
-            request.open("GET", urlOrigin + media.path + media.file_name, true);
+            const video = document.createElement("video");
 
-            request.responseType = "blob";
-            request.onload = function () {
-                var reader = new FileReader();
-                reader.readAsDataURL(request.response);
-                reader.onload = function (e) {
-                    const base64 = e.target.result;
-                    let mimeType = base64.match(/[^:/]\w+(?=;|,)/)[0];
-                    const path = Helper.dataURLtoFile(base64, mimeType);
-                    const blob = window.URL.createObjectURL(path);
-                    img.setAttribute("data-blob", blob);
-                    new getImageOfVideo(blob, 1, videoUpload, [
-                        id,
-                        media,
-                    ]).init();
-                };
+            video.innerHTML = `<source src="${
+                urlOrigin + media.path + media.file_name
+            }" type='video/mp4' />`;
+            video.onloadedmetadata = function () {
+                const div = document.querySelector(`[data-id="${id}"]`);
+                div.querySelector("p").innerHTML = media.file_name;
+                const input = div.querySelector(`input[id="${id}"]`);
+                input.nextElementSibling.value = video.duration;
+                input.value = JSON.stringify(media);
+                input.dispatchEvent(new Event("change"));
             };
-            request.send();
+        },
+        callbackImage: (items, id) => {
+            const media = items[0];
+            const div = document.querySelector(`[data-id="${id}"]`);
+            const urlOrigin = window.location.origin + "/";
+            const img = div.querySelector("img");
+            console.log(img);
+            const input = div.querySelector(`input[id="${id}"]`);
+            img.src = urlOrigin + media.path + media.file_name;
+            input.value = JSON.stringify(media);
+            input.dispatchEvent(new Event("change"));
         },
         callbackFile: (items, id) => {
             const media = items[0];
@@ -277,12 +290,3 @@ window["VIDEO_CHAPTER"] = (() => {
         },
     };
 })();
-const videoUpload = (base64img, id, jsonFile, duration) => {
-    const div = document.querySelector(`[data-id="${id}"]`);
-    const image = div.querySelector("img");
-    const input = div.querySelector(`input[id="${id}"]`);
-    input.nextElementSibling.value = duration;
-    input.value = JSON.stringify(jsonFile);
-    image.src = base64img;
-    input.dispatchEvent(new Event("change"));
-};
