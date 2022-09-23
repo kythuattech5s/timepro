@@ -175,6 +175,11 @@ class OrderController extends Controller
         }
         // Xóa voucher
         $voucherCheck->destroy();
+        if ($userOrerData['payment_method'] == PaymentMethod::PAY_VN_PAY) {
+			$transactionId = \paymentonline\manager\models\Transaction::insertTransaction($order,\VRoute::get("paymentSucess"));
+			$paymentonlineProcesser = new \paymentonline\manager\processors\Processor($transactionId);
+			return $paymentonlineProcesser->paymentonline();
+		}
         return response()->json([
             'code' => 200,
             'message' => 'Đặt hàng thành công',

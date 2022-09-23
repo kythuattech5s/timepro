@@ -563,6 +563,8 @@ class MediaController extends BaseAdminController
             }
             return response()->json($images);
         }
+
+        
     }
 
     private function _deleteFile($id, $type = 1)
@@ -577,9 +579,9 @@ class MediaController extends BaseAdminController
                     foreach ($sizes as $key => $value) {
                         $delfile = $d["path"] . "thumbs/" . $value["name"] . "/" . $d["file_name"];
                         $delfileWebp = str_replace($ext, '.webp', $delfile);
-                        if (file_exists(public_path($delfile))) {
+                        if (file_exists(public_path(str_replace('public/','',$delfile)))) {
                             \Event::dispatch('vanhenry.manager.media.delete.success', array($delfile, $id));
-                            unlink($delfile);
+                            unlink(public_path(str_replace('public/','',$delfile)));
                             if (file_exists(public_path($delfileWebp))) {
                                 unlink(public_path($delfileWebp));
                             }
@@ -587,10 +589,10 @@ class MediaController extends BaseAdminController
                     }
                 }
                 $filePath = $d["path"] . $d["file_name"];
-                if (file_exists(public_path($filePath))) {
+                if (file_exists(public_path(str_replace('public/','',$filePath)))) {
                     $delfile = $d["path"] . $d["file_name"];
                     \Event::dispatch('vanhenry.manager.media.delete.success', array($delfile, $id));
-                    unlink($filePath);
+                    unlink(public_path(str_replace('public/','',$filePath)));
                     if (file_exists(public_path(str_replace($ext, '.webp', $filePath)))) {
                         unlink(public_path(str_replace($ext, '.webp', $filePath)));
                     }

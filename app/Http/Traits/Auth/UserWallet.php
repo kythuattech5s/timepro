@@ -62,7 +62,11 @@ trait UserWallet{
 		$order = $this->createOrderDeposit($amount,$userOrerData,$user);
 		$wallet = $user->wallet()->first();
 		WalletHelper::insertTransaction($wallet,UserWalletTransactionType::DEPOSIT_MONEY_INTO_WALLET,$amount,'Nạp tiền vào ví',WalletHelper::TRANSACTION_CALCULATION_PLUS,WalletHelper::TRANSACTION_STATUS_TRADING,Support::show($order,'id'));
-		/* Cần Code Xử lý Thanh Toán Online */
+		if ($userOrerData['payment_method'] == PaymentMethod::PAY_VN_PAY) {
+			$transactionId = \paymentonline\manager\models\Transaction::insertTransaction($order,\VRoute::get("paymentSucess"));
+			$paymentonlineProcesser = new \paymentonline\manager\processors\Processor($transactionId);
+			return $paymentonlineProcesser->paymentonline();
+		}
 		return response()->json(['code'=>200,'message'=>'Gửi Yêu Cầu Nạp Tiền Thành Công']);
 	}
 

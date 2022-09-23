@@ -114,7 +114,8 @@ class Support
 
         if (file_exists($file_path)) {
             return asset($file) . '?v=' . filemtime($file_path);
-        } else {
+        }
+        else {
             $path = collect(get_headers(url($file)));
 
             $path = $path->first(function ($string) {

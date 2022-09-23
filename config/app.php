@@ -185,6 +185,7 @@ return [
         multiplechoicequestions\managequestion\Providers\MultipleChoiceServiceProvider::class,
         modulevideosecurity\managevideo\VideoSecurityServiceProvider::class,
         CourseManage\Providers\CourseManageProvider::class,
+        paymentonline\manager\ManagerPaymentServiceProvider::class,
         Tech5sShoppingCart\Tech5sCart\Tech5sCartServiceProvider::class,
         Roniejisa\Comment\Providers\CommentServiceProvider::class,
         Tech5s\VideoChapter\Providers\VideoChapterServiceProvider::class,
