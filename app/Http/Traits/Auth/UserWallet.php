@@ -24,7 +24,7 @@ trait UserWallet{
 			return \Redirect::to(url('/'))->with('typeNotify','error')->with('messageNotify','Tài khoản của bạn không có quyền truy cập');
 		}
 		$wallet = $user->wallet()->first();
-		$walletTransactions = $wallet != null?$wallet->walletTransactions()->get():[];
+		$walletTransactions = $wallet != null?$wallet->walletTransactions()->orderBy('created_at','desc')->get():[];
 		return view('auth.account.wallet',compact('wallet','walletTransactions'));
 	}
 	
