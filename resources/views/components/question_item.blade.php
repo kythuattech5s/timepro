@@ -27,7 +27,7 @@
                         @foreach ($question->questions as $item_child)
                             <div class="relative flex gap-2 before:absolute before:top-12 before:left-[21px] before:h-[calc(100%_-_70px)] before:w-[1px] before:bg-[#D9D9D9] before:content-['']">
                                 @php
-                                    $user = $question->user;
+                                    $user = $item_child->user;
                                 @endphp
                                 <img src="{%IMGV2.user.img.-1%}" alt="{%AIMGV2.user.img.alt%}" class="h-11 w-11 rounded-full" title="{%AIMGV2.user.img.title%}">
                                 <div class="flex-1">
@@ -36,7 +36,7 @@
                                         <p class="text-xs text-[#888888]">{{ RSCustom::showTime($item_child->created_at) }}</p>
                                     </div>
                                     <p class="my-2">
-                                        {!! $question->content !!}
+                                        {!! $item_child->content !!}
                                     </p>
                                     <div class="flex flex-wrap gap-4">
                                         <a class="{{ $item_child->likes->first(function ($q) {

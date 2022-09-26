@@ -33,7 +33,7 @@
                                     </div>
                                 </div>
                                 @php
-                                    $listQuestions = App\Models\QuestionTeacher::getQuestion($course->id);
+                                    $listQuestions = RSCustom::paginate($course->questions, 5);
                                 @endphp
                                 <div question-teacher-main>
                                     @include('components.question_teacher', ['currentItem' => $course, 'listItems' => $listQuestions])

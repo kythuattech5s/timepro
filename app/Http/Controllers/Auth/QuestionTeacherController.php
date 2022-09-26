@@ -22,17 +22,27 @@ class QuestionTeacherController extends Controller
         $user = Auth::user();
         if ($user->isAccount()) {
             $courses = Course::whereHas('questions',  function ($q) {
-                $q->where('user_id', Auth::id());
+                $q->with('questions')->where('user_id', Auth::id())->whereNull('question_teacher_id');
             });
+            $courses->with(['questions' =>  function ($q) {
+                $q->with(['questions' => function ($q) {
+                    $q->with('user');
+                }, 'user'])->where('user_id', Auth::id())->whereNull('question_teacher_id');
+            }]);
         } else {
             $courses = Course::where('teacher_id', Auth::id());
+            $courses->with(['questions' => function ($q) {
+                $q->with(['questions' => function ($q) {
+                    $q->with('user');
+                }, 'user']);
+            }]);
         }
 
         $courses->when($request->input('q'), function ($q, $keyword) {
             $q->where('content', 'LIKE', '%' . $keyword . '%');
         });
 
-        $cources = $courses->get();
+        $courses = $courses->get();
         return view('auth.teacher.question', compact('courses', 'user'));
     }
 }
