@@ -54,6 +54,7 @@
             "vanhenry\\minify\\": "packages/vanhenry/minify/src",
             "multiplechoicequestions\\managequestion\\": "packages/multiplechoicequestions/managequestion/src",
             "modulevideosecurity\\managevideo\\": "packages/modulevideosecurity/managevideo/src",
+            "paymentonline\\manager\\": "packages/paymentonline/manager/src",
             "CustomTable\\": "packages/table_customs/src",
             "CourseManage\\": "packages/course_manage/src",
             "Tech5sShoppingCart\\Tech5sCart\\": "packages/tech5sShoppingCart/tech5sCart/src",
