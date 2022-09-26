@@ -162,8 +162,6 @@ class FCHelper
                 } else {
                     if (isset($folder) && file_exists(public_path($json['path'] . 'thumbs/' . $folder . '/' . $json['file_name']))) {
                         $img = $json['path'] . 'thumbs/' . $folder . '/' . $json['file_name'];
-                    } elseif (isset($folder) && $folder == '-1' && file_exists(public_path($json['path'] . 'thumbs/def/' . $json['file_name']))) {
-                        $img = $json['path'] . 'thumbs/def/' . $json['file_name'];
                     } elseif (file_exists($def2) || file_exists(public_path($def2))) {
                         $img = $def2;
                     } else {

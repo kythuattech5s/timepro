@@ -6,36 +6,37 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="csrf-token" content="{{ csrf_token() }}">
     {!! SEOHelper::HEADER_SEO(@$currentItem ? $currentItem : null) !!}
-    <link rel="stylesheet" href="{{ Support::asset('theme/frontend/css/animate.min.css') }}" />
+    {{-- <link rel="stylesheet" href="{{ Support::asset('theme/frontend/css/animate.min.css') }}" />
     <link rel="stylesheet" href="{{ Support::asset('theme/frontend/css/font-awesome.min.css') }}" />
     <link rel="stylesheet" href="{{ Support::asset('theme/frontend/css/swiper-bundle.min.css') }}" />
     <link rel="stylesheet" href="{{ Support::asset('theme/frontend/css/lightbox.css') }}" />
     <link rel="stylesheet" href="{{ Support::asset('theme/frontend/css/main.css') }}" />
-    <link rel="stylesheet" href="{{ Support::asset('theme/frontend/css/toastify.css') }}" />
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="{{ Support::asset('theme/frontend/css/toastify.css') }}" /> --}}
+    {!! SEOHelper::loadCss(['theme/frontend/css/animate.min.css', 'theme/frontend/css/font-awesome.min.css', 'theme/frontend/css/swiper-bundle.min.css', 'theme/frontend/css/lightbox.css', 'theme/frontend/css/main.css', 'theme/frontend/css/toastify.css']) !!}
+    {{-- <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
-        theme: {
-            extend: {
-            fontFamily: {
-                Averta: ['"Averta"'],
+            theme: {
+                extend: {
+                    fontFamily: {
+                        Averta: ['"Averta"'],
+                    },
+                    screens: {
+                        sm: "576px",
+                        md: "768px",
+                        lg: "1024px",
+                        xl: "1280px",
+                        "2xl": "1408px",
+                    },
+                    container: {
+                        center: true,
+                    },
+                },
             },
-            screens: {
-                sm: "576px",
-                md: "768px",
-                lg: "1024px",
-                xl: "1280px",
-                "2xl": "1408px",
-            },
-            container: {
-                center: true,
-            },
-            },
-        },
-    };
-    </script>
+        };
+    </script> --}}
     @yield('cssl')
-    <link rel="stylesheet" href="{{ Support::asset('css/app.css') }}">
+    <link rel="stylesheet" href="{{ Support::asset('css/app.css') }}" type="text/css">
     @yield('css')
     <script type="text/javascript">
         var showNotify = "";
@@ -47,10 +48,10 @@
         var redirect = "{{ Session::get('redirect', '') }}";
     </script>
     {[CMS_HEADER]}
-    
+
 </head>
 
-<body class="wrapper 2xl:text-[16px] mx-auto overflow-x-hidden text-[12px] leading-snug text-[#454545] sm:text-[14px]">
+<body class="wrapper mx-auto overflow-x-hidden text-[12px] leading-snug text-[#454545] sm:text-[14px] 2xl:text-[16px]">
     @include('layouts.header')
     @yield('main')
     @include('layouts.footer')
@@ -64,7 +65,7 @@
     <script src="{{ Support::asset('theme/frontend/js/wow.min.js') }}" defer></script>
     <script src="{{ Support::asset('theme/frontend/js/fslightbox.js') }}" defer></script>
     <script src="{{ Support::asset('theme/frontend/js/swiper-bundle.min.js') }}" defer></script>
-    <script src="{{ Support::asset('theme/frontend/js/tabs.js') }}" defer></script>
+    <script src="{{ Support::asset('theme/frontend/js/tabs.js') }}"></script>
     @yield('jsl')
     <script src="{{ Support::asset('theme/frontend/js/base.js') }}" defer></script>
     <script src="{{ Support::asset('theme/frontend/js/cart.js') }}" defer></script>

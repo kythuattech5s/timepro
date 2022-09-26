@@ -27,6 +27,9 @@ class NotificationController extends Controller
         $notifications->whereHas('catalog', function ($q) {
             $q->where('act', 1);
         });
+        $notifications->when(request()->input('q'), function ($q, $keyword) {
+            $q->whereJsonContains('data->link', $keyword);
+        });
         $notifications = $notifications->paginate(10);
         return view('auth.account.notification', compact('notification_catalogs', 'notifications'));
     }
