@@ -14,8 +14,7 @@ class Controller extends BaseController
     {
         if (in_array(request()->ip(), ["14.160.24.158",'127.0.0.1'])) {
             \Debugbar::enable();
-        }
-        else {
+        }else {
             \Debugbar::disable();
         }
     }

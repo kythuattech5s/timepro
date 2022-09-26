@@ -164,6 +164,6 @@ trait GetDataComment
 
     public function commentTeacher()
     {
-        return $this->hasMany(Comment::class);
+        return $this->hasMany(Comment::class,'map_id','id')->where('map_table','users');
     }
 }

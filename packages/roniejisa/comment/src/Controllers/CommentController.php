@@ -49,8 +49,8 @@ class CommentController extends Controller
                 'redirect_url' => url('dang-nhap'),
             ]);
         }
-
-        $comment = Helper::addComment($request);
+        $nameRating = $request->input('name_rating','rate');
+        $comment = Helper::addComment($request,false, $nameRating);
 
         return response([
             'code' => 200,
@@ -68,8 +68,9 @@ class CommentController extends Controller
                 'redirect_url' => url('dang-nhap'),
             ]);
         }
-
-        $comment = Helper::addComment($request);
+        
+        $nameRating = $request->input('name_rating','rate');
+        $comment = Helper::addComment($request,false,$nameRating);
         return response([
             'code' => 200,
             'message' => 'Đánh giá khóa học thành công',

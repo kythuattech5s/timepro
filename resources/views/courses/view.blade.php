@@ -20,7 +20,7 @@
                 <div class="col-span-3">
                     @if($currentItem->video_trailer != '')
                         <div class="box-video aspect relative z-10 mb-[1.5rem] aspect-[16/9] overflow-hidden rounded-[0.3125rem]">
-                            <video id="video-trailer" class="video-js vjs-theme-city" controls poster="{%IMGV2.currentItem.img_video_trailer.-1%}">
+                            <video id="video-trailer" class="video-trailer video-js vjs-theme-city" controls poster="{%IMGV2.currentItem.img_video_trailer.-1%}">
                                 <source src="{%IMGV2.currentItem.video_trailer.-1%}" type="video/mp4" >
                             </video>
                             {{-- <svg class="z-1 absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]" xmlns="http://www.w3.org/2000/svg"
@@ -234,9 +234,11 @@
     <script src="{'comment/js/comment.js'}" defer></script>
     <script type="module" src="{'assets/js/question.js'}" defer></script>
     <script type="module" src="{'assets/js/videoPlayer.js'}" defer></script>
+    @if($currentItem->video_trailer != '')
     <script defer>
         window.addEventListener('DOMContentLoaded',function(){
             videojs('video-trailer');
         })
     </script>
+    @endif
 @endsection

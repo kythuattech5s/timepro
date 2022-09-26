@@ -33,7 +33,7 @@
             },
         },
     };
-    </script>   
+    </script>
     @yield('cssl')
     <link rel="stylesheet" href="{{ Support::asset('css/app.css') }}">
     @yield('css')
