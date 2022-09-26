@@ -186,7 +186,6 @@ var XHR = (function () {
         Object.assign(button.style, {
             width: `${buttonRect.width}px`,
             height: `${buttonRect.height}px`,
-            position: `relative`,
         });
         button.setAttribute("content-old", button.innerHTML);
         button.disabled = true;
@@ -207,6 +206,8 @@ var XHR = (function () {
             }
             button.disabled = false;
             button.innerHTML = button.getAttribute("content-old");
+            button.style.width = null;
+            button.style.height = null;
         }
     }
 

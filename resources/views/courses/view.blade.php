@@ -4,8 +4,8 @@
     <link href="{'comment/css/style.css'}" rel="stylesheet">
     <link href="{'comment/css/star.css'}" rel="stylesheet">
     <link href="{'comment/css/selectStar.css'}" rel="stylesheet">
-    <link href="{{ mix('comment/style/app.css') }}" rel="stylesheet">
-    <link href="https://vjs.zencdn.net/7.20.3/video-js.css" rel="stylesheet" />
+    <link href="{'comment/style/app.css'}" rel="stylesheet">
+    <link href="{'assets/plugins/videojs/video.css'}" rel="stylesheet" />
 @endsection
 @section('main')
     @include('course_categories.banner_page')
@@ -18,19 +18,23 @@
         <div class="container mx-auto">
             <div class="gap-3 lg:grid lg:grid-cols-4 lg:gap-4">
                 <div class="col-span-3">
-                    <div class="box-video aspect relative z-10 mb-[1.5rem] aspect-[16/9] overflow-hidden rounded-[0.3125rem]">
-                        @include('image_loader.all', ['itemImage' => $currentItem, 'key' => 'img_video_trailer'])
-                        <svg class="z-1 absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]" xmlns="http://www.w3.org/2000/svg"
-                             width="101" height="101" viewBox="0 0 101 101" fill="none">
-                            <circle opacity="0.3" cx="50.604" cy="50.2674" r="50.106" fill="white" />
-                            <path d="M71.2938 50.0352L40.5833 68.2873L40.7418 31.5299L71.2938 50.0352Z" fill="white" />
-                        </svg>
-                    </div>
+                    @if($currentItem->video_trailer != '')
+                        <div class="box-video aspect relative z-10 mb-[1.5rem] aspect-[16/9] overflow-hidden rounded-[0.3125rem]">
+                            <video id="video-trailer" class="video-js vjs-theme-city" controls poster="{%IMGV2.currentItem.img_video_trailer.-1%}">
+                                <source src="{%IMGV2.currentItem.video_trailer.-1%}" type="video/mp4" >
+                            </video>
+                            {{-- <svg class="z-1 absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]" xmlns="http://www.w3.org/2000/svg"
+                                width="101" height="101" viewBox="0 0 101 101" fill="none">
+                                <circle opacity="0.3" cx="50.604" cy="50.2674" r="50.106" fill="white" />
+                                <path d="M71.2938 50.0352L40.5833 68.2873L40.7418 31.5299L71.2938 50.0352Z" fill="white" />
+                            </svg> --}}
+                        </div>
+                    @endif
                     <div class="tabs md-[0.5rem] sticky top-0 z-10 mb-[1.5rem] flex snap-start justify-start gap-4 overflow-x-auto rounded-[0.3125rem] bg-[#fff] p-[0.5rem] pb-[1rem] text-center md:justify-around md:p-[1rem]">
-                        <a href="#gioi-thieu" title="Giới thiệu" class="flex-none text-[0.875rem] font-semibold text-[#454545] md:text-base">Giới thiệu</a>
-                        <a href="#noi-dung-khoa-hoc" title="Nội dung khóa học" class="flex-none text-[0.875rem] font-semibold text-[#454545] md:text-base">Nội dung khóa học</a>
-                        <a href="#thong-tin-giang-vien" title="Thông tin giảng viên" class="flex-none text-[0.875rem] font-semibold text-[#454545] md:text-base">Thông tin giảng viên</a>
-                        <a href="#danh-gia" title="Đánh giá" class="flex-none text-[0.875rem] font-semibold text-[#454545] md:text-base">Đánh giá</a>
+                        <a href="{{url()->to($currentItem->slug.'#gioi-thieu')}}" title="Giới thiệu" class="flex-none text-[0.875rem] font-semibold text-[#454545] md:text-base">Giới thiệu</a>
+                        <a href="{{url()->to($currentItem->slug.'#noi-dung-khoa-hoc')}}" title="Nội dung khóa học" class="flex-none text-[0.875rem] font-semibold text-[#454545] md:text-base">Nội dung khóa học</a>
+                        <a href="{{url()->to($currentItem->slug.'#thong-tin-giang-vien')}}" title="Thông tin giảng viên" class="flex-none text-[0.875rem] font-semibold text-[#454545] md:text-base">Thông tin giảng viên</a>
+                        <a href="{{url()->to($currentItem->slug.'#danh-gia')}}" title="Đánh giá" class="flex-none text-[0.875rem] font-semibold text-[#454545] md:text-base">Đánh giá</a>
                     </div>
                     <div class="box mb-[1.5rem] overflow-hidden rounded bg-[#fff] p-[0.5rem] md:p-[1.5rem]" id="gioi-thieu">
                         <p class="mb-[0.625rem] border-b-[1px] border-b-[#EBEBEB] pb-[0.625rem] text-[1.125rem] font-semibold text-[#252525]">
@@ -91,9 +95,9 @@
                                         <div class="s-content pl-[1.125rem]">
                                             {!! Support::show($userTeacher, 'teacher_description') !!}
                                         </div>
-                                        <div class="text-center pt-2">
+                                        <div class="pt-2 text-center">
                                             @if ($userTeacher->uslug != '')
-                                                <a href="thong-tin-giang-vien/{{ $userTeacher->uslug }}" title="Chi tiết giảng viên" class="btn btn-red-gradien block rounded-md bg-gradient-to-r from-[#F44336] to-[#C62828] py-2 px-5 text-center font-semibold text-white shadow-lg md:inline-block">Chi tiết giảng viên</a>
+                                                <a href="{{$userTeacher->buildHrefTeacher()}}" title="Chi tiết giảng viên" class="btn btn-red-gradien block rounded-md bg-gradient-to-r from-[#F44336] to-[#C62828] py-2 px-5 text-center font-semibold text-white shadow-lg md:inline-block">Chi tiết giảng viên</a>
                                             @endif
                                         </div>
                                     </div>
@@ -163,7 +167,7 @@
                             @php
                                 $fisrtPackage = $currentItem->timePackage->first();
                             @endphp
-                            <div class="overflow-hidden rounded-[0.4688rem] bg-[#fff] p-2 lg:sticky lg:top-[1rem]">
+                            <div class="overflow-hidden rounded-[0.4688rem] bg-[#fff] p-2 lg:sticky lg:top-[1rem] mb-3 mb-lg-4">
                                 <div class="item-course buy-item-box">
                                     @include('image_loader.all', ['itemImage' => $currentItem, 'key' => 'img'])
                                     <div class="p-2">
@@ -175,19 +179,20 @@
 
                                         <select class="select-time-package my-[1.125rem] w-full overflow-hidden rounded bg-[#F5F5F5] px-[1rem] py-[0.8125rem] font-semibold text-[#888888] lg:my-[1.5rem]">
                                             @foreach ($currentItem->timePackage as $key => $itemTimePackage)
-                                                <option value="{{ $itemTimePackage->id }}" data-price="{{ Currency::showMoney($itemTimePackage->price) }}" data-subprice="{{ $itemTimePackage->price_old > $itemTimePackage->price ? Currency::showMoney($itemTimePackage->price_old) : '' }}">{{ $itemTimePackage->name }}</option>
+                                                @php
+                                                    $priceTimePackageInfo = $itemTimePackage->getPriceInfo();
+                                                @endphp
+                                                <option value="{{ $itemTimePackage->id }}" data-price="{{ Currency::showMoney($priceTimePackageInfo->price) }}" data-subprice="{{ $priceTimePackageInfo->price_old > $priceTimePackageInfo->price ? Currency::showMoney($priceTimePackageInfo->price_old) : '' }}">{{ $itemTimePackage->name }}</option>
                                             @endforeach
                                         </select>
-
                                         <a href="javascript:void(0)" title="Đăng ký ngay" class="btn btn-red-gradien btn-buy-item mb-2 flex items-center justify-center overflow-hidden rounded border-[2px] border-[#fff] bg-gradient-to-r from-[#F44336] to-[#C62828] py-[0.725rem] px-[0.3125rem] font-semibold text-white hover:text-[#fff]" data-action="buy-now" data-type="course" data-id="{{ $currentItem->id }}" data-package="{{ $fisrtPackage->id }}">Đăng kí ngay</a>
                                         <a href="javascript:void(0)" title="Thêm vào giỏ hàng" class="btn-buy-item flex items-center justify-center overflow-hidden rounded border-[2px] border-[#CD272F] bg-[#fff] py-[0.725rem] px-[0.3125rem] font-semibold text-[#CD272F]" data-action="add-cart" data-type="course" data-id="{{ $currentItem->id }}" data-package="{{ $fisrtPackage->id }}"> @include('icon_svgs.add_cart') Thêm vào giỏ hàng </a>
-
                                     </div>
                                 </div>
                             </div>
                         @endif
 
-                        <div class="box mt-[1.275rem] overflow-hidden rounded bg-[#fff] md:mt-0 2xl:mt-[1.875rem]">
+                        <div class="box  overflow-hidden rounded bg-[#fff]">
                             <p class="bg-gradient-to-r from-[#F44336] to-[#C62828] p-[1rem] text-center text-[1.1rem] font-semibold text-white lg:text-[1.375rem]">Thông tin khóa học</p>
                             <div class="p-[0.75rem] md:p-[1.25rem]">
                                 <div class="mb-[0.75rem] flex items-center lg:mb-[1rem]">
@@ -222,11 +227,16 @@
     </section>
 @endsection
 @section('js')
-    <script src="https://vjs.zencdn.net/7.20.3/video.min.js" defer></script>
+    <script src="{'assets/plugins/videojs/video.min.js'}" defer></script>
     <script src="{'assets/js/FormData.js'}" defer></script>
     <script src="{'assets/js/ValidateFormHasFile.js'}" defer></script>
     <script src="{'assets/js/XHR.js'}" defer></script>
     <script src="{'comment/js/comment.js'}" defer></script>
     <script type="module" src="{'assets/js/question.js'}" defer></script>
     <script type="module" src="{'assets/js/videoPlayer.js'}" defer></script>
+    <script defer>
+        window.addEventListener('DOMContentLoaded',function(){
+            videojs('video-trailer');
+        })
+    </script>
 @endsection

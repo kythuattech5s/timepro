@@ -2,7 +2,7 @@
     <div class="container">
         <p class="subtitle__all w-fit mx-auto relative uppercase text-[0.75rem] font-bold mb-2">{:about_us:}</p>
         <h2 class="title-all uppercase font-bold text-[#252525] 2xl:text-[2rem] lg:text-[1.5rem] text-[1.125rem] text-center mb-4">{[title_about_us]}</h2>
-        <div class="short_content text-center mb-6">{[content_about_us]}</div>
+        <div class="short_content text-center mb-6 s-content max-w-[62.5rem] mx-auto">{[content_about_us]}</div>
     </div>
     <?php
     $achievementAbouts = Support::extractJson(SettingHelper::getSetting('achievement_about'));
@@ -26,7 +26,7 @@
                 $idYoutube = Support::getYoutubeId(SettingHelper::getSetting('link_video_about'));
                 $imgVideoYoutube = "https://img.youtube.com/vi/$idYoutube/maxresdefault.jpg";
                 ?>
-                <a href="{[link_video]}" title="" data-fslightbox="video-intro" class="video-intro block c-img pt-[52%] rounded-lg overflow-hidden">
+                <a href="{[link_video_about]}" title="{[title_about_us]}" data-fslightbox="video-intro" class="video-intro block c-img pt-[52%] rounded-lg overflow-hidden">
                     <img src="{{$imgVideoYoutube ?? ''}}" alt="{[title_about_us]}" title="{[title_about_us]}" />
                     <span class="btn-play flex items-center justify-center w-[3.75rem] h-[3.75rem] rounded-full bg-white shadow-[0_6px_32px_rgba(0,0,0,.01)] absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[1] text-[#F44336]">
                         <i class="fa fa-play 2xl:text-[1.875rem] text-[1.125rem] relative left-[2px]" aria-hidden="true"></i>

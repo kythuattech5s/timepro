@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use vanhenry\helpers\helpers\SettingHelper;
-use App\Models\{Page};
+use App\Models\{Page,Contact,News};
 use Support;
 class StaticController extends Controller
 {
@@ -64,4 +64,37 @@ class StaticController extends Controller
         }
         return response()->json(['code'=>200,'message'=>'Thành công','html'=>$html]);
     }
+
+    public function sendContact($request){
+        $contact = new Contact();
+        if($request->input('email') != ''){
+            $contact->email = $request->input('email');
+        }
+        if($request->input('name') != ''){
+            $contact->name = $request->input('name');
+        }
+        if($request->input('phone') != ''){
+            $contact->phone = $request->input('phone');
+        }
+        if($request->input('note') != ''){
+            $contact->note = $request->input('note');
+        }
+        $contact->save();
+        return response([
+            'code' => 200,
+            'message' => 'Đã gửi thông tin liên hệ thành công',
+        ]);
+    }
+
+    public function searchNews($request){
+        $keyword = $request->input('keyword');
+        $listItems = News::act();
+        if($keyword != ''){
+            $listItems = $listItems->where('name','like','%'.$keyword.'%');
+        }
+        $listNewsSale = News::act()->where('sale',1)->ord()->take(4)->get();
+        $listItems =  $listItems->paginate(10);
+        return view('news.search',compact('listItems','listNewsSale'));
+    }
+
 }

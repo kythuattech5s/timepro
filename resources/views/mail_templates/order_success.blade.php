@@ -1,3 +1,6 @@
+@php
+	use Tech5s\Voucher\Helpers\VoucherHelper;
+@endphp
 @extends('mail_templates.main_template')
 @section('content')
 <div style="margin-bottom: 10px;">
@@ -59,12 +62,37 @@
                 <td style="border:solid 1px #999999;padding: 5px;width:40px;text-align: center;"><strong>{{$key + 1}}</strong></td>
                 <td style="border:solid 1px #999999;padding: 5px">{{$itemOrderDetail->getTypeName()}}</td>
                 <td style="border:solid 1px #999999;padding: 5px">
-                    <a href="{{url()->to(Support::show($itemOrderDetail,'slug'))}}" title="{{Support::show($itemOrderDetail,'name')}}" target="_blank">{{Support::show($itemOrderDetail,'name')}}</a>
+					@if (isset($itemOrderDetail->slug) && $itemOrderDetail->slug != '')
+                    	<a href="{{url()->to(Support::show($itemOrderDetail,'slug'))}}" title="{{Support::show($itemOrderDetail,'name')}}" target="_blank">{{Support::show($itemOrderDetail,'name')}}</a>
+					@else
+						{{Support::show($itemOrderDetail,'name')}}
+					@endif
                 </td>
                 <td style="border:solid 1px #999999;padding: 5px">{{Support::show($itemOrderDetail,'name_time_package')}}</td>
                 <td style="border:solid 1px #999999;padding: 5px"><strong>{{Currency::showMoney($itemOrderDetail->price)}}</strong></td>
             </tr>
         @endforeach
+		@php
+			$voucherInfo = Support::extractJson($order->voucher_info);
+		@endphp
+		@if (count($voucherInfo) > 0)
+			<tr>
+				<td colspan="3" style="border:solid 1px #999999;padding: 5px;text-align: right">Mã giảm giá</td>
+				<td style="border:solid 1px #999999;padding: 5px;">
+					<strong style="display: block;text-align:center;background: #FE8C00;color:white;padding: 3px 15px;border-radius: 3px;">{{Support::show($voucherInfo,'code')}}</strong>
+				</td>
+				<td style="border:solid 1px #999999;padding: 5px;font-size: 16px;">
+					<strong style="color: #FE8C00">
+						@if ($voucherInfo['type_discount'] == VoucherHelper::DISCOUNT_MONEY)
+							-{{Currency::showMoney($voucherInfo['discount'])}}
+						@endif
+						@if ($voucherInfo['type_discount'] == VoucherHelper::DISCOUNT_PERCENT)
+							-{{$voucherInfo['discount']}}% ({{Currency::showMoney($order->total*Support::show($voucherInfo,'discount')/100)}})
+						@endif
+					</strong>
+				</td>
+			</tr>
+		@endif
         <tr>
             <td colspan="4" style="border:solid 1px #999999;padding: 5px;text-align: right">Tổng</td>
             <td style="border:solid 1px #999999;padding: 5px;font-size: 16px;"><strong>{{Currency::showMoney($order->total_final)}}</strong></td>

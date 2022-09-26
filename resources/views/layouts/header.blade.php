@@ -1,3 +1,10 @@
+@php
+    $user = Auth::user();
+    $countNotifiactionNoRead = $user !== null  ? $user->unreadNotifications()->whereHas('catalog', function ($q) {
+                                                        $q->where('act', 1);
+                                                    })->count()
+                                                : 0;
+@endphp
 <header class="header py-2 lg:py-0 bg-white shadow-[0_4px_48px_rgba(0,0,0,.08)]">
     <div class="container flex justify-between lg:flex-start items-center gap-4">
         <div class="flex items-center gap-2">
@@ -20,10 +27,10 @@
         </div>
         <div class="over-lay block lg:hidden fixed top-0 right-[-100%] w-full h-full bg-[rgba(0,0,0,.6)] z-[50] transition-all duration-300"></div>
         <div class="h-action items-center flex 2xl:-gap-8 gap-4">
-            @if (Auth::check())
-            <a href="#" title="Thông báo" class="h-noti relative block">
+            @if ($user != null)
+            <a href="/thong-bao-cua-toi" title="Thông báo" class="h-noti relative block">
                 <img src="theme/frontend/images/noti.svg" alt="icon">
-                <span class="count count-item-cart absolute top-0 right-0 font-bold text-[8px] text-white min-w-[12px] h-3 rounded-full bg-gradient-to-r from-[#F44336] to-[#C62828] z-[1] text-center leading-3">0</span>
+                <span class="count absolute top-[-4px] right-0 font-bold text-[8px] text-white min-w-[12px] h-3 rounded-full bg-gradient-to-r from-[#F44336] to-[#C62828] z-[1] text-center leading-3" count-not-read>{{$countNotifiactionNoRead}}</span>
 
             </a>
             @endif
@@ -31,9 +38,8 @@
                 @include('icon_svgs.icon_cart')
                 <span class="count count-item-cart absolute top-[-5px] right-[-5px] font-bold text-[8px] text-white min-w-[12px] h-3 rounded-full bg-gradient-to-r from-[#F44336] to-[#C62828] z-[1] text-center leading-3">0</span>
             </a>
-            @if (Auth::check())
+            @if ($user != null)
             <div class="flex items-center gap-2 relative group cursor-pointer">
-                <?php $user = Auth::user(); ?>
                 <a href="{{\VRoute::get('my_profile')}}" title="{{Support::show($user,'name')}}" class="ava img-ava block lg:w-12 lg:h-12 w-8 h-8 rounded-full overflow-hidden">
                     @if(Support::show($user,'img'))
                     @include('image_loader.tiny',['keyImage'=>'img','itemImage'=>$user])
@@ -42,8 +48,13 @@
                     @endif
                 </a>
                 <div class="content hidden lg:block">
+                    @if(Support::show($user,'user_type_id') == 1)
                     <p class="text-[0.75rem] mb-1">Xin chào</p>
                     <a href="{{\VRoute::get('my_profile')}}" title="Thông tin cá nhân" class="name-user font-semibold text-[#252525]">{{Support::show($user,'name')}}</a>
+                    @else
+                    <a href="{{\VRoute::get('my_profile')}}" title="Thông tin cá nhân" class="name-user font-semibold text-[#252525]">{{Support::show($user,'name')}}</a>
+                    <p class="text-[0.75rem] mb-1 text-[#F44336]">Giảng Viên</p> 
+                    @endif
                 </div>
                 <div class="auth-content hidden lg:block rounded overflow-hidden opacity-0 invisible pointer-events-none whitespace-nowrap min-w-full absolute top-[100%] left-0 z-[1] bg-white shadow-[0_4px_10px_rgba(0,0,0,.3)] group-hover:opacity-100 group-hover:visible group-hover:pointer-events-auto transition-all duration-300">
                     <a href="{{\VRoute::get('my_profile')}}" title="Thông tin cá nhân" class="block py-2 px-4 text-[#252525] border-b-[1px] border-solid border-[#252525] last:border-none">
@@ -69,13 +80,13 @@
             <button type="submit" class="btn btn-orange absolute top-0 left-0 h-full inline-flex items-center justify-center p-2 px-3 rounded bg-gradient-to-r from-[#F44336] to-[#C62828] text-white">
                 <i class="fa fa-search" aria-hidden="true"></i>
             </button>
-            <input type="text" name="q" placeholder="Nhập từ khoá tìm kiếm ..." class="form-control w-full py-2 px-4 outline-none border-[1px] border-solid border-[#ebebeb] rounded-lg pl-12">
+            <input type="text" name="q" placeholder="Nhập từ khoá tìm kiếm ..." class="form-control w-full py-2 px-4 outline-none border-[1px] border-solid border-[#ebebeb] rounded-lg pl-12" value="{{$keySeach ?? ''}}">
         </form>
     </div>
     <div class="form-search transition-all duration-300 fixed top-[-100%] left-0 w-full h-full bg-[rgba(0,0,0,.7)] z-[100] hidden lg:flex items-center justify-center">
         <span class="close-form-search"></span>
         <form action="{{\VRoute::get("search")}}" method="get" class="form flex items-center" accept-charset="utf-8">
-            <input type="text" name="q" value="" id="input-search-header" placeholder="Nhập từ khóa tìm kiếm ..." class="form-control">
+            <input type="text" name="q" id="input-search-header" placeholder="Nhập từ khóa tìm kiếm ..." class="form-control" value="{{$keySeach ?? ''}}">
             <button class="btn-search text-[1.25rem] ml-1 text-white" type="submit">
                 <i class="fa fa-search" aria-hidden="true"></i>
             </button>

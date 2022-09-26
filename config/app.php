@@ -38,7 +38,7 @@ return [
     |
      */
 
-    'debug' => (bool) env('APP_DEBUG', false),
+    'debug' => true,
 
     /*
     |--------------------------------------------------------------------------
@@ -183,11 +183,14 @@ return [
         vanhenry\search\SearchServiceProvider::class,
         vanhenry\minify\MinifyServiceProvider::class,
         multiplechoicequestions\managequestion\Providers\MultipleChoiceServiceProvider::class,
+        modulevideosecurity\managevideo\VideoSecurityServiceProvider::class,
         CourseManage\Providers\CourseManageProvider::class,
+        paymentonline\manager\ManagerPaymentServiceProvider::class,
         Tech5sShoppingCart\Tech5sCart\Tech5sCartServiceProvider::class,
         Roniejisa\Comment\Providers\CommentServiceProvider::class,
         Tech5s\VideoChapter\Providers\VideoChapterServiceProvider::class,
-        Tech5s\Promotion\Providers\PromotionServiceProvider::class,
+        Tech5s\Voucher\Providers\VoucherServiceProvider::class,
+        Tech5s\FlashSale\Providers\FlashSaleServiceProvider::class,
         /*
          * Application Service Providers...
          */
@@ -255,6 +258,7 @@ return [
         'Pusher' => Pusher\Pusher::class,
         'SettingHelper' => vanhenry\helpers\helpers\SettingHelper::class,
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
-        'Tech5sCart' => Tech5sShoppingCart\Tech5sCart\Facades\Tech5sCart::class
+        'Tech5sCart' => Tech5sShoppingCart\Tech5sCart\Facades\Tech5sCart::class,
+        'VideoSetting' => modulevideosecurity\managevideo\Facades\VideoSettingFacades::class 
     ],
 ];

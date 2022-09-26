@@ -285,7 +285,7 @@ var COMMENT = (function () {
 
     // NOTIFICATION
     function notification(response) {
-        return console.log(response.code, response.message);
+        return NOTIFICATION.showNotify(response.code, response.message);
     }
 
     // FILLTER

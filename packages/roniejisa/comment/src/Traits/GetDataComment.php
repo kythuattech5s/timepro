@@ -159,6 +159,11 @@ trait GetDataComment
 
     public function comments()
     {
-        return $this->hasMany(Comment::class, 'map_id', 'id')->with('rating','user')->where('act', 1)->where('map_table', $this->getTable())->where('comment_id', null);
+        return $this->hasMany(Comment::class, 'map_id', 'id')->with('rating', 'user')->where('act', 1)->where('map_table', $this->getTable())->where('comment_id', null);
+    }
+
+    public function commentTeacher()
+    {
+        return $this->hasMany(Comment::class);
     }
 }

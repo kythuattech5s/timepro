@@ -1,8 +1,10 @@
 @if (!isset($listCourseCategory))
     @php
-        $listCourseCategory = \App\Models\CourseCategory::act()->with(['course'=>function($q){
-            $q->select('id','act')->act();
-        }])->where('home',1)->ord()->limit(5)->get();
+        $listCourseCategory = \Cache::rememberForever('listHomeCourseCategory', function () {
+            return \App\Models\CourseCategory::act()->with(['course'=>function($q){
+                $q->select('id','act')->act();
+            }])->where('home',1)->ord()->limit(5)->get();
+        });
     @endphp
 @endif
 <section class="section-course__cate 2xl:py-14 py-6">

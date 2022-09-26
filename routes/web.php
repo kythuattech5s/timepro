@@ -34,6 +34,11 @@ Route::group([
 
     Route::post('cart/{action}', 'CartController@action');
     Route::get('thong-tin-giang-vien/{uslug}', 'UserController@view');
+    Route::get('test', function(){
+        $results = App\Helpers\SmsHelper::send('0336307382','Cam on quy khach da su dung dich vu cua chung toi. Chuc quy khach mot ngay tot lanh!');
+        var_dump($results);die();
+    });
+    
 
     Route::post('get-last-dat-of-month', 'StaticController@getLastDateOfMonth');
     Route::get('get-district-by-province', 'StaticController@getDistrictByProvince');
@@ -43,5 +48,7 @@ Route::group([
     Route::post('thich-cau-hoi', 'AskAndAnswerController@like');
     Route::post("reply-cau-hoi", 'AskAndAnswerController@replyAsk');
     Route::post("tai-cau-thoi", 'AskAndAnswerController@filter');
+    Route::post('tai-them-thong-bao', 'Auth\NotificationController@loadMore');
+    Route::post('danh-dau-da-doc-thong-bao', 'Auth\NotificationController@readNotification');
     Route::match(['get', 'post'], '/{link}', array('uses' => 'RouteController@direction'))->where('link', '^((?!esystem)[0-9a-zA-Z\?\.\-/])*$');
 });

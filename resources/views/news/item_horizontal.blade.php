@@ -7,11 +7,15 @@
     <div class="new-content">
         <h3>
             <a href="{{Support::show($item,'slug')}}" title="{{Support::show($item,'name')}}" class="title block font-bold text-[#252525] mb-2 2xl:text-[1.25rem]">
-                {{Support::show($item,'slug')}}
+                {{Support::show($item,'name')}}
             </a>
         </h3>
         <div class="short_content line-clamp-3 mb-2">
-            {{Support::show($item,'short_content')}}
+            @if($item->short_content != "")
+            {{Str::limit($item->short_content, 150, ' (...)')}}
+            @else
+            {{Str::limit(strip_tags($item->content), 150, ' (...)')}}
+            @endif
         </div>
         <ul class="time-new">
             <li

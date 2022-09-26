@@ -24,7 +24,7 @@
         "maatwebsite/excel": "^3.1",
         "matthiasmullie/minify": "^1.3",
         "mcamara/laravel-localization": "^1.6",
-        "pbmedia/laravel-ffmpeg": "^7.5",
+        "pbmedia/laravel-ffmpeg": "^7.8",
         "pusher/pusher-php-server": "^7.0",
         "rosell-dk/webp-convert": "^2.6",
         "symfony/mailer": "^5.4",
@@ -53,13 +53,17 @@
             "vanhenry\\mail\\": "packages/vanhenry/mail/src",
             "vanhenry\\minify\\": "packages/vanhenry/minify/src",
             "multiplechoicequestions\\managequestion\\": "packages/multiplechoicequestions/managequestion/src",
+            "modulevideosecurity\\managevideo\\": "packages/modulevideosecurity/managevideo/src",
+            "paymentonline\\manager\\": "packages/paymentonline/manager/src",
             "CustomTable\\": "packages/table_customs/src",
             "CourseManage\\": "packages/course_manage/src",
             "Tech5sShoppingCart\\Tech5sCart\\": "packages/tech5sShoppingCart/tech5sCart/src",
             "Roniejisa\\Comment\\": "packages/roniejisa/comment/src",
             "Roniejisa\\Helpers\\": "packages/roniejisa/helpers/src",
             "Tech5s\\VideoChapter\\": "packages/tech5s/video-chapter/src",
-            "Tech5s\\Promotion\\": "packages/tech5s/promotion/src"
+            "Tech5s\\Voucher\\": "packages/tech5s/voucher/src",
+            "Tech5s\\FlashSale\\": "packages/tech5s/flashsale/src",
+            "Tech5s\\Notify\\": "packages/tech5s/notify/src"
         }
     },
     "repositories": [

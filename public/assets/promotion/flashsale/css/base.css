@@ -1,0 +1,260 @@
+.form-footer {
+    display: flex;
+    justify-content: end;
+    gap: 5px;
+    width: calc(100% - 258px);
+    margin-left: auto;
+}
+
+.fix-small .form-footer {
+    width: calc(100% - 100px);
+}
+
+.form-footer.sticky {
+    position: fixed;
+    bottom: 0;
+    text-align: right;
+    right: 15px;
+    background: white;
+    padding: 10px 15px 8px;
+    border-top-right-radius: 5px;
+    box-shadow: 0 13px 27px -5px rgb(50 50 93 / 47%),
+        0 8px 16px -8px rgb(0 0 0 / 52%), 0 -6px 16px -6px rgb(0 0 0 / 33%);
+    border-top-left-radius: 5px;
+}
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 48px;
+    height: 24px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: 0.4s;
+    border-radius: 15px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 18px;
+    width: 18px;
+    left: 5px;
+    bottom: 3px;
+    border-radius: 100%;
+    background-color: white;
+    transition: 0.4s;
+}
+
+input:checked + .slider {
+    background-color: #17a2b8;
+}
+
+input:focus + .slider {
+    box-shadow: 0 0 1px #17a2b8;
+}
+
+input:checked + .slider:before {
+    transform: translateX(20px);
+}
+
+.pagination {
+    display: flex !important;
+    justify-content: flex-end !important;
+    gap: 8px;
+}
+
+.pagination a,
+.pagination strong {
+    min-width: 30px;
+    min-height: 30px;
+    border-radius: 2px;
+    border: 1px solid #ebebeb;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.pagination strong {
+    border: 1px solid #f87171;
+    color: #f87171;
+}
+
+/* FLASHSALE */
+
+.flashSaleSlot tr {
+    width: 50%;
+}
+
+.pignose-calendar {
+    max-width: 385px;
+    width: 100%;
+}
+
+.pignose-calendar .pignose-calendar-top .pignose-calendar-top-date {
+    padding: 0.5em 0;
+}
+
+.pignose-calendar .pignose-calendar-top {
+    padding: 1.6em 0;
+}
+
+.fix-small .footer-form.sticky {
+    right: 15px;
+}
+
+.fix-small .footer-form {
+    width: calc(100% - 100px);
+}
+
+.checkbox-item {
+    position: relative;
+    height: 15px;
+    width: 15px;
+    border: 1px solid black;
+    transition: 500ms;
+}
+
+.checkbox-item:after {
+    content: "";
+    position: absolute;
+    width: 6px;
+    height: 12px;
+    border: 2px solid transparent;
+    border-left: none;
+    border-top: none;
+    top: 25%;
+    transform: rotate(45deg) translateY(-50%);
+    transition: 500ms;
+}
+
+input:checked ~ .checkbox-item {
+    background-color: rgb(59 130 246 / 0.5);
+    border: 1px solid rgb(59 130 246 / 0.5);
+}
+
+input:checked ~ .checkbox-item:after {
+    border: 2px solid white;
+    border-left: none;
+    border-top: none;
+}
+
+.item-category .childs {
+    padding-left: 20px;
+}
+
+.childs .item-category {
+    position: relative;
+}
+
+.item-category .childs[show-data] .item-category:before {
+    content: "";
+    width: 14px;
+    height: 19px;
+    border-bottom-left-radius: 4px;
+    border: 2px solid #d9cfcf;
+    position: absolute;
+    border-top: 0;
+    left: -16px;
+    top: -2px;
+    border-right: 0;
+}
+
+.item-category .childs[show-data] .item-category:not(:last-child):after {
+    content: "";
+    width: 0;
+    height: calc(100%);
+    border: 2px solid #d9cfcf;
+    position: absolute;
+    border-top: 0;
+    left: -16px;
+    bottom: 0;
+    border-right: 0;
+}
+
+.list-result-custom::-webkit-scrollbar {
+    width: 10px;
+}
+.list-result-custom::-webkit-scrollbar-track {
+    background: rgb(225, 225, 225);
+    border-radius: 4px;
+}
+.list-result-custom::-webkit-scrollbar-thumb {
+    background: rgb(170, 170, 170);
+    border-radius: 4px;
+}
+
+#modalProduct .modal-dialog {
+    width: 920px;
+}
+
+#modalProduct table tbody,
+#modalProduct table thead {
+    display: block;
+}
+
+#modalProduct table tbody {
+    overflow-y: auto;
+    overflow-x: hidden;
+    max-height: 300px;
+}
+
+#modalProduct table thead tr,
+#modalProduct table tbody tr {
+    display: flex;
+}
+
+#modalProduct table tr > th,
+#modalProduct table tr > td {
+    flex-grow: 1;
+    flex-basis: 0;
+}
+
+#modalProduct table tr > th:first-child,
+#modalProduct table tr > td:first-child {
+    flex: 0 0 10%;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+}
+
+#modalProduct .count-choose {
+    font-weight: bold;
+    margin: 0 5px;
+}
+
+#modalProduct td img {
+    max-width: 32px;
+    height: 32px;
+    margin-right: 10px;
+    -o-object-fit: cover;
+       object-fit: cover;
+}
+
+#modalProduct .form-search-item input,
+#modalProduct .form-search-item select {
+    width: 200px;
+    border: 1px solid #e1e1e1;
+    margin-left: 10px;
+    padding: 5px;
+}
+
+#modalProduct tr.disabled {
+    pointer-events: none;
+    background: #d6d6d6;
+}
+

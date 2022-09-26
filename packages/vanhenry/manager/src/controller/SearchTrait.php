@@ -1,4 +1,5 @@
 <?php
+
 namespace vanhenry\manager\controller;
 
 use DB;
@@ -233,20 +234,22 @@ trait SearchTrait
         }
         return $query;
     }
+
     private function catchTypeWherePIVOT($query, $value, $table)
     {
         $infoPivot = \DB::table('v_detail_tables')->where(['name' => $value['key'], 'parent_name' => $table])->first();
-        $defaultData = json_decode($infoPivot->default_data, true);
-        if (!is_array($defaultData)) {
+        $relationship = json_decode($infoPivot->relationship, true);
+        if (!is_array($relationship)) {
             return $query;
         }
-        $pivot_table = $defaultData['pivot_table'];
-        $origin_field = $defaultData['origin_field'];
-        $target_table = $defaultData['target_table'];
-        $target_field = $defaultData['target_field'];
-        $query->join($pivot_table, "$table.id", '=', "$pivot_table.$origin_field")->where("$pivot_table.$target_field", $value['value']);
+        $relationship = $relationship['data'][0];
+        $query->whereHas($relationship['name'], function ($q) use ($value, $relationship) {
+            $table = $relationship['table'];
+            $q->where("$table.id", $value['value']);
+        });
         return $query;
     }
+    
     private function dataReuse($inputs)
     {
         $keySearchs = \Arr::where($inputs, function ($v, $k) {

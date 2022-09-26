@@ -4,7 +4,7 @@
 
 /**
  * A helper file for Laravel, to provide autocomplete information to your IDE
- * Generated for Laravel 8.83.23.
+ * Generated for Laravel 8.83.24.
  *
  * This file should not be included in your code, only analyzed by your IDE!
  *
@@ -2167,6 +2167,17 @@
         {
                         /** @var \Illuminate\Auth\SessionGuard $instance */
                         return $instance->setRequest($request);
+        }
+                    /**
+         * Get the timebox instance used by the guard.
+         *
+         * @return \Illuminate\Support\Timebox 
+         * @static 
+         */ 
+        public static function getTimebox()
+        {
+                        /** @var \Illuminate\Auth\SessionGuard $instance */
+                        return $instance->getTimebox();
         }
                     /**
          * Determine if the current user is authenticated. If not, throw an exception.
@@ -16838,6 +16849,187 @@
      
 }
 
+    namespace modulevideosecurity\managevideo\Facades { 
+            /**
+     * 
+     *
+     */ 
+        class VideoSettingFacades {
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function setKeyUrlResolver($key, $tvsSecret, $sessionId)
+        {
+                        /** @var \modulevideosecurity\managevideo\Setting\VideoSetting $instance */
+                        return $instance->setKeyUrlResolver($key, $tvsSecret, $sessionId);
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function checkHaveAccess($tvsSecret)
+        {
+                        /** @var \modulevideosecurity\managevideo\Setting\VideoSetting $instance */
+                        return $instance->checkHaveAccess($tvsSecret);
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function setMediaUrlResolver($mediaFilename, $tvsSecret, $sessionId)
+        {
+                        /** @var \modulevideosecurity\managevideo\Setting\VideoSetting $instance */
+                        return $instance->setMediaUrlResolver($mediaFilename, $tvsSecret, $sessionId);
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function setPlaylistUrlResolver($playlistFilename, $tvsMapItem, $sessionId)
+        {
+                        /** @var \modulevideosecurity\managevideo\Setting\VideoSetting $instance */
+                        return $instance->setPlaylistUrlResolver($playlistFilename, $tvsMapItem, $sessionId);
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function getSettingConfig($key)
+        {
+                        /** @var \modulevideosecurity\managevideo\Setting\VideoSetting $instance */
+                        return $instance->getSettingConfig($key);
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function jsonDecode($json)
+        {
+                        /** @var \modulevideosecurity\managevideo\Setting\VideoSetting $instance */
+                        return $instance->jsonDecode($json);
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function createTvsSecret($itemMedia)
+        {
+                        /** @var \modulevideosecurity\managevideo\Setting\VideoSetting $instance */
+                        return $instance->createTvsSecret($itemMedia);
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function deleteTvsSecret($itemMedia)
+        {
+                        /** @var \modulevideosecurity\managevideo\Setting\VideoSetting $instance */
+                        return $instance->deleteTvsSecret($itemMedia);
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function catchInsertAdminEvent($table, $data, $targetId)
+        {
+                        /** @var \modulevideosecurity\managevideo\Setting\VideoSetting $instance */
+                        return $instance->catchInsertAdminEvent($table, $data, $targetId);
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function catchUpdateAdminEvent($table, $oldĐata, $newData)
+        {
+                        /** @var \modulevideosecurity\managevideo\Setting\VideoSetting $instance */
+                        return $instance->catchUpdateAdminEvent($table, $oldĐata, $newData);
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function catchDeletetAdminEvent($table, $id)
+        {
+                        /** @var \modulevideosecurity\managevideo\Setting\VideoSetting $instance */
+                        return $instance->catchDeletetAdminEvent($table, $id);
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function deleteVideoMapTable($table, $listVideoId, $targetId)
+        {
+                        /** @var \modulevideosecurity\managevideo\Setting\VideoSetting $instance */
+                        return $instance->deleteVideoMapTable($table, $listVideoId, $targetId);
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function insertVideoMapTable($table, $listVideoId, $targetId)
+        {
+                        /** @var \modulevideosecurity\managevideo\Setting\VideoSetting $instance */
+                        return $instance->insertVideoMapTable($table, $listVideoId, $targetId);
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function getVideoIdFromDataArray($arr)
+        {
+                        /** @var \modulevideosecurity\managevideo\Setting\VideoSetting $instance */
+                        return $instance->getVideoIdFromDataArray($arr);
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function getVideoIdFromDataObj($obj)
+        {
+                        /** @var \modulevideosecurity\managevideo\Setting\VideoSetting $instance */
+                        return $instance->getVideoIdFromDataObj($obj);
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function isJsonMediaVideo($value)
+        {
+                        /** @var \modulevideosecurity\managevideo\Setting\VideoSetting $instance */
+                        return $instance->isJsonMediaVideo($value);
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function deleteDir($dirPath)
+        {
+                        /** @var \modulevideosecurity\managevideo\Setting\VideoSetting $instance */
+                        return $instance->deleteDir($dirPath);
+        }
+         
+    }
+     
+}
+
     namespace Anhskohbo\NoCaptcha\Facades { 
             /**
      * 
@@ -18581,6 +18773,43 @@
      
 }
 
+    namespace ProtoneMedia\LaravelFFMpeg\Support { 
+            /**
+     * 
+     *
+     * @method static \ProtoneMedia\LaravelFFMpeg\MediaOpener fromDisk($disk)
+     * @method static \ProtoneMedia\LaravelFFMpeg\MediaOpener fromFilesystem(\Illuminate\Contracts\Filesystem\Filesystem $filesystem)
+     * @method static \ProtoneMedia\LaravelFFMpeg\MediaOpener open($path)
+     * @method static \ProtoneMedia\LaravelFFMpeg\MediaOpener openUrl($path, array $headers)
+     * @method static \ProtoneMedia\LaravelFFMpeg\MediaOpener cleanupTemporaryFiles()
+     * @see \ProtoneMedia\LaravelFFMpeg\MediaOpener
+     */ 
+        class FFMpeg {
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function new()
+        {
+                        /** @var \ProtoneMedia\LaravelFFMpeg\Support\MediaOpenerFactory $instance */
+                        return $instance->new();
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function dynamicHLSPlaylist()
+        {
+                        /** @var \ProtoneMedia\LaravelFFMpeg\Support\MediaOpenerFactory $instance */
+                        return $instance->dynamicHLSPlaylist();
+        }
+         
+    }
+     
+}
+
     namespace Roniejisa\Comment\Helpers { 
             /**
      * 
@@ -18592,14 +18821,7 @@
      
 }
 
-    namespace Tech5s\Promotion\Helpers { 
-            /**
-     * 
-     *
-     */ 
-        class FlashSaleHelper {
-         
-    }
+    namespace Tech5s\Voucher\Helpers { 
             /**
      * 
      *
@@ -18607,18 +18829,15 @@
         class VoucherHelper {
          
     }
+     
+}
+
+    namespace Tech5s\FlashSale\Helpers { 
             /**
      * 
      *
      */ 
-        class ComboHelper {
-         
-    }
-            /**
-     * 
-     *
-     */ 
-        class DealHelper {
+        class FlashSaleHelper {
          
     }
      
@@ -22228,6 +22447,7 @@ namespace  {
             class SettingHelper extends \vanhenry\helpers\helpers\SettingHelper {}
             class Excel extends \Maatwebsite\Excel\Facades\Excel {}
             class Tech5sCart extends \Tech5sShoppingCart\Tech5sCart\Facades\Tech5sCart {}
+            class VideoSetting extends \modulevideosecurity\managevideo\Facades\VideoSettingFacades {}
             class NoCaptcha extends \Anhskohbo\NoCaptcha\Facades\NoCaptcha {}
             class Debugbar extends \Barryvdh\Debugbar\Facades\Debugbar {}
             class Breadcrumbs extends \Diglactic\Breadcrumbs\Breadcrumbs {}
@@ -22235,14 +22455,13 @@ namespace  {
             class Image extends \Intervention\Image\Facades\Image {}
             class Socialite extends \Laravel\Socialite\Facades\Socialite {}
             class LaravelLocalization extends \Mcamara\LaravelLocalization\Facades\LaravelLocalization {}
+            class FFMpeg extends \ProtoneMedia\LaravelFFMpeg\Support\FFMpeg {}
             class FCHelper extends \vanhenry\helpers\helpers\FCHelper {}
             class StringHelper extends \vanhenry\helpers\helpers\StringHelper {}
             class SEOHelper extends \vanhenry\helpers\helpers\SEOHelper {}
             class CommentHelper extends \Roniejisa\Comment\Helpers\Helper {}
-            class FlashSaleHelper extends \Tech5s\Promotion\Helpers\FlashSaleHelper {}
-            class VoucherHelper extends \Tech5s\Promotion\Helpers\VoucherHelper {}
-            class ComboHelper extends \Tech5s\Promotion\Helpers\ComboHelper {}
-            class DealHelper extends \Tech5s\Promotion\Helpers\DealHelper {}
+            class VoucherHelper extends \Tech5s\Voucher\Helpers\VoucherHelper {}
+            class FlashSaleHelper extends \Tech5s\FlashSale\Helpers\FlashSaleHelper {}
             class RSCustom extends \Roniejisa\Helpers\RSCustom {}
      
 }

@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Helpers;
 
 use App\Helpers\Media;
@@ -8,18 +9,20 @@ use Currency;
 
 class Support
 {
-    public static function extractJson($json,$isArray = true,$def = []) {
+    public static $menu;
+    public static function extractJson($json, $isArray = true, $def = [])
+    {
         json_decode($json);
         if (json_last_error() != JSON_ERROR_NONE) return $def;
-        return $isArray ? json_decode($json,true):json_decode($json);
+        return $isArray ? json_decode($json, true) : json_decode($json);
     }
     public static function isDateTime($string, $format = 'Y-m-d H:i:s')
     {
         return \DateTime::createFromFormat($format, $string);
     }
-    public static function showDate($string, $format = 'H:i d-m-Y',$formatIn)
+    public static function showDate($string, $format = 'H:i d-m-Y', $formatIn)
     {
-        if (self::isDateTime($string,$formatIn)) {
+        if (self::isDateTime($string, $formatIn)) {
             return Carbon::parse($string)->format($format);
         }
     }
@@ -73,11 +76,15 @@ class Support
 
     public static function getMenuRecursive($group = null, int $take = null)
     {
-        $menus = Menu::where('menu_category_id', $group)->where('parent', 0)->act()->ord()->with('recursiveChilds');
-        if ($take != null) {
-            return $menus->take($take)->get();
-        }
-        return $menus->get();
+        $menus = \Cache::rememberForever('MENU_GROUP_' . $group, function () use ($group, $take) {
+            $menus = Menu::where('menu_category_id', $group)->where('parent', 0)->act()->ord()->with('recursiveChilds');
+            if ($take != null) {
+                return $menus->take($take)->get();
+            }else{
+                return $menus->get();
+            }
+        });
+        return $menus;
     }
 
     public static function showMenuRecursive($menus)
@@ -114,7 +121,8 @@ class Support
 
         if (file_exists($file_path)) {
             return asset($file) . '?v=' . filemtime($file_path);
-        } else {
+        }
+        else {
             $path = collect(get_headers(url($file)));
 
             $path = $path->first(function ($string) {
@@ -180,18 +188,18 @@ class Support
     {
         return redirect()->to($url)->with('messageNotify', $message)->with('typeNotify', $code);
     }
-    public static function sendResponse($code,$message = '',$url = null)
+    public static function sendResponse($code, $message = '', $url = null)
     {
         if (request()->ajax()) {
-            session()->flash('typeNotify',$code);
-            session()->flash('messageNotify',$message);
+            session()->flash('typeNotify', $code);
+            session()->flash('messageNotify', $message);
             return response()->json([
                 'code'          => $code,
                 'message'       => $message,
                 'redirect_url'  => $url
             ]);
-        }else{
-            return static::redirectTo($url,$code,$message);
+        } else {
+            return static::redirectTo($url, $code, $message);
         }
     }
 
@@ -208,35 +216,34 @@ class Support
         }
         return $urlDefault;
     }
-    public static function printMenuCate($data,$activeId = 0,$parent = 0){
+    public static function printMenuCate($data, $activeId = 0, $parent = 0)
+    {
         echo '<ul class="nav-new__cate font-bold 2xl:text-[1.125rem] mb-6">';
-            foreach ($data as $k => $item) {
-                $active = $activeId==$item->id?'active active_nav_pcate':'';
-                if($item->parent == $parent){
-                    $str = '<li class="mb-2 last:mb-0 px-4 '.$active.'">
-                                <a href="'.$item->slug.'" class="hover:text-[#252525]" title="'.$item->name.'">'.$item->name.'</a>';
-                    echo $str;
-                    self::printMenuCate($data,$activeId,$item->id);
-                    echo '</li>';
-                }
+        foreach ($data as $k => $item) {
+            $active = $activeId == $item->id ? 'active active_nav_pcate' : '';
+            if ($item->parent == $parent) {
+                $str = '<li class="mb-2 last:mb-0 px-4 ' . $active . '">
+                                <a href="' . $item->slug . '" class="hover:text-[#252525]" title="' . $item->name . '">' . $item->name . '</a>';
+                echo $str;
+                self::printMenuCate($data, $activeId, $item->id);
+                echo '</li>';
             }
+        }
         echo '</ul>';
     }
     public static function generateSlug($tableMap, $slug, $key)
     {
         $num = 2;
         do {
-            $item = \DB::table($tableMap)->select('id')->where(function ($q) use ($slug,$key) {
+            $item = \DB::table($tableMap)->select('id')->where(function ($q) use ($slug, $key) {
                 $q->where([$key => $slug]);
             })->first();
             if ($item != null) {
                 $slug .= '-' . $num;
-            }
-            else {
+            } else {
                 return $slug;
             }
-        }
-        while (true);
+        } while (true);
     }
     public static function settingExcel($event)
     {
@@ -261,92 +268,51 @@ class Support
         $active_sheet->getStyle($cells)->applyFromArray($styleArray);
         $active_sheet->getStyle($columnHeading)->applyFromArray($heading);
     }
-    public static function getYoutubeId($link){
-        if($link == '')return 0;
+    public static function getYoutubeId($link)
+    {
+        if ($link == '') return 0;
         preg_match("/^(?:http(?:s)?:\/\/)?(?:www\.)?(?:m\.)?(?:youtu\.be\/|youtube\.com\/(?:(?:watch)?\?(?:.*&)?v(?:i)?=|(?:embed|v|vi|user)\/))([^\?&\"'>]+)/", $link, $matches);
-        if(isset($matches[1]) && $matches[1] !=""){
+        if (isset($matches[1]) && $matches[1] != "") {
             return $matches[1];
-        }
-        else{
+        } else {
             return 0;
         }
     }
-    public static function uploadImg($inputName, $saveFrom, $checkFileExist = false, $getExtra = false)
+    public static function exeCurl($url, $type = 'GET', $data = null, $headers = [])
     {
-        if (!request()->hasFile($inputName)) {
-            return '';
+        $curl = curl_init();
+        $params = array(
+            CURLOPT_URL => $url,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => "",
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 100,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => $type,
+            CURLOPT_FOLLOWLOCATION => 0, // 0 cho phép redirect theo nếu link curl đích bị redirect
+            CURLOPT_SSL_VERIFYHOST => 0,
+            CURLOPT_SSL_VERIFYPEER => 0,
+        );
+        if ($type == 'POST' && is_string($data)) {
+            $params[CURLOPT_POSTFIELDS] = $data;
         }
-        $images = request()->file($inputName);
-        if ($images == null) {
-            return '';
+        if ($type == 'POST' && is_array($data)) {
+            $params[CURLOPT_POSTFIELDS] = http_build_query($data);
         }
-        if (is_array($images)) {
-            $image = $images[0];
-        } else {
-            $image = $images;
+        if ($type == 'GET' && is_array($data)) {
+            $params[CURLOPT_URL] = $url . '?' . http_build_query($data);
         }
-        $uploadRootDir = 'public/uploads';
-        $uploadDir = $saveFrom;
-        $pathRelative = $uploadRootDir . '/' . $uploadDir . '/';
-        $pathAbsolute = base_path($pathRelative);
-        $dirs = explode('/', $uploadDir);
-        $parentId = 0;
-        foreach ($dirs as $item) {
-            $parentId = Media::createDir($uploadRootDir, $item, $pathRelative, $pathAbsolute, $parentId);
+        if ($headers) {
+            $params[CURLOPT_HTTPHEADER] = $headers;
         }
-        if (is_bool($parentId)) {
-            return '';
+        curl_setopt_array($curl, $params);
+        $res = curl_exec($curl);
+        $status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+        $err = curl_error($curl);
+        curl_close($curl);
+        if (!empty($err)) {
+            return $err;
         }
-        $ext = $image->getClientOriginalExtension();
-        $fileName = strtolower(\Str::random(5)) . '-' . time() . '.' . $ext;
-        if (($checkFileExist && !file_exists($pathAbsolute . "/" . $image->getClientOriginalName())) || !$checkFileExist) {
-            $image->move($pathAbsolute, $fileName);
-            $img_id = Media::insertImageMedia($uploadRootDir, $pathAbsolute, $pathRelative, $fileName, $parentId);
-            event('vanhenry.manager.media.convert.img.via.cron', ['path' => $pathRelative . $fileName, 'id' => $img_id]);
-        } else {
-            $fileName = $image->getClientOriginalName();
-            $img_id = Media::findImageByName($fileName, $parentId);
-        }
-
-        return Media::img($img_id);
-    }
-
-    public static function uploadImgs($inputName, $saveFrom, $checkFileExist = false, $getExtra = false)
-    {
-        if (!request()->hasFile($inputName)) {
-            return null;
-        }
-        $imgs = [];
-        $images = request()->file($inputName);
-        $uploadRootDir = 'public/uploads';
-        $uploadDir = $saveFrom;
-        $pathRelative = $uploadRootDir . '/' . $uploadDir . '/';
-        $pathAbsolute = base_path($pathRelative);
-        $dirs = explode('/', $uploadDir);
-        $parentId = 0;
-        foreach ($dirs as $item) {
-            $parentId = Media::createDir($uploadRootDir, $item, $pathRelative, $pathAbsolute, $parentId);
-        }
-        if (is_bool($parentId)) {
-            return '';
-        }
-        foreach ($images as $key => $image) {
-            if ($image == null) {
-                continue;
-            }
-            $ext = $image->getClientOriginalExtension();
-            $fileName = strtolower(\Str::random(5)) . '-' . time() . '.' . $ext;
-            if (($checkFileExist && !file_exists($pathAbsolute . "/" . $image->getClientOriginalName())) || !$checkFileExist) {
-                $image->move($pathAbsolute, $fileName);
-                $img_id = Media::insertImageMedia($uploadRootDir, $pathAbsolute, $pathRelative, $fileName, $parentId);
-                event('vanhenry.manager.media.convert.img.via.cron', ['path' => $pathRelative . $fileName, 'id' => $img_id]);
-            } else {
-                $fileName = $image->getClientOriginalName();
-                $img_id = Media::findImageByName($fileName, $parentId);
-            }
-            // Thêm vào bảng cron
-            $imgs[] = $img_id;
-        }
-        return Media::libImg($imgs);
+        return $res;
     }
 }

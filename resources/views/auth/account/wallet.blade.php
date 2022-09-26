@@ -1,6 +1,6 @@
 @extends('index')
 @section('css')
-<link rel="stylesheet" href="{{ Support::asset('theme/frontend/js/flatpickr/flatpickr.min.css')}}">
+<link rel="stylesheet" href="theme/frontend/js/flatpickr/flatpickr.min.css">
 @endsection
 @section('main')
 <section class="2xl:py-8 py-6 bg-[#EEEAEA]">
@@ -28,9 +28,9 @@
                             <form action="{{\VRoute::get('my_wallet')}}" method="GET" class="flex-1 frm flex justify-between rounded rounded-[1.875rem] overflow-hidden border-[1px] border-[#EBEBEB] overflow-hidden max-w-[21.5rem] ml-auto">
                                 <div class="flex-1 flex items-center">
                                     @include('svg.icon_time')
-                                    <input type="text" time_range_flatpickr class="text-[0.875rem] text-[#888888] bg-transparent focus:outline-none"/>
+                                    <input type="text" name="range_time" time_range_flatpickr class="text-[0.875rem] text-[#888888] bg-transparent w-100 focus:outline-none"/>
                                 </div>
-                                <button type="submit" class="btn btn-red-gradien inline-flex items-center justify-center font-semibold text-white py-2 px-4 rounded-[1.25rem] bg-gradient-to-r from-[#F44336] to-[#C62828] shadow-[0_6px_20px_rgba(178,30,37,.4)]">Xuất</button>
+                                <span onclick="MORE_FUNCTION.exportHistoryWallet(this);" data-action="{{\VRoute::get('export_wallet')}}" class="btn btn-red-gradien inline-flex items-center justify-center font-semibold text-white py-2 px-4 rounded-[1.25rem] bg-gradient-to-r from-[#F44336] to-[#C62828] shadow-[0_6px_20px_rgba(178,30,37,.4)]">Xuất</span>
                             </form>
                         </div>
                         @if(count($walletTransactions) > 0)
@@ -48,19 +48,25 @@
                             <div class="col-span-1 text-[#454545] py-[0.5rem] px-2 text-center border-b-[1px] border-[#EBEBEB]">
                                 {{Support::show($itemWalletTransaction,'created_at')}}
                             </div>
+                            @if(Support::show($itemWalletTransaction,'type') == App\Models\UserWalletTransactionType::DEPOSIT_MONEY_INTO_WALLET)
                             <div class="col-span-1 text-[#454545] py-[0.5rem] px-2 text-center border-b-[1px] border-[#EBEBEB]">
-                                Nạp {{Support::show($itemWalletTransaction,'amount')}}đ
+                                Nạp {{\Currency::showMoney(Support::show($itemWalletTransaction,'amount'))}}
                             </div>
+                            @else
                             <div class="col-span-1 text-[#454545] py-[0.5rem] px-2 text-center border-b-[1px] border-[#EBEBEB]">
-                                @switch(Support::show($itemTran,'status'))
+                                Trừ {{\Currency::showMoney(Support::show($itemWalletTransaction,'amount'))}}
+                            </div>
+                            @endif
+                            <div class="col-span-1 text-[#454545] py-[0.5rem] px-2 text-center border-b-[1px] border-[#EBEBEB]">
+                                @switch(Support::show($itemWalletTransaction,'status'))
 	                                @case(0)
-	                                    <p class="text-[#AEAEB0]">{{'Đang chờ xử lý'}}</p>
+	                                    <p class="text-[#AEAEB0]">Đang chờ xử lý</p>
 	                                    @break
 	                                @case(1)
-	                                    <p class="text-[#48C664]">{{'Thành công'}}</p>
+	                                    <p class="text-[#48C664]">Thành công</p>
 	                                    @break
 	                                @case(2)
-	                                    <p class="text-[#dc3545]">{{'Hủy giao dịch'}}</p>
+	                                    <p class="text-[#dc3545]">Hủy giao dịch</p>
 	                                    @break
 	                            @endswitch
                             </div>
@@ -79,6 +85,6 @@
 </section>
 @endsection
 @section('jsl')
-<script src="{{ Support::asset('theme/frontend/js/flatpickr/flatpickr.js') }}" defer></script>
-<script src="{{ Support::asset('theme/frontend/js/flatpickr/vn.js') }}" defer></script>
+<script src="theme/frontend/js/flatpickr/flatpickr.js" defer></script>
+<script src="theme/frontend/js/flatpickr/vn.js" defer></script>
 @endsection

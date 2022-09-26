@@ -2,6 +2,7 @@
 
 namespace Roniejisa\Comment\Helpers;
 
+use App\Models\Course;
 use Roniejisa\Comment\Models\News;
 use Roniejisa\Comment\Models\Order;
 use Roniejisa\Comment\Models\OrderStatusHistory;
@@ -11,8 +12,6 @@ use Roniejisa\Comment\Models\Comment;
 use Roniejisa\Comment\Models\LikeComment;
 use Roniejisa\Comment\Models\Rating;
 use Roniejisa\Helpers\RSMedia;
-use stdClass;
-use Support;
 
 class Helper
 {
@@ -46,7 +45,7 @@ class Helper
             if (!$checkOrderDone) {
                 return [
                     'code' => 100,
-                    'message' => 'Bạn chỉ có thể đánh giá sau khi đã mua hàng!',
+                    'message' => 'Bạn chỉ có thể đánh giá sau khi đã mua khóa học!',
                 ];
             }
         }
@@ -147,21 +146,25 @@ class Helper
 
     public static function checkOrderDone($product_id)
     {
-        $product = Product::with('variants')->where('id', $product_id)->first();
-        $check = Order::where('user_id', \Auth::id())->whereHas('orderProducts', function ($q) use ($product) {
-            if ($product->variants->count() > 0) {
-                $q->whereIn('order_products.product_id', $product->variants->pluck('id'));
-            } else {
-                $q->where('order_products.product_id', (int) $product->id);
-            }
-        })->whereHas('orderStatus', function ($q) {
-            //Status bằng 4 đã hoàn thành
-            $q->whereIn('order_statuses.id', [Order::STATUS_SUCCESS, Order::STATUS_RATING, Order::STATUS_EXPIRED_REFUND]);
-        })->count();
-        if ($check == 0) {
+        $course = Course::where('id', $product_id)->first();
+        if ($course == null) {
             return false;
         }
-        return true;
+        return $course->isOwn(Auth::user());
+        // $check = Order::where('user_id', \Auth::id())->whereHas('orderProducts', function ($q) use ($product) {
+        //     if ($product->variants->count() > 0) {
+        //         $q->whereIn('order_products.product_id', $product->variants->pluck('id'));
+        //     } else {
+        //         $q->where('order_products.product_id', (int) $product->id);
+        //     }
+        // })->whereHas('orderStatus', function ($q) {
+        //     //Status bằng 4 đã hoàn thành
+        //     $q->whereIn('order_statuses.id', [Order::STATUS_SUCCESS, Order::STATUS_RATING, Order::STATUS_EXPIRED_REFUND]);
+        // })->count();
+        // if ($check == 0) {
+        //     return false;
+        // }
+        // return true;
     }
 
     // ADD RATING

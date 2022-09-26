@@ -12,13 +12,27 @@ class QuestionTeacherController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');
+        if (!Auth::check()) {
+            return redirect()->to('/')->with('typeNotify', 100)->with('messageNotify', 'Vui lòng đăng nhập để thực hiện chức năng này')->send();
+        }
     }
 
-    public function index()
+    public function index(Request $request)
     {
         $user = Auth::user();
-        $cources = Course::where('teacher_id', Auth::id())->get();
-        return view('auth.teacher.question', compact('cources','user'));
+        if ($user->isAccount()) {
+            $courses = Course::whereHas('questions',  function ($q) {
+                $q->where('user_id', Auth::id());
+            });
+        } else {
+            $courses = Course::where('teacher_id', Auth::id());
+        }
+
+        $courses->when($request->input('q'), function ($q, $keyword) {
+            $q->where('content', 'LIKE', '%' . $keyword . '%');
+        });
+
+        $cources = $courses->get();
+        return view('auth.teacher.question', compact('courses', 'user'));
     }
 }

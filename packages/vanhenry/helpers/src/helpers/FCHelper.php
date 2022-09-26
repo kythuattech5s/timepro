@@ -86,18 +86,15 @@ class FCHelper
         }, $data);
         return $data;
     }
-
     public static function normalValue($str)
     {
         return trim(strtolower($str));
     }
-
     public static function er($item, $key, $normal = 0)
     {
         if (!isset($item) || (is_array($item) && count($item) == 0)) {
             return "";
         }
-
         if ($item instanceof \Illuminate\Database\Eloquent\Model) {
             $item = $item->toArray();
         }
@@ -134,21 +131,17 @@ class FCHelper
         }
         return $key;
     }
-
     public static function eimg($data, $def = "admin/images/noimage.png", $folder = "")
     {
         if ($def == "") {
             $def = "admin/images/noimage.png";
         }
-
         if (is_string($data) && (strpos($data, 'http://') === 0 || strpos($data, 'https://') === 0)) {
             return $data;
         }
-
         if (is_string($data) && $data != '' && file_exists(public_path($data))) {
             return $data;
         }
-
         if (is_array($data)) {
             $json = $data;
         } else if (is_string($data)) {
@@ -158,11 +151,15 @@ class FCHelper
             $img = $json["path"] . $json["file_name"];
             $def2 = $img;
             if ($folder != "" && $folder != "-1") {
-                if (strpos($folder, '.') && isset($json["resizes"])) {
-                    list($attr, $folder) = explode('.', $folder);
-                    return $folder == '-1' ? $json[$attr] : $json["resizes"][$folder][$attr];
+                if (strpos($folder, 'attr') !== false) {
+                    if (strpos($folder, '.') !== false && isset($json["resizes"])) {
+                        list($attr, $folder) = explode('.', $folder);
+                        return $folder == '-1' ? $json[$attr] : $json["resizes"][$folder][$attr];
+                    } else {
+                        return '';
+                    }
                 } else {
-                    if (isset($folder) && isset($json["resizes"]) && (file_exists(base_path($json["resizes"][$folder]['path'])) || file_exists($json["resizes"][$folder]['path']))) {
+                    if (isset($folder) && isset($json["resizes"]) && (file_exists(public_path($json["resizes"][$folder]['path'])) || file_exists($json["resizes"][$folder]['path']))) {
                         $img = $json["resizes"][$folder]['path'];
                     } elseif (file_exists($def2) || file_exists(public_path($def2))) {
                         $img = $def2;
@@ -171,21 +168,17 @@ class FCHelper
                     }
                 }
             }
-            if (file_exists(public_path($img)) || file_exists($img = str_replace('public/', '', $img)) || file_exists(($img = base_path($def2))) || file_exists(($img = str_replace('public/', '', $def2)))) {
+
+            if (file_exists($img) || file_exists(public_path(str_replace('public/', '', $img))) || file_exists(public_path($def2))) {
                 return $img;
             }
-
             if (isset($json["has_file"]) && $json['has_file'] == 0) {
                 return $json["file_name"];
             }
         }
 
-        if (strpos($folder, 'attr') === 0) {
-            return '';
-        }
         return $def;
     }
-
     public static function eimg1($item, $key, $def = "admin/images/noimage.png", $folder = "")
     {
         if (is_array($item) && isset($item[$key])) {
@@ -199,17 +192,26 @@ class FCHelper
     public static function eimg2($item, $key, $folder = "")
     {
         $def = "admin/images/noimage.png";
+        if (strpos($folder, 'alt') !== false || strpos($folder, 'title') !== false) {
+            if (is_array($item) && isset($item['name'])) {
+                return $item['name'];
+            } elseif (isset($item->name)) {
+                return $item->name;
+            }
+        }
+
         if (is_array($item) && isset($item[$key])) {
             return static::eimg($item[$key], $def, $folder);
         }
+
         if (!isset($item->$key)) {
             return $def;
         }
+
         return static::eimg($item->$key, $def, $folder);
     }
     public static function aimg($item, $key, $field, $def = "admin/images/noimage.png")
     {
-
         if (is_array($item) && isset($item[$key])) {
             $data = $item[$key];
         } elseif (isset($item->$key)) {
@@ -227,7 +229,6 @@ class FCHelper
         } else {
             $json = $data;
         }
-
         if (is_array($json) && array_key_exists($field, $json)) {
             $val = $json[$field];
             return $val;
@@ -287,7 +288,6 @@ class FCHelper
     {
         foreach ($results as $k => $item) {
             $keys = array_keys($item);
-
             $str = '<li class="clazzli clazzli-%s">
 				<label>
 					<input %s type="checkbox" value="%s"/>
@@ -318,7 +318,6 @@ class FCHelper
             echo '<p class="select" data-id="' . $item['id'] . '"><a href="' . $linkFillter . '?">' . $item['name'] . '</a></p>';
         }
     }
-
     public static function getDataPivot($pivotTable, $originField, $targetTable, $targetField, $columns, $originId = null, $wheres = [])
     {
         $transTableOfTarget = self::getTranslationTable($targetTable);
@@ -368,7 +367,6 @@ class FCHelper
         }
         return $arr;
     }
-
     public static function groupBy($array, $key)
     {
         $return = array();
@@ -389,7 +387,6 @@ class FCHelper
         }
         return $arr;
     }
-
     public static function generateSlugWithLanguage($slugWithLang, $localeCode, $mapId = null)
     {
         $num = 2;
@@ -458,7 +455,6 @@ class FCHelper
         }
         return [$originData, $transData];
     }
-
     public static function getDistrict($provinceId)
     {
         $html = '<option disabled selected>Quận huyện</option>';
@@ -473,17 +469,14 @@ class FCHelper
         }
         return $html;
     }
-
     public static function getHistories($arrayKey, $dataItem)
     {
         return DB::table($arrayKey['data_tables'])->where($arrayKey['origin_field'], $dataItem->id)->orderBy('id', 'DESC')->get();
     }
-
     public static function getHUserById($id)
     {
         return DB::table('h_users')->where('id', $id)->first();
     }
-
     public static function checkActiveLinkMenuAdmin($link)
     {
         if (\URL::to($link) == \Request::url()) {
@@ -496,7 +489,6 @@ class FCHelper
         }
         return false;
     }
-
     public static function getSegment($request, $level)
     {
         if (\App::getLocale() == \Config::get('app.locale_origin')) {
@@ -506,7 +498,6 @@ class FCHelper
         }
         return $seg;
     }
-
     public static function buildUrlSort($show)
     {
         $params = request()->all();
@@ -538,7 +529,6 @@ class FCHelper
         }
         return compact('cursor', 'url_sort', 'ordervalue');
     }
-
     public static function checkHaveActiveLinkMenuAdmin($admincp, $pmenu)
     {
         foreach ($pmenu->childs as $cmenu) {
@@ -549,7 +539,6 @@ class FCHelper
         }
         return false;
     }
-
     public static function checkArr(&$var)
     {
         return is_array($var) && count($var) > 0;
@@ -570,14 +559,12 @@ class FCHelper
     {
         return is_numeric($var) && (float) $var > 0;
     }
-
     public static function getDataList($table, $name, $tableMain, $field_show)
     {
         return Cache::remember($table . $name . $tableMain, 300, function () use ($field_show, $table) {
             return DB::table($table)->select($field_show)->get();
         });
     }
-
     public static function getConfigMapTableRewrite($table)
     {
         $table = $table->table_map ?? $table;
@@ -590,7 +577,6 @@ class FCHelper
         });
         return $configCustomMapTable->merge($configDefaultMapTable);
     }
-
     public static function getFieldNeedUpdateTable($table)
     {
         $fields = config('sys_type_show.img');
@@ -603,14 +589,12 @@ class FCHelper
             $type = array_values(array_filter($fields, function ($value, $key) use ($detail) {
                 return $value['type_show'] == $detail->type_show;
             }, ARRAY_FILTER_USE_BOTH));
-
             if (count($type) > 0) {
                 $detail->type = $type[0]['type'];
             }
         }
         return $detailTables;
     }
-
     public static function getFieldNeedUpdateConfig()
     {
         $fields = config('sys_type_show.img');

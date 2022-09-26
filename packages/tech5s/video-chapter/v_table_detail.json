@@ -1,7 +1,7 @@
-//  course_videos
 {
 	"table": "course_videos",
 	"table_main": "course",
+	"field_main": "course_id",
 	"fields": [
 		{
 			"name": "name",
@@ -17,9 +17,15 @@
 		},
 		{
 			"name": "source",
-			"type": "file",
+			"type": "video",
 			"label": "Đường dẫn",
-			"placeholder": "Chọn Video"
+			"placeholder": "Chọn video"
+		},
+		{
+			"name": "img",
+			"type": "image",
+			"label": "Ảnh video",
+			"placeholder": "Chọn hình ảnh"
 		},
 		{
 			"name": "act",

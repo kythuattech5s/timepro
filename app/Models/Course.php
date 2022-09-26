@@ -5,11 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use phpDocumentor\Reflection\Types\This;
 use Roniejisa\Comment\Traits\GetDataComment;
+use RSCustom;
+use Tech5s\FlashSale\Traits\UseFlashSale;
 use Tech5s\VideoChapter\Traits\VideoSouceTrait;
 
 class Course extends BaseModel
 {
-    use HasFactory, VideoSouceTrait, GetDataComment;
+    use HasFactory, VideoSouceTrait, GetDataComment, UseFlashSale;
     public function teacher()
     {
         return $this->belongsTo(User::class, 'teacher_id', 'id');
@@ -45,11 +47,17 @@ class Course extends BaseModel
     }
     public function getDurationView()
     {
-        return sprintf('%02d giờ %02d phút', ($this->duration / 60), $this->duration % 60);
+        return RSCustom::getTimeOfVideo($this->videos->sum(function ($q) {
+            return (int) $q->duration > 0 ? $q->duration : 0;
+        }), [
+            'hour' => ' giờ ',
+            'minute' => ' phút ',
+            'second' => ' giây'
+        ]);
     }
     public function getCountDocument()
     {
-        return 'Đợi code';
+        return ($documents = json_decode($this->documents, true))  != null ? count($documents) : 0;
     }
     public function timePackage()
     {
@@ -65,10 +73,10 @@ class Course extends BaseModel
     }
     public function scopeBaseView($q)
     {
-        return $q->act()->with(['teacher' => function ($q) {
+        return $q->act()->with('ratings')->with(['teacher' => function ($q) {
             $q->teacher()->where('act', 1)->where('banned', 0);
         }, 'timePackage' => function ($q) {
-            $q->orderBy('price', 'asc');
+            $q->with('course')->orderBy('price', 'asc');
         }]);
     }
     public function getFirstPrice()
@@ -243,5 +251,10 @@ class Course extends BaseModel
     public function isDone()
     {
         return $this->percentStudy() == 100;
+    }
+
+    public function questions()
+    {
+        return $this->hasMany(QuestionTeacher::class, 'map_id', 'id');
     }
 }

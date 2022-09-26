@@ -12,8 +12,30 @@
     <link rel="stylesheet" href="{{ Support::asset('theme/frontend/css/lightbox.css') }}" />
     <link rel="stylesheet" href="{{ Support::asset('theme/frontend/css/main.css') }}" />
     <link rel="stylesheet" href="{{ Support::asset('theme/frontend/css/toastify.css') }}" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+        theme: {
+            extend: {
+            fontFamily: {
+                Averta: ['"Averta"'],
+            },
+            screens: {
+                sm: "576px",
+                md: "768px",
+                lg: "1024px",
+                xl: "1280px",
+                "2xl": "1408px",
+            },
+            container: {
+                center: true,
+            },
+            },
+        },
+    };
+    </script>   
     @yield('cssl')
-    <link rel="stylesheet" href="{{ Support::asset(mix('css/app.css')) }}">
+    <link rel="stylesheet" href="{{ Support::asset('css/app.css') }}">
     @yield('css')
     <script type="text/javascript">
         var showNotify = "";
@@ -25,6 +47,7 @@
         var redirect = "{{ Session::get('redirect', '') }}";
     </script>
     {[CMS_HEADER]}
+    
 </head>
 
 <body class="wrapper 2xl:text-[16px] mx-auto overflow-x-hidden text-[12px] leading-snug text-[#454545] sm:text-[14px]">

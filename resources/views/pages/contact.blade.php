@@ -80,6 +80,7 @@
             </div>
             <div class="col-span-1">
                 <form action="{{\VRoute::get('send_contact')}}" method="POST" class="formValidation form-contact rounded-lg 2xl:p-10 lg:p-6 p-4 border-[1px] border-solid border-[#F44336]" absolute data-success="NOTIFICATION.toastrMessageRedirect" accept-charset="utf8">
+                    @csrf
                     <p class="title text-center font-bold text-[#252525] uppercase 2xl:text-[1.6rem] lg:text-[1.3rem] text-[1.125rem] mb-2">{:title_form_contact:}</p>
                     <p class="subtitle text-center mb-4">{:content_form_contact:}</p>
                     <div class="box-input relative mb-4 text-[#888]">
@@ -113,7 +114,7 @@
                 </form>
             </div>
         </div>
-        <div class="2xl:h-[700px] lg:h-[550px] h-[250px]" id="map" data-map="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3723.969021700268!2d105.7602401152675!3d21.03392548599555!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x313454be90584183%3A0x75acde08f88f5d7c!2zU3BhIFRodSBIxrDGoW5n!5e0!3m2!1svi!2s!4v1639585480266!5m2!1svi!2s">
+        <div class="2xl:h-[700px] lg:h-[550px] h-[250px]" id="map" data-map="{[map]}">
         	
         </div>
     </div>
