@@ -201,7 +201,7 @@
             <script src="{{$script_link}}" type="text/javascript" defer></script>
         @endforeach
     @endif
-    @if($config_assets != null && isset($config_assets['scripts']) && is_array($config_assets['styles']))
+    @if($config_assets != null && isset($config_assets['scripts']) && is_array($config_assets['scripts']))
         @foreach($config_assets['scripts'] as $srcScript)
             <script type="{{$srcScript['type']}}" src="{{Support::asset($srcScript['src'])}}" type="text/javascript" defer></script>
         @endforeach
