@@ -46,7 +46,7 @@
     @foreach ($listCourseCategory as $itemCourseCategory)
     @php
         $listCourseShow = Cache::rememberForever('listCourseHomeCategoryShow'.$itemCourseCategory->id, function () use ($itemCourseCategory) {
-            return $itemCourseCategory->course()->baseView()->limit(10)->get();
+            return $itemCourseCategory->course->take(10);
         });
     @endphp
     <div class="item group 2xl:py-14 py-6" style="background-image: url(theme/frontend/images/bg-category.jpg)">

@@ -1,9 +1,12 @@
 <?php
+
 namespace vanhenry\helpers\helpers;
+
 use DB;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Cache as Cache;
 use vanhenry\manager\model\MediaTableDetail;
+
 class FCHelper
 {
     public static function ep($item, $key, $checklang = 1, $isAdmin = true)
@@ -148,21 +151,24 @@ class FCHelper
             $img = $json["path"] . $json["file_name"];
             $def2 = $img;
             if ($folder != "" && $folder != "-1") {
-                if (strpos($folder, '.') && isset($json["resizes"])) {
-                    list($attr, $folder) = explode('.', $folder);
-                    return $folder == '-1' ? $json[$attr] : $json["resizes"][$folder][$attr];
-                } 
-                else {
+                if (strpos($folder, 'attr') !== false) {
+                    if (strpos($folder, '.') !== false && isset($json["resizes"])) {
+                        list($attr, $folder) = explode('.', $folder);
+                        return $folder == '-1' ? $json[$attr] : $json["resizes"][$folder][$attr];
+                    } else {
+                        return '';
+                    }
+                } else {
                     if (isset($folder) && isset($json["resizes"]) && (file_exists(public_path($json["resizes"][$folder]['path'])) || file_exists($json["resizes"][$folder]['path']))) {
                         $img = $json["resizes"][$folder]['path'];
-                    } 
-                    elseif (file_exists($def2) || file_exists(public_path($def2))) {
+                    } elseif (file_exists($def2) || file_exists(public_path($def2))) {
                         $img = $def2;
                     } else {
                         $img = $def;
                     }
                 }
             }
+
             if (file_exists($img) || file_exists(public_path(str_replace('public/', '', $img))) || file_exists(public_path($def2))) {
                 return $img;
             }
@@ -170,9 +176,7 @@ class FCHelper
                 return $json["file_name"];
             }
         }
-        if (strpos($folder, 'attr') === 0) {
-            return '';
-        }
+
         return $def;
     }
     public static function eimg1($item, $key, $def = "admin/images/noimage.png", $folder = "")
@@ -188,12 +192,22 @@ class FCHelper
     public static function eimg2($item, $key, $folder = "")
     {
         $def = "admin/images/noimage.png";
+        if (strpos($folder, 'alt') !== false || strpos($folder, 'title') !== false) {
+            if (is_array($item) && isset($item['name'])) {
+                return $item['name'];
+            } elseif (isset($item->name)) {
+                return $item->name;
+            }
+        }
+
         if (is_array($item) && isset($item[$key])) {
             return static::eimg($item[$key], $def, $folder);
         }
+
         if (!isset($item->$key)) {
             return $def;
         }
+
         return static::eimg($item->$key, $def, $folder);
     }
     public static function aimg($item, $key, $field, $def = "admin/images/noimage.png")

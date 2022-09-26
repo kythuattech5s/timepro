@@ -17,7 +17,7 @@ class HomeController extends Controller
 
         $listCourseCategory = Cache::rememberForever('listHomeCourseCategory', function () {
             return CourseCategory::act()->with(['course'=>function($q){
-                $q->select('id','act')->act();
+                $q->with(['ratings','teacher','timePackage'])->select(['id','act','name','img','teacher_id','duration','ord','time_package','number_student'])->act()->ord();
             }])->where('home',1)->ord()->limit(5)->get();
         });
 
