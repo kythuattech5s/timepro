@@ -66,7 +66,7 @@ var SLIDER = {
 					spaceBetween: 10,
 					freeMode: true,
 					watchSlidesProgress: true,
-
+			
 					breakpoints: {
 						576: {
 							slidesPerView: 2,
@@ -95,6 +95,7 @@ var SLIDER = {
 					disableOnInteraction: true,
 					speed: 600,
 					spaceBetween: 16,
+					
 					navigation: {
 						nextEl: ".cate__next-" + i,
 						prevEl: ".cate__prev-" + i,
@@ -113,7 +114,7 @@ var SLIDER = {
 				spaceBetween: 10,
 				freeMode: true,
 				watchSlidesProgress: true,
-
+			
 				breakpoints: {
 					576: {
 						slidesPerView: 2,
@@ -142,6 +143,7 @@ var SLIDER = {
 				disableOnInteraction: true,
 				speed: 600,
 				spaceBetween: 16,
+				
 				navigation: {
 					nextEl: ".cate__next",
 					prevEl: ".cate__prev",
