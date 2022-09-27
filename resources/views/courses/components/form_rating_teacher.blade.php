@@ -10,8 +10,9 @@
     @csrf
     <input type="hidden" name="map_table" value="users">
     <input type="hidden" name="map_id" value="{{ $currentItem->teacher_id }}">
+    <input type="hidden" name="name_rating" value="rate">
     <div class="my-2 flex w-full justify-center text-center">
-        @include('commentRS::selectStar', ['size' => 32])
+        @include('commentRS::selectStar', ['size' => 32,'name' => 'rate'])
     </div>
     <textarea rules="required" class="form-control mb-4 h-24 w-full resize-none rounded-lg bg-[#F5F5F5] p-3 outline-none" name="content" placeholder="Nhập ghi chú và nhấn Enter để lưu lại "></textarea>
     <button class="btn btn-red-gradien mx-auto flex w-fit items-center justify-center rounded bg-gradient-to-r from-[#F44336] to-[#C62828] py-2 px-4 font-semibold uppercase text-white shadow-[0_6px_20px_rgba(178,30,37,.4)]">GỬI ĐÁNH GIÁ</button>

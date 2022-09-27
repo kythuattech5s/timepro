@@ -31,7 +31,7 @@ Route::group([
     Route::get('cronimg', array('uses' => 'CronImgController@convertImg'));
     Route::get('cronmail', 'CronMailController@cronmail');
     Route::get('reset-email', 'CronMailController@reset');
-
+    Route::get('tai-danh-muc-khoa-hoc','HomeController@getCategoryCourse');
     Route::post('cart/{action}', 'CartController@action');
     Route::get('thong-tin-giang-vien/{uslug}', 'UserController@view');
     Route::get('test', function(){

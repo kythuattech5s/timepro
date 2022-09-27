@@ -64,9 +64,10 @@ var SLIDER = {
 					disableOnInteraction: true,
 					speed: 600,
 					spaceBetween: 10,
-					freeMode: true,
+					freeMode: false,
+					loop:false,
 					watchSlidesProgress: true,
-
+					allowTouchMove: false,
 					breakpoints: {
 						576: {
 							slidesPerView: 2,
@@ -94,7 +95,9 @@ var SLIDER = {
 					slidesPerView: 1,
 					disableOnInteraction: true,
 					speed: 600,
+                    loop:true,
 					spaceBetween: 16,
+					loop:false,
 					navigation: {
 						nextEl: ".cate__next-" + i,
 						prevEl: ".cate__prev-" + i,
@@ -104,6 +107,7 @@ var SLIDER = {
 					},
 				});
 			
+			
 			}
 		} else {
 			const swiperBanner = new Swiper('.slide-category__thumbs', {
@@ -111,8 +115,10 @@ var SLIDER = {
 				disableOnInteraction: true,
 				speed: 600,
 				spaceBetween: 10,
-				freeMode: true,
+				freeMode: false,
 				watchSlidesProgress: true,
+				loop:false,
+				allowTouchMove: false,
 
 				breakpoints: {
 					576: {
@@ -142,6 +148,8 @@ var SLIDER = {
 				disableOnInteraction: true,
 				speed: 600,
 				spaceBetween: 16,
+				loop:false,
+
 				navigation: {
 					nextEl: ".cate__next",
 					prevEl: ".cate__prev",

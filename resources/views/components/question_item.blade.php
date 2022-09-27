@@ -4,7 +4,7 @@
             @php
                 $user = $question->user;
             @endphp
-            <img src="{%IMGV2.user.img.-1%}" alt="{%AIMGV2.user.img.alt%}" class="h-11 w-11 rounded-full" title="{%AIMGV2.user.img.title%}">
+            <img src="{%IMGV2.user.img.-1%}" alt="{%AIMGV2.user.img.alt%}" class="h-11 w-11 rounded-full object-cover" title="{%AIMGV2.user.img.title%}">
             <div class="flex-1">
                 <div class="flex h-11 flex-col justify-between">
                     <p class="font-bold">{{ $user->name }}</p>
@@ -29,7 +29,7 @@
                                 @php
                                     $user = $item_child->user;
                                 @endphp
-                                <img src="{%IMGV2.user.img.-1%}" alt="{%AIMGV2.user.img.alt%}" class="h-11 w-11 rounded-full" title="{%AIMGV2.user.img.title%}">
+                                <img src="{%IMGV2.user.img.-1%}" alt="{%AIMGV2.user.img.alt%}" class="h-11 w-11 rounded-full object-cover" title="{%AIMGV2.user.img.title%}">
                                 <div class="flex-1">
                                     <div class="flex h-11 flex-col justify-between">
                                         <p class="font-bold">{{ $user->name }}</p>

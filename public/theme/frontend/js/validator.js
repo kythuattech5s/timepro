@@ -1474,8 +1474,7 @@ var FORM_VALIDATION = ((options = {}) => {
                 const buttonRect = button.getBoundingClientRect();
                 Object.assign(button.style, {
                     width: `${buttonRect.width}px`,
-                    height: `${buttonRect.height}px`,
-                    position: `relative`,
+                    height: `${buttonRect.height}px`
                 });
 
                 if (button.hasAttribute("content")) {

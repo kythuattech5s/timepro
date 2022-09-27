@@ -26,15 +26,15 @@ class QuestionTeacherController extends Controller
             });
             $courses->with(['questions' =>  function ($q) {
                 $q->with(['questions' => function ($q) {
-                    $q->with('user');
-                }, 'user'])->where('user_id', Auth::id())->whereNull('question_teacher_id');
+                    $q->with('user', 'likes');
+                }, 'user', 'likes'])->where('user_id', Auth::id())->whereNull('question_teacher_id');
             }]);
         } else {
             $courses = Course::where('teacher_id', Auth::id());
             $courses->with(['questions' => function ($q) {
                 $q->with(['questions' => function ($q) {
-                    $q->with('user');
-                }, 'user']);
+                    $q->with('user', 'likes');
+                }, 'user', 'likes']);
             }]);
         }
 

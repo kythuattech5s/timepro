@@ -5,7 +5,9 @@
         @php
             $rating = $comment->rating;
         @endphp
+        @if( $rating != null)
         <span class="font-bold">Bài học </span> @include('commentRS::rating', ['size' => 32, 'rating' => $rating->rating * 5 . '%'])
+        @endif
     </div>
     <div><span class="font-bold">Nội dung:</span>
         <p>{!! $comment->content !!}</p>

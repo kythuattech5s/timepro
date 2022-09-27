@@ -131,6 +131,7 @@ class FCHelper
         }
         return $key;
     }
+
     public static function eimg($data, $def = "admin/images/noimage.png", $folder = "")
     {
         if ($def == "") {
@@ -159,8 +160,8 @@ class FCHelper
                         return '';
                     }
                 } else {
-                    if (isset($folder) && isset($json["resizes"]) && (file_exists(public_path($json["resizes"][$folder]['path'])) || file_exists($json["resizes"][$folder]['path']))) {
-                        $img = $json["resizes"][$folder]['path'];
+                    if (isset($folder) && file_exists(public_path($json['path'] . 'thumbs/' . $folder . '/' . $json['file_name']))) {
+                        $img = $json['path'] . 'thumbs/' . $folder . '/' . $json['file_name'];
                     } elseif (file_exists($def2) || file_exists(public_path($def2))) {
                         $img = $def2;
                     } else {

@@ -16,9 +16,9 @@ var CLICK = {
         var headerHeight = header.outerHeight();
         var bodyPage = Tech.$("body");
         var width_ = window.innerWidth;
-        Tech.$("body").css("padding-top", headerHeight + `px`);
+        // Tech.$("body").css("padding-top", headerHeight + `px`);
      
-        header.addClass("fixedd");
+        // header.addClass("fixedd");
 
       
     },

@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use App\Models\Banner;
@@ -15,17 +16,23 @@ class HomeController extends Controller
             return Banner::act()->ord()->get();
         });
 
-        $listCourseCategory = Cache::rememberForever('listHomeCourseCategory', function () {
-            return CourseCategory::act()->with(['course'=>function($q){
-                $q->with(['ratings','teacher','timePackage'])->select(['id','act','name','img','teacher_id','duration','ord','time_package','number_student'])->act()->ord();
-            }])->where('home',1)->ord()->limit(5)->get();
-        });
+
 
         $listTeacher = Cache::rememberForever('listOurTeacher', function () {
-            return User::teacher()->where('act', 1)->where('banned', 0)->with('ratings')->with(['teacherCourses'=>function($q){
+            return User::teacher()->where('act', 1)->where('banned', 0)->with('ratings')->with(['teacherCourses' => function ($q) {
                 $q->with('videos')->act();
             }])->get();
         });
-        return view('home',compact('listBanner','listCourseCategory','listTeacher'));
+        return view('home', compact('listBanner', 'listTeacher'));
+    }
+
+    public function getCategoryCourse(Request $request)
+    {
+        $listCourseCategory  = CourseCategory::act()->with(['course' => function ($q) {
+            $q->with(['ratings', 'teacher', 'timePackage'])->select(['id', 'act', 'name', 'img', 'teacher_id', 'duration', 'ord', 'time_package', 'number_student', 'slug'])->act()->ord();
+        }])->where('home', 1)->ord()->limit(5)->get();
+        return response([
+            'html' => view('components.list_category', compact('listCourseCategory'))->render()
+        ]);
     }
 }

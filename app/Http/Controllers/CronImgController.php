@@ -37,9 +37,9 @@ class CronImgController extends Controller
                     //resize ảnh gốc trước
                     list($width, $height) = getimagesize($pathMove . $fileName);
 
-                    if ($width > 1080) {
-                        $height = 1080 / ($width / $height);
-                        $this->resizeImage($pathMove, $baseName, $fileName, 1080, $height,  80, "", $pathMove);
+                    if ($width > 1920) {
+                        $height = 1920 / ($width / $height);
+                        $this->resizeImage($pathMove, $baseName, $fileName, 1920, $height,  80, "", $pathMove);
                     }
                     // try {
                     WebPConvert::convert(public_path($item->name), $pathMove . $baseName . '.webp', []);
