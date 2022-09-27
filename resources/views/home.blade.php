@@ -44,11 +44,11 @@
 @include('sections.list_cate')
 <section class="section-cate__index">
     @foreach ($listCourseCategory as $itemCourseCategory)
-    @php
+    <?php
         $listCourseShow = Cache::rememberForever('listCourseHomeCategoryShow'.$itemCourseCategory->id, function () use ($itemCourseCategory) {
             return $itemCourseCategory->course->take(10);
         });
-    @endphp
+    ?>
     <div class="item group 2xl:py-14 py-6" style="background-image: url(theme/frontend/images/bg-category.jpg)">
         <div class="container">
             <div class="head-category block md:flex items-center justify-between gap-8 mb-6">
@@ -106,9 +106,7 @@
             <div class="swiper-container slide-lecturers lg:py-5">
                 <div class="swiper-wrapper">
                     @foreach ($listTeacher as $itemTeacher)
-                    @php
-                        $ratingInfo = $itemTeacher->getRating('main');
-                    @endphp
+                    <?php $ratingInfo = $itemTeacher->getRating('main'); ?>
                     <div class="swiper-slide h-auto">
                         <div class="items-lecturers bg-white h-full rounded-lg overflow-hidden border-[1px] border-solid border-[#ebebeb] hover:border-transparent hover:shadow-[0_4px_10px_rgba(0,0,0,.3)] transition-all duration-300">
                             <span class="banner block c-img pt-[26%]">

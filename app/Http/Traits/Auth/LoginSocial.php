@@ -112,6 +112,7 @@ trait LoginSocial
             }
             auth()->login($user, true);
         }
+        
         if ($request->ajax()) {
             return response(['code' => 200, 'message' => 'Đăng nhập thành công', 'redirect' => Support::URLPrevious(false)]);
         }
@@ -143,6 +144,7 @@ trait LoginSocial
     }
     public function getProvider($provider)
     {
+        
         switch ($provider) {
             case 'facebook':
                 $config = [

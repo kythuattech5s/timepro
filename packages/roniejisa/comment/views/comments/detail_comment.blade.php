@@ -6,10 +6,10 @@
         <p class="cart__title list-link">Chi tiết bình luận {{$comment->id}}</p>
     </div>
     <hr>
-    @php
+    <?php
         $key = $comment->map_table;
         $item = $comment->$key;
-    @endphp
+    ?>
     @if($item !== null)
     <div class="product-view">
         <a href="{{$item->slug}}" class="product-view__img" target="_blank">

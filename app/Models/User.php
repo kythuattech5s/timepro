@@ -200,7 +200,7 @@ class User extends Authenticatable
         $wallet = $this->wallet()->first();
         if(!isset($wallet)){
             $user = \Auth::user();
-            $wallet = \App\Helpers\UserWallet::create($user);
+            $wallet = \App\Helpers\UserWallet\WalletHelper::create($user);
         }
         return \Support::show($wallet,'amount_available');
     }
@@ -210,7 +210,7 @@ class User extends Authenticatable
         $wallet = $this->wallet()->first();
         if(!isset($wallet)){
             $user = \Auth::user();
-            $wallet = \App\Helpers\UserWallet::create($user);
+            $wallet = \App\Helpers\UserWallet\WalletHelper::create($user);
         }
         $wallet->amount_available = (int)\Support::show($wallet,'amount_available') + (int)$amount;
         $wallet->amount = (int)\Support::show($wallet,'amount') + (int)$amount;
@@ -224,7 +224,7 @@ class User extends Authenticatable
         $wallet = $this->wallet()->first();
         if(!isset($wallet)){
             $user = \Auth::user();
-            $wallet = \App\Helpers\UserWallet::create($user);
+            $wallet = \App\Helpers\UserWallet\WalletHelper::create($user);
         }
         if((int)\Support::show($wallet,'amount_available') < (int)$amount) return false;
         $wallet->amount_available = (int)\Support::show($wallet,'amount_available') - (int)$amount;

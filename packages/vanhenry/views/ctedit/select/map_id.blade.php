@@ -1,12 +1,12 @@
 <?php 
-	$data = $arrData;
-	$config = $arrConfig;
+	  $data = $arrData;
+	  $config = $arrConfig;
     $field_table = $config['field'] ?? '';
     $select = explode(',',$data['select']);
-    $table_name = $dataItem->$field_table;
+    $table_name = isset($dataItem->$field_table)?$dataItem->$field_table:'';
     $main = $select[0];
     $sub = $select[1];
-    $arrayValues = vanhenry\manager\helpers\DetailTableHelper::getDataTable($table_name,$select);
+    $arrayValues = $table_name!=''?vanhenry\manager\helpers\DetailTableHelper::getDataTable($table_name,$select):[];
 ?>
 @if((isset($active) && count($active) > 0) || $name !== 'act')
 <div class="form-group ">

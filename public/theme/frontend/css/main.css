@@ -941,7 +941,7 @@ color: #F44336 !important;
 }
 .payment-method__content img{
   display: inline-block;
-  width: 2.5rem;
+  width: 2rem;
 }
 .menu ul li a.active{
   color: #F44336;

@@ -124,7 +124,6 @@ class Support
         }
         else {
             $path = collect(get_headers(url($file)));
-
             $path = $path->first(function ($string) {
                 return strpos($string, 'path-link') === 0;
             });

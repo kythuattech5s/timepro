@@ -444,7 +444,7 @@ class MediaController extends BaseAdminController
         $pf = Session::get('PROCESS_FILE');
         if (@$pf && array_key_exists('CURRENT_PATH', $pf) && array_key_exists('CURRENT_ID', $pf)) {
             $pathuploads = $pf['CURRENT_PATH'];
-        } else {
+        }else {
             return response()->json([
                 'code' => 150,
                 'message' => 'Thiếu thông tin dữ liệu!',
@@ -563,8 +563,6 @@ class MediaController extends BaseAdminController
             }
             return response()->json($images);
         }
-
-        
     }
 
     private function _deleteFile($id, $type = 1)
