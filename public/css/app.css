@@ -2354,6 +2354,15 @@ video {
   background-color: rgb(254 242 242 / var(--tw-bg-opacity));
 }
 
+
+.item-lesson.active {
+    background: #4b575d52 !important;
+}
+
+.item-lesson.playing {
+    background: #ff9292 !important;
+}
+
 .before\:absolute::before {
   content: var(--tw-content);
   position: absolute;

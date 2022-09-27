@@ -19,7 +19,7 @@ class Helper
     const STATUS_RATING = 6;
 
     // ADDCOMMENT
-    public static function addComment($request, $checkShop = false)
+    public static function addComment($request, $checkShop = false, $nameRating = 'rate')
     {
         \DB::beginTransaction();
         // try {
@@ -65,8 +65,8 @@ class Helper
         }
         $comment->save();
 
-        if (isset($request->rate)) {
-            self::addRating($request, $user, $comment);
+        if (isset($request->$nameRating)) {
+            self::addRating($request, $user, $comment, $nameRating);
         }
         \DB::commit();
         if (isset($request->rate)) {
@@ -168,7 +168,7 @@ class Helper
     }
 
     // ADD RATING
-    public static function addRating($request, $user = null, $comment = null)
+    public static function addRating($request, $user = null, $comment = null, $nameRating = 'rate')
     {
         $rating = new Rating;
         $rating->map_table = $request->input('map_table');
@@ -185,7 +185,7 @@ class Helper
         if ($comment !== null) {
             $rating->comment_id = $comment->id;
         }
-        $rating->rating = $request->input('rate');
+        $rating->rating = $request->input($nameRating);
         $rating->act = 1;
         $rating->save();
         // event('after.user.rating', [$user, $rating]);

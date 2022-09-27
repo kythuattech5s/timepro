@@ -95,6 +95,7 @@ var SLIDER = {
 					slidesPerView: 1,
 					disableOnInteraction: true,
 					speed: 600,
+                    loop:true,
 					spaceBetween: 16,
 					loop:false,
 					navigation: {

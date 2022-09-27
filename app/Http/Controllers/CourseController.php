@@ -25,7 +25,9 @@ class CourseController extends Controller
             if (!$isOwn) {
                 return Support::redirectTo($currentItem->slug, 100, 'Vui lòng đăng ký khóa học để thực hiện hành động này!');
             }
-            $videos = CourseVideo::with(['notes' => function ($q) {
+            $videos = CourseVideo::with(['users'=>function($q){
+                $q->where('id',\Auth::id());
+            },'notes' => function ($q) {
                 $q->where('user_id', \Auth::id());
             }])->where('course_id', $currentItem->id)->get();
             $listQuestions = QuestionTeacher::with(['questions' => function ($q) {

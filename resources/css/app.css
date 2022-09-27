@@ -24,3 +24,12 @@
 .no-read{
     @apply bg-red-50
 }
+
+
+.item-lesson.active {
+    background: #4b575d52 !important;
+}
+
+.item-lesson.playing {
+    background: #ff9292 !important;
+}

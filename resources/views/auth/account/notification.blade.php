@@ -15,12 +15,12 @@
                 </div>
                 <div class="col-span-1 lg:col-span-3">
                     <div class="mb-4 box-content rounded bg-white p-4 last:mb-0 2xl:mb-6">
-                        <form action="" method="" class="form-search relative">
+                        <form action="" method="GET" class="form-search relative">
                             <i class="fa fa-search absolute top-1/2 left-4 -translate-y-1/2 text-[#888]" aria-hidden="true"></i>
-                            <input type="text" name="" placeholder="Nhập từ khóa tìm kiếm..." class="form-control w-full rounded-[1.25rem] bg-[#f5f5f5] py-3 pl-10 pr-32 outline-none">
-                            <a href="#" title="Tìm kiếm" class="btn btn-red-gradien absolute top-0 right-0 inline-flex h-full items-center justify-center rounded-[1.25rem] bg-gradient-to-r from-[#F44336] to-[#C62828] py-2 px-6 font-semibold text-white">
+                            <input type="text" name="q" value="{{request()->input('q')}}" placeholder="Nhập từ khóa tìm kiếm..." class="form-control w-full rounded-[1.25rem] bg-[#f5f5f5] py-3 pl-10 pr-32 outline-none">
+                            <button type="submit" title="Tìm kiếm" class="btn btn-red-gradien absolute top-0 right-0 inline-flex h-full items-center justify-center rounded-[1.25rem] bg-gradient-to-r from-[#F44336] to-[#C62828] py-2 px-6 font-semibold text-white">
                                 Tìm kiếm
-                            </a>
+                            </button>
                         </form>
                     </div>
                     <div class="mb-4 box-content rounded bg-white p-4 last:mb-0 2xl:mb-6">
@@ -50,7 +50,7 @@
                             @foreach ($notification_catalogs as $key => $catalog)
                                 <div class="tabcontent" data-target="tab-lesson" id="tab-lesson-{{ $catalog->id }}">
                                     @php
-                                        $notifications = $catalog->notifications()->paginate(10);
+                                        $notifications = $catalog->notifications()->where('notifiable_id',Auth::id())->paginate(10);
                                     @endphp
                                     <div class="noti-list__item">
                                         @include('auth.account.components.list_notifications', ['notifications' => $notifications])

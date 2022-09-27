@@ -8,11 +8,13 @@
      </p>
      <form action="{{ url('cmrs/source/danh-gia-khoa-hoc') }}" method="POST" class="form form-validate" absolute check data-success="RATING_COURSE.ratingDone">
          @csrf
-         <input type="hidden" name="map_table" value="courses">
-         <input type="hidden" name="map_id" value="{{ Support::show($currentItem, 'id') }}">
+        <input type="hidden" name="map_table" value="courses">
+        <input type="hidden" name="map_id" value="{{ Support::show($currentItem, 'id') }}">
+        <input type="hidden" name="name_rating" value="rating">
+
          <div class="flex items-center justify-center gap-3 text-center">
              <label for="" class="font-bold">Bài học</label>
-             @include('commentRS::selectStar', ['size' => 32])
+             @include('commentRS::selectStar', ['size' => 32, 'name' => 'rating'])  
          </div>
          <textarea class="form-control mb-4 h-24 w-full resize-none rounded-lg bg-[#F5F5F5] p-3 outline-none" rules="required" name="content" placeholder="Nhập đánh giá của bạn "></textarea>
          <button type="submit" class="btn btn-red-gradien mx-auto flex w-fit items-center justify-center rounded bg-gradient-to-r from-[#F44336] to-[#C62828] py-2 px-4 font-semibold uppercase text-white shadow-[0_6px_20px_rgba(178,30,37,.4)]">GỬI ĐÁNH GIÁ</button>

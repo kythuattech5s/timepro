@@ -372,7 +372,7 @@ class RSCustom
         if ((int) $hours  > 0 && (int) $minutes > 0) {
             return $hours . $separator['hour'] . $minutes . $separator['minute'] . $seconds;
         } elseif (isset($separator['second']) && (int) $minutes > 0) {
-            return $minutes . $separator['minute'] . $seconds;
+            return $minutes . $separator['minute'] . $seconds . $separator['second'];
         } elseif (isset($separator['second'])) {
             return $seconds . $separator['second'];
         } else {
