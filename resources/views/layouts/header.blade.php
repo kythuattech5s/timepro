@@ -42,9 +42,9 @@
             <div class="flex items-center gap-2 relative group cursor-pointer">
                 <a href="{{\VRoute::get('my_profile')}}" title="{{Support::show($user,'name')}}" class="ava img-ava block lg:w-12 lg:h-12 w-8 h-8 rounded-full overflow-hidden">
                     @if(Support::show($user,'img'))
-                    @include('image_loader.tiny',['keyImage'=>'img','itemImage'=>$user])
+                    @include('image_loader.tiny',['keyImage'=>'img','itemImage'=>$user,'noLazyLoad' => 1])
                     @else
-                    @include('image_loader.config.tiny',['config_key'=>'logo'])
+                    @include('image_loader.config.tiny',['config_key'=>'logo', 'noLazyLoad' => 1])
                     @endif
                 </a>
                 <div class="content hidden lg:block">

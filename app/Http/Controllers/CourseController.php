@@ -29,14 +29,14 @@ class CourseController extends Controller
                 $q->where('id',\Auth::id());
             },'notes' => function ($q) {
                 $q->where('user_id', \Auth::id());
-            }])->where('course_id', $currentItem->id)->get();
+            }])->where('course_id', $currentItem->id)->where('act',1)->orderBy('ord','ASC')->orderBy('id','ASC')->get();
             $listQuestions = QuestionTeacher::with(['questions' => function ($q) {
                 $q->where('act', 1);
             }])->where('map_table', 'courses')->where('map_id', $currentItem->id)->where('act', 1)->paginate(5);
             return view('courses.video', compact('videos', 'currentItem', 'isOwn', 'listQuestions'));
         }
         $comments = Comment::where('act', 1)->where('map_table', 'courses')->where('map_id', $currentItem->id)->whereNull('comment_id')->orderBy('id', 'DESC')->paginate(5);
-        $listVideo = $currentItem->videos()->where('act', 1)->get();
+        $listVideo = $currentItem->videos()->where('act', 1)->orderBy('ord','ASC')->orderBy('id','ASC')->get();
         $parent = $currentItem->category()->orderBy('id', 'desc')->first();
         $listRelateCourse = $currentItem->getRelatesCollection(4);
         $ratings = $currentItem->getRating();

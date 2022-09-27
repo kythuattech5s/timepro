@@ -59,7 +59,7 @@
             </div>
             <span class="frag-footer"></span>
             <div class="form-footer">
-                <a href="{{ base64_decode(request()->input('returnurl', base64_encode(url('esystem/views/flash_sales')))) }}" class="btn bg-red-400 text-white">Quay lại</a>
+                <a href="{{ base64_decode(request()->input('returnurl', base64_encode(url('esystem/view/flash_sales')))) }}" class="btn bg-red-400 text-white">Quay lại</a>
                 <button type="submit" class="btn bg-green-400 text-white">Tạo chương trình</button>
             </div>
         </form>
