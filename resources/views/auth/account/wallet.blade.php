@@ -25,7 +25,7 @@
                     <div class="box-log-withdraw">
                         <div class="flex flex-wrap justify-between items-center mb-[1.2rem] items-center">
                             <p class="font-semibold md:text-[1.125rem] text-[1rem] md:w-fit w-full md:mb-0 mb-3">Lịch sử giao dịch</p>
-                            <form action="{{\VRoute::get('my_wallet')}}" method="GET" class="flex-1 frm flex justify-between rounded rounded-[1.875rem] overflow-hidden border-[1px] border-[#EBEBEB] overflow-hidden max-w-[21.5rem] ml-auto">
+                            <form action="{{\VRoute::get('my_wallet')}}" method="GET" class="flex-1 hidden frm flex justify-between rounded rounded-[1.875rem] overflow-hidden border-[1px] border-[#EBEBEB] overflow-hidden max-w-[21.5rem] ml-auto">
                                 <div class="flex-1 flex items-center">
                                     @include('svg.icon_time')
                                     <input type="text" name="range_time" time_range_flatpickr class="text-[0.875rem] text-[#888888] bg-transparent w-100 focus:outline-none"/>

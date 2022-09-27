@@ -1,6 +1,6 @@
 @extends('index')
 @section('main')
-<section class="pages" style="background-image: url({Ibg_page_auth.imgI});background-repeat: no-repeat;background-position: left;">
+<section class="pages" style="background-image: url({Ibg_page_auth.imgI});background-repeat: no-repeat;background-position: left;background-size:100%;">
     <div class="main-breadcrumb py-4">
         <div class="container">
             {{Breadcrumbs::render('static',trans('fdb::login'),\VRoute::get('login'))}}

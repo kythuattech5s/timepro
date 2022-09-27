@@ -7,6 +7,8 @@ use App\Providers\RouteServiceProvider;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Traits\Auth\LoginSocial;
+use App\Http\Traits\Auth\UserWallet;
 use App\Models\User;
 use Session;
 use VRoute;
@@ -26,7 +28,7 @@ class LoginController extends Controller
     |
     */
 
-
+    use LoginSocial,UserWallet;
     /**
      * Where to redirect users after login.
      *

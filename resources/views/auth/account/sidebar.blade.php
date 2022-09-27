@@ -41,7 +41,6 @@
         </a>
     </div>
 </div>
-
 <a href="{{ \VRoute::get('my_course') }}" class="sidebar-admin__item {{ Str::contains(url()->current(), [\VRoute::get('my_course')]) ? 'active' : '' }} mb-2 flex items-center justify-between rounded bg-white py-3 px-4 transition-all duration-300 2xl:px-6">
     <span class="title font-bold text-[#252525]">Khóa học của tôi</span>
     <i class="fa fa-angle-right text-[1.875rem]" aria-hidden="true"></i>
@@ -94,6 +93,10 @@
 </a>
 <a href="{{\VRoute::get('my_question')}}" class="sidebar-admin__item bg-white rounded flex items-center justify-between py-3 2xl:px-6 px-4 mb-2 transition-all duration-300 {{Str::contains(url()->current(),[\VRoute::get('my_question')]) ? 'active':''}}">
     <span class="title font-bold text-[#252525]">Câu hỏi thắc mắc</span>
+    <i class="fa fa-angle-right text-[1.875rem]" aria-hidden="true"></i>
+</a>
+<a href="{{ \VRoute::get('my_wallet') }}" class="sidebar-admin__item {{ Str::contains(url()->current(), [\VRoute::get('my_wallet')]) ? 'active' : '' }} mb-2 flex items-center justify-between rounded bg-white py-3 px-4 transition-all duration-300 2xl:px-6">
+    <span class="title font-bold text-[#252525]">Ví của tôi</span>
     <i class="fa fa-angle-right text-[1.875rem]" aria-hidden="true"></i>
 </a>
 <a href="{{\VRoute::get('my_payment_history')}}" class="sidebar-admin__item bg-white rounded flex items-center justify-between py-3 2xl:px-6 px-4 mb-2 transition-all duration-300 {{Str::contains(url()->current(),[\VRoute::get('my_payment_history')]) ? 'active':''}}">
