@@ -144,7 +144,6 @@ trait LoginSocial
     }
     public function getProvider($provider)
     {
-        
         switch ($provider) {
             case 'facebook':
                 $config = [

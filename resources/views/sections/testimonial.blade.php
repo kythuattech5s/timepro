@@ -1,6 +1,9 @@
-<?php $testimonials = Cache::rememberForever('testimonials', function () {
+<?php 
+$testimonials = Cache::rememberForever('testimonials', function () {
     return App\Models\Testimonial::act()->get();
-}); ?>
+}); 
+?>
+@if((is_array($testimonials) || is_object($testimonials)) && count($testimonials) > 0)
 <section class="section-feeling bg-cover bg-no-repeat py-6 2xl:py-14" style="background-image: url({Ibg_testimonial.imgI})">
     <div class="container">
         <p class="subtitle-white relative mx-auto mb-2 flex w-fit items-center text-[0.75rem] font-bold uppercase text-white">
@@ -48,3 +51,4 @@
         <div class="pagination-red pagination-feeling mt-5"></div>
     </div>
 </section>
+@endif
