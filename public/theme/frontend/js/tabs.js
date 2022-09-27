@@ -21,7 +21,7 @@ function openTabs(el) {
     var electronic = btn.dataset.electronic; // láº¥y giĂ¡ trá»‹ trong data-electronic
     var data=btn.dataset.target;
     var tab=Tech.$('[data-target]');
-    for(let i=0;i<tab._element.length - 1;i++){
+    for(let i=0;i<tab._element.length ;i++){
         if(tab._element[i]._element.dataset.target===data){
             tab._element[i]._element.classList.remove("active");
         }
