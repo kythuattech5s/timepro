@@ -106,7 +106,7 @@ class AccountController extends Controller
             $date = new \Datetime($request->input('birthday'));
             $user->birthday = $date;
         }
-        $user->img = isset($request->avatar) ? MediaHelper::uploadFile('avatar', 'avatar') : $user->img;
+        $user->img = isset($request->avatar) ? MediaHelper::uploadFile('avatar', 'avatar') : Support::show($user,'img');
         $user->save();
         return response()->json([
             'code' => 200,
@@ -132,8 +132,7 @@ class AccountController extends Controller
     private function changePassWord($request)
     {
         $user = Auth::user();
-        $validator = $this->validatorChangePassword($request, $user);
-        if (empty($request->input('password'))) {
+        if (empty(Support::show($user,'password'))) {
             $validator = $this->validatorPasswordNew($request);
         }
         else {
