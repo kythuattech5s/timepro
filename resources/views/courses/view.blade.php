@@ -18,10 +18,10 @@
         <div class="container mx-auto">
             <div class="gap-3 lg:grid lg:grid-cols-4 lg:gap-4">
                 <div class="col-span-3">
-                    @if($currentItem->video_trailer != '')
+                    @if ($currentItem->video_trailer != '')
                         <div class="box-video aspect relative z-10 mb-[1.5rem] aspect-[16/9] overflow-hidden rounded-[0.3125rem]">
                             <video id="video-trailer" class="video-trailer video-js vjs-theme-city" controls poster="{%IMGV2.currentItem.img_video_trailer.-1%}">
-                                <source src="{%IMGV2.currentItem.video_trailer.-1%}" type="video/mp4" >
+                                <source src="{%IMGV2.currentItem.video_trailer.-1%}" type="video/mp4">
                             </video>
                             {{-- <svg class="z-1 absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]" xmlns="http://www.w3.org/2000/svg"
                                 width="101" height="101" viewBox="0 0 101 101" fill="none">
@@ -31,10 +31,10 @@
                         </div>
                     @endif
                     <div class="tabs md-[0.5rem] sticky top-0 z-10 mb-[1.5rem] flex snap-start justify-start gap-4 overflow-x-auto rounded-[0.3125rem] bg-[#fff] p-[0.5rem] pb-[1rem] text-center md:justify-around md:p-[1rem]">
-                        <a href="{{url()->to($currentItem->slug.'#gioi-thieu')}}" title="Giới thiệu" class="flex-none text-[0.875rem] font-semibold text-[#454545] md:text-base">Giới thiệu</a>
-                        <a href="{{url()->to($currentItem->slug.'#noi-dung-khoa-hoc')}}" title="Nội dung khóa học" class="flex-none text-[0.875rem] font-semibold text-[#454545] md:text-base">Nội dung khóa học</a>
-                        <a href="{{url()->to($currentItem->slug.'#thong-tin-giang-vien')}}" title="Thông tin giảng viên" class="flex-none text-[0.875rem] font-semibold text-[#454545] md:text-base">Thông tin giảng viên</a>
-                        <a href="{{url()->to($currentItem->slug.'#danh-gia')}}" title="Đánh giá" class="flex-none text-[0.875rem] font-semibold text-[#454545] md:text-base">Đánh giá</a>
+                        <a href="{{ url()->to($currentItem->slug . '#gioi-thieu') }}" title="Giới thiệu" class="flex-none text-[0.875rem] font-semibold text-[#454545] md:text-base">Giới thiệu</a>
+                        <a href="{{ url()->to($currentItem->slug . '#noi-dung-khoa-hoc') }}" title="Nội dung khóa học" class="flex-none text-[0.875rem] font-semibold text-[#454545] md:text-base">Nội dung khóa học</a>
+                        <a href="{{ url()->to($currentItem->slug . '#thong-tin-giang-vien') }}" title="Thông tin giảng viên" class="flex-none text-[0.875rem] font-semibold text-[#454545] md:text-base">Thông tin giảng viên</a>
+                        <a href="{{ url()->to($currentItem->slug . '#danh-gia') }}" title="Đánh giá" class="flex-none text-[0.875rem] font-semibold text-[#454545] md:text-base">Đánh giá</a>
                     </div>
                     <div class="box mb-[1.5rem] overflow-hidden rounded bg-[#fff] p-[0.5rem] md:p-[1.5rem]" id="gioi-thieu">
                         <p class="mb-[0.625rem] border-b-[1px] border-b-[#EBEBEB] pb-[0.625rem] text-[1.125rem] font-semibold text-[#252525]">
@@ -59,20 +59,18 @@
                                             'minute' => ' phút ',
                                             'second' => ' giây ',
                                         ]) }}</span>
-                                        @if ($isOwn)
+                                        @if ($itemVideo->isFree())
+                                            <a video-preview data-id="{{ $itemVideo->id }}" href="{{ $currentItem->slug }}/video/{{ $itemVideo->id }}" title="{{ Support::show($itemVideo, 'name') }}" class="inline-flex w-fit flex-1 items-center rounded-[1.875rem] bg-gradient-to-r from-[#F44336] to-[#C62828] p-1 text-sm text-white hover:text-[#fff]">
+                                                <img class="mr-1 hidden sm:inline-block" src="theme/frontend/images/play.png" alt="Play"> Học thử
+                                            </a>
+                                        @elseif ($isOwn)
                                             <a href="{{ $currentItem->slug }}/video/{{ $itemVideo->id }}" title="{{ Support::show($itemVideo, 'name') }}" class="inline-flex w-fit flex-1 items-center rounded-[1.875rem] bg-gradient-to-r from-[#F44336] to-[#C62828] p-1 text-sm text-white hover:text-[#fff]">
                                                 <img class="mr-1 hidden sm:inline-block" src="theme/frontend/images/play.png" alt="Play"> &emsp;Học&emsp;
                                             </a>
                                         @else
-                                            @if ($itemVideo->isFree())
-                                                <a video-preview data-id="{{ $itemVideo->id }}" href="{{ $currentItem->slug }}/video/{{ $itemVideo->id }}" title="{{ Support::show($itemVideo, 'name') }}" class="inline-flex w-fit flex-1 items-center rounded-[1.875rem] bg-gradient-to-r from-[#F44336] to-[#C62828] p-1 text-sm text-white hover:text-[#fff]">
-                                                    <img class="mr-1 hidden sm:inline-block" src="theme/frontend/images/play.png" alt="Play"> Học thử
-                                                </a>
-                                            @else
-                                                <a href="javascript:void(0)" title="{{ Support::show($itemVideo, 'name') }}" class="btn-show-warning inline-flex w-fit flex-1 items-center rounded-[1.875rem] bg-gradient-to-r from-[#F44336] to-[#C62828] p-1 text-sm text-white hover:text-[#fff]" data-warning="Vui lòng đăng ký khóa học để học bài này">
-                                                    &ensp;&emsp;&emsp;<i class="fa fa-lock" aria-hidden="true"></i>&emsp;&emsp;&ensp;
-                                                </a>
-                                            @endif
+                                            <a href="javascript:void(0)" title="{{ Support::show($itemVideo, 'name') }}" class="btn-show-warning inline-flex w-fit flex-1 items-center rounded-[1.875rem] bg-gradient-to-r from-[#F44336] to-[#C62828] p-1 text-sm text-white hover:text-[#fff]" data-warning="Vui lòng đăng ký khóa học để học bài này">
+                                                &ensp;&emsp;&emsp;<i class="fa fa-lock" aria-hidden="true"></i>&emsp;&emsp;&ensp;
+                                            </a>
                                         @endif
                                     </div>
                                 </div>
@@ -97,7 +95,7 @@
                                         </div>
                                         <div class="pt-2 text-center">
                                             @if ($userTeacher->uslug != '')
-                                                <a href="{{$userTeacher->buildHrefTeacher()}}" title="Chi tiết giảng viên" class="btn btn-red-gradien block rounded-md bg-gradient-to-r from-[#F44336] to-[#C62828] py-2 px-5 text-center font-semibold text-white shadow-lg md:inline-block">Chi tiết giảng viên</a>
+                                                <a href="{{ $userTeacher->buildHrefTeacher() }}" title="Chi tiết giảng viên" class="btn btn-red-gradien block rounded-md bg-gradient-to-r from-[#F44336] to-[#C62828] py-2 px-5 text-center font-semibold text-white shadow-lg md:inline-block">Chi tiết giảng viên</a>
                                             @endif
                                         </div>
                                     </div>
@@ -167,7 +165,7 @@
                             @php
                                 $fisrtPackage = $currentItem->timePackage->first();
                             @endphp
-                            <div class="overflow-hidden rounded-[0.4688rem] bg-[#fff] p-2 lg:sticky lg:top-[1rem] mb-3 mb-lg-4">
+                            <div class="mb-lg-4 mb-3 overflow-hidden rounded-[0.4688rem] bg-[#fff] p-2 lg:sticky lg:top-[1rem]">
                                 <div class="item-course buy-item-box">
                                     @include('image_loader.all', ['itemImage' => $currentItem, 'key' => 'img'])
                                     <div class="p-2">
@@ -192,7 +190,7 @@
                             </div>
                         @endif
 
-                        <div class="box  overflow-hidden rounded bg-[#fff]">
+                        <div class="box overflow-hidden rounded bg-[#fff]">
                             <p class="bg-gradient-to-r from-[#F44336] to-[#C62828] p-[1rem] text-center text-[1.1rem] font-semibold text-white lg:text-[1.375rem]">Thông tin khóa học</p>
                             <div class="p-[0.75rem] md:p-[1.25rem]">
                                 <div class="mb-[0.75rem] flex items-center lg:mb-[1rem]">
@@ -234,11 +232,11 @@
     <script src="{'comment/js/comment.js'}" defer></script>
     <script type="module" src="{'assets/js/question.js'}" defer></script>
     <script type="module" src="{'assets/js/videoPlayer.js'}" defer></script>
-    @if($currentItem->video_trailer != '')
-    <script defer>
-        window.addEventListener('DOMContentLoaded',function(){
-            videojs('video-trailer');
-        })
-    </script>
+    @if ($currentItem->video_trailer != '')
+        <script defer>
+            window.addEventListener('DOMContentLoaded', function() {
+                videojs('video-trailer');
+            })
+        </script>
     @endif
 @endsection
