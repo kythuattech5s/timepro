@@ -2,13 +2,14 @@
 <div class="list-method mb-6">
     @php
         $countShow = 0;
+        $i = 0;
     @endphp
     @foreach ($listPaymentMethod as $key => $itemPaymentMethod)
         @if(isset($list_method_notshow) && is_array($list_method_notshow) && in_array(Support::show($itemPaymentMethod,'id'),$list_method_notshow))
             <?php continue; ?>
         @endif
         <label class="payment-method__item relative w-full block mb-4 last:mb-0">
-            <input type="radio" name="payment_method" value="{{Support::show($itemPaymentMethod,'id')}}" class="opacity-0 absolute cursor-pointer" {{$key == 0 ? 'checked':''}}>
+            <input type="radio" name="payment_method" value="{{Support::show($itemPaymentMethod,'id')}}" class="opacity-0 absolute cursor-pointer" {{$i == 0 ? 'checked':''}}>
             <p class="payment-method__content relative">
                 @include('image_loader.big',['itemImage'=>$itemPaymentMethod,'key'=>'img'])
                 {{Support::show($itemPaymentMethod,'name')}}
@@ -34,6 +35,7 @@
             </div>
         </label>
         @php
+            $i++;
             $countShow++;
         @endphp
     @endforeach
