@@ -1,24 +1,28 @@
 <div class="comment-item">
     <div class="comment-item__top">
         @php
-            $user = $comment->user;
+            $user = $data->user;
         @endphp
         <div class="comment-item__img" style="background-image:url({%IMGV2.user.img.390x0%})">
         </div>
         <div class="comment-item__info">
             <p class="comment-item__name">
-                {{ $user->name }}
-                <span class="comment-item__datetime">{{ RSCustom::showTime($comment->created_at) }}</span>
+                @if($user != null)
+                    {{$user->name}}
+                @elseif(isset($data->name) && $data->name != null)
+                    {{$data->name}}
+                @endif
+                <span class="comment-item__datetime">{{ RSCustom::showTime($data->created_at) }}</span>
             </p>
-            @if ($comment->rating !== null)
-                @include('commentRS::comments.rating', ['rating' => $comment->rating->rating * 20 . '%'])
+            @if ($data->rating !== null)
+                @include('commentRS::comments.rating', ['rating' => $data->rating->rating * 20 . '%'])
             @endif
         </div>
     </div>
     <div class="comment-item__content">
-        {!! $comment->content !!}
+        {!! $data->content !!}
         @php
-            $imgs = json_decode($comment->imgs, true);
+            $imgs = json_decode($data->imgs, true);
         @endphp
         @if ($imgs !== null && count($imgs) > 0)
             <ul class="comment-item__imgs">
@@ -37,14 +41,14 @@
     </div>
     <div class="comment-status">
         Hiển thị
-        <label for="switch-item-{{ $comment->id }}" class="switch-item" data-id="{{ $comment->id }}">
-            <input type="checkbox" name="act" id="switch-item-{{ $comment->id }}" value="{{ $comment->act }}" {{ $comment->act == 1 ? 'checked' : '' }}>
+        <label for="switch-item-{{ $data->id }}" class="switch-item" data-id="{{ $data->id }}">
+            <input type="checkbox" name="act" id="switch-item-{{ $data->id }}" value="{{ $data->act }}" {{ $data->act == 1 ? 'checked' : '' }}>
             <div class="slider-item round"></div>
         </label>
     </div>
-    <button class="comment-item__rep" data-id="{{ Support::show($comment, 'id') }}">Trả lời</button>
+    <button class="comment-item__rep" data-id="{{ Support::show($data, 'id') }}">Trả lời</button>
     @php
-        $commentChilds = $comment->childs;
+        $commentChilds = $data->childs;
     @endphp
     @if ($commentChilds->count() > 0)
         <div class="comment-child">

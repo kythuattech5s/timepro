@@ -22,7 +22,7 @@ class CourseController extends Controller
         }
         $isOwn = $currentItem->isOwn(Auth::user());
         if (isset($video)) {
-            if (!$isOwn) {
+            if (!$isOwn || Auth::user() == null) {
                 return Support::redirectTo($currentItem->slug, 100, 'Vui lòng đăng ký khóa học để thực hiện hành động này!');
             }
             $videos = CourseVideo::with(['users'=>function($q){

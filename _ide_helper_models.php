@@ -1690,6 +1690,7 @@ namespace App\Models{
  * @property int|null $ord Sắp xếp
  * @property \Illuminate\Support\Carbon|null $created_at Thời gian tạo
  * @property \Illuminate\Support\Carbon|null $updated_at Thời gian sửa
+ * @property-read \App\Models\User|null $user
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\UserWalletTransaction[] $walletTransactions
  * @property-read int|null $wallet_transactions_count
  * @method static \Illuminate\Database\Eloquent\Builder|BaseModel act()

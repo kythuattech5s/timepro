@@ -17,6 +17,11 @@ class AskAndAnswer extends Model
     public function asks()
     {
         return $this->hasMany(AskAndAnswer::class);
+    } 
+    
+    public function childs()
+    {
+        return $this->hasMany(AskAndAnswer::class);
     }
 
     public function user(){

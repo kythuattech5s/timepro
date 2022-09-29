@@ -94,7 +94,7 @@ class Course extends BaseModel
         return $ret;
     }
     public function isOwn($user = null)
-    {
+    {      
         if ($this->isFree()) return true;
         if (!isset($user)) return false;
         $userCourse = $this->userCourse()->where('user_id', $user->id)
