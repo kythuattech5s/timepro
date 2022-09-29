@@ -13,3 +13,5 @@ Route::group([
 ],function(){
     Route::post('change-order-status', "OrderCourseManageController@changeOrderStatus");
 });
+Route::get('esystem/import/questions', array('uses' => "CourseManage\Controllers\ImportQuestionController@import"));
+Route::post('esystem/do-import/questions', array('uses' => "CourseManage\Controllers\ImportQuestionController@doImport"));
