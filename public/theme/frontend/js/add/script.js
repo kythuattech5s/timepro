@@ -151,7 +151,23 @@ var MORE_FUNCTION = (function () {
         var _this = element;
         var form = _this.closest("form");
     };
+    var resizeIframe = function (id) {
+        var newheight;
+        var newwidth;
+        if (document.getElementById) {
+            newheight =
+                document.getElementById(id).contentWindow.document.body
+                    .scrollHeight;
 
+            newwidth =
+                document.getElementById(id).contentWindow.document.body
+                    .scrollWidth;
+        }
+
+        document.getElementById(id).height = newheight + "px";
+
+        document.getElementById(id).width = newwidth + "px";
+    };
     return {
         init: function () {
             closeModal();
@@ -171,6 +187,9 @@ var MORE_FUNCTION = (function () {
         },
         filterHistoryWallet: function (element) {
             filterHistoryWallet(element);
+        },
+        resizeIframe: function (id) {
+            resizeIframe(id);
         },
     };
 })();

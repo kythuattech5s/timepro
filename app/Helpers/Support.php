@@ -314,4 +314,7 @@ class Support
         }
         return $res;
     }
+    public static function tvsMapItem($tableName, $field, $targetId){
+		return \modulevideosecurity\managevideo\Models\TvsMapItem::where('table_name', $tableName)->where('field', $field)->where('target_id', $targetId)->first();
+	}									
 }

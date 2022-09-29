@@ -20,9 +20,15 @@
                 <div class="col-span-3">
                     @if ($currentItem->video_trailer != '')
                         <div class="box-video aspect relative z-10 mb-[1.5rem] aspect-[16/9] overflow-hidden rounded-[0.3125rem]">
-                            <video id="video-trailer" class="video-trailer video-js vjs-theme-city" controls poster="{%IMGV2.currentItem.img_video_trailer.-1%}">
-                                <source src="{%IMGV2.currentItem.video_trailer.-1%}" type="video/mp4">
-                            </video>
+                            @if(isset($_GET['test']))
+                                <?php $tvsMapItem = \Support::tvsMapItem('courses', 'video_trailer', $currentItem->id); ?>
+                                @endphp
+                                <iframe id="video-content-{{ $tvsMapItem->id }}" style="width:100%" onload="MORE_FUNCTION.resizeIframe('video-content-{{ $tvsMapItem->id }}')" src="{{ \VRoute::get('load_video') . '?tvsMapItemId=' . $tvsMapItem->id }}"></iframe>						
+                            @else
+                                <video id="video-trailer" class="video-trailer video-js vjs-theme-city" controls poster="{%IMGV2.currentItem.img_video_trailer.-1%}">
+                                    <source src="{%IMGV2.currentItem.video_trailer.-1%}" type="video/mp4">
+                                </video>
+                            @endif
                             {{-- <svg class="z-1 absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]" xmlns="http://www.w3.org/2000/svg"
                                 width="101" height="101" viewBox="0 0 101 101" fill="none">
                                 <circle opacity="0.3" cx="50.604" cy="50.2674" r="50.106" fill="white" />
@@ -232,7 +238,7 @@
     <script src="{'comment/js/comment.js'}" defer></script>
     <script type="module" src="{'assets/js/question.js'}" defer></script>
     <script type="module" src="{'assets/js/videoPlayer.js'}" defer></script>
-    @if ($currentItem->video_trailer != '')
+    @if ($currentItem->video_trailer != '' && !isset($_GET['test']))
         <script defer>
             window.addEventListener('DOMContentLoaded', function() {
                 videojs('video-trailer');

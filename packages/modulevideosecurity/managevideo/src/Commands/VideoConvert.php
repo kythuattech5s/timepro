@@ -37,6 +37,7 @@ class VideoConvert extends Command
     public function handle()
     {
         set_time_limit(0);
+        $this->info("1234444");
         $hLock=fopen($this->lockfile, "w+");
         if(!flock($hLock, LOCK_EX | LOCK_NB)){
             die("Already running. Exiting...");
@@ -49,6 +50,7 @@ class VideoConvert extends Command
         TvsHashFile::where('secret_id',$itemTvsSecrets->id)->delete();
         \modulevideosecurity\managevideo\Models\TvsToken::where('secret_id',$itemTvsSecrets->id)->delete();
         $filePath = $itemTvsSecrets->file_path . $itemTvsSecrets->file_name;
+        
         if (!file_exists(public_path($filePath))) {
             $this->info("Duong dan khong ton tai: ".$filePath);
             $itemTvsSecrets->convert_note = 'Đường dẫn không tồn tại: '.$filePath;
