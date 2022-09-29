@@ -15,9 +15,6 @@ class HomeController extends Controller
         $listBanner = Cache::rememberForever('listHomeBanner', function () {
             return Banner::act()->ord()->get();
         });
-
-
-
         $listTeacher = Cache::rememberForever('listOurTeacher', function () {
             return User::teacher()->where('act', 1)->where('banned', 0)->with('ratings')->with(['teacherCourses' => function ($q) {
                 $q->with('videos')->act();

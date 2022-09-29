@@ -1,7 +1,7 @@
 <?php 
-$testimonials = Cache::rememberForever('testimonials', function () {
-    return App\Models\Testimonial::act()->get();
-}); 
+    $testimonials = Cache::rememberForever('testimonials', function () {
+        return App\Models\Testimonial::act()->get();
+    }); 
 ?>
 @if((is_array($testimonials) || is_object($testimonials)) && count($testimonials) > 0)
 <section class="section-feeling bg-cover bg-no-repeat py-6 2xl:py-14" style="background-image: url({Ibg_testimonial.imgI})">
