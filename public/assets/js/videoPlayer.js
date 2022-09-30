@@ -19,37 +19,19 @@
                         course_video_id: id,
                     },
                 });
-                if (res.src) {
-                    modal.innerHTML = await `
-                                <video
-                                    class="video-js vjs-theme-city"
-                                    id="my-video"
-                                    controls
-                                    preload="auto"
-                                    width="1100"
-                                    height="auto"
-                                >
-                                </video>
+                if (res.secretId) {
+                    var videoHTML = await `
+                                <div class="w-[60vw]">
+                                    <iframe  id="video-content-${res.tvsMapItem.id}" style="width:0%" onload="MORE_FUNCTION.resizeIframe('video-content-${res.tvsMapItem.id}')" src="/load-video?tvsMapItemId=${res.tvsMapItem.id}&poster=${res.poster}"></iframe>
+                                </div>	
                             `;
 
-                    var player = videojs("my-video", {
-                        controls: true,
-                        autoplay: true,
-                        preload: "auto",
-                    });
-
-                    player.src({
-                        src: res.src,
-                        type: "video/mp4",
-                    });
-
-                    player.play();
+                    modal.innerHTML = videoHTML;
                     const button = document.createElement("button");
                     button.className =
                         "absolute top-1 right-1 text-white p-3 opacity-50 hover:opacity-100 duration-300";
                     button.innerHTML = `<i class="fa fa-times" aria-hidden="true"></i>`;
                     button.onclick = () => {
-                        player.dispose();
                         modal.remove();
                         document.body.style.overflow = null;
                     };

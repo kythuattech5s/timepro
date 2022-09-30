@@ -55,6 +55,9 @@ class OrderCourseManageController extends BaseAdminController
         if ($order->order_status_id == OrderStatus::PAID) {
             \Event::dispatch('course.manager.order.success', array($order->id));
         }
+        elseif ($order->order_status_id == OrderStatus::CANCEL) {
+            \Event::dispatch('course.manager.order.cancel', array($order->id));
+        }
         return response()->json([
             'code' => 200,
             'message' => 'Thay đổi trạng thái đơn hàng thành công'
