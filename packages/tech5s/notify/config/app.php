@@ -10,5 +10,3 @@ return [
         'NotificationHelper' => NotificationRS\Helpers\NotificationHelper::class
     ],
 ]
-
-?>

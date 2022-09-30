@@ -92,4 +92,5 @@ Route::group(['prefix' => $admincp, 'middleware' => 'web', 'namespace' => 'vanhe
     Route::get('editSitemap', 'SysController@editSitemap');
     Route::post('updateSitemap', 'SysController@updateSitemap');
     Route::post('change-type-menu', array('uses' => "SysController@changeTypeMenu"));
+    Route::get('reset-status-convert-video/{id}', array('uses' => "SysController@resetStatusConvertVideo"));
 });

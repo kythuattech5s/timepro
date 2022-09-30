@@ -289,4 +289,23 @@ class SysController extends BaseAdminController
             rmdir($dir);
         }
     }
+    public function resetStatusConvertVideo($id){
+        $tvsSecret = \modulevideosecurity\managevideo\Models\TvsSecret::where('id',$id)->first();
+        if(!isset($tvsSecret)){
+            return redirect()->back()->with('typeNotify',100)->with('messageNotify','Yêu cầu không hợp lệ');
+        }
+        if($tvsSecret->converted == 0){
+            return redirect()->back()->with('typeNotify',100)->with('messageNotify','Video đang trong quá trình chờ mã hóa');
+        }
+        if($tvsSecret->converted == 1){
+            return redirect()->back()->with('typeNotify',100)->with('messageNotify','Video đang trong quá trình chạy mã hóa');
+        }
+        if($tvsSecret->converted == 2){
+            return redirect()->back()->with('typeNotify',100)->with('messageNotify','Video đã được mã hóa thành công');
+        }
+        $tvsSecret->converted = 0;
+        $tvsSecret->number_fail = 0;
+        $tvsSecret->save();
+        return redirect()->back()->with('typeNotify',200)->with('messageNotify','Gửi yêu cầu mã hóa thành công');
+    }
 }

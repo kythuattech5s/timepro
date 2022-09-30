@@ -27,7 +27,7 @@
         <div class="main-lesson grid grid-cols-1 lg:grid-cols-3">
             <div class="col-span-1 border-r-[1px] border-solid border-[#ebebeb] lg:col-span-2">
                 <div class="box-video-lesson">
-                    <div class="video-lesson relative pt-[63%]">
+                    <div class="video-lesson relative">
                         @php
                             $videoFirst = null;
                             if (request()->segment(3) != null) {
@@ -37,11 +37,9 @@
                             } else {
                                 $videoFirst = $videos[0];
                             }
-                            $source = json_decode($videoFirst['source'], true);
                         @endphp
-                        <video controls data-id="{{ Support::show($videoFirst, 'id') }}">
-                            <source src="{{ $source['path'] . $source['name'] }}" type="">
-                        </video>
+                        <?php $tvsMapItem = \Support::tvsMapItem('course_videos', 'source', \Support::show($videoFirst,'id')); ?>
+                        <iframe id="video-content-{{ \Support::show($tvsMapItem,'id') }}" style="width:100%" onload="MORE_FUNCTION.resizeIframe('video-content-{{ \Support::show($tvsMapItem,'id') }}')" src="{{ \VRoute::get('load_video') . '?tvsMapItemId=' . \Support::show($tvsMapItem,'id') .'&poster='}}{%IMGV2.videoFirst.img.-1%}"></iframe>
                     </div>
                 </div>
                 <div class="button-tabs tab-info-lesson mb-4 flex flex-wrap border-b-[1px] border-solid border-[#ebebeb] px-4 sm:block lg:px-10 2xl:mb-6 2xl:px-20">
