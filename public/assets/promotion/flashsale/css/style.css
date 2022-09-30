@@ -1137,6 +1137,9 @@ video {
 .w-\[490px\] {
   width: 490px;
 }
+.w-\[70vw\] {
+  width: 70vw;
+}
 .min-w-\[12px\] {
   min-width: 12px;
 }
@@ -1190,6 +1193,12 @@ video {
 }
 .max-w-\[21\.5rem\] {
   max-width: 21.5rem;
+}
+.max-w-3xl {
+  max-width: 48rem;
+}
+.max-w-6xl {
+  max-width: 72rem;
 }
 .flex-1 {
   flex: 1 1 0%;
@@ -1895,9 +1904,6 @@ video {
 }
 .pt-\[61\%\] {
   padding-top: 61%;
-}
-.pt-\[63\%\] {
-  padding-top: 63%;
 }
 .pb-4 {
   padding-bottom: 1rem;
