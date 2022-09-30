@@ -154,6 +154,7 @@ var MORE_FUNCTION = (function () {
     var resizeIframe = function (id) {
         var newheight;
         var newwidth;
+        document.getElementById(id).style.width = "100%";
         if (document.getElementById) {
             newheight =
                 document.getElementById(id).contentWindow.document.body
