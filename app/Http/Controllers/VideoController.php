@@ -33,6 +33,7 @@ class VideoController extends Controller
         }
 
         $tvsMapItemId = (int)$request->tvsMapItemId;
+        $poster = $request->input('poster');
 
         $tvsMapItem = TvsMapItem::find($tvsMapItemId);
 
@@ -57,7 +58,7 @@ class VideoController extends Controller
 
         }
 
-        return view('iframe_video', compact('tvsMapItem', 'secretId'));
+        return view('iframe_video', compact('tvsMapItem', 'secretId','poster'));
 
     }
 

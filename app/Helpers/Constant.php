@@ -12,4 +12,3 @@ class Constant
     const ORDER_STATUS_FAIL = 3;
 }
 
-?>

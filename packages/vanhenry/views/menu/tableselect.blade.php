@@ -1,5 +1,4 @@
-<?php $locale = \App::getLocale() ?>
-<?php 
+<?php $locale = \App::getLocale();
 $tag_id= FCHelper::er($dataItem,'tag_id');
 $tag_link= FCHelper::er($dataItem,'link');
 $tag_name= FCHelper::er($dataItem,'name');

@@ -163,9 +163,7 @@ var MORE_FUNCTION = (function () {
                 document.getElementById(id).contentWindow.document.body
                     .scrollWidth;
         }
-
-        document.getElementById(id).height = newheight + "px";
-
+        document.getElementById(id).height = newheight + 10 + "px";
         document.getElementById(id).width = newwidth + "px";
     };
     return {
