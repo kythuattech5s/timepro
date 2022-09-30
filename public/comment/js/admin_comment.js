@@ -9,7 +9,7 @@ var COMMENT = (function () {
         $(document).on("click", ".comment-item__rep", function () {
             if ($(this).parent().find(".form-comment__rep").length == 0) {
                 $(this).parent()
-                    .append(`<form class="form-comment__rep" action="cmrs/source/tra-loi-binh-luan" method="POST">
+                    .append(`<form class="form-comment__rep" action="cmrs/source/quan-tri-vien-tra-loi-binh-luan" method="POST">
                 <input type="hidden" name="parent" value="${$(this).attr(
                     "data-id"
                 )}">
@@ -25,12 +25,22 @@ var COMMENT = (function () {
     var repComment = function () {
         $(document).on("submit", ".form-comment__rep", function (event) {
             var _this = $(this);
+            const params = _this.serialize().split("&");
+            var newParam = [
+                `field_parent=${$('input[name="field_parent"]').val()}`,
+                `model=${$('input[name="model"]').val()}`,
+            ];
+            newParam = [...params, ...newParam];
             let id = _this.find('input[name="parent"]').val();
+            const paramsPlus = document.querySelectorAll("[plus-param]");
+            paramsPlus.forEach((item) => {
+                newParam.push(`plus-${item.name}=${item.value}`);
+            });
             event.preventDefault();
             $.ajax({
                 url: _this.attr("action"),
                 type: "POST",
-                data: _this.serialize(),
+                data: newParam.join("&"),
                 beforeSend: function () {},
             }).done(function (json) {
                 if (json.code == 200) {
@@ -47,6 +57,11 @@ var COMMENT = (function () {
         $.ajax({
             url: "cmrs/source/fetch-comment/" + $id,
             type: "GET",
+            data: {
+                model: $('input[name="model"]').val(),
+                field_parent: $('input[name="field_parent"]').val(),
+                view: $('input[name="view_item"]').val(),
+            },
             beforeSend: function () {},
         }).done(function (json) {
             $(".comment-detail").html(json.view);
@@ -60,8 +75,7 @@ var COMMENT = (function () {
             function (event) {
                 event.preventDefault();
                 let url =
-                    "cmrs/source/change-act/" +
-                    $(this).parent().data("id");
+                    "cmrs/source/change-act/" + $(this).parent().data("id");
                 let checked = 1;
                 if ($(this).prop("checked") == true) {
                     checked = 1;
@@ -72,6 +86,7 @@ var COMMENT = (function () {
                     url: url,
                     data: {
                         act: checked,
+                        model: $('input[name="model"]').val(),
                     },
                 }).done(function (json) {
                     if (json.code == 200) {

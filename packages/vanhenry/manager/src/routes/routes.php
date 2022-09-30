@@ -43,8 +43,8 @@ Route::group(['prefix' => $admincp, 'middleware' => 'web', 'namespace' => 'vanhe
     // Export file pdf from data is html
     Route::get('test-pdf', array('uses' => 'Admin@testPdf'));
     //Import
-    Route::get('import/{table}', array('uses' => "Admin@import"));
-    Route::post('do_import/{table}', array('uses' => "Admin@do_import"));
+    // Route::get('import/{table}', array('uses' => "Admin@import"));
+    // Route::post('do_import/{table}', array('uses' => "Admin@do_import"));
     //Phaan quyen
     Route::post('do_assign/{table}', array('uses' => "Admin@do_assign"));
     Route::post('getCrypt', array('uses' => "Admin@getCrypt"));

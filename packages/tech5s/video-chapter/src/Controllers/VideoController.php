@@ -4,8 +4,11 @@ namespace Tech5s\VideoChapter\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use modulevideosecurity\managevideo\Models\TvsSecret;
+use Support;
 use Tech5s\VideoChapter\Models\CourseVideo;
 use Tech5s\VideoChapter\Models\CourseVideoNote;
+use vanhenry\helpers\helpers\FCHelper;
 
 class VideoController extends Controller
 {
@@ -72,9 +75,23 @@ class VideoController extends Controller
     public function getVideoSrc(Request $request)
     {
         $courseVideo = CourseVideo::find($request->input('course_video_id'));
-        $source = json_decode($courseVideo->source, true);
+
+        header('Access-Control-Allow-Origin: ' . asset('/'));
+        header("X-Frame-Options: SAMEORIGIN");
+        $tvsMapItem = \Support::tvsMapItem('course_videos', 'source', \Support::show($courseVideo, 'id'));
+        $secretId = 0;
+
+        $secret = TvsSecret::where('media_id', $tvsMapItem->video_media_map_id)
+            ->where('converted', 2)
+            ->first();
+        if ($secret != null) {
+            $secretId = $secret->id;
+        }
+        $img = FCHelper::eimg($courseVideo->img);
         return response([
-            'src' => $source['path'] . $source['file_name']
+            'secretId' => $secretId,
+            'tvsMapItem' => $tvsMapItem,
+            'poster' => $img
         ]);
     }
 }

@@ -1122,6 +1122,9 @@ video {
 .w-16 {
   width: 4rem;
 }
+.w-\[60vw\] {
+  width: 60vw;
+}
 .w-\[100px\] {
   width: 100px;
 }
@@ -1895,9 +1898,6 @@ video {
 }
 .pt-\[61\%\] {
   padding-top: 61%;
-}
-.pt-\[63\%\] {
-  padding-top: 63%;
 }
 .pb-4 {
   padding-bottom: 1rem;

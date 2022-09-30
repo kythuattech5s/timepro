@@ -66,7 +66,7 @@
                                             <a video-preview data-id="{{ $itemVideo->id }}" href="{{ $currentItem->slug }}/video/{{ $itemVideo->id }}" title="{{ Support::show($itemVideo, 'name') }}" class="inline-flex w-fit flex-1 items-center rounded-[1.875rem] bg-gradient-to-r from-[#F44336] to-[#C62828] p-1 text-sm text-white hover:text-[#fff]">
                                                 <img class="mr-1 hidden sm:inline-block" src="theme/frontend/images/play.png" alt="Play"> Học thử
                                             </a>
-                                        @elseif ($isOwn)
+                                        @elseif ($isOwn && Auth::check())
                                             <a href="{{ $currentItem->slug }}/video/{{ $itemVideo->id }}" title="{{ Support::show($itemVideo, 'name') }}" class="inline-flex w-fit flex-1 items-center rounded-[1.875rem] bg-gradient-to-r from-[#F44336] to-[#C62828] p-1 text-sm text-white hover:text-[#fff]">
                                                 <img class="mr-1 hidden sm:inline-block" src="theme/frontend/images/play.png" alt="Play"> &emsp;Học&emsp;
                                             </a>
@@ -177,7 +177,6 @@
                                             <span class="price-old item-price-sub mr-2 text-[#888888] line-through"></span>
                                             <span class="price color-gradient item-price-main text-[1.1rem] font-semibold lg:text-[1.375rem]"></span>
                                         </div>
-
                                         <select class="select-time-package my-[1.125rem] w-full overflow-hidden rounded bg-[#F5F5F5] px-[1rem] py-[0.8125rem] font-semibold text-[#888888] lg:my-[1.5rem]">
                                             @foreach ($currentItem->timePackage as $key => $itemTimePackage)
                                                 @php
