@@ -2,6 +2,7 @@
 
 namespace Tech5s\VideoChapter\Controllers;
 
+use DateTime;
 use Illuminate\Http\Request;
 use vanhenry\manager\model\VDetailTable;
 
@@ -9,6 +10,7 @@ class Controller
 {
     public function __insertVideoChapter($pivots, $item)
     {
+
         $table = $item->getTable();
         foreach ($pivots as $key => $pivot) {
             $vdetail = VDetailTable::where(['parent_name' => $table, 'name' => $key])->first();
@@ -25,7 +27,22 @@ class Controller
                     $dataPivot[$key][$fieldMain] = $item->id;
                     $dataPivot[$key]['updated_at'] = new \Datetime();
                 }
+
                 \DB::table($table)->insert($dataPivot);
+            }
+            $listCouseVideo = \DB::table($table)->where($fieldMain, $item->id)->get();
+            foreach ($listCouseVideo as $course_video) {
+                if ($course_video->source != null) {
+                    $source = json_decode($course_video->source, true);
+                    \DB::table('tvs_map_items')->insert([
+                        'video_media_map_id' => $source['id'],
+                        'target_id' => $course_video->id,
+                        'table_name' => $table,
+                        'created_at' => new DateTime(),
+                        'updated_at' => new DateTime(),
+                        'field' => 'source',
+                    ]);
+                }
             }
         }
     }
@@ -55,9 +72,26 @@ class Controller
                     $pivot[$fieldMain] = $item->id;
                     $pivot['updated_at'] = new \Datetime();
                     if (isset($pivot['id'])) {
-                        \DB::table($table)->where($fieldMain, $item->id)->where('id',$pivot['id'])->update($pivot);
+                        \DB::table($table)->where($fieldMain, $item->id)->where('id', $pivot['id'])->update($pivot);
                     } else {
                         \DB::table($table)->insert($pivot);
+                    }
+                }
+            }
+            $listCourseVideo = \DB::table($table)->where($fieldMain, $item->id)->get();
+            foreach ($listCourseVideo as $course_video) {
+                if ($course_video->source != null) {
+                    $source = json_decode($course_video->source, true);
+                    $check = \DB::table('tvs_map_items')->where('target_id', $course_video->id)->where('table_name', $table)->where('video_media_map_id', $source['id'])->first();
+                    if ($check == null) {
+                        \DB::table('tvs_map_items')->insert([
+                            'video_media_map_id' => $source['id'],
+                            'target_id' => $course_video->id,
+                            'table_name' => $table,
+                            'created_at' => new DateTime(),
+                            'updated_at' => new DateTime(),
+                            'field' => 'source',
+                        ]);
                     }
                 }
             }
