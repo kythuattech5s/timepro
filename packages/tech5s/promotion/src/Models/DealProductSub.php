@@ -10,5 +10,3 @@ class DealProductSub extends BaseModel
 
     public $timestamps = false;
 }
-
-?>

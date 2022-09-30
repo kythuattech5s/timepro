@@ -9,5 +9,3 @@ class DealProductMain extends BaseModel
 
     public $timestamps = false;
 }
-
-?>

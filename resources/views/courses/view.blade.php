@@ -20,9 +20,12 @@
                 <div class="col-span-3">
                     @if ($currentItem->video_trailer != '')
                         <div class="box-video aspect relative z-10 mb-[1.5rem] aspect-[16/9] overflow-hidden rounded-[0.3125rem]">
-                            <video id="video-trailer" class="video-trailer video-js vjs-theme-city" controls poster="{%IMGV2.currentItem.img_video_trailer.-1%}">
-                                <source src="{%IMGV2.currentItem.video_trailer.-1%}" type="video/mp4">
-                            </video>
+                            @php
+                                $tvsMapItem = \Support::tvsMapItem('courses', 'video_trailer', $currentItem->id);
+                                
+                            @endphp
+                            <iframe id="video-content-{{ $tvsMapItem->id }}" style="width:100%" onload="MORE_FUNCTION.resizeIframe('video-content-{{ $tvsMapItem->id }}')" src="{{ \VRoute::get('load_video') . '?tvsMapItemId=' . $tvsMapItem->id .'&poster='}}{%IMGV2.currentItem.img_video_trailer.-1%}"></iframe>						
+                    
                             {{-- <svg class="z-1 absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]" xmlns="http://www.w3.org/2000/svg"
                                 width="101" height="101" viewBox="0 0 101 101" fill="none">
                                 <circle opacity="0.3" cx="50.604" cy="50.2674" r="50.106" fill="white" />
@@ -63,7 +66,7 @@
                                             <a video-preview data-id="{{ $itemVideo->id }}" href="{{ $currentItem->slug }}/video/{{ $itemVideo->id }}" title="{{ Support::show($itemVideo, 'name') }}" class="inline-flex w-fit flex-1 items-center rounded-[1.875rem] bg-gradient-to-r from-[#F44336] to-[#C62828] p-1 text-sm text-white hover:text-[#fff]">
                                                 <img class="mr-1 hidden sm:inline-block" src="theme/frontend/images/play.png" alt="Play"> Học thử
                                             </a>
-                                        @elseif ($isOwn)
+                                        @elseif ($isOwn && Auth::check())
                                             <a href="{{ $currentItem->slug }}/video/{{ $itemVideo->id }}" title="{{ Support::show($itemVideo, 'name') }}" class="inline-flex w-fit flex-1 items-center rounded-[1.875rem] bg-gradient-to-r from-[#F44336] to-[#C62828] p-1 text-sm text-white hover:text-[#fff]">
                                                 <img class="mr-1 hidden sm:inline-block" src="theme/frontend/images/play.png" alt="Play"> &emsp;Học&emsp;
                                             </a>
@@ -174,7 +177,6 @@
                                             <span class="price-old item-price-sub mr-2 text-[#888888] line-through"></span>
                                             <span class="price color-gradient item-price-main text-[1.1rem] font-semibold lg:text-[1.375rem]"></span>
                                         </div>
-
                                         <select class="select-time-package my-[1.125rem] w-full overflow-hidden rounded bg-[#F5F5F5] px-[1rem] py-[0.8125rem] font-semibold text-[#888888] lg:my-[1.5rem]">
                                             @foreach ($currentItem->timePackage as $key => $itemTimePackage)
                                                 @php
@@ -232,7 +234,7 @@
     <script src="{'comment/js/comment.js'}" defer></script>
     <script type="module" src="{'assets/js/question.js'}" defer></script>
     <script type="module" src="{'assets/js/videoPlayer.js'}" defer></script>
-    @if ($currentItem->video_trailer != '')
+    @if ($currentItem->video_trailer != '' && !isset($_GET['test']))
         <script defer>
             window.addEventListener('DOMContentLoaded', function() {
                 videojs('video-trailer');

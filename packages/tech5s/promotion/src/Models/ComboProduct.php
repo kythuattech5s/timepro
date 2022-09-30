@@ -9,5 +9,3 @@ class ComboProduct extends BaseModel
 
     public $timestamps = false;
 }
-
-?>

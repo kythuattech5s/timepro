@@ -2,8 +2,12 @@
 @section('css')
     <link rel="stylesheet" href="{'comment/css/selectStar.css'}">
     <link rel="stylesheet" href="{'comment/css/star.css'}">
-    <link href="https://vjs.zencdn.net/7.20.3/video-js.css" rel="stylesheet" />
-    <link href="https://unpkg.com/@videojs/themes@1/dist/city/index.css" rel="stylesheet" />
+    {{-- <link href="https://vjs.zencdn.net/7.20.3/video-js.css" rel="stylesheet" /> --}}
+    {{-- <link href="https://unpkg.com/@videojs/themes@1/dist/city/index.css" rel="stylesheet" /> --}}
+    @include('tvs::video_css')
+    <script type="text/javascript">
+        var VIDEO_ID = {{ $secretId }}
+    </script>
 @endsection
 @section('main')
     <section class="section-lesson mx-auto max-w-[1920px] bg-white py-6 2xl:py-14">
@@ -27,21 +31,10 @@
         <div class="main-lesson grid grid-cols-1 lg:grid-cols-3">
             <div class="col-span-1 border-r-[1px] border-solid border-[#ebebeb] lg:col-span-2">
                 <div class="box-video-lesson">
-                    <div class="video-lesson relative pt-[63%]">
-                        @php
-                            $videoFirst = null;
-                            if (request()->segment(3) != null) {
-                                $videoFirst = $videos->first(function ($q) {
-                                    return $q->id == request()->segment(3);
-                                });
-                            } else {
-                                $videoFirst = $videos[0];
-                            }
-                            $source = json_decode($videoFirst['source'], true);
-                        @endphp
-                        <video controls data-id="{{ Support::show($videoFirst, 'id') }}">
-                            <source src="{{ $source['path'] . $source['name'] }}" type="">
-                        </video>
+                    <div class="video-lesson relative">
+                        <video-js id="my_video_1" class="video-js vjs-default-skin vjs-16-9" controls preload="none" data-id="{{ Support::show($videoFirst, 'id') }}" width="640" height="268" poster="{%IMGV2.videoFirst.img.-1%}">
+                            <source src="{{ route('tvs-video.playlist', ['tvsMapItemId' => Support::show($tvsMapItem,'id') ]) }}" type="application/x-mpegURL">
+                        </video-js>
                     </div>
                 </div>
                 <div class="button-tabs tab-info-lesson mb-4 flex flex-wrap border-b-[1px] border-solid border-[#ebebeb] px-4 sm:block lg:px-10 2xl:mb-6 2xl:px-20">
@@ -90,7 +83,7 @@
                                             <div class="col-span-1 text-center">
                                                 <p class="title mb-2 text-[0.75rem] font-semibold text-[#252525]">Lượt đánh
                                                     giá</p>
-                                                <span class="count inline-block rounded bg-[#E27B76] px-2 py-1 font-semibold text-white">{{$ratingInfo['scoreAll']}}/5</span>
+                                                <span class="count inline-block rounded bg-[#E27B76] px-2 py-1 font-semibold text-white">{{ $ratingInfo['scoreAll'] }}/5</span>
                                             </div>
                                         </div>
                                         <ul class="social-teacher">
@@ -180,7 +173,7 @@
                                     @php
                                         $source = json_decode(Support::show($video, 'source'), true);
                                     @endphp
-                                    <div class="item-lesson @if($video->users->count() > 0) active @endif mb-2 flex cursor-pointer items-center justify-between gap-4 rounded-md p-2 transition-all duration-300 last:mb-0" data-link="{{ $source['path'] . $source['file_name'] }}" data-id="{{ Support::show($video, 'id') }}">
+                                    <div class="item-lesson @if ($video->users->count() > 0) active @endif mb-2 flex cursor-pointer items-center justify-between gap-4 rounded-md p-2 transition-all duration-300 last:mb-0" data-link="{{ $source['path'] . $source['file_name'] }}" data-id="{{ Support::show($video, 'id') }}">
                                         <span class="title relative pl-2 font-semibold text-[#252525] after:absolute after:top-1/2 after:left-0 after:h-1 after:w-1 after:-translate-y-1/2 after:rounded-full after:bg-[#252525]">{{ Support::show($video, 'name') }}</span>
                                         <span class="time">{{ RSCustom::getTimeOfVideo(Support::show($video, 'duration'), [
                                             'hour' => ' giờ ',
@@ -230,7 +223,15 @@
     </section>
 @endsection
 @section('js')
-    <script src="https://vjs.zencdn.net/7.20.3/video.min.js"></script>
+    @include('tvs::video_js')
+    <script type="text/javascript">
+        videojs('my_video_1');
+
+        // function actionPlayVideo() {
+        //     videojs('my_video_1').play();
+        // }
+    </script>
+    {{-- <script src="https://vjs.zencdn.net/7.20.3/video.min.js"></script> --}}
     <script src="{'assets/js/FormData.js'}" defer></script>
     <script src="{'assets/js/ValidateFormHasFile.js'}" defer></script>
     <script src="{'theme/frontend/js/video-chapter.js'}" defer></script>
