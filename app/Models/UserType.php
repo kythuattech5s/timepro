@@ -6,4 +6,5 @@ class UserType extends BaseModel
     use HasFactory;
     const NORMAL_ACCOUNT = 1;
     const TEACHER_ACCOUNT = 2;
+    const INTERNAL_STUDENT_ACCOUNT = 4;
 }

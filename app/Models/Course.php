@@ -97,6 +97,7 @@ class Course extends BaseModel
     {      
         if ($this->isFree()) return true;
         if (!isset($user)) return false;
+        
         $userCourse = $this->userCourse()->where('user_id', $user->id)
             ->where(function ($q) {
                 $q->where('expired_time', '>', now())->orWhere('is_forever', 1);

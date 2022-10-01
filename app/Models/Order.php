@@ -22,11 +22,27 @@ class Order extends BaseModel
     {
         return $this->order_status_id == OrderStatus::WAIT_PAYMENT;
     }
+    public function orderCancel(){
+        if (!isset($this->user)) {
+            return;
+        }
+        $orderTypeId = $this->order_type_id;
+        $user = $this->user;
+        if($orderTypeId == OrderType::ORDER_DEPOSIT_WALLET){
+            $userWalletTransaction = UserWalletTransaction::where(['user_id'=>$user->id,'order_id'=>$this->id])->first();
+            if($userWalletTransaction != null){
+                $userWalletTransaction->status =  \App\Helpers\UserWallet\WalletHelper::TRANSACTION_STATUS_CANCEL;
+                $userWalletTransaction->save();
+            }
+        }
+    }
     public function orderSuccess()
     {
         if (!isset($this->user)) {
             return;
         }
+        $this->order_status_id = OrderStatus::PAID;
+        $this->save();
         $user = $this->user;
         $listItemOrderDetail = $this->orderDetail()->get();
         $orderTypeId = $this->order_type_id;
