@@ -1,6 +1,6 @@
 @extends('index')
 @section('main')
-<section class="pages" style=" background-image: url('{Ibg_page_auth.imgI}'); background-repeat: no-repeat;background-position: bottom;">
+<section class="pages" style=" background-image: url('{Ibg_page_auth.imgI}'); background-repeat: no-repeat;background-position: left;background-size:100%;">
     <div class="main-breadcrumb py-4">
         <div class="container">
             {{Breadcrumbs::render('static',trans('fdb::register'),\VRoute::get('register'))}}
@@ -10,6 +10,9 @@
         <div class="form-login">
             <form action="{{\VRoute::get('register')}}" method="POST" class="formValidation bg-[#fff] frm-login max-w-[31.25rem] w-full ml-auto shadow-xl rounded rounded-[0.625rem] overflow-hidden lg:py-[2.5rem] py-[1.25rem] lg:px-[1.25rem] px-[0.75rem]" absolute data-success="NOTIFICATION.toastrMessageRedirect" accept-charset="utf8">
                 @csrf
+                @if(Str::contains(url()->current(), [\VRoute::get('internal_employee_registration')]))
+                    <input type="hidden" name="internal_employee_registration" value="internal_employee_registration">
+                @endif
                 <p class="title 2xl:text-[1.625rem] md:text-[1.325rem] text-[1.125rem] font-semibold text-[#252525] mb-1 text-center">
                     {:title_register_time_pro:}
                 </p>

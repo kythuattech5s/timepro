@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use App\Helpers\UserWallet\WalletHelper;
-use App\Models\User;
+use App\Models\{User,UserType};
 use Support;
 use VRoute;
 use Auth;
@@ -94,6 +94,9 @@ class RegisterController extends Controller
         }
         $user = $this->createUser($request->all());
         WalletHelper::create($user);
+        if($request->input('internal_employee_registration') != ''){
+            $user->user_type_id = UserType::INTERNAL_STUDENT_ACCOUNT;
+        } 
         $code = \Str::random(6);
         $user->token = Hash::make($code);
         $user->save();
