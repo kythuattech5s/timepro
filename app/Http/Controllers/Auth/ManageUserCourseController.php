@@ -32,7 +32,7 @@ class ManageUserCourseController extends Controller
             }
         }
         $user = Auth::user();
-        if ($user->user_type_id != UserType::NORMAL_ACCOUNT) {
+        if (!in_array($user->user_type_id,[UserType::NORMAL_ACCOUNT,UserType::INTERNAL_STUDENT_ACCOUNT])) {
             if (request()->ajax()) {
                 echo json_encode([
                     'code' => 100,

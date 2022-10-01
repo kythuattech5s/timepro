@@ -3,7 +3,7 @@ namespace App\Http\Traits\Auth;
 use App\Helpers\UserWallet\WalletExport;
 use App\Helpers\UserWallet\WalletHelper;
 use Illuminate\Support\Facades\Validator;
-use App\Models\{PaymentMethod,UserWalletTransactionType,Order,OrderStatus,OrderType};
+use App\Models\{PaymentMethod,UserWalletTransactionType,Order,OrderStatus,OrderType,UserType};
 use SettingHelper;
 use Support;
 use Excel;
@@ -20,7 +20,7 @@ trait UserWallet{
 			$this->goLogin();
 		}
 		$user = Auth::user();
-		if(\Support::show($user,'user_type_id') != 1){
+		if(!in_array(\Support::show($user,'user_type_id'),[UserType::NORMAL_ACCOUNT,UserType::INTERNAL_STUDENT_ACCOUNT])){
 			return \Redirect::to(url('/'))->with('typeNotify','error')->with('messageNotify','Tài khoản của bạn không có quyền truy cập');
 		}
 		$wallet = $user->wallet()->first();
@@ -33,7 +33,7 @@ trait UserWallet{
 			$this->goLogin();
 		}
 		$user = Auth::user();
-		if(\Support::show($user,'user_type_id') != 1){
+		if(!in_array(\Support::show($user,'user_type_id'),[UserType::NORMAL_ACCOUNT,UserType::INTERNAL_STUDENT_ACCOUNT])){
 			if($request->ajax()){
 				return response()->json(['code'=>100,'message'=>'Tài khoản của bạn không có quyền truy cập tính năng này']);
 			}

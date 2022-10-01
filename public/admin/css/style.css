@@ -3044,3 +3044,10 @@ input.star:hover ~ label.star:before {
     color: #ffc107;
     transition: all 0.25s;
 }
+.row-item-main[dt-id='1'] ._vh_delete_permanent._vh_delete.h_users{
+    display: none !important;
+}
+form[dt-ajax='esystem/update/h_users/1'] select[name='group'],
+form[dt-ajax='esystem/update/h_users/1'] select[name='group'] ~ span{
+    pointer-events: none;
+}

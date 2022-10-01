@@ -99,7 +99,7 @@ class User extends Authenticatable
     }
     public function scopeStudent($q,$listTeacherCourseId)
     {
-        return $q->where('act',1)->where('banned',0)->where('user_type_id',UserType::NORMAL_ACCOUNT)->where(function($q) use ($listTeacherCourseId){
+        return $q->where('act',1)->where('banned',0)->whereIn('user_type_id',[UserType::NORMAL_ACCOUNT,UserType::INTERNAL_STUDENT_ACCOUNT])->where(function($q) use ($listTeacherCourseId){
             $q->whereHas('userCourse',function($q) use ($listTeacherCourseId){
                 $q->whereIn('course_id',$listTeacherCourseId)->where(function($q){
                     $q->where('expired_time', '>', now())->orWhere('is_forever', 1);
@@ -193,7 +193,7 @@ class User extends Authenticatable
 
     public function isAccount()
     {
-        return $this->user_type_id == self::IS_TYPE_ACCOUT;
+        return in_array($this->user_type_id,[UserType::NORMAL_ACCOUNT,UserType::INTERNAL_STUDENT_ACCOUNT]);
     }
 
     public function getAmountAvailable(){

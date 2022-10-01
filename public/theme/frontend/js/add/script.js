@@ -154,6 +154,7 @@ var MORE_FUNCTION = (function () {
     var resizeIframe = function (id) {
         var newheight;
         var newwidth;
+        document.getElementById(id).style.width = "100%";
         if (document.getElementById) {
             newheight =
                 document.getElementById(id).contentWindow.document.body
@@ -165,6 +166,23 @@ var MORE_FUNCTION = (function () {
         }
         document.getElementById(id).height = newheight + 10 + "px";
         document.getElementById(id).width = newwidth + "px";
+    };
+    var money_format = function (element) {
+        var elementMoney = element;
+        var money = elementMoney.value;
+        money = money.replace(/-/g, "");
+        money = money.replace(/,/g, "");
+        var val = parseFloat(money)
+            ? MORE_FUNCTION._number_format(money)
+            : elementMoney.hasClass("zero")
+            ? 0
+            : "";
+        elementMoney.value = val;
+        document.querySelector(elementMoney.getAttribute("real_input")).value =
+            money;
+    };
+    var _number_format = function (number) {
+        return new Intl.NumberFormat().format(number).replaceAll(".", ",");
     };
     return {
         init: function () {
@@ -188,6 +206,12 @@ var MORE_FUNCTION = (function () {
         },
         resizeIframe: function (id) {
             resizeIframe(id);
+        },
+        money_format: function (element) {
+            money_format(element);
+        },
+        _number_format: function (number) {
+            return _number_format(number);
         },
     };
 })();

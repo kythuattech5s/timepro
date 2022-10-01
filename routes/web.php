@@ -38,7 +38,7 @@ Route::group([
         var_dump($results);die();
     });
     
-
+    
     Route::post('get-last-dat-of-month', 'StaticController@getLastDateOfMonth');
     Route::get('get-district-by-province', 'StaticController@getDistrictByProvince');
     Route::get('get-ward-by-district', 'StaticController@getWardByDistrict');

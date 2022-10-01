@@ -35,6 +35,18 @@ return [
                     ],
                 ]
             ],
+            [
+                'label' => 'Tài khoản học viên nội bộ',
+                'name' => 'user_internal_student_account',
+                'default' => false,
+                'where' => [
+                    [
+                        'field' => 'user_type_id',
+                        'operator' => '=',
+                        'value' => UserType::INTERNAL_STUDENT_ACCOUNT
+                    ]
+                ],
+            ]
         ],
     ],
 ];
