@@ -8,7 +8,7 @@
             </div>
             <div class="col-span-1 lg:col-span-3">
                 <div class="box-content bg-white p-4 rounded 2xl:mb-6 mb-4 last:mb-0">
-                    <h1 class="title font-bold text-[#252525] 2xl:text-[1.6rem] lg:text-[1.25rem] text-[1rem] mb-4 text-center">Kết quả thi</h1>
+                    <h1 class="title font-bold text-[#252525] 2xl:text-[1.6rem] lg:text-[1.25rem] text-[1rem] mb-4 text-center">Kết quả bài kiểm tra</h1>
                     @if (count($listItems) > 0)
                         @foreach ($listItems as $item)
                             <div class="item-exam grid grid-cols-2 md:grid-cols-4 gap-2 items-center 2xl:p-4 p-2 rounded border-[1px] border-solid border-[#ebebeb] mb-4">
@@ -31,7 +31,7 @@
                             {{$listItems->withQueryString()->links('bases.pagination')}}
                         </div>
                     @else
-                        <p class="text-[1.125rem]">Tạm thời chưa có kết quả bài thi nào.</p>
+                        <p class="text-[1.125rem]">Tạm thời chưa có kết quả bài kiểm tra nào.</p>
                     @endif
                 </div>
             </div>

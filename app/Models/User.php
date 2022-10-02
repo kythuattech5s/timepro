@@ -85,6 +85,10 @@ class User extends Authenticatable
     {
         return $this->hasMany(ExamResult::class);
     }
+    public function obligatoryExamResult()
+    {
+        return $this->hasMany(ObligatoryExamResult::class);
+    }
     public function orders()
     {
         return $this->hasMany(Order::class);

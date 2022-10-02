@@ -47,6 +47,9 @@ var MODULE_EXAM = (function () {
             $(this).remove();
             initStartExam();
         });
+        if (dataExam.exam.type == "obligatory_exam") {
+            initStartExam();
+        }
     };
     var initStartExam = function () {
         var currentDate = new Date();
@@ -133,6 +136,9 @@ var MODULE_EXAM = (function () {
             countDown.stop();
         }
         url = "send-exam-results";
+        if (dataExam.exam.type == "obligatory_exam") {
+            url = "send-obligatory-exam-results";
+        }
         $.ajax({
             url: url,
             type: "POST",
@@ -147,31 +153,29 @@ var MODULE_EXAM = (function () {
                 );
             });
             if (json.code == 200) {
-                if (dataExam.exam.type == "exam") {
-                    $.confirm({
-                        closeIcon: true,
-                        columnClass: "max-width-800",
-                        typeAnimated: true,
-                        title: json.message,
-                        content: json.html,
-                        buttons: {
-                            listExercise: {
-                                text: '<i class="fa fa-list me-2" aria-hidden="true"></i> Danh sách kỳ thi',
-                                btnClass: "btn-blue text-white px-3 py-2 me-3",
-                                action: function () {
-                                    window.location.href = json.link_back;
-                                },
-                            },
-                            viewResult: {
-                                text: '<i class="fa fa-check-square-o me-2" aria-hidden="true"></i> Xem lời giải',
-                                btnClass: "btn btn-green text-white py-2",
-                                action: function () {
-                                    window.location.href = json.link_result;
-                                },
+                $.confirm({
+                    closeIcon: true,
+                    columnClass: "max-width-800",
+                    typeAnimated: true,
+                    title: json.message,
+                    content: json.html,
+                    buttons: {
+                        listExercise: {
+                            text: '<i class="fa fa-list me-2" aria-hidden="true"></i> Danh sách kỳ thi',
+                            btnClass: "btn-blue text-white px-3 py-2 me-3",
+                            action: function () {
+                                window.location.href = json.link_back;
                             },
                         },
-                    });
-                }
+                        viewResult: {
+                            text: '<i class="fa fa-check-square-o me-2" aria-hidden="true"></i> Xem lời giải',
+                            btnClass: "btn btn-green text-white py-2",
+                            action: function () {
+                                window.location.href = json.link_result;
+                            },
+                        },
+                    },
+                });
             } else {
                 $.alert({
                     closeIcon: true,

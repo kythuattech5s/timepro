@@ -6,6 +6,8 @@ use App\Models\CourseCategory;
 use App\Models\CourseCombo;
 use App\Models\Exam;
 use App\Models\ExamResult;
+use App\Models\ObligatoryExam;
+use App\Models\ObligatoryExamResult;
 use App\Models\OrderStatus;
 use App\Models\UserType;
 use Auth;
@@ -99,7 +101,7 @@ class ManageUserCourseController extends Controller
         if ($mainCourseId != '') {
             $mainCourse = Course::act()->whereHas('exam')->with('exam')->find($mainCourseId);
             if (!isset($mainCourse) || !$mainCourse->isOwn($user)) {
-                return Support::redirectTo(\VRoute::get("my_exam"),100,'Không tìm thấy thông tin kỳ thi');
+                return Support::redirectTo(\VRoute::get("my_exam"),100,'Không tìm thấy thông tin bài kiểm tra');
             }
             $examResult = $mainCourse->examResult()->where('user_id',$user->id)->first();
             if (isset($examResult)) {
@@ -284,5 +286,119 @@ class ManageUserCourseController extends Controller
         $user = Auth::user();
         $listItems = $user->orders()->orderBy('id','desc')->with('orderDetail','paymentMethod','orderStatus')->whereIn('order_status_id',[OrderStatus::PAID,OrderStatus::CANCEL])->paginate(6);
 		return view('auth.account.payment_history',compact('user','currentItem','listItems'));
+    }
+    public function myObligatoryExam(Request $request,$route)
+    {
+        $currentItem = $route instanceof \vanhenry\manager\model\VRoute ? $route : \vanhenry\manager\model\VRoute::find($route->id ?? 0);
+        $user = Auth::user();
+        if ($user->user_type_id != UserType::INTERNAL_STUDENT_ACCOUNT) {
+            return Support::sendResponse(100,'Tài khoản của bạn không có chức năng này',\VRoute::get("home"));
+        }
+        $obligatoryExamId = str_replace('lam-bai-thi-','',\FCHelper::getSegment($request, 2));
+        if ($obligatoryExamId != '') {
+            $obligatoryExam = ObligatoryExam::act()->find($obligatoryExamId);
+            if (!isset($obligatoryExam)) {
+                return Support::redirectTo(\VRoute::get("my_obligatory_exam"),100,'Không tìm thấy thông tin kỳ thi');
+            }
+            $obligatoryExamResult = $obligatoryExam->examResult()->where('user_id',$user->id)->first();
+            if (isset($obligatoryExamResult)) {
+                return Support::redirectTo(\VRoute::get("my_obligatory_exam_result").'/ket-qua-bai-thi-'.$obligatoryExamResult->id,200,'Bạn đã hoàn thành bài kiểm tra này rồi');
+            }
+            if (!(now()->parse($obligatoryExam->open_time)->lt(now()) && now()->parse($obligatoryExam->close_time)->gt(now()))) {
+                return Support::redirectTo(\VRoute::get("my_obligatory_exam"),100,'Đang không trong thời gian làm kì thi này.');
+            }
+            $exam = $obligatoryExam;
+            $currentItem->vi_name = $currentItem->vi_name.' - '.$exam->name;
+            $currentItem->vi_seo_title = $currentItem->vi_seo_title.' - '.$exam->name;
+            $currentItem->vi_seo_key = $currentItem->vi_seo_key.' - '.$exam->name;
+            $currentItem->vi_seo_des = $currentItem->vi_seo_des.' - '.$exam->name;
+            return view('auth.account.obligatory_exams.do_exam', compact('user','currentItem','exam'));
+        }
+        $listItems = ObligatoryExam::act()->where('open_time','<',now())
+                                          ->where('close_time','>',now())
+                                          ->whereDoesntHave('examResult',function($q) use ($user){
+                                            $q->where('user_id',$user->id);
+                                          })
+                                          ->paginate(10);
+        $listItemUpcoming = ObligatoryExam::act()->where('open_time','>',now())->get();
+        return view('auth.account.obligatory_exams.my_exam', compact('user','currentItem','listItems','listItemUpcoming'));
+    }
+    public function sendObligatoryExamResult(Request $request,$route)
+    {
+        $user = Auth::user();
+        if ($user->user_type_id != UserType::INTERNAL_STUDENT_ACCOUNT) {
+            return Support::sendResponse(100,'Tài khoản của bạn không có chức năng này',\VRoute::get("home"));
+        }
+        $data = $request->data ?? [];
+        $dataExam = $data['exam'] ?? [];
+        unset($data['exam']);
+        $examId = $dataExam['idx'] ?? 0;
+        $obligatoryExam = ObligatoryExam::act()->find($examId);
+        $examResult = $obligatoryExam->examResult()->where('user_id',$user->id)->first();
+        if (isset($examResult)) {
+            return response()->json([
+                'code'=>200,
+                'message'=>'Bạn đã hoàn thành bài kiểm tra này rồi'
+            ]);
+        }
+
+        $listQuestionPivot = $obligatoryExam->pivotQuestion()->whereHas('question')->with('question')->get();
+        $pointAchieved = 0;
+        $totalPoint = 0;
+        $totalQuestion = count($listQuestionPivot);
+        $totalQuestionDone = 0;
+        foreach ($listQuestionPivot as $itemQuestionPivot) {
+            $question = $itemQuestionPivot->question;
+            $totalPoint += $itemQuestionPivot->point;
+            if (isset($data[$question->id]['answer']) && $question->check($data[$question->id]['answer'])) {
+                $pointAchieved += $itemQuestionPivot->point;
+                $totalQuestionDone++;
+            }
+            $data[$question->id]['answer'] = $data[$question->id]['answer'] ?? '';
+        }
+        $percenDone = $totalQuestion > 0 ? 100*$totalQuestionDone/$totalQuestion:0;
+        $startTime = \Carbon\Carbon::createFromFormat(Exam::FORMAT_START_TIME,$dataExam['start_time']);
+        $examResult = new ObligatoryExamResult;
+        $examResult->total_time = now()->timestamp - $startTime->timestamp;
+        $examResult->user_id = $user->id;
+        $examResult->obligatory_exam_id = $examId;
+        $examResult->percen_done = $percenDone;
+        $examResult->point_achieved = $pointAchieved;
+        $examResult->total_point = $totalPoint;
+        $examResult->total_question_done = $totalQuestionDone;
+        $examResult->total_question = $totalQuestion;
+        $examResult->exam_info = json_encode($dataExam);
+        $examResult->question_info = json_encode($data);
+        $examResult->save();
+        return response()->json([
+            'code' => 200,
+            'message' => 'Kì thi đã hoàn thành',
+            'link_back' => \VRoute::get("my_obligatory_exam"),
+            'html' => view('auth.account.obligatory_exams.exam_result_ajax', compact('user','examResult','obligatoryExam'))->render(),
+            'link_result' => \VRoute::get("my_obligatory_exam_result").'/ket-qua-ky-thi-'.$examResult->id
+        ]);
+    }
+    public function myObligatoryExamResult (Request $request,$route)
+    {
+        $currentItem = $route instanceof \vanhenry\manager\model\VRoute ? $route : \vanhenry\manager\model\VRoute::find($route->id ?? 0);
+        $user = Auth::user();
+        if ($user->user_type_id != UserType::INTERNAL_STUDENT_ACCOUNT) {
+            return Support::sendResponse(100,'Tài khoản của bạn không có chức năng này',\VRoute::get("home"));
+        }
+        $examResultId = str_replace('ket-qua-ky-thi-','',\FCHelper::getSegment($request, 2));
+        if ($examResultId != '') {
+            $examResult = ObligatoryExamResult::whereHas('exam')->with('exam')->find($examResultId);
+            if (!isset($examResult)) {
+                return Support::redirectTo(\VRoute::get("my_obligatory_exam_result"),100,'Không tìm thấy thông tin kết quả bài thi');
+            }
+            $exam = $examResult->exam;
+            $currentItem->vi_name = $currentItem->vi_name.' - '.$exam->name;
+            $currentItem->vi_seo_title = $currentItem->vi_seo_title.' - '.$exam->name;
+            $currentItem->vi_seo_key = $currentItem->vi_seo_key.' - '.$exam->name;
+            $currentItem->vi_seo_des = $currentItem->vi_seo_des.' - '.$exam->name;
+            return view('auth.account.obligatory_exams.my_exam_result_detail', compact('user','currentItem','examResult','exam'));
+        }
+        $listItems = $user->obligatoryExamResult()->whereHas('exam')->with('exam')->paginate(6);
+        return view('auth.account.obligatory_exams.my_exam_result', compact('user','currentItem','listItems'));
     }
 }
