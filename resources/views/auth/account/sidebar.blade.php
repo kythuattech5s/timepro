@@ -45,22 +45,24 @@
     <span class="title font-bold text-[#252525]">Khóa học của tôi</span>
     <i class="fa fa-angle-right text-[1.875rem]" aria-hidden="true"></i>
 </a>
-<a href="{{ \VRoute::get('my_exam') }}" class="sidebar-admin__item {{ Str::contains(url()->current(), [\VRoute::get('my_exam')]) ? 'active' : '' }} mb-2 flex items-center justify-between rounded bg-white py-3 px-4 transition-all duration-300 2xl:px-6">
-    <span class="title font-bold text-[#252525]">Kỳ thi</span>
-    @php
-        $countNeedDoneExam = $user->getCountNeedDoneExam();
-    @endphp
-    <div class="noti">
-        @if ($countNeedDoneExam > 0)
-            <span class="count mr-4 inline-block h-5 min-w-[1.25rem] rounded-full bg-gradient-to-r from-[#F44336] to-[#C62828] text-center text-[0.875rem] font-semibold leading-5 text-white">{{ $countNeedDoneExam }}</span>
-        @endif
+@if ($user->user_type_id == \App\Models\UserType::INTERNAL_STUDENT_ACCOUNT)
+    <a href="{{ \VRoute::get('my_exam') }}" class="sidebar-admin__item {{ Str::contains(url()->current(), [\VRoute::get('my_exam')]) ? 'active' : '' }} mb-2 flex items-center justify-between rounded bg-white py-3 px-4 transition-all duration-300 2xl:px-6">
+        <span class="title font-bold text-[#252525]">Kỳ thi</span>
+        @php
+            $countNeedDoneExam = $user->getCountNeedDoneExam();
+        @endphp
+        <div class="noti">
+            @if ($countNeedDoneExam > 0)
+                <span class="count mr-4 inline-block h-5 min-w-[1.25rem] rounded-full bg-gradient-to-r from-[#F44336] to-[#C62828] text-center text-[0.875rem] font-semibold leading-5 text-white">{{ $countNeedDoneExam }}</span>
+            @endif
+            <i class="fa fa-angle-right text-[1.875rem]" aria-hidden="true"></i>
+        </div>
+    </a>
+    <a href="{{ \VRoute::get('my_exam_result') }}" class="sidebar-admin__item {{ Str::contains(url()->current(), [\VRoute::get('my_exam_result')]) ? 'active' : '' }} mb-2 flex items-center justify-between rounded bg-white py-3 px-4 transition-all duration-300 2xl:px-6">
+        <span class="title font-bold text-[#252525]">Kết quả thi</span>
         <i class="fa fa-angle-right text-[1.875rem]" aria-hidden="true"></i>
-    </div>
-</a>
-<a href="{{ \VRoute::get('my_exam_result') }}" class="sidebar-admin__item {{ Str::contains(url()->current(), [\VRoute::get('my_exam_result')]) ? 'active' : '' }} mb-2 flex items-center justify-between rounded bg-white py-3 px-4 transition-all duration-300 2xl:px-6">
-    <span class="title font-bold text-[#252525]">Kết quả thi</span>
-    <i class="fa fa-angle-right text-[1.875rem]" aria-hidden="true"></i>
-</a>
+    </a>
+@endif
 <a href="{{ \VRoute::get('my_profile') }}" class="sidebar-admin__item {{ Str::contains(url()->current(), [\VRoute::get('my_profile')]) ? 'active' : '' }} mb-2 flex items-center justify-between rounded bg-white py-3 px-4 transition-all duration-300 2xl:px-6">
     <span class="title font-bold text-[#252525]">Thông tin cá nhân</span>
     <i class="fa fa-angle-right text-[1.875rem]" aria-hidden="true"></i>

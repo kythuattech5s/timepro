@@ -92,6 +92,9 @@ class ManageUserCourseController extends Controller
     {
         $currentItem = $route instanceof \vanhenry\manager\model\VRoute ? $route : \vanhenry\manager\model\VRoute::find($route->id ?? 0);
         $user = Auth::user();
+        if ($user->user_type_id != UserType::INTERNAL_STUDENT_ACCOUNT) {
+            return Support::sendResponse(100,'Tài khoản của bạn không có chức năng này',\VRoute::get("home"));
+        }
         $mainCourseId = str_replace('lam-bai-kiem-tra-','',\FCHelper::getSegment($request, 2));
         if ($mainCourseId != '') {
             $mainCourse = Course::act()->whereHas('exam')->with('exam')->find($mainCourseId);
@@ -123,6 +126,9 @@ class ManageUserCourseController extends Controller
     public function sendExamResult(Request $request)
     {
         $user = Auth::user();
+        if ($user->user_type_id != UserType::INTERNAL_STUDENT_ACCOUNT) {
+            return Support::sendResponse(100,'Tài khoản của bạn không có chức năng này',\VRoute::get("home"));
+        }
         $data = $request->data ?? [];
         $dataExam = $data['exam'] ?? [];
         unset($data['exam']);
@@ -183,6 +189,9 @@ class ManageUserCourseController extends Controller
     {
         $currentItem = $route instanceof \vanhenry\manager\model\VRoute ? $route : \vanhenry\manager\model\VRoute::find($route->id ?? 0);
         $user = Auth::user();
+        if ($user->user_type_id != UserType::INTERNAL_STUDENT_ACCOUNT) {
+            return Support::sendResponse(100,'Tài khoản của bạn không có chức năng này',\VRoute::get("home"));
+        }
         $examResultId = str_replace('ket-qua-bai-thi-','',\FCHelper::getSegment($request, 2));
         if ($examResultId != '') {
             $examResult = ExamResult::whereHas('exam')->with('exam')->find($examResultId);
