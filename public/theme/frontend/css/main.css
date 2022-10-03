@@ -941,7 +941,7 @@ color: #F44336 !important;
 }
 .payment-method__content img{
   display: inline-block;
-  width: 2rem;
+  width: 2.5rem;
 }
 .menu ul li a.active{
   color: #F44336;
@@ -1029,6 +1029,15 @@ color: #F44336 !important;
   display: inline-block;
   margin: 0;
 }
+.auth-content {
+  z-index:10 !important;
+}
+.h-action .ava img{
+  object-fit: contain !important;
+}
+.box-info-student .ava img{
+  object-fit: contain;
+}
 @media (min-width: 992px) {
   .container {
     max-width: 992px;
@@ -1036,11 +1045,16 @@ color: #F44336 !important;
 }
 @media (min-width: 1024px) {
 
-  .section-cate__index .item:nth-child(2n) .slide-category__thumbs .swiper-slide-thumb-active:nth-last-child(2){
+ 
+  .section-cate__index .item:nth-child(2n) .slide-category__thumbs .swiper-slide-thumb-active:last-child{
     display: block;
+  }
+  .section-cate__index .item:nth-child(2n+1) .slide-category-main .swiper-slide-active:last-child{
+    display:block;
   }
   .slide-category__thumbs .swiper-slide-thumb-active{
     display: none;
+    
   }
   .section-cate__index .item:nth-child(2n+1) .slide-category__thumbs .swiper-slide-thumb-active{
     display: block;

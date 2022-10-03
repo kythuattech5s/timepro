@@ -1,5 +1,6 @@
 @php
     $listAnswer = \multiplechoicequestions\managequestion\Helpers\QuestionHelper::extractJson($question->content,false,null);
+    shuffle($listAnswer);
 @endphp
 @if (isset($listAnswer))
     <div class="list-question-answer ChooseAnswer ChooseAnswer-{{count((array)$listAnswer)}} d-flex flex-wrap align-items-center justify-content-center">

@@ -56,5 +56,12 @@ class ManagerEventListener
                 $order->orderSuccess();
             }
         });
+        $events->listen('course.manager.order.cancel', function ($id)
+        {
+            $order = Order::find($id);
+            if (isset($order)) {
+                $order->orderCancel();
+            }
+        });
     }
 }

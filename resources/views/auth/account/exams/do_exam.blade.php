@@ -50,7 +50,7 @@
                         $count = 1;
                     @endphp
                     <div id="module-content__exam" class="hidden">
-                        @foreach ($exam->pivotQuestion as $itemPivotQuestion)
+                        @foreach ($exam->pivotQuestion()->inRandomOrder()->get() as $itemPivotQuestion)
                             @php $question = $itemPivotQuestion->question; @endphp
                             <div class="module-question-exam" question="{{Support::show($question,'id')}}">
                                 <div class="module-question-box" question="{{Support::show($question,'id')}}">
