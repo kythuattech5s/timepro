@@ -65,6 +65,23 @@ class Support
         }
     }
 
+
+    public static function getSlugFullLevel($object,$field,$slug = ''){
+        // if(!is_object($object)){
+        //     return $slug; 
+        // }
+        // if($object instanceof \Illuminate\Database\Eloquent\Model){
+        //     $table = $object->getTable();
+        //     $parent = \DB::table($table)->where('id',self::show($object,'parent',0))->first();
+        //     if($parent != null){
+        //         $slug .= $parent->slug.'/';
+        //         if(self::show($object,'parent',0) > 0){
+        //             $slug = self::getSlugFullLevel()
+        //         }
+        //     }
+        // }
+    }
+
     public static function language($value)
     {
         if (\App::getLocale() == 'en') {

@@ -184,6 +184,21 @@ var MORE_FUNCTION = (function () {
     var _number_format = function (number) {
         return new Intl.NumberFormat().format(number).replaceAll(".", ",");
     };
+    var popupIntro = function () {
+        var popup = document.getElementById("modal_intro");
+        var buttonShow = document.querySelector(
+            'button[data-modal="modal_intro"]'
+        );
+        if (popup == undefined || buttonShow == undefined) return;
+        var getSessionStorage = sessionStorage.getItem("open");
+        var event = new Event("click");
+        if (getSessionStorage == null) {
+            setTimeout(function () {
+                buttonShow.dispatchEvent(event);
+                sessionStorage.setItem("open", "has_view");
+            }, 500);
+        }
+    };
     return {
         init: function () {
             closeModal();

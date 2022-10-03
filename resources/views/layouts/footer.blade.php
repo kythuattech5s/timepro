@@ -135,3 +135,25 @@
         <div class="container">{[copy_right]}</div>
     </div>
 </footer>
+<div class="widget fixed">
+    <a href="{[zalo]}" target="_blank" title="Zalo" class="item zalo">
+        <img src="theme/frontend/images/zalo-new.png" alt="Icon Zalo">
+    </a>
+    <a href="tel:{[hotline]}" title="Hotline" class="item hotline">
+        <img src="theme/frontend/images/phone.png" alt="Icon phone">
+    </a>
+</div>
+<div id="modal_intro" modal tabindex="-1" aria-hidden="true" class="overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal md:h-full d-none">
+    <div class="relative p-4 w-full max-w-[34rem] h-full md:h-auto mx-auto">
+        <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+            <button type="button" class="absolute top-[0.625rem] right-[0.625rem] z-10 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-toggle="defaultModal" button_close_modal>
+                @include('svg.icon_close')
+                <span class="sr-only">Close modal</span>
+            </button>
+            <div class="content">
+                alo1234455667
+            </div>
+        </div>
+    </div>
+</div>
+<button type="button" onclick="MORE_FUNCTION.showModal(this);" data-modal="modal_intro"></button>
