@@ -9,7 +9,8 @@
   <p class="form-title" for="">{{FCHelper::ep($table,'note')}}<p/>
   <div class="form-control form-reset flex">
     <select {{FCHelper::ep($table,'require')==1?'required':''}} style="width:100%" placeholder="{{FCHelper::ep($table,'note')}}" class="select2" name="{{$name}}">
-	@foreach($arrData as $key => $value)
+        <option value="">-- Chọn --</option>
+    @foreach($arrData as $key => $value)
 		<?php
             $tmpValue = is_array($value) ? FCHelper::ep($value,'key',1): $value ;
             $currentID = FCHelper::ep($dataItem,$name);

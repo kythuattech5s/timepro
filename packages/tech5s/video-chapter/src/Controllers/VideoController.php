@@ -89,6 +89,7 @@ class VideoController extends Controller
         }
         $img = FCHelper::eimg($courseVideo->img);
         return response([
+            'src' => route('tvs-video.playlist', ['tvsMapItemId' =>  $tvsMapItem->id]),
             'secretId' => $secretId,
             'tvsMapItem' => $tvsMapItem,
             'poster' => $img

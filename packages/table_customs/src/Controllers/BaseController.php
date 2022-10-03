@@ -1,4 +1,5 @@
 <?php
+
 namespace CustomTable\Controllers;
 
 use DB;
@@ -68,12 +69,13 @@ class BaseController
         }
     }
 
-    public function __insertCreateDataMapTable($rs_create, $id, $table)
+    public function __insertCreateDataMapTable($pivot, $item)
     {
-        $table = $table->table_map;
-        if (!empty($rs_create) && count($rs_create) > 0) {
+        $table = $item->getTable();
+        $id = $item->id;
+        if (!empty($pivot) && count($pivot) > 0) {
             $data = request()->all();
-            $vdetail = VDetailTable::where(['parent_name' => $table, 'name' => array_key_first($rs_create)])->first();
+            $vdetail = VDetailTable::where(['parent_name' => $table, 'name' => array_key_first($pivot)])->first();
             $defaultData = json_decode($vdetail->default_data, true);
             $dataCreate = [];
             foreach ($data as $key => $value) {
@@ -82,7 +84,7 @@ class BaseController
                 }
             }
             $tableInsert = $defaultData['table'];
-            $dataCreate[$defaultData['field']] = reset($rs_create);
+            $dataCreate[$defaultData['field']] = $pivot[array_key_first($pivot)];
             $dataCreate[$defaultData['field_relationship']] = $id;
             DB::table($tableInsert)->insert($dataCreate);
         }

@@ -842,13 +842,62 @@ function _asyncToGenerator(fn) {
   };
 
   var changeVideo = function changeVideo() {
+    var timeout;
     var video = document.querySelector("video");
     if (!video) return;
     var listVideo = document.querySelectorAll("[data-link]");
     listVideo.forEach(function (item) {
       item.onclick = function () {
         if (video.dataset.id == item.dataset.id) return;
-        showListNote(item.dataset.id, item, video);
+        clearTimeout(timeout);
+        timeout = setTimeout( /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
+          var res, parent, html;
+          return _regeneratorRuntime().wrap(function _callee$(_context) {
+            while (1) {
+              switch (_context.prev = _context.next) {
+                case 0:
+                  _context.next = 2;
+                  return XHR.send({
+                    url: "/get-video-src?course_video_id=".concat(item.dataset.id),
+                    method: "get"
+                  });
+
+                case 2:
+                  res = _context.sent;
+
+                  if (typeof VIDEO_ID != "undefined") {
+                    VIDEO_ID = res.secretId;
+                  }
+
+                  parent = video.closest(".video-lesson");
+                  html = "<video-js id=\"my_video_1\" class=\"video-js vjs-default-skin vjs-16-9\" controls preload=\"none\" data-id=\"".concat(item.dataset.id, "\" width=\"640\" height=\"268\" poster=\"").concat(res.poster, "\">\n                            <source src=\"").concat(res.src, "\" type=\"application/x-mpegURL\">\n                        </video-js>");
+                  video.parentElement.remove();
+                  _context.next = 9;
+                  return videojs("my_video_1").dispose();
+
+                case 9:
+                  _context.next = 11;
+                  return html;
+
+                case 11:
+                  parent.innerHTML = _context.sent;
+                  Tech5sVideo.init();
+                  load();
+                  checkTime();
+                  changeVideo();
+                  toTime();
+                  catchEventVideo();
+                  showRatingForm();
+                  backToCourse();
+                  showListNote(item.dataset.id, item, video);
+
+                case 21:
+                case "end":
+                  return _context.stop();
+              }
+            }
+          }, _callee);
+        })), 400);
       };
     });
   };
@@ -861,7 +910,7 @@ function _asyncToGenerator(fn) {
         course_video_id: id
       }
     }).then(function (res) {
-      video.querySelector("source").src = item.dataset.link;
+      // video.querySelector("source").src = item.dataset.link;
       video.dataset.id = id;
       document.querySelector("[list-note]").innerHTML = res.html;
       toTime();
@@ -885,11 +934,11 @@ function _asyncToGenerator(fn) {
           duration: video.currentTime
         }
       }).then( /*#__PURE__*/function () {
-        var _ref = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee(res) {
+        var _ref2 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2(res) {
           var index, buttonRatingHTML;
-          return _regeneratorRuntime().wrap(function _callee$(_context) {
+          return _regeneratorRuntime().wrap(function _callee2$(_context2) {
             while (1) {
-              switch (_context.prev = _context.next) {
+              switch (_context2.prev = _context2.next) {
                 case 0:
                   listVideo.forEach(function (item, i) {
                     if (video.dataset.id == item.dataset.id) {
@@ -920,14 +969,14 @@ function _asyncToGenerator(fn) {
 
                 case 4:
                 case "end":
-                  return _context.stop();
+                  return _context2.stop();
               }
             }
-          }, _callee);
+          }, _callee2);
         }));
 
         return function (_x) {
-          return _ref.apply(this, arguments);
+          return _ref2.apply(this, arguments);
         };
       }());
     };

@@ -7,7 +7,7 @@
             <img src="{%IMGV2.user.img.-1%}" alt="{%AIMGV2.user.img.alt%}" class="h-11 w-11 rounded-full object-cover" title="{%AIMGV2.user.img.title%}">
             <div class="flex-1">
                 <div class="flex h-11 flex-col justify-between">
-                    <p class="font-bold">{{ $user->name }}</p>
+                    <p class="font-bold">{{ $user != null ? $user->name : 'Quản trị viên' }}</p>
                     <p class="text-xs text-[#888888]">{{ RSCustom::showTime($question->created_at) }}</p>
                 </div>
                 <p class="my-2">
@@ -32,7 +32,7 @@
                                 <img src="{%IMGV2.user.img.-1%}" alt="{%AIMGV2.user.img.alt%}" class="h-11 w-11 rounded-full object-cover" title="{%AIMGV2.user.img.title%}">
                                 <div class="flex-1">
                                     <div class="flex h-11 flex-col justify-between">
-                                        <p class="font-bold">{{ $user->name }}</p>
+                                        <p class="font-bold">{{ $user != null ? $user->name : 'Quản trị viên' }}</p>
                                         <p class="text-xs text-[#888888]">{{ RSCustom::showTime($item_child->created_at) }}</p>
                                     </div>
                                     <p class="my-2">

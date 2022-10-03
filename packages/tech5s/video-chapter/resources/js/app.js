@@ -30,13 +30,41 @@ import Helper from "../../../../roniejisa/scripts/assets/js/Helper.js";
     };
 
     const changeVideo = () => {
+        let timeout;
         const video = document.querySelector("video");
+
         if (!video) return;
+
         const listVideo = document.querySelectorAll("[data-link]");
         listVideo.forEach((item) => {
             item.onclick = () => {
                 if (video.dataset.id == item.dataset.id) return;
-                showListNote(item.dataset.id, item, video);
+                clearTimeout(timeout);
+                timeout = setTimeout(async () => {
+                    const res = await XHR.send({
+                        url: `/get-video-src?course_video_id=${item.dataset.id}`,
+                        method: "get",
+                    });
+                    if (typeof VIDEO_ID != "undefined") {
+                        VIDEO_ID = res.secretId;
+                    }
+                    const parent = video.closest(".video-lesson");
+                    const html = `<video-js id="my_video_1" class="video-js vjs-default-skin vjs-16-9" controls preload="none" data-id="${item.dataset.id}" width="640" height="268" poster="${res.poster}">
+                            <source src="${res.src}" type="application/x-mpegURL">
+                        </video-js>`;
+                    video.parentElement.remove();
+                    await videojs("my_video_1").dispose();
+                    parent.innerHTML = await html;
+                    Tech5sVideo.init();
+                    load();
+                    checkTime();
+                    changeVideo();
+                    toTime();
+                    catchEventVideo();
+                    showRatingForm();
+                    backToCourse();
+                    showListNote(item.dataset.id, item, video);
+                }, 400);
             };
         });
     };
@@ -49,7 +77,7 @@ import Helper from "../../../../roniejisa/scripts/assets/js/Helper.js";
                 course_video_id: id,
             },
         }).then((res) => {
-            video.querySelector("source").src = item.dataset.link;
+            // video.querySelector("source").src = item.dataset.link;
             video.dataset.id = id;
             document.querySelector("[list-note]").innerHTML = res.html;
             toTime();
