@@ -48,7 +48,7 @@
                     @endif
                 </a>
                 <div class="content hidden lg:block">
-                    @if(Support::show($user,'user_type_id') == 1)
+                    @if(in_array(\Support::show($user,'user_type_id'),[App\Models\UserType::NORMAL_ACCOUNT,App\Models\UserType::INTERNAL_STUDENT_ACCOUNT]))
                     <p class="text-[0.75rem] mb-1">Xin chào</p>
                     <a href="{{\VRoute::get('my_profile')}}" title="Thông tin cá nhân" class="name-user font-semibold text-[#252525]">{{Support::show($user,'name')}}</a>
                     @else
