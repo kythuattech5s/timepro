@@ -196,7 +196,7 @@ var MORE_FUNCTION = (function () {
             setTimeout(function () {
                 buttonShow.dispatchEvent(event);
                 sessionStorage.setItem("open", "has_view");
-            }, 500);
+            }, 10000);
         }
     };
     return {
@@ -206,6 +206,7 @@ var MORE_FUNCTION = (function () {
             getDistrictByProvince();
             getWardByDistrict();
             triggerEvent();
+            popupIntro();
         },
         showModal: function (element) {
             showModal(element);

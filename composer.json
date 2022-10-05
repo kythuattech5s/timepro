@@ -63,7 +63,8 @@
             "Tech5s\\VideoChapter\\": "packages/tech5s/video-chapter/src",
             "Tech5s\\Voucher\\": "packages/tech5s/voucher/src",
             "Tech5s\\FlashSale\\": "packages/tech5s/flashsale/src",
-            "Tech5s\\Notify\\": "packages/tech5s/notify/src"
+            "Tech5s\\Notify\\": "packages/tech5s/notify/src",
+            "Tech5s\\ManagerUser\\": "packages/tech5s/manager_user/src"
         }
     },
     "repositories": [

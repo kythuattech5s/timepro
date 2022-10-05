@@ -12,7 +12,7 @@ class ManageQuestionController extends Controller
 	}
 	public function loadQuestionContentAdmin()
 	{
-		$type = request()->type ?? 0;
+		$type = request()->group ?? 0;
 		$value = request()->value ?? 0;
 		$nameField = request()->nameField ?? 0;
 		$question = $this->questionFactory->get($type);
@@ -21,9 +21,9 @@ class ManageQuestionController extends Controller
 	public function loadListQuestionAdmin()
 	{
 		$search = request()->q ?? null;
-		if (!isset($search)) {
-			return 'Vui lòng nhập Tên, Mã hoặc Ghi chú câu hỏi trắc nghiêm.';
-		}
+		// if (!isset($search)) {
+		// 	return 'Vui lòng nhập Tên, Mã hoặc Ghi chú câu hỏi trắc nghiêm.';
+		// }
 		$type = request()->type ?? null;
 		$currentItemId = request()->currentItem ?? 0;
 		$defaultData = request()->defaultData ?? '';
@@ -37,7 +37,9 @@ class ManageQuestionController extends Controller
                                     			->orWhere('note','like','%'.$search.'%');
                                     	});
                                 	})->when($type, function ($q, $type) {
-                                    	$q->where('question_type_id',$type);
+                                    	$q->whereHas('questionGroup',function($q) use($type){
+											$q->where('question_groups.id',$type);
+										});
                                 	})->whereNotIn('id',$listDefaultItemQuestion)->limit(100)->get();
         return view('mtc::question.list_question',compact('listQuestion'));
 	}

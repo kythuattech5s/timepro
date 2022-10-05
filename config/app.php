@@ -191,6 +191,8 @@ return [
         Tech5s\VideoChapter\Providers\VideoChapterServiceProvider::class,
         Tech5s\Voucher\Providers\VoucherServiceProvider::class,
         Tech5s\FlashSale\Providers\FlashSaleServiceProvider::class,
+        Tech5s\ManagerUser\Providers\ManagerUserServiceProvider::class,
+        
         /*
          * Application Service Providers...
          */

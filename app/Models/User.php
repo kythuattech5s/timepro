@@ -85,6 +85,10 @@ class User extends Authenticatable
     {
         return $this->hasMany(ExamResult::class);
     }
+    public function obligatoryExamResult()
+    {
+        return $this->hasMany(ObligatoryExamResult::class);
+    }
     public function orders()
     {
         return $this->hasMany(Order::class);
@@ -145,6 +149,16 @@ class User extends Authenticatable
                 $q->where('user_id', $user->id);
             })
             ->count();
+    }
+    public function getCountNeedDoneObligatoryExam()
+    {
+        $user = $this;
+        return ObligatoryExam::act()->where('open_time','<',now())
+                                    ->where('close_time','>',now())
+                                    ->whereDoesntHave('examResult',function($q) use ($user){
+                                        $q->where('user_id',$user->id);
+                                    })
+                                    ->count();
     }
     public function userAllCourseId()
     {
