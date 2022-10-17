@@ -10,11 +10,12 @@ if (is_array($defaultData)) {
 	$targetTable = $defaultData['target_table'];
 	$targetField = $defaultData['target_field'];
 	$targetSelect = $defaultData['target_select'];
+    $where =  $defaultData['where'] ?? [];
 	$columns = [];
 	foreach ($targetSelect as $key => $value) {
 		$columns[] = $value;
 	}
-	$dataPivots = FCHelper::getDataPivot($pivotTable, $originField, $targetTable, $targetField, $columns);
+	$dataPivots = FCHelper::getDataPivot($pivotTable, $originField, $targetTable, $targetField, $columns,null,$where);
 	if (count((array)$dataItem) > 0) {
 		$realValuePuts = FCHelper::getRealValuePuts($dataItem, $pivotTable, $originField, $targetField);
 	}

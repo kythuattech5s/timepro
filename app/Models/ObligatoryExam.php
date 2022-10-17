@@ -6,6 +6,9 @@ class ObligatoryExam extends BaseModel
     public function pivotQuestion(){
         return $this->hasMany(ObligatoryExamQuestion::class);
     }
+    public function users(){
+        return $this->belongsToMany(User::class);
+    }
     public function examResult(){
         return $this->hasMany(ObligatoryExamResult::class);
     }

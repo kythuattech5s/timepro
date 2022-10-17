@@ -258,4 +258,7 @@ class Course extends BaseModel
     {
         return $this->hasMany(QuestionTeacher::class, 'map_id', 'id');
     }
+    public function userType(){
+        return $this->hasMany(User::class, 'map_id', 'id');
+    }
 }

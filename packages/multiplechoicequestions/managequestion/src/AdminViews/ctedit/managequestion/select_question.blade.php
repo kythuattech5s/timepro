@@ -29,10 +29,10 @@
 			  			</div>
 			  			<div class="col-xs-8 col-lg-3">
 			  				<div class="item-fillter-box form-control form-reset flex">
-			  					<select class="select2">
-			  						<option value="0">Chọn loại câu hỏi</option>
-			  						@foreach (multiplechoicequestions\managequestion\Models\QuestionType::act()->get() as $itemQuestionType)
-			  							<option value="{{Support::show($itemQuestionType,'id')}}">{{Support::show($itemQuestionType,'name')}}</option>
+			  					<select class="select2" name="group">
+			  						<option value="0">Chọn nhóm câu hỏi</option>
+			  						@foreach (multiplechoicequestions\managequestion\Models\QuestionGroup::all() as $itemQuestionGroup)
+			  						<option value="{{Support::show($itemQuestionGroup,'id')}}">{{Support::show($itemQuestionGroup,'name')}}</option>
 			  						@endforeach
 			  					</select>
 			  				</div>
