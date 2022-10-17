@@ -150,6 +150,16 @@ class User extends Authenticatable
             })
             ->count();
     }
+    public function getCountNeedDoneObligatoryExam()
+    {
+        $user = $this;
+        return ObligatoryExam::act()->where('open_time','<',now())
+                                    ->where('close_time','>',now())
+                                    ->whereDoesntHave('examResult',function($q) use ($user){
+                                        $q->where('user_id',$user->id);
+                                    })
+                                    ->count();
+    }
     public function userAllCourseId()
     {
         if (isset($this->listUserCourseId)) {

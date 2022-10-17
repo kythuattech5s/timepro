@@ -65,11 +65,11 @@
     <a href="{{ \VRoute::get('my_obligatory_exam') }}" class="sidebar-admin__item {{ Str::contains(url()->current(), [\VRoute::get('my_obligatory_exam')]) ? 'active' : '' }} mb-2 flex items-center justify-between rounded bg-white py-3 px-4 transition-all duration-300 2xl:px-6">
         <span class="title font-bold text-[#252525]">Kỳ thi</span>
         @php
-            $countNeedDoneExam = $user->getCountNeedDoneExam();
+            $countNeedDoneObligatoryExam = $user->getCountNeedDoneObligatoryExam();
         @endphp
         <div class="noti">
-            @if ($countNeedDoneExam > 0)
-                <span class="count mr-4 inline-block h-5 min-w-[1.25rem] rounded-full bg-gradient-to-r from-[#F44336] to-[#C62828] text-center text-[0.875rem] font-semibold leading-5 text-white">{{ $countNeedDoneExam }}</span>
+            @if ($countNeedDoneObligatoryExam > 0)
+                <span class="count mr-4 inline-block h-5 min-w-[1.25rem] rounded-full bg-gradient-to-r from-[#F44336] to-[#C62828] text-center text-[0.875rem] font-semibold leading-5 text-white">{{ $countNeedDoneObligatoryExam }}</span>
             @endif
             <i class="fa fa-angle-right text-[1.875rem]" aria-hidden="true"></i>
         </div>
