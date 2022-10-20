@@ -8,7 +8,7 @@ return [
     'key' => $keys,
     'data' => [
         $keys['CATEGORY'] => [
-            'model' => '\App\Models\CourseCategory',
+            'model' => '\App\Models\ProductCategory',
             'select' => ['id', 'name'],
             'where' => [
                 'act' => 1,

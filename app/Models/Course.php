@@ -131,6 +131,11 @@ class Course extends BaseModel
         }
         return false;
     }
+
+    public function getListUser(){
+        
+    }
+
     public function isOwnForever($user = null)
     {
         if ($this->isFree()) return true;
