@@ -105,6 +105,13 @@
                                     @endforeach
                                 @endif
                                 @if(FCHelper::ep($tableData,'table_map') == 'users' && FCHelper::ep($itemMain, 'user_type_id') != App\Models\UserType::TEACHER_ACCOUNT)
+                                    <a href="esystem/xem-lich-su-hoc-cua-hoc-vien/{{FCHelper::ep($itemMain, 'id')}}" target="_blank"
+                                        class="{{ trans('db::edit') }} tooltipx {{ $tableData->get('table_map', '') }}">
+                                        <i class="fa fa-eye" aria-hidden="true"></i>
+                                        <span class="tooltiptext">Xem kết quả học tập</span>
+                                    </a>
+                                @endif
+                                @if(FCHelper::ep($tableData,'table_map') == 'users' && (FCHelper::ep($itemMain, 'user_type_id') != App\Models\UserType::TEACHER_ACCOUNT && FCHelper::ep($itemMain, 'user_type_id') != App\Models\UserType::NORMAL_ACCOUNT))
                                     <a href="esystem/search/obligatory_exam_results?raw_id_type_filter=~%3D&raw_id=&raw_user_id={{FCHelper::ep($itemMain, 'id')}}&raw_obligatory_exam_id=&orderkey=id&ordervalue=desc&limit=100" target="_blank"
                                         class="{{ trans('db::edit') }} tooltipx {{ $tableData->get('table_map', '') }}">
                                         <i class="fa fa-eye" aria-hidden="true"></i>

@@ -21,7 +21,7 @@
                     <p class="mb-1">Email*</p>
                     <input type="text" name="email" value="{{Support::show($user,'email')}}" placeholder="Nhập email của bạn" class="form-control outline-none w-full py-3 px-4 rounded border-[1px] border-solid border-[#ebebeb] mb-4"/>
                     <p class="mb-1">Số tiền muốn nạp</p>
-                    <input type="number" oninput="MORE_FUNCTION.money_format(this)" real_input="input[name='amount']" placeholder="Số tiền muốn nạp" class="form-control outline-none w-full py-3 px-4 rounded border-[1px] border-solid border-[#ebebeb]"/>
+                    <input type="text" oninput="MORE_FUNCTION.money_format(this)" real_input="input[name='amount']" placeholder="Số tiền muốn nạp" class="form-control outline-none w-full py-3 px-4 rounded border-[1px] border-solid border-[#ebebeb]"/>
                     <input type="hidden" name="amount" placeholder="Số tiền muốn nạp" class="form-control outline-none w-full py-3 px-4 rounded border-[1px] border-solid border-[#ebebeb]"/>
                 </div>
             </div>

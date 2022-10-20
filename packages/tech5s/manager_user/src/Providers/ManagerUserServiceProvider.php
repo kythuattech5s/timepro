@@ -10,8 +10,7 @@ use Illuminate\Support\Facades\Route;
 
 class ManagerUserServiceProvider extends ServiceProvider
 {
-    const CONFIG_KEY_START = 'tpfc_';
-    const CONFIG_ADMIN_KEY = 'sys_';
+    const CONFIG_KEY_START = 'esystem';
 
     public function boot()
     {
@@ -22,12 +21,11 @@ class ManagerUserServiceProvider extends ServiceProvider
     public function initRouters()
     {
         $routes = glob(__DIR__ . "/../../routes/*.php");
+       
         $this->routes(function () use ($routes) {
             foreach ($routes as $route) {
                 $name = pathinfo($route)['filename'];
-                Route::prefix(config(self::CONFIG_KEY_START . 'setting.route') . '/' . $name)->middleware('web')
-                    ->namespace(config(self::CONFIG_KEY_START . 'setting.controller'))
-                    ->group($route);
+                Route::prefix(self::CONFIG_KEY_START)->middleware('web')->namespace('Tech5s\ManagerUser\Controllers')->group($route);
             }
         });
     }

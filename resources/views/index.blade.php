@@ -59,6 +59,7 @@
     @yield('main')
     @include('layouts.footer')
     {[CMS_FOOTER]}
+    <div id="google_translate_element2"></div>
     <script src="{{ Support::asset('theme/frontend/js/xhr.js') }}" defer></script>
     <script src="{{ Support::asset('theme/frontend/js/validator.js') }}" defer></script>
     <script src="{{ Support::asset('theme/frontend/js/toastify.js') }}" defer></script>

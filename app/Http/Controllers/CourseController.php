@@ -51,7 +51,7 @@ class CourseController extends Controller
 
             $secretId = 0;
             if ($tvsMapItem == null) {
-                return Support::redirectTo($currentItem->slug, 100, 'Vui lòng đăng ký khóa học để thực hiện hành động này!');
+                return Support::redirectTo($currentItem->slug, 100, '');
             }
             $secret = TvsSecret::where('media_id', $tvsMapItem->video_media_map_id)
                 ->where('converted', 2)

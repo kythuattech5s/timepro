@@ -1038,6 +1038,95 @@ color: #F44336 !important;
 .box-info-student .ava img{
   object-fit: contain;
 }
+@keyframes lac {
+  0% {
+    -webkit-transform: rotate(0);
+    transform: rotate(0);
+  }
+
+  10% {
+    -webkit-transform: rotate(-25deg);
+    transform: rotate(-25deg);
+  }
+
+  20% {
+    -webkit-transform: rotate(25deg);
+    transform: rotate(25deg);
+  }
+
+  30% {
+    -webkit-transform: rotate(-25deg);
+    transform: rotate(-25deg);
+  }
+
+  40% {
+    -webkit-transform: rotate(25deg);
+    transform: rotate(25deg);
+  }
+
+  50% {
+    -webkit-transform: rotate(0);
+    transform: rotate(0);
+  }
+
+  100% {
+    -webkit-transform: rotate(0);
+    transform: rotate(0);
+  }
+}
+
+.widget{
+  bottom: 5%;
+  left: 2%;
+  z-index: 10;
+}
+.widget .item{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 45px;
+  height: 45px;
+  border-radius: 100%;
+  box-shadow: 0 4px 10px rgba(0,0,0,.3);
+  background: #fff;
+  border-radius: 100%;
+  animation: lac 1s linear infinite;
+}
+.widget .item.hotline{
+  background: #F44336;
+}
+.widget .item.hotline img{
+  filter: brightness(100);
+}
+.widget .item:not(:last-child){
+  margin-bottom: 1rem;
+}
+.box_lang{
+  display: flex;
+}
+.box_lang img{
+  width: 50px;
+  height: 30px;
+}
+body {
+	top: 0px !important; 
+}
+.goog-logo-link {
+    display:none !important;
+}
+.goog-te-gadget {
+    color: transparent !important;
+}
+.goog-te-banner-frame.skiptranslate,
+.skiptranslate.goog-te-gadget {
+	display: none !important;
+}
+@media all and (max-width:576px){
+  .box_lang img {
+    width: 30px;
+    height: 18px;
+}
+}
 @media (min-width: 992px) {
   .container {
     max-width: 992px;

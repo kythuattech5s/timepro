@@ -199,6 +199,17 @@ var MORE_FUNCTION = (function () {
             }, 10000);
         }
     };
+    var loadJsTranSlate = function (e) {
+        var script = document.createElement("script");
+        var scriptTranslate = document.createElement("script");
+        script.type = "text/javascript";
+        scriptTranslate.type = "text/javascript";
+        script.src =
+            "https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit2";
+        scriptTranslate.src = "theme/frontend/js/add/translate.js";
+        document.body.appendChild(scriptTranslate);
+        document.body.appendChild(script);
+    };
     return {
         init: function () {
             closeModal();
@@ -207,6 +218,7 @@ var MORE_FUNCTION = (function () {
             getWardByDistrict();
             triggerEvent();
             popupIntro();
+            loadJsTranSlate();
         },
         showModal: function (element) {
             showModal(element);
