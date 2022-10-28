@@ -184,6 +184,32 @@ var MORE_FUNCTION = (function () {
     var _number_format = function (number) {
         return new Intl.NumberFormat().format(number).replaceAll(".", ",");
     };
+    var popupIntro = function () {
+        var popup = document.getElementById("modal_intro");
+        var buttonShow = document.querySelector(
+            'button[data-modal="modal_intro"]'
+        );
+        if (popup == undefined || buttonShow == undefined) return;
+        var getSessionStorage = sessionStorage.getItem("open");
+        var event = new Event("click");
+        if (getSessionStorage == null) {
+            setTimeout(function () {
+                buttonShow.dispatchEvent(event);
+                sessionStorage.setItem("open", "has_view");
+            }, 10000);
+        }
+    };
+    var loadJsTranSlate = function (e) {
+        var script = document.createElement("script");
+        var scriptTranslate = document.createElement("script");
+        script.type = "text/javascript";
+        scriptTranslate.type = "text/javascript";
+        script.src =
+            "https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit2";
+        scriptTranslate.src = "theme/frontend/js/add/translate.js";
+        document.body.appendChild(scriptTranslate);
+        document.body.appendChild(script);
+    };
     return {
         init: function () {
             closeModal();
@@ -191,6 +217,8 @@ var MORE_FUNCTION = (function () {
             getDistrictByProvince();
             getWardByDistrict();
             triggerEvent();
+            popupIntro();
+            loadJsTranSlate();
         },
         showModal: function (element) {
             showModal(element);

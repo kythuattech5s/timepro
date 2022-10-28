@@ -27,6 +27,10 @@
         </div>
         <div class="over-lay block lg:hidden fixed top-0 right-[-100%] w-full h-full bg-[rgba(0,0,0,.6)] z-[50] transition-all duration-300"></div>
         <div class="h-action items-center flex 2xl:-gap-8 gap-4">
+            <div class="box_lang">
+                <a href="javascript:void(0);" onclick="doGTranslate('vi|vi');return false;" style="margin-right:10px;"><img src="theme/frontend/images/vi.png" alt=""></a>
+                <a href="javascript:void(0);" onclick="doGTranslate('vi|en');return false;" lang="en"><img src="theme/frontend/images/en.png" alt=""></a>
+            </div>
             @if ($user != null)
             <a href="/thong-bao-cua-toi" title="Thông báo" class="h-noti relative block">
                 <img src="theme/frontend/images/noti.svg" alt="icon">
@@ -48,7 +52,7 @@
                     @endif
                 </a>
                 <div class="content hidden lg:block">
-                    @if(Support::show($user,'user_type_id') == 1)
+                    @if(in_array(\Support::show($user,'user_type_id'),[App\Models\UserType::NORMAL_ACCOUNT,App\Models\UserType::INTERNAL_STUDENT_ACCOUNT]))
                     <p class="text-[0.75rem] mb-1">Xin chào</p>
                     <a href="{{\VRoute::get('my_profile')}}" title="Thông tin cá nhân" class="name-user font-semibold text-[#252525]">{{Support::show($user,'name')}}</a>
                     @else

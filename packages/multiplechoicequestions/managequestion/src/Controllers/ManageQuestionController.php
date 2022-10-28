@@ -12,7 +12,7 @@ class ManageQuestionController extends Controller
 	}
 	public function loadQuestionContentAdmin()
 	{
-		$type = request()->type ?? 0;
+		$type = request()->group ?? 0;
 		$value = request()->value ?? 0;
 		$nameField = request()->nameField ?? 0;
 		$question = $this->questionFactory->get($type);

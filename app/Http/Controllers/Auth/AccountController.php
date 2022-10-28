@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use App\Http\Traits\Auth\{UpgradeVip,UserWallet};
-use App\Models\{User,Province};
+use App\Models\{User,Province,UserType};
 use App\Helpers\MediaHelper;
 use Validator;
 use Support;
@@ -31,7 +31,7 @@ class AccountController extends Controller
         if ($request->isMethod("POST")) {
             return $this->updateProfile($request, $user);
         }
-        if(\Support::show($user,'user_type_id') == 1){
+        if(in_array(\Support::show($user,'user_type_id'),[UserType::NORMAL_ACCOUNT,UserType::INTERNAL_STUDENT_ACCOUNT])){
             $provinces = Province::all();
             return view('auth.account.profile', compact('user','provinces'));
         }

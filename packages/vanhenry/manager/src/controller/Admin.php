@@ -672,4 +672,39 @@ class Admin extends BaseAdminController
             'data' => $data,
         ]);
     }
+    public function getCountNotify(Request $request)
+    {
+        $notificationConfig = config('sys_notification');
+        $data = [];
+        if (is_array($notificationConfig)) {
+            foreach ($notificationConfig as $config) {
+                $count = DB::table($config['table'])->select([$config['select']]);
+                if (isset($config['where'])) {
+                    foreach ($config['where'] as $where) {
+                        $count->where($where['field'], $where['operator'], $where['value']);
+                    }
+                }
+
+                if (isset($config['orWhere'])) {
+                    $count->where(function ($q) use ($config) {
+                        foreach ($config['orWhere'] as $key => $where) {
+                            if ($key == 0) {
+                                $q->where($where['field'], $where['operator'], $where['value']);
+                            } else {
+                                $q->orWhere($where['field'], $where['operator'], $where['value']);
+                            }
+                        }
+                    });
+                }
+                $count = $count->count();
+                $config['count'] = $count;
+                $data[] = $config;
+            }
+        }
+        return response([
+            'code' => 200,
+            'content' => json_encode($data, JSON_UNESCAPED_UNICODE)
+        ]);
+        // dd($request->all());
+    }
 }

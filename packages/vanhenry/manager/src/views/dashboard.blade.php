@@ -265,7 +265,7 @@
                             </div>
                             <div class="content">
                                 <p class="name">{{\DB::table('orders')->where('order_type_id',App\Models\OrderType::ORDER_COURSE)->count()}}</p>
-                                <a href="esystem/view/order_video_lectures" class="smooth" title="Đăng kí khóa học mới">Đơn hàng đăng ký khóa học và nâng cấp vip hôm nay</a>
+                                <a href="esystem/view/orders" class="smooth" title="Đăng kí khóa học mới">Số đơn hàng</a>
                             </div>
                         </div>
                     </div>
@@ -275,8 +275,8 @@
                                 <i class="fa fa-commenting-o" aria-hidden="true"></i>
                             </div>
                             <div class="content">
-                                <p class="name">0</p>
-                                <a href="esystem/search/comments?raw_content=&amp;raw_user_id=&amp;raw_map_table=video_lectures&amp;orderkey=id&amp;ordervalue=desc&amp;limit=20" class="smooth" title="Bình luận khóa học mới">Bình luận khóa học mới</a>
+                                <p class="name">{{\DB::table('comments')->count()}}</p>
+                                <a href="esystem/search/comments" class="smooth" title="Bình luận khóa học mới">Đánh giá khóa học</a>
                             </div>
                         </div>
                     </div>
@@ -286,8 +286,8 @@
                                 <i class="fa fa-comments-o" aria-hidden="true"></i>
                             </div>
                             <div class="content">
-                                <p class="name">0</p>
-                                <a href="esystem/search/comments?raw_content=&amp;raw_user_id=&amp;raw_map_table=videos&amp;orderkey=id&amp;ordervalue=desc&amp;limit=20" class="smooth" title="Bình luận video mới">Bình luận chi tiết video mới</a>
+                                <p class="name">{{\DB::table('ask_and_answers')->count()}}</p>
+                                <a href="esystem/search/ask_and_answers" class="smooth" title="Bình luận video mới">Câu hỏi về khóa học</a>
                             </div>
                         </div>
                     </div>
@@ -297,8 +297,8 @@
                                 <i class="fa fa-paper-plane-o" aria-hidden="true"></i>
                             </div>
                             <div class="content">
-                                <p class="name">1</p>
-                                <a href="esystem/view/subscribes" class="smooth" title="Đăng ký tư vấn mới">Đăng ký tư vấn mới</a>
+                                <p class="name">{{\DB::table('contacts')->count()}}</p>
+                                <a href="esystem/view/contacts" class="smooth" title="Đăng ký tư vấn mới">Đăng ký tư vấn mới</a>
                             </div>
                         </div>
                     </div>
@@ -318,8 +318,8 @@
                                             <i class="fa fa-video-camera"></i>
                                         </div>
                                         <div class="content">
-                                            <p class="name">4</p>
-                                            <a href="esystem/view/video_lectures" class="smooth">Video bài giảng</a>
+                                            <p class="name">{{\DB::table('courses')->count()}}</p>
+                                            <a href="esystem/view/courses" class="smooth">Khóa học</a>
                                         </div>
                                     </div>
                                 </div>
@@ -329,8 +329,8 @@
                                             <i class="fa fa-file-video-o" aria-hidden="true"></i>
                                         </div>
                                         <div class="content">
-                                            <p class="name">21</p>
-                                            <a href="esystem/view/videos" class="smooth">Videos</a>
+                                            <p class="name">{{\DB::table('course_videos')->where('act',1)->count()}}</p>
+                                            <p>Video bài giảng</p>
                                         </div>
                                     </div>
                                 </div>
@@ -340,8 +340,8 @@
                                             <i class="fa fa-gamepad"></i>
                                         </div>
                                         <div class="content">
-                                            <p class="name">43</p>
-                                            <a href="esystem/view/learning_plays" class="smooth">Đề bài học mà chơi</a>
+                                            <p class="name">{{\DB::table('obligatory_exams')->count()}}</p>
+                                            <a href="esystem/view/obligatory_exams" class="smooth">Bài Thi</a>
                                         </div>
                                     </div>
                                 </div>
@@ -351,8 +351,41 @@
                                             <i class="fa fa-file-text"></i>
                                         </div>
                                         <div class="content">
-                                            <p class="name">27</p>
-                                            <a href="esystem/view/documents" class="smooth">Tài liệu</a>
+                                            <p class="name">{{\DB::table('exams')->count()}}</p>
+                                            <a href="esystem/view/exams" class="smooth">Bài kiểm tra</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xs-6">
+                                    <div class="item-total">
+                                        <div class="icon" style="background-color:#ffc142">
+                                            <i class="fa fa-users" aria-hidden="true"></i>
+                                        </div>
+                                        <div class="content">
+                                            <p class="name">{{\DB::table('users')->where('user_type_id',2)->count()}}</p>
+                                            <a href="esystem/view/users?tab=2" class="smooth">Giảng viên</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xs-6">
+                                    <div class="item-total">
+                                        <div class="icon" style="background-color:#45b5c6">
+                                            <i class="fa fa-users" aria-hidden="true"></i>
+                                        </div>
+                                        <div class="content">
+                                            <p class="name">{{\DB::table('users')->where('user_type_id',4)->count()}}</p>
+                                            <a href="esystem/view/users?tab=3" class="smooth">Nhân viên nội bộ</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xs-6">
+                                    <div class="item-total">
+                                        <div class="icon" style="background-color:#aea8a8">
+                                            <i class="fa fa-users" aria-hidden="true"></i>
+                                        </div>
+                                        <div class="content">
+                                            <p class="name">{{\DB::table('users')->where('user_type_id',1)->count()}}</p>
+                                            <a href="esystem/view/users?tab=1" class="smooth">Học viên ngoài</a>
                                         </div>
                                     </div>
                                 </div>
@@ -397,8 +430,6 @@
                                         <th>Tên</th>
                                         <th>Tên đăng nhập</th>
                                         <th>Ngày Vip còn lại</th>
-                                        <th>Đã tham gia</th>
-                                        <th style="text-align:center">Cộng Vip</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -415,16 +446,14 @@
                                             </div>
                                             {{Support::show($itemUserVip,'name')}}
                                         </td>
-                                        {{-- <?php 
-                                            $userCourseCombo = $itemUserVip->userCourseCombo->first();
+                                        <?php 
+                                            $userCourseCombo = $itemUserVip->userCourseCombo()->first();
                                             $expirationDate = \Carbon\Carbon::createFromDate($userCourseCombo->expired_time);
                                         ?>
                                         <td>{{Support::show($itemUserVip,'phone')}}</td>
                                         <td>
                                             <strong>{{$expirationDate->diffInDays(now())}}</strong> ngày
                                         </td>
-                                        <td><strong></strong> ngày</td>
-                                        <td style="text-align:center"><a href="esystem/add-vip/users/1" class="btn btn-info"><i class="fa fa-plus-square" aria-hidden="true"></i></a></td> --}}
                                     </tr>
                                     @endforeach
                                 </tbody>

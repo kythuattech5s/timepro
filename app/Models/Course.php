@@ -131,6 +131,11 @@ class Course extends BaseModel
         }
         return false;
     }
+
+    public function getListUser(){
+        
+    }
+
     public function isOwnForever($user = null)
     {
         if ($this->isFree()) return true;
@@ -257,5 +262,8 @@ class Course extends BaseModel
     public function questions()
     {
         return $this->hasMany(QuestionTeacher::class, 'map_id', 'id');
+    }
+    public function userType(){
+        return $this->hasMany(User::class, 'map_id', 'id');
     }
 }
