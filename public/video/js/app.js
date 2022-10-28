@@ -817,6 +817,16 @@ function _asyncToGenerator(fn) {
     if (!video) return;
     video.onplay = handleEventVideo;
     video.onpause = handleEventVideo;
+    document.addEventListener("visibilitychange", function (e) {
+      return eventSwitchTab(e, video);
+    });
+  };
+
+  var eventSwitchTab = function eventSwitchTab(e, video) {
+    if (document.visibilityState == "visible") {//    videojs("my_video_1").pause()
+    } else {
+      videojs("my_video_1").pause();
+    }
   };
 
   var handleEventVideo = function handleEventVideo(e) {
@@ -856,13 +866,14 @@ function _asyncToGenerator(fn) {
             while (1) {
               switch (_context.prev = _context.next) {
                 case 0:
-                  _context.next = 2;
+                  document.addEventListener("visibilitychange", eventSwitchTab);
+                  _context.next = 3;
                   return XHR.send({
                     url: "/get-video-src?course_video_id=".concat(item.dataset.id),
                     method: "get"
                   });
 
-                case 2:
+                case 3:
                   res = _context.sent;
 
                   if (typeof VIDEO_ID != "undefined") {
@@ -872,14 +883,14 @@ function _asyncToGenerator(fn) {
                   parent = video.closest(".video-lesson");
                   html = "<video-js id=\"my_video_1\" class=\"video-js vjs-default-skin vjs-16-9\" controls preload=\"none\" data-id=\"".concat(item.dataset.id, "\" width=\"640\" height=\"268\" poster=\"").concat(res.poster, "\">\n                            <source src=\"").concat(res.src, "\" type=\"application/x-mpegURL\">\n                        </video-js>");
                   video.parentElement.remove();
-                  _context.next = 9;
+                  _context.next = 10;
                   return videojs("my_video_1").dispose();
 
-                case 9:
-                  _context.next = 11;
+                case 10:
+                  _context.next = 12;
                   return html;
 
-                case 11:
+                case 12:
                   parent.innerHTML = _context.sent;
                   Tech5sVideo.init();
                   load();
@@ -891,7 +902,7 @@ function _asyncToGenerator(fn) {
                   backToCourse();
                   showListNote(item.dataset.id, item, video);
 
-                case 21:
+                case 22:
                 case "end":
                   return _context.stop();
               }

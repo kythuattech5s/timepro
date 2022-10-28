@@ -5,6 +5,17 @@ import Helper from "../../../../roniejisa/scripts/assets/js/Helper.js";
         if (!video) return;
         video.onplay = handleEventVideo;
         video.onpause = handleEventVideo;
+        document.addEventListener("visibilitychange", (e) =>
+            eventSwitchTab(e, video)
+        );
+    };
+
+    const eventSwitchTab = (e, video) => {
+        if (document.visibilityState == "visible") {
+            //    videojs("my_video_1").pause()
+        } else {
+            videojs("my_video_1").pause();
+        }
     };
 
     const handleEventVideo = (e) => {
@@ -41,6 +52,10 @@ import Helper from "../../../../roniejisa/scripts/assets/js/Helper.js";
                 if (video.dataset.id == item.dataset.id) return;
                 clearTimeout(timeout);
                 timeout = setTimeout(async () => {
+                    document.addEventListener(
+                        "visibilitychange",
+                        eventSwitchTab
+                    );
                     const res = await XHR.send({
                         url: `/get-video-src?course_video_id=${item.dataset.id}`,
                         method: "get",

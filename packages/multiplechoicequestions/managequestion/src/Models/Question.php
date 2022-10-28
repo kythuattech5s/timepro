@@ -14,6 +14,11 @@ class Question extends BaseModel
     {
         return $this->belongsTo(QuestionGroup::class);
     }
+
+    public function question_group(){
+        return $this->hasOne(QuestionGroup::class,'question_group_id','id');
+    }
+
     public function getQuestionFactory()
     {
         $questionFactory = QuestionFactory::get($this->question_type_id);
